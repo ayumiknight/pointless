@@ -1,0 +1,53 @@
+{
+  "name": "pointful",
+  "description": "pointful",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Google Inc.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GoogleCloudPlatform/nodejs-docs-samples.git"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node app.js",
+    "system-test": "repo-tools test app",
+    "test": "npm run system-test",
+    "e2e-test": "repo-tools test deploy"
+  },
+  "dependencies": {
+    "aliyun-oss": "^1.2.0",
+    "babel-plugin-import": "^1.11.0",
+    "cross-env": "^5.2.0",
+    "false": "0.0.4",
+    "googleapis": "^40.0.0",
+    "gulp": "^3.9.1",
+    "koa": "^2.7.0",
+    "koa-conditional-get": "^2.0.0",
+    "koa-etag": "^3.0.0",
+    "koa-mount": "^4.0.0",
+    "koa-multer": "^1.0.2",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "md5": "^2.2.1",
+    "moment": "^2.22.1",
+    "node-fetch": "^1.7.1",
+    "nodemon": "^1.18.10"
+  },
+  "devDependencies": {
+    "@google-cloud/nodejs-repo-tools": "^3.3.0"
+  },
+  "cloud-repo-tools": {
+    "test": {
+      "app": {
+        "msg": "Hello, world!"
+      }
+    },
+    "requiresKeyFile": true,
+    "requiresProjectId": true
+  }
+}
