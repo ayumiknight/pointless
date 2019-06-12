@@ -14,3 +14,11 @@
 # [START gae_quickstart_yaml]
 runtime: nodejs10
 # [END gae_quickstart_yaml]
+# The following env variables may contain sensitive information that grants
+# anyone access to your database. Do not add this file to your source control.
+env_variables:
+  DB_USER: fudaiyue
+  DB_PASS: 1414914fdysg
+  DB_NAME: pointful
+  # e.g. my-awesome-project:us-central1:my-cloud-sql-instance
+  CLOUD_SQL_CONNECTION_NAME: my-project-1476112280073:us-east1:pointful
