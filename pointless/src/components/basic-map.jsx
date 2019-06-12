@@ -6,15 +6,19 @@ export default class BasicMap extends React.Component {
   componentDidMount() {
     window.initialize = this.initialize.bind(this);
     this.state = {};
-    this.injectScript();
   }
 
-  injectScript() {
-    var tag = document.createElement('script');
-    tag.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAKS2H1asoA5XK3P4QQBCfl7nySqefctbs&callback=initialize";
-    document.body.append(tag);
+  componentDidMount() {
+    if (this.props.ready) {
+      this.initialize();
+    }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.ready && !this.props.ready) {
+      this.initialize();
+    }
+  }
   async initialize() {
     window.util = util;
     let initLocation = util.locations.commonLocations('newyork') || (await util.locations.myLocation());
@@ -73,7 +77,6 @@ export default class BasicMap extends React.Component {
     return <div className="basic-map">
       <div id="map-instance"></div>
       <div id="pano"></div>
-      <button onClick={this.hideMap.bind(this)}>hidde</button>
     </div>;
   }
 }
