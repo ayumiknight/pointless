@@ -77,6 +77,7 @@ export default class BasicMap extends React.Component {
     return <div className="basic-map">
       <div id="map-instance"></div>
       <div id="pano"></div>
+      <div id="cheese">cheese!</div>
     </div>;
   }
 }

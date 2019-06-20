@@ -26,9 +26,25 @@ const app = new Koa();
 app.use(conditional());
 app.use(etag());
 app.use(mount('/api' , router.routes()));
-app.use(function(ctx, next) {
-	ctx.body = 'abbbbbbbbaaaaa';
-});
+
+let IndexHTML = require('fs').readFileSync('./index.dev.html', 'utf8');
+
+if (process.env.NODE_ENV === 'dev' ) {
+	console.log('develop mode, starting webpack hot module replacement ... ');
+	const koaWebpack = require('koa-webpack');
+	const webpackConfig = require('./webpack.config.js');
+	koaWebpack({
+		config: webpackConfig
+	}).then(middleware => {
+		app.use(middleware);
+		app.use((ctx, next) => {
+			if (ctx.method === 'GET') {
+				ctx.body = IndexHTML;
+			}
+		});
+	});
+}
+
 app.listen(8080, () => {
 
 });

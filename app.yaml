@@ -21,4 +21,5 @@ env_variables:
   DB_PASS: 1414914fdysg
   DB_NAME: pointful
   # e.g. my-awesome-project:us-central1:my-cloud-sql-instance
-  CLOUD_SQL_CONNECTION_NAME: my-project-1476112280073:us-east1:pointful
+  CLOUD_SQL_CONNECTION_NAME: 35.229.60.84
+#my-project-1476112280073:us-east1:pointful

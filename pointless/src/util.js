@@ -10,10 +10,10 @@
 				},
 					fail = (error) => {
 						reject( error.code );
-					}
+					};
 				return new Promise(( resolve, reject) => {
 					navigator.geolocation.getCurrentPosition(success, fail)
-				})
+				});
 			}
 			return null;
 		},
