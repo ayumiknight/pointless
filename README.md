@@ -1,38 +1,11 @@
-# Quickstart for Node.js in the App Engine standard environment
+# pointless
+www.point4.club
 
-This is the sample application for the
-[Quickstart for Node.js in the App Engine standard environment][tutorial]
-tutorial found in the [Google App Engine Node.js standard environment][appengine]
-documentation.
+## 初衷
+拷贝https://www.weirdgoogleearth.com/
+加入更多内容，优化SEO做广告
 
-* [Setup](#setup)
-* [Running locally](#running-locally)
-* [Deploying to App Engine](#deploying-to-app-engine)
-* [Running the tests](#running-the-tests)
-
-## Setup
-
-Before you can run or deploy the sample, you need to do the following:
-
-1.  Refer to the [appengine/README.md][readme] file for instructions on
-    running and deploying.
-1.  Install dependencies:
-
-        npm install
-
-## Running locally
-
-    npm start
-
-## Deploying to App Engine
-
-    npm run deploy
-
-## Running the tests
-
-See [Contributing][contributing].
-
-[appengine]: https://cloud.google.com/appengine/docs/standard/nodejs
-[tutorial]: https://cloud.google.com/appengine/docs/standard/nodejs/quickstart
-[readme]: ../../README.md
-[contributing]: https://github.com/GoogleCloudPlatform/nodejs-docs-samples/blob/master/CONTRIBUTING.md
+##目前
+放弃react渲染，改用wordpress
+使用axios进行爬虫，导出xml文档，用于wordpress日志导入。
+wordpress数据导入已完成
