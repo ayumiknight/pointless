@@ -5,34 +5,16 @@ var env 	  = process.env;
 var basename  = path.basename(__filename);
 var db        = {};
 
-var ckey = fs.readFileSync('./cert/client-key.pem');
-var ccert = fs.readFileSync('./cert/client-cert.pem');
-var sca = fs.readFileSync('./cert/server-ca.pem');
-
 if (env.NODE_ENV === 'dev') {
-    var sequelize = new Sequelize('pointful', 'fudaiyue', '1414914fdysg', {
-        dialect: 'mysql',
-        dialectOptions: {
-            ssl: {
-                key: ckey,
-                cert: ccert,
-                ca: sca
-            }
-        },
-        host: '35.229.60.84'
-    });
+   var sequelize = new Sequelize('r18', 'root', '1414914fdysg', {
+       dialect: 'mysql',
+       host: '202.182.117.178'
+   });
 
 } else {
-    var sequelize = new Sequelize(env.DB_NAME, env.DB_USER, env.DB_PASSWORD, {
+    var sequelize = new Sequelize('r18', 'root', '1414914fdysg', {
         dialect: 'mysql',
-        dialectOptions: {
-            ssl: {
-                key: cKey,
-                cert: ccert,
-                ca: sca
-            }
-        },
-        host: env.CLOUD_SQL_CONNECTION_NAME
+        host: '127.0.0.1'
     });
 
 }
