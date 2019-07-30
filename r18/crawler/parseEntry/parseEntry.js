@@ -1,18 +1,15 @@
 const cheerio = require('cheerio');
-const { getIdFromUrl, getDuration, getText, getTextWithId, getActress } = require('./util.js');
-const sampleTempate = require('./sampleEntry.js');
+const { getIdFromUrl, getDuration, getText, getTextWithId, getActress } = require('../util.js');
 
-function parseEntry(dom) {
-	var $ = cheerio.load(dom, {
+
+function parseEntry(entry) {
+	var $ = cheerio.load(entry.data, {
 	    xml: {
 	        normalizeWhitespace: true,
 	        decodeEntities: true
 	    }
 
 	});
-
-
-
 
 	let cover = $('.product-area .product-image img').attr('src'),
 		fullCover = $('.detail-view.detail-single-picture img').attr('src'),
@@ -26,9 +23,9 @@ function parseEntry(dom) {
 	        fullCover,
 	        video
 	    },
-	    gallery = [],
-	    actress = [],
-	    category = [];
+	    Galleries = [],
+	    Actresses = [],
+	    Categories = [];
 
 	details.find('dl').each(function( i, dl ) {
 		$(this).find('dd').each(function(j, dd) {
@@ -44,7 +41,11 @@ function parseEntry(dom) {
 	                    formattedDetails.director = getText($(this));
 	                    break;
 	                case 3:
-	                    formattedDetails.studio = getTextWithId($(this))
+	                    formattedDetails.Studio = getTextWithId({
+	                    	node: $(this),
+	                    	textName: 'en',
+	                    	idName: 'studio_id'
+	                    })
 	                    break;
 	                default:
 	                    break;
@@ -58,7 +59,11 @@ function parseEntry(dom) {
 	                    formattedDetails.code = getText($(this));
 	                    break;
 	                case 3:
-	                    formattedDetails.series = getTextWithId($(this))
+	                    formattedDetails.Series = getTextWithId({
+	                    	node: $(this),
+	                    	textName: 'en',
+	                    	idName: 'series_id'
+	                    })
 	                    break;
 	                default:
 	                    break;
@@ -69,32 +74,38 @@ function parseEntry(dom) {
 	})
 
 	actressDom.each(function(i, node) {
-		actress.push(getActress($(this)));
+		let actress = getActress({
+			node: $(this),
+			textName: 'en'
+		});
+		actress ? Actresses.push(actress) : null;
 	})
 
 	categoryDom.each(function(i, node) {
-		category.push(getTextWithId($(this)));
+		let category = getTextWithId({
+        	node: $(this),
+        	textName: 'en',
+        	idName: 'category_id'
+        })
+		category ? Categories.push(category) : null;
 	})
 
 	galleryDom.each(function(i, node) {
 		let imgSrc = $(this).find('img').attr('data-original');
-		if (imgSrc) gallery.push(imgSrc);
+		if (imgSrc) Galleries.push({
+			url: imgSrc
+		});
 	})
 
-	console.log({
-		...formattedDetails,
-		actress,
-		gallery,
-		category
-	})
+
 	return {
 		...formattedDetails,
-		actress,
-		gallery,
-		category
+		Actresses,
+		Galleries,
+		Categories,
+		referer: entry.config.url
 	}
 };
 
-parseEntry(sampleTempate);
 
 module.exports = parseEntry;

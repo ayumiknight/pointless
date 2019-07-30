@@ -24,17 +24,49 @@ module.exports = (sequelize, DataTypes) => {
         director: {
             type: DataTypes.STRING,
             comment: "导演"
+        },
+        referer: {
+            type: DataTypes.STRING,
+            comment: "原始URL"
+        },
+        video: {
+            type: DataTypes.STRING,
+            comment: "预览视频URL"
+        },
+        channel: {
+            type: DataTypes.STRING,
+            comment: "CHANNEL"
         }
     });
 
     R18.associate = function(models) {
-        models.R18._category = models.R18.belongsToMany(models.Category, {
-            as: 'R18',
+        models.R18.Categories = models.R18.belongsToMany(models.Category, {
+            as: 'Categories',
             through: {
                 model: models.R18Category,
                 unique: false,
             },
             foreignKey: 'r18Id',
+            constraints: false
+        });
+
+        models.R18.Actresses = models.R18.belongsToMany(models.Actress, {
+            as: 'Actresses',
+            through: {
+                model: models.R18Actress,
+                unique: false,
+            },
+            foreignKey: 'r18Id',
+            constraints: false
+        });
+        models.R18.Series = models.R18.belongsTo(models.Series, {
+            constraints: false
+        });
+        models.R18.Studio = models.R18.belongsTo(models.Studio, {
+            constraints: false
+        });
+        models.R18.Galleries = models.R18.hasMany(models.Gallery, {
+            as: 'Galleries',
             constraints: false
         });
     };

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    var Category = sequelize.define('Category', {
-        category_id: {
+    var Actress = sequelize.define('Actress', {
+        actress_id: {
             type: DataTypes.INTEGER,
             comment: "分类id",
             unique: true
@@ -15,16 +15,17 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
-    Category.associate = function(models) {
-        models.Category.belongsToMany(models.R18, {
+    Actress.associate = function(models) {
+        models.Actress.belongsToMany(models.R18, {
             as: 'R18s',
             through: {
-                model: models.R18Category,
+                model: models.R18Actress,
                 unique: false,
             },
-            foreignKey: 'categoryId',
+            foreignKey: 'actressId',
             constraints: false
         });
     };
-    return Category;
+    return Actress;
 };
+

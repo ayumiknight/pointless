@@ -3,16 +3,22 @@ const util = {
 		return util.trim(node.text() || '').replace(/^(\d+)(.*)$/, '$1');
 	},
 	getText(node) {
-		return util.trim(node.text() || '');
+		let text = util.trim(node.text() || '');
+		return text === "----" ? "" : text;
 	},
 	trim(str) {
 		return str.trimStart().trimEnd();
 	},
-	getTextWithId(node) {
-		return {
-			name: util.getText(node.find('a')) || util.getText(node),
-			id: util.getIdFromUrl(node.attr('href') || node.find('a').attr('href') || '', 'id') || 0
-		}
+	getTextWithId({
+		node,
+		textName,
+		idName
+	}) {
+		let obj = {};
+		obj[textName] = util.getText(node.find('a')) || util.getText(node);
+		obj[idName] = util.getIdFromUrl(node.attr('href') || node.find('a').attr('href') || '', 'id') || 0;
+
+		return obj[idName] * 1 ? obj : null; 
 	},
 	decodeUrl(url) {
 		let kvs = url.toLowerCase().split('/'),
@@ -27,11 +33,14 @@ const util = {
 	getIdFromUrl(url, k) {
 		return util.decodeUrl(url)[k] || '';
 	},
-	getActress(node) {
-		return {
-			name: util.getText(node.find('span')),
-			id: util.getIdFromUrl(node.find('a').attr('href') || '', 'id') || 0
-		}
+	getActress({
+		node,
+		textName
+	}) {
+		let obj = {};
+		obj[textName] = util.getText(node.find('span'));
+		obj['actress_id'] = util.getIdFromUrl(node.find('a').attr('href') || '', 'id') || 0
+		return obj['actress_id'] * 1 ? obj : null;
 	}
 }
 
