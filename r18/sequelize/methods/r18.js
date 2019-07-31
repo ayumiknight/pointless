@@ -1,14 +1,20 @@
+const db = require('../index.js');
+
+
+async function SyncDB() {
+	await db.sequelize.sync();
+	console.log('=======sequelize sync complete=======')
+}
+
 async function R18BulkCreate({
-	db,
 	entries
 }) {
 
 	let { R18, Series, Studio, Actress, Cateogry, Gallery } = db;
-	await Promise.all(entries.map( entry => R18Create({db, entry})));
+	await Promise.all(entries.map( entry => R18Create({ entry })));
 }
 
 async function R18Create({
-	db,
 	entry
 }) {
 	let { R18, Series, Studio, Actress, Category, Gallery } = db;
@@ -31,6 +37,20 @@ async function R18Create({
 	})
 }
 
+
+async function R18Paged(query) {
+
+}
+
+async function R18Single(query) {
+	if (!(query.id * 1)) return null;
+	let { R18, Series, Studio, Actress, Category, Gallery } = db;
+	return R18.findByPk(query.id);
+}
+
 module.exports = {
-	R18BulkCreate
+	R18BulkCreate,
+	R18Paged,
+	R18Single,
+	SyncDB
 }

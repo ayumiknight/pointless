@@ -33,7 +33,7 @@ async function loadPage(pageindex) {
 
 
 async function loadPageEntries(entries) {
-    let allEntries = await Promise.all(entries.slice(0, 2).map(url => {
+    let allEntries = await Promise.all(entries.map(url => {
         return axios.get(url);
     }));
 

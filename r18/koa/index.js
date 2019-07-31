@@ -1,17 +1,25 @@
-var router = require('koa-router')();
-var models = require('../sequelize/index');
-
-router.get('/get', async (ctx, next) => {
-	console.log('hit==============get')
-	ctx.body = await models.Point.findAll();
-	return;
-});
 
 
-router.get('/set', async (ctx, next) => {
-	console.log('hit==============set')
-	await models.Point.create(ctx.query);
-	return;
-});
+const conditional = require('koa-conditional-get');
+const etag = require('koa-etag');
+const serve = require('koa-static');
+const mount = require('koa-mount');
+const Koa = require('koa');
+const router = require('./router/test.js');
+const { SyncDB } = require('../sequelize/methods/r18.js');
 
-module.exports = router;
+const app = new Koa();
+app.use(conditional());
+app.use(etag());
+app.use(router.routes());
+
+
+async function bootServer() {
+	await SyncDB();
+
+	app.listen(8080, () => {
+		console.log('+++++++++++++++r18 koa booted++++++++++++++')
+	});
+}
+
+bootServer();
