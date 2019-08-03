@@ -1,0 +1,32 @@
+.list-view {
+	margin: 10px;
+    .list-item {
+        width: 147px;
+        background: white;
+        margin: 10px;
+		box-shadow: 0 2px 3px rgba(155 ,155 ,155, 0.5);
+		display: inline-block;
+        .img {
+            width: 100%;
+            height: 200px;
+        }
+
+        .bottom {
+            padding: 8px;
+
+            .code {
+                font-size: 20px;
+            }
+
+            .title {
+                font-size: 13px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+
+            }
+        }
+    }
+}

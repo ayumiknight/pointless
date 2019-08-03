@@ -19,7 +19,7 @@ function serveStatic() {
 	const staticServer = new Koa();
 	staticServer.use(conditional());
 	staticServer.use(etag());
-	staticServer.use(serve('./static'));
+	staticServer.use(serve(__dirname + '/static'));
 	return mount('/static', staticServer);
 }
 

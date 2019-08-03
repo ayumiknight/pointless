@@ -1,11 +1,17 @@
-<div class="main-content">
-	
-	<div class="list-view">
-		{{~it.r18s :value:index}}
-			<div class="list-item">
-				{{value.code}}
-				<img src="{{value.cover}}" />
+
+<div class="list-view">
+	{{~it.r18s :value:index}}
+		<div class="list-item">
+			<img src="{{=value.cover}}" />
+			<div class="bottom">
+				<div class="code">
+					{{=value.code}}
+				</div>
+				<div class="title">
+					{{=value.title}}
+				</div>	
 			</div>
-		{{~}}
-	</div>
+		</div>
+	{{~}}
 </div>
+

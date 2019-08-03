@@ -5,8 +5,7 @@
   "author": "project author",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server --config build/dev.js",
-    "startdev": "cross-env NODE_ENV=dev nodemon app.js",
+    "startdev": "nodemon --watch koa koa/index.js",
     "dev": "npm start",
     "build": "node build/build.js"
   },
