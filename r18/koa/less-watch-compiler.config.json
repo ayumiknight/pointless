@@ -1,0 +1,8 @@
+{
+    "watchFolder": "./templates",   
+    "outputFolder": "./static",
+    "mainFile": "./index.less",   
+    "sourceMap": false,
+    "runOnce": false,
+    "enableJs": true
+}

@@ -1,0 +1,19 @@
+<div class="side-menu">
+	<div class="site-name">
+		JvrLibrary	
+	</div>
+	<div class="menu-items">
+		<div class="menu-item">
+			Studio
+		</div>
+		<div class="menu-item">
+			Series
+		</div>
+		<div class="menu-item">
+			Actress
+		</div>
+		<div class="menu-item">
+			Category
+		</div>
+	</div>
+</div>

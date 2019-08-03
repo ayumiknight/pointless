@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-const { getIdFromUrl, getDuration, getText, getTextWithId, getActress } = require('../util.js');
+const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle } = require('../util.js');
 
 
 function parseEntry(entry) {
@@ -25,7 +25,8 @@ function parseEntry(entry) {
 	    },
 	    Galleries = [],
 	    Actresses = [],
-	    Categories = [];
+	    Categories = [],
+	    title = getTitle($('.product-details-page h1'));
 
 	details.find('dl').each(function( i, dl ) {
 		$(this).find('dd').each(function(j, dd) {
@@ -103,7 +104,8 @@ function parseEntry(entry) {
 		Actresses,
 		Galleries,
 		Categories,
-		referer: entry.config.url
+		referer: entry.config.url,
+		title
 	}
 };
 

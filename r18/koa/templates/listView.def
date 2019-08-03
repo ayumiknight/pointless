@@ -1,0 +1,11 @@
+<div class="main-content">
+	
+	<div class="list-view">
+		{{~it.r18s :value:index}}
+			<div class="list-item">
+				{{value.code}}
+				<img src="{{value.cover}}" />
+			</div>
+		{{~}}
+	</div>
+</div>

@@ -41,6 +41,10 @@ const util = {
 		obj[textName] = util.getText(node.find('span'));
 		obj['actress_id'] = util.getIdFromUrl(node.find('a').attr('href') || '', 'id') || 0
 		return obj['actress_id'] * 1 ? obj : null;
+	},
+	getTitle(node) {
+		let text = node.text() || node.find('cite').text();
+		return text.trimStart().trimEnd();
 	}
 }
 

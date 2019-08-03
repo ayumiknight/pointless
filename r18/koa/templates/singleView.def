@@ -1,0 +1,6 @@
+<div class="main-content">
+	<div class="single-view">
+		{{=it.r18.code}}
+		<img src="{{=it.r18.cover}}" />
+	</div>
+</div>
