@@ -5,7 +5,7 @@ const etag = require('koa-etag');
 const serve = require('koa-static');
 const mount = require('koa-mount');
 const Koa = require('koa');
-const router = require('./router/test.js');
+const router = require('./router/index.js');
 const { SyncDB } = require('../sequelize/methods/r18.js');
 const path = require('path');
 const dots = require("dot").process({
@@ -15,7 +15,6 @@ const dots = require("dot").process({
 
 
 function serveStatic() {
-
 	const staticServer = new Koa();
 	staticServer.use(conditional());
 	staticServer.use(etag());
@@ -36,7 +35,7 @@ app.use(router.routes());
 
 
 async function bootServer() {
-	//await SyncDB();
+	await SyncDB();
 
 	app.listen(8080, () => {
 		console.log('+++++++++++++++r18 koa booted++++++++++++++')

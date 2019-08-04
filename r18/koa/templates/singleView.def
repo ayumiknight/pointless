@@ -1,6 +1,25 @@
-<div class="main-content">
-	<div class="single-view">
-		{{=it.r18.code}}
-		<img src="{{=it.r18.cover}}" />
+
+<div class="single-view">
+	<div class="title">
+		<span class="code">{{=it.r18.code}}</span>
+		{{=it.r18.title}}
+	</div>
+	<div class="detail">		
+		<div class="left">
+			<img src="{{=it.r18.fullCover}}" />
+		</div>
+		<div class="right">
+			{{ for(var prop in it.r18.details) { }}
+				<div class="line">
+					<div class="label">
+						{{=prop}}:
+					</div>
+					<div class="value">
+						{{=it.r18.details[prop]}}
+					</div>
+				</div>
+			{{ } }}
+		</div>
 	</div>
 </div>
+

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
     var Studio = sequelize.define('Studio', {
-    	series_id: {
+    	studio_id: {
     	    type: DataTypes.INTEGER,
     	    comment: "制作公司id",
     	    unique: true

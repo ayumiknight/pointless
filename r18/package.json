@@ -5,7 +5,7 @@
   "author": "project author",
   "private": true,
   "scripts": {
-    "startdev": "nodemon --watch koa koa/index.js",
+    "startdev": "nodemon -e def,js,dot --watch koa --watch koa/templates koa/index.js",
     "dev": "npm start",
     "build": "node build/build.js"
   },

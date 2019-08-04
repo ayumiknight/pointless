@@ -4,10 +4,19 @@ body {
 }
 body * {
   font-family: Helvetica Neue, Helvetica, Arial, Utkal, sans-serif;
+  line-height: 1.4;
+  color: #333;
 }
 body #root {
   background: #f5f5f5;
   padding-left: 180px;
+}
+body #root .main {
+  margin: 10px;
+  background: white;
+  border-radius: 5px;
+  padding: 10px;
+  min-width: 1024px;
 }
 @font-face {
   font-family: 'HemiHead';
@@ -34,8 +43,8 @@ body #root {
 .side-menu .menu-items .menu-item {
   padding: 10px 0;
 }
-.list-view {
-  margin: 10px;
+.side-menu .menu-items .menu-item:hover {
+  background: rgba(155, 155, 155, 0.2);
 }
 .list-view .list-item {
   width: 147px;
@@ -43,6 +52,7 @@ body #root {
   margin: 10px;
   box-shadow: 0 2px 3px rgba(155, 155, 155, 0.5);
   display: inline-block;
+  text-decoration: none;
 }
 .list-view .list-item .img {
   width: 100%;
@@ -61,4 +71,65 @@ body #root {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+.single-view .title {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(155, 155, 155, 0.5);
+}
+.single-view .title span {
+  font-weight: bold;
+  margin-right: 10px;
+  color: black;
+}
+.single-view .detail {
+  width: 100%;
+}
+.single-view .detail * {
+  vertical-align: top;
+  font-size: 14px;
+}
+.single-view .detail .left {
+  display: inline-block;
+}
+.single-view .detail .left img {
+  width: 600px;
+  height: 375px;
+  margin-top: 10px;
+}
+.single-view .detail .right {
+  display: inline-block;
+  width: 400px;
+  margin-left: 10px;
+}
+.single-view .detail .right .line {
+  margin: 5px 0;
+}
+.single-view .detail .right .line * {
+  line-height: 2;
+}
+.single-view .detail .right .line .label {
+  width: 120px;
+  color: #999;
+  display: inline-block;
+  text-align: right;
+}
+.single-view .detail .right .line .value {
+  color: #333;
+  display: inline-block;
+  width: 270px;
+  padding-left: 10px;
+}
+.single-view .detail .right .line .value a {
+  padding: 0 5px;
+  border-radius: 5px;
+  background: rgba(255, 85, 85, 0.5);
+  display: inline-block;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  text-decoration: none;
+  color: white;
 }

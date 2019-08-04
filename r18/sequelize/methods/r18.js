@@ -81,7 +81,25 @@ async function R18Paged(query) {
 async function R18Single(query) {
 	if (!(query.id * 1)) return null;
 	
-	return R18.findByPk(query.id);
+	return R18.findOne({
+		where: {
+			id: query.id
+		},
+		include: [{
+			model: Category,
+			as: 'Categories'
+		}, {
+			association: R18.Actresses,
+			as: 'Actresses'
+		}, {
+			association: R18.Series
+		}, {
+			association: R18.Studio
+		},{
+			association: R18.Galleries,
+			as: 'Galleries'
+		}]
+	});
 }
 
 module.exports = {

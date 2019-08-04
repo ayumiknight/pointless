@@ -6,12 +6,14 @@
 </head>
 <body>
 <div id='root'>
+	<div class="main">
 	{{#def.sideMenu}}
 	{{? it.single}}
 	{{#def.singleView}}
 	{{??}}
 	{{#def.listView}}
 	{{?}}
+	<div>
 </div>
 </body>
 </html>

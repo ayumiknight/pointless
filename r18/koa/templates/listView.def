@@ -1,17 +1,18 @@
 
 <div class="list-view">
 	{{~it.r18s :value:index}}
-		<div class="list-item">
+		<a class="list-item" href="/jvr?id={{=value.id}}">
 			<img src="{{=value.cover}}" />
 			<div class="bottom">
 				<div class="code">
 					{{=value.code}}
 				</div>
+
 				<div class="title">
 					{{=value.title}}
 				</div>	
 			</div>
-		</div>
+		</a>
 	{{~}}
 </div>
 
