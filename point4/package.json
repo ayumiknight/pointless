@@ -38,7 +38,8 @@
     "redux": "^3.7.2",
     "redux-order": "^1.0.2",
     "resolve-url-loader": "^3.1.0",
-    "sequelize": "^5.8.10"
+    "sequelize": "^5.8.10",
+    "wordpress": "^1.4.1"
   },
   "devDependencies": {
     "antd": "^3.19.3",

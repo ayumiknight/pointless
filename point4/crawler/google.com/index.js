@@ -1,10 +1,11 @@
 const root = require('./root.js');
 const axios = require('axios');
 const fs = require('fs');
+//simple crawler for google.com
 //confirmed with root.js and root-from-browser-dom
 //352 galleries are currently available
 
-///https://www.google.com/streetview/feed/gallery/collection/uruguay-highlights.json
+// sample url https://www.google.com/streetview/feed/gallery/collection/uruguay-highlights.json
 
 async function loadAndSaveGallery(galleryName, parent) {
 	let res = await axios.get('https://www.google.com/streetview/feed/gallery/collection/uruguay-highlights.json');
