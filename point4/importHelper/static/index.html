@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache"> 
+	<META HTTP-EQUIV="Expires" CONTENT="-1">
+	<title>Point4 Import Helper</title>
+	<script type="text/javascript" src="/static/axios.min.js" ></script>
+	
+	<script type="text/javascript" src="/static/react.development.js" ></script>
+	<script type="text/javascript" src="/static/react-dom.development.js" ></script>
+	<script type="text/javascript" src="/static/babel.min.js" ></script>
+	<script type="text/babel" src="/static/main.js"></script>
+	<script type="text/babel">
+		
+		console.log('invoked onload============')
+		class OK extends React.Component {
+			render() {
+				return <div>heeelo</div>
+			}
+		}
+		ReactDOM.render(<OK>Hello React!</OK>, document.getElementById('root'))
+	</script>
+	
+</head>
+<body>
+
+<div id='root'>
+	<div class="left">
+		<div id="current"></div>
+		<div id="categories"></div>
+		<div id="tags"></div>
+		<div id="parent"></div>
+	</div>
+	<div class="right">
+		<div id="current"></div>
+		<div id="categories"></div>
+		<div id="tags"></div>
+		<div id="buttons">
+			
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
