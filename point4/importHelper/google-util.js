@@ -52,7 +52,9 @@ const util = {
 
 		return {
 			current: currentFile[currentKey],
-			parent: currentFile['parent']
+			parent: currentFile['parent'],
+			currentEntryIndex,
+			currentFileIndex
 		};
 	},
 	async stepToNext() {

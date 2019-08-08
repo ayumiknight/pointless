@@ -4,7 +4,9 @@ const fs = require('fs');
 const index = fs.readFileSync(__dirname + '/static/index.html', 'utf8');
 const wordpress = require('wordpress');
 const util = require('./google-util.js');
-
+const multer = require('koa-multer');
+const storage = multer.memoryStorage();
+const parseImage = multer({ storage }).single('image');
 console.log(index, 'here is index============')
 //initialize file read
 async function boot() {
@@ -34,7 +36,7 @@ router.use( async ( ctx, next) => {
 	await next();
 })
 
-router.get('/boot', async (ctx, next) => {
+router.get('/terms', async (ctx, next) => {
 	let tags = await new Promise((resolve, reject) => {
 		client.getTerms("post_tag",function(error, result) {
 			if (error) {
@@ -103,6 +105,32 @@ router.post('/save', async (ctx, next) => {
 	// 	console.log(error, res)
 	// })
 })
+router.post('/upload', async (ctx, next) => {
+	await parseImage(ctx);
+	let { originalname, buffer } = ctx.req.file;
+	console.log(originalname, `img/${originalname.split('.')[1]}`)
+	try {
+		let result = await new Promise((resolve, reject) => {
+			client.uploadFile({
+				name: originalname,
+				type: `img/${originalname.split('.')[1]}`,
+				bits: buffer
+			}, function(error, result) {
+				if (error) {
+					reject(error)
+				} else {
+					resolve(result)
+				}
+			})
+		})
+		ctx.ok(result);
+
+	} catch(e) {
+		ctx.error(e);
+
+	}
+	return;
+})
 
 router.get('/', async (ctx, next) => {
 	ctx.response.status = 200;
@@ -110,6 +138,7 @@ router.get('/', async (ctx, next) => {
 	console.log('final value', index)
 	await next();
 })
+
 
 module.exports = router;
 
