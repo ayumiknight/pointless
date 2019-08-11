@@ -41,12 +41,18 @@ const util = {
 			currentFileIndex
 		}
 	},
-	getCurrentEntry() {
+	getCurrentEntry(query) {
+		if (!isNaN(query.pageIndex)) {
+			this.currentIndexs = {
+				currentFileIndex: query.pageIndex * 1,
+				currentEntryIndex: query.entryIndex * 1
+			};
+		}
 		let {
 			currentEntryIndex,
 			currentFileIndex
 		} = this.currentIndexs;
-
+		console.log(this.currentIndexs)
 		let currentFile = this.filesCached[currentFileIndex];
 		let	currentKey = Object.keys(currentFile)[currentEntryIndex];
 

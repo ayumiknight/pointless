@@ -31,16 +31,16 @@ const fs = require('fs');
 // }
 
 function serveStatic() {
-	const staticServer = new Koa();
-	staticServer.use(conditional());
-	staticServer.use(etag());
-	staticServer.use(serve(__dirname + '/static'));
-	return mount('/static', staticServer);
+  const staticServer = new Koa();
+  staticServer.use(conditional());
+  staticServer.use(etag());
+  staticServer.use(serve(__dirname + '/static'));
+  return mount('/static', staticServer);
 }
 
 const app = new Koa();
 app.use(async (ctx, next) => {
-	await next();
+  await next();
 })
 app.use(serveStatic())
 app.use(router.routes());
@@ -48,9 +48,10 @@ app.use(router.routes());
 
 async function bootServer() {
 
-	app.listen(8080, () => {
-		console.log('+++++++++++++++r18 koa booted++++++++++++++')
-	});
+  app.listen(8080, () => {
+    console.log('+++++++++++++++r18 koa booted++++++++++++++')
+  });
 }
 
 bootServer();
+

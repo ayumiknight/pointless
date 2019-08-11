@@ -8,7 +8,7 @@ const fs = require('fs');
 // sample url https://www.google.com/streetview/feed/gallery/collection/uruguay-highlights.json
 
 async function loadAndSaveGallery(galleryName, parent) {
-	let res = await axios.get('https://www.google.com/streetview/feed/gallery/collection/uruguay-highlights.json');
+	let res = await axios.get(`https://www.google.com/streetview/feed/gallery/collection/${galleryName}.json`);
 	res = res.data;
 	res.parent = parent;
 	await fs.writeFileSync(`./data/${galleryName}.json`, JSON.stringify(res));

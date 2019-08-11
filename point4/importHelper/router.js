@@ -7,6 +7,7 @@ const util = require('./google-util.js');
 const multer = require('koa-multer');
 const storage = multer.memoryStorage();
 const parseImage = multer({ storage }).single('image');
+const bodyparser = require('koa-bodyparser');
 console.log(index, 'here is index============')
 //initialize file read
 async function boot() {
@@ -17,13 +18,27 @@ boot();
 
 //initialize wordpress client
 const client = wordpress.createClient({
-    url: "https://www.point4.club",
+    url: "http://point4.cn",
+    //url: "https://www.point4.club",
     username: "point",
     password: "1414914fdysg",
 
 });
 
 
+// var test = { "title": "Isla de Flores", "type": "post", "format": "standard", "content": "<!-- wp:paragraph -->\n\t\t\t<p>Location:  Isla de Flores</p>\n\t\t<!-- /wp:paragraph -->\n\n\t\t<!-- wp:paragraph -->\n\t\t\t<p>Coordinates: &nbsp; -34.945815, -55.932452</p>\n\t\t<!-- /wp:paragraph -->\n\t\t\n\t\t<!-- wp:image {\"id\":1047} -->\n\t\t\t<figure class=\"wp-block-image\"><img src=\"\" alt=\"\" class=\"wp-image-1047\"/></figure>\n\t\t<!-- /wp:image -->\n\n\t\t<!-- wp:html -->\n\t\t<figure>\n\t\t\t<iframe src=\"\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen=\"\"></iframe>\n\t\t</figure>\n\t\t<!-- /wp:html -->", "excerpt": "The Isla de Flores is a small island in the Rio de la Plata, belonging to Uruguay. Has a historical lighthouse; it was part of the Treaty of La Farola in 1819, by which the Band lost the Eastern Oriental Missions. This lighthouse, construction of Portuguese origin, entered service in 1828. It is nicknamed \" World's most expensive lighthouse”. It is currently under the jurisdiction of the Uruguayan Navy and has 37 meters of height and emits two flashes every 10 seconds.", "thumbnail": { "thumbnail": 1417}, "terms": { "post_tag": [], "category": ["22", "23", "168", "195", "197"] }, "customFields": [{ "key": "coordinates", "value": "-55.932452" }] }
+
+// client.newPost(test, function(error, result) {
+//   console.log(error, result);
+// })
+
+
+
+router.use(bodyparser({
+	detectJSON: function (ctx) {
+		return /json/i.test(ctx.request.type);
+	}
+}));
 router.use( async ( ctx, next) => {
 	ctx.ok = function (result) {
 		ctx.response.status = 200;
@@ -63,7 +78,7 @@ router.get('/terms', async (ctx, next) => {
 })
 
 router.get('/getone', async (ctx, next) => {
-	let result = await util.getCurrentEntry();
+	let result = await util.getCurrentEntry(ctx.query || {});
 	await util.stepToNext();
 	ctx.ok(result);
 	return;
@@ -71,9 +86,10 @@ router.get('/getone', async (ctx, next) => {
 
 
 router.post('/save', async (ctx, next) => {
+
 	try {
 		let result = await new Promise((resolve, reject) => {
-			client.newPost(ctx.args, function(error, result) {
+			client.newPost(ctx.request.body, function(error, result) {
 				if (error) {
 					reject(error)
 				} else {
@@ -88,22 +104,6 @@ router.post('/save', async (ctx, next) => {
 
 	}	
 	return;
-
-	
-	// client.newPost({
-	// 	title: 'legend-of-cocaine-island-coordinates1',
-	// 	type: 'post',
-	// 	format: 'standard',
-	// 	content: 'tests post',
-	// 	excerpt: 'excerpt',
-	// 	thumbnail: 1087,
-	// 	terms: {
-	// 		post_tag: [51],
-	// 		category: [22]
-	// 	}
-	// }, function( error, res) {
-	// 	console.log(error, res)
-	// })
 })
 router.post('/upload', async (ctx, next) => {
 	await parseImage(ctx);
@@ -113,8 +113,9 @@ router.post('/upload', async (ctx, next) => {
 		let result = await new Promise((resolve, reject) => {
 			client.uploadFile({
 				name: originalname,
-				type: `img/${originalname.split('.')[1]}`,
-				bits: buffer
+				type: `img/jpeg`,
+				bits: buffer,
+				overwrite: true
 			}, function(error, result) {
 				if (error) {
 					reject(error)
@@ -135,7 +136,7 @@ router.post('/upload', async (ctx, next) => {
 router.get('/', async (ctx, next) => {
 	ctx.response.status = 200;
 	ctx.body = index;
-	console.log('final value', index)
+
 	await next();
 })
 

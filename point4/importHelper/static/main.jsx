@@ -1,4 +1,4 @@
-var { useState, useEffect } = React;
+var { useState, useEffect, forwardRef, useRef, useImperativeHandle } = React;
 
 function toggleInObj(elem, obj) {
 	if (obj[elem]) {
@@ -10,14 +10,41 @@ function toggleInObj(elem, obj) {
 }
 
 function Root() {
+	const childRef = useRef([null, null]);
+	async function submit() {
+		let postData = childRef.current[0].getCurrent().current,
+			termsData = childRef.current[1].getCurrent();
+
+		let finalPost = {
+			title: postData.title,
+			type: 'post',
+			format: 'standard',
+			content: postData.content,
+			excerpt: postData.description,
+			thumbnail: postData.thumbnail * 1,
+			terms: {
+				post_tag: Object.keys(termsData.ts || {}),
+				category: Object.keys(termsData.cs || {})
+			},
+			customFields: postData.customFields
+		}
+		
+		let res = await axios.post('/save', finalPost);
+		childRef.current[0].loadNext(true);
+
+	}
 
 	return <div>
-		<Form />
-		<Terms />
+		<button onClick={submit}>Submit Post</button>
+		<Form ref={el => childRef.current[0] = el}/>
+		<Terms ref={el => childRef.current[1] = el}/>	
 	</div>
 }
 
-function Terms (props) {
+const Terms = forwardRef((props, ref) => {
+
+	
+
 	const [state, setState] = useState({
 		tags: [],
 		categories: []
@@ -35,6 +62,15 @@ function Terms (props) {
 		};
 	},[]);
 
+
+	useImperativeHandle(ref, () => ({
+
+	    getCurrent() {
+	      return state
+	    }
+
+  	}));
+
 	let { tags, categories, ts = {}, cs = {}} = state,
 		setts = (id) => {
 			setState({
@@ -48,6 +84,8 @@ function Terms (props) {
 				cs: toggleInObj(id, cs)
 			})
 		};
+
+	
 
 	return <div className="panel" style={{ height: '20%'}}>
 		<div className="block tags">
@@ -73,7 +111,7 @@ function Terms (props) {
 			})}
 		</div>
 	</div>  
-}
+})
 
 // {
 //   "title": "Monumento a los ahogados - La Mano",
@@ -85,18 +123,27 @@ function Terms (props) {
 //   "heading": "172.02",
 //   "source": "https://en.wikipedia.org/wiki/Mano_de_Punta_del_Este"
 // },
-function Form(props) {
+const Form = forwardRef((props, ref) => {
 	const [state, setState] = useState({
 		current: {},
-		parent: {},
-		imgs: []
+		parent: {}
 	});
 	var imageInput;
 
-	async function loadNext() {
-		const res = await axios.get('/getone');
-		let {title, description, panoid, lat, lng, pitch, heading } = res.data.result.current;
+	async function loadNext(autoIncre) {
+		let res;
+		if (autoIncre) {
+			res = await axios.get(`/getone`);
+		} else {
+			res = await axios.get(`/getone?pageIndex=${localStorage.pageIndex || 0}&entryIndex=${localStorage.entryIndex || 0}`);
+		}
+		let current = res.data.result.current;
+		let {title, description, panoid, lat, lng, pitch, heading } = current;
 		
+		current.customFields = [{
+			key: 'coordinates',
+			value: `${lat},${lng}`
+		}]
 
 		content = `<!-- wp:paragraph -->
 			<p>Location:  ${title}</p>
@@ -116,11 +163,11 @@ function Form(props) {
 		</figure>
 		<!-- /wp:html -->`;
 
-		res.data.result.current.content = content;
+		current.content = content;
 		title = title + `at ${lat},${lng}`;
 
 		setState(res.data.result);
-		setTimeout(watchIframe, 100);
+		//setTimeout(watchIframe, 100);
 	}
 
 	function watchIframe() {
@@ -139,6 +186,15 @@ function Form(props) {
 
 	}
 
+	useImperativeHandle(ref, () => ({
+
+	    getCurrent() {
+	      return state
+	    },
+	    loadNext
+
+  	}));
+
 	async function uploadImage() {
 		let file = imageInput.files[0];
 		let formData = new FormData();
@@ -152,41 +208,56 @@ function Form(props) {
 			}
 		});
 
-		let { url } = res.data.result,
-			{ imgs } = state;
+		let result = res.data.result,
+			{ imgs = []} = state.current || {};
 		
-		imgs.push(url);
+		imgs.push(result);
 		console.log(imgs ,'===========imgs==========')
 		setState({
-			imgs
+			...state,
+			current: {
+				...current,
+				imgs
+			}
 		})
 
 	}
 
-	let { current = {}, parent, imgs = [], currentEntryIndex, currentFileIndex} = state,
-		{title, description, panoid, lat, lng, pitch, heading, content } = current;
+	let { current = {}, parent, currentEntryIndex, currentFileIndex} = state,
+		{title, description, panoid, lat, lng, pitch, heading, content, imgs = [], thumbnail } = current;
 	
 	return <div className="panel">
 		<div className="left">
 			<div className="block">
 				<button onClick={loadNext}>loadNext</button>
+				<button onClick={loadNext.bind(null, true)}>loadNext</button>
 				{currentFileIndex},{currentEntryIndex}
 			</div>
 			
 			<div className="block tags">
 				<input value={title} onChange={(e) => setState({
+					...state,
 					current: {
 						...current,
 						title: e.target.value
 					}
 				})} />
-				<input value={description} onChange={(e) => setState({
+				<textarea style={{height: '100px'}} value={description} onChange={(e) => setState({
+					...state,
 					current: {
 						...current,
 						description: e.target.value
 					}
 				})} />
+				<input value={thumbnail} onChange={(e) => setState({
+					...state,
+					current: {
+						...current,
+						thumbnail: e.target.value
+					}
+				})} />
 				<textarea value={content} onChange={(e) => setState({
+					...state,
 					current: {
 						...current,
 						content: e.target.value
@@ -195,9 +266,9 @@ function Form(props) {
 				<div className="block">
 					<input ref={(input) => { imageInput = input; }} type="file" accept="image/*" onChange={uploadImage} />
 				</div>
-				{imgs.map(url => {
-					return <div className="block">
-						{url}<img src={url} />
+				{imgs.map(img => {
+					return <div className="block" key={img.id}>
+						{img.url}<img src={img.url} />{img.id}
 					</div>
 				})}
 			</div>
@@ -210,6 +281,6 @@ function Form(props) {
 		</div>
 	</div>  
 
-}
+})
 
 ReactDOM.render(<Root/>, document.getElementById('root'))
