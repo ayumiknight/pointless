@@ -30,7 +30,7 @@ function Root() {
 		}
 		
 		let res = await axios.post('/save', finalPost);
-		childRef.current[0].loadNext(true);
+		childRef.current[0].loadNext();
 
 	}
 
@@ -130,16 +130,15 @@ const Form = forwardRef((props, ref) => {
 	});
 	var imageInput;
 
-	async function loadNext(autoIncre) {
-		let res;
-		if (autoIncre) {
-			res = await axios.get(`/getone`);
-		} else {
-			res = await axios.get(`/getone?pageIndex=${localStorage.pageIndex || 0}&entryIndex=${localStorage.entryIndex || 0}`);
-		}
+	async function loadNext() {
+		let res = await axios.get(`/getone?pageIndex=${localStorage.pageIndex || 0}&entryIndex=${localStorage.entryIndex || 0}`);
+			
 		let current = res.data.result.current;
 		let {title, description, panoid, lat, lng, pitch, heading } = current;
 		
+		localStorage.pageIndex = res.data.result.currentFileIndex;
+		localStorage.entryIndex = res.data.result.currentEntryIndex;
+
 		current.customFields = [{
 			key: 'coordinates',
 			value: `${lat},${lng}`
@@ -230,7 +229,7 @@ const Form = forwardRef((props, ref) => {
 		<div className="left">
 			<div className="block">
 				<button onClick={loadNext}>loadNext</button>
-				<button onClick={loadNext.bind(null, true)}>loadNext</button>
+				<button onClick={loadNext}>loadNext</button>
 				{currentFileIndex},{currentEntryIndex}
 			</div>
 			

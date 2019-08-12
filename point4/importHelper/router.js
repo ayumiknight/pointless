@@ -10,16 +10,11 @@ const parseImage = multer({ storage }).single('image');
 const bodyparser = require('koa-bodyparser');
 console.log(index, 'here is index============')
 //initialize file read
-async function boot() {
-	await util.sync();
-	await util.getFirstAvailable();
-}
-boot();
 
 //initialize wordpress client
 const client = wordpress.createClient({
-    url: "http://point4.cn",
-    //url: "https://www.point4.club",
+    //url: "http://point4.cn",
+    url: "https://www.point4.club",
     username: "point",
     password: "1414914fdysg",
 
@@ -113,7 +108,7 @@ router.post('/upload', async (ctx, next) => {
 		let result = await new Promise((resolve, reject) => {
 			client.uploadFile({
 				name: originalname,
-				type: `img/jpeg`,
+				type: `image/jpeg`,
 				bits: buffer,
 				overwrite: true
 			}, function(error, result) {
