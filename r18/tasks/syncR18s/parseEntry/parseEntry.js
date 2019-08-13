@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle } = require('../util.js');
+const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle } = require('../../util.js');
 
 
 function parseEntry(entry) {

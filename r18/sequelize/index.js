@@ -12,13 +12,23 @@ let sampleData = require('./testdata.js');
 if (true || env.NODE_ENV === 'dev') {
     var sequelize = new Sequelize('r18', 'point', '1414914fdysg', {
         dialect: 'mysql',
-        host: '202.182.117.178'
+        host: '202.182.117.178',
+        define: {
+            charset: 'utf8',
+            collate: 'utf8_general_ci', 
+            timestamps: true
+        }
     });
 
 } else {
     var sequelize = new Sequelize('r18', 'root', '1414914fdysg', {
         dialect: 'mysql',
-        host: '127.0.0.1'
+        host: '127.0.0.1',
+        define: {
+            charset: 'utf8',
+            collate: 'utf8_general_ci', 
+            timestamps: true
+        }
     });
 
 }

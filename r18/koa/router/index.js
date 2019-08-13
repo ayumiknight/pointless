@@ -23,6 +23,22 @@ router.get('/jvr', async (ctx, next) => {
 });
 
 
+router.get('/actress', async (ctx, next) => {
+	let {pageindex} = ctx.query;
+	let r18s = await R18Paged({
+		page_index: 1,
+		page_size: 20
+	});
+	
+
+	ctx.body = ctx.dots.index({
+		single: false,
+		r18s
+	});
+	return;
+});
+
+
 router.get('/', async (ctx, next) => {
 	let {pageindex} = ctx.query;
 	let r18s = await R18Paged({

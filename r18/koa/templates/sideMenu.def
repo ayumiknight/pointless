@@ -3,17 +3,17 @@
 		JvrLibrary	
 	</div>
 	<div class="menu-items">
-		<div class="menu-item">
+		<a class="menu-item" href="/studio">
 			Studio
-		</div>
-		<div class="menu-item">
+		</a>
+		<a class="menu-item" href="/series">
 			Series
-		</div>
-		<div class="menu-item">
+		</a>
+		<a class="menu-item" href="/actress">
 			Actress
-		</div>
-		<div class="menu-item">
+		</a>
+		<a class="menu-item" href="/genre">
 			Genre
-		</div>
+		</a>
 	</div>
 </div>

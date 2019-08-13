@@ -12,6 +12,18 @@ module.exports = (sequelize, DataTypes) => {
         zh: {
             type: DataTypes.STRING,
             comment: "中文名"
+        },
+        descEN: {
+            type: DataTypes.STRING(1000),
+            comment: "描述"
+        },
+        descZH: {
+            type: DataTypes.STRING(1000),
+            comment: "描述"
+        },
+        logo: {
+            type: DataTypes.STRING,
+            comment: 'logo'
         }
     });
 

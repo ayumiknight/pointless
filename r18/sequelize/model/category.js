@@ -12,6 +12,26 @@ module.exports = (sequelize, DataTypes) => {
         zh: {
             type: DataTypes.STRING,
             comment: "中文标签"
+        },
+        parent: {
+            type: DataTypes.INTEGER,
+            comment: "目标签序号 类别 类型 服装 种类 play 其他 1 - 6"
+        },
+        topAdult: {
+            type: DataTypes.INTEGER,
+            comment: "是否置顶"
+        },
+        topAmateur: {
+            type: DataTypes.INTEGER,
+            comment: "是否置顶"
+        },
+        topAnime: {
+            type: DataTypes.INTEGER,
+            comment: "是否置顶"
+        },
+        logo: {
+            type: DataTypes.STRING,
+            comment: 'logo'
         }
     });
 

@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         zh: {
             type: DataTypes.STRING,
             comment: "中文标签"
+        },
+        logo: {
+            type: DataTypes.STRING,
+            comment: 'logo'
         }
     });
 
