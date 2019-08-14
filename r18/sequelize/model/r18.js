@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 			unique: true
 		},
 		title: {
-			type: DataTypes.STRING,
+			type: DataTypes.STRING(1000),
 			comment: "标题",
 		},
 		cover: {

@@ -22,8 +22,6 @@ async function R18Create({
 		},
 		defaults: entry
 	});
-	if (created) return true;
-
 
 	let [ 
 		categories, 
@@ -46,7 +44,7 @@ async function R18Create({
 		}))),
 		entry.Series ? Series.findOrCreate({
 			where: {
-				series_id: entry.series_id
+				series_id: entry.Series.series_id
 			},
 			defaults: entry.Series
 		}) : null,
@@ -64,13 +62,13 @@ async function R18Create({
 			defaults: gallery
 		})))
 	])
-	
+
 	await Promise.all([
 		r18.setCategories(categories.map( category => category[0])),
 		r18.setActresses(actresses.map( actress => actress[0])),
 		series && r18.setSeries(series[0]),
 		studio && r18.setStudio(studio[0]),
-		r18.setGalleries(galleries.map( gallery => gallery[0])
+		r18.setGalleries(galleries.map( gallery => gallery[0]))
 	])
 }
 
