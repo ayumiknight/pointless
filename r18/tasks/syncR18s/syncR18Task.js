@@ -1,10 +1,10 @@
 
 
-const { R18BulkCreate, SyncDB } = require('../sequelize/methods/r18.js');
-const generateData = require('../crawler/index.js');
+const { R18BulkCreate, R18Create,  SyncDB } = require('../../sequelize/methods/r18.js');
+const generateData = require('./syncR18s.js');
 const fs = require('fs');
 
-let pageAll = 1;
+let pageAll = 2;
 async function crawlAndCreate() {
 	await SyncDB();
 	let pageindex = 1;
@@ -16,7 +16,7 @@ async function crawlAndCreate() {
 			entries: formattedEntries
 		});
 		console.log(`=======${pageindex} saved=====`)
-		i++;
+		pageindex++;
 	}
 }
 

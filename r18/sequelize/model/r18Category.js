@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         categoryId: {
             type: DataTypes.INTEGER,
-            unique: 'r18CategoryUnique'
+            unique: 'r18CategoryUnique',
+            reference: null
         }
     });
     return R18Category;

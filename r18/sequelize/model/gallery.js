@@ -3,13 +3,12 @@ module.exports = (sequelize, DataTypes) => {
         url: {
             type: DataTypes.STRING,
             comment: "图片链接",
+            unique: true
         }
     });
 
     Gallery.associate = function(models) {
-        models.Gallery.belongsTo(models.R18, {
-            constraints: false
-        });
+        models.Gallery.belongsTo(models.R18);
     };
     return Gallery;
 };

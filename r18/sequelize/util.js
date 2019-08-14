@@ -26,3 +26,18 @@ module.exports = function(models) {
 // drop table if exists Series;
 // drop table if exists Studios;
 // SET FOREIGN_KEY_CHECKS = 1;
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+drop table if exists Galleries;
+drop table if exists R18Actresses;
+drop table if exists R18Categories;
+drop table if exists R18s;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+SELECT * FROM Categories WHERE category_id = 1018;
+SELECT * FROM Galleries;
+SELECT * FROM R18Categories;
+SELECT * FROM R18s;

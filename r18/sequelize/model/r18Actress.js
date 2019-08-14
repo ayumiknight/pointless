@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         actressId: {
             type: DataTypes.INTEGER,
-            unique: 'r18ActressUnique'
+            unique: 'r18ActressUnique',
+            reference: null
         }
     });
     return R18Actress;

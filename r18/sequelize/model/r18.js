@@ -74,8 +74,7 @@ module.exports = (sequelize, DataTypes) => {
 			constraints: false
 		});
 		models.R18.Galleries = models.R18.hasMany(models.Gallery, {
-			as: 'Galleries',
-			constraints: false
+			as: 'Galleries'
 		});
 	};
 	return R18;
