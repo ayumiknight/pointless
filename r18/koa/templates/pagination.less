@@ -1,0 +1,32 @@
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    * {
+        display: flex;
+        font-family: "HemiHead", Helvetica, Arial, Utkal, sans-serif;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .page {
+        width: 30px;
+        flex-direction: column;
+
+        &.disabled {
+            * {
+                color: #999;
+            }
+        }
+
+        &.current {
+            * {
+                color: red;
+            }
+        }
+
+
+    }
+}

@@ -35,7 +35,7 @@ app.use(router.routes());
 
 
 async function bootServer() {
-	await SyncDB();
+	//await SyncDB();
 
 	app.listen(8080, () => {
 		console.log('+++++++++++++++r18 koa booted++++++++++++++')

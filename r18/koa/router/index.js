@@ -3,9 +3,9 @@ const { R18Paged, R18Single } = require('../../sequelize/methods/r18.js');
 const path = require('path');
 const entries = require('./sampleData');
 const {
-	formatSingleEntryForRender
+	formatSingleEntryForRender,
+	generatePagination
 } = require('./util.js');
-
 
 
 
@@ -16,7 +16,7 @@ router.get('/jvr', async (ctx, next) => {
 	});
 	console.log(r18, 'here is data')
 	ctx.body = ctx.dots.index({
-		single: true,
+		type: 'jvrList',
 		r18: formatSingleEntryForRender(r18)
 	});
 	return;
@@ -32,7 +32,7 @@ router.get('/actress', async (ctx, next) => {
 	
 
 	ctx.body = ctx.dots.index({
-		single: false,
+		type: 'jvrList',
 		r18s
 	});
 	return;
@@ -40,16 +40,23 @@ router.get('/actress', async (ctx, next) => {
 
 
 router.get('/', async (ctx, next) => {
-	let {pageindex} = ctx.query;
-	let r18s = await R18Paged({
-		page_index: 1,
-		page_size: 20
-	});
-	
+	let {page} = ctx.query;
+	// let r18s = await R18Paged({
+	// 	page_index: 1,
+	// 	page_size: 20
+	// });
+	let r18s = entries,
+		current = page * 1 || 1;
+	r18s = r18s.slice((page -1) * 20, page * 20 );
 
 	ctx.body = ctx.dots.index({
-		single: false,
-		r18s
+		type: 'jvr',
+		r18s,
+		pagination: generatePagination({
+			baseUrl: '/',
+			current,
+			total: 6
+		})
 	});
 	return;
 });

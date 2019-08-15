@@ -1,0 +1,17 @@
+
+<div class="pagination">
+	{{~ it.pagination :value:index}}
+		{{? ['prev', 'next'].includes(value.page) }}
+			<div class="page previous-or-next  {{= value.disabled ? 'disabled' : ''}}">
+				<div class="top big">{{=(value.page === 'prev' ? 'J' : 'R')}}</div>
+				<a href="{{= (value.disabled ? 'javascript: void 0;' :  value.url )}}">{{=value.page}}</a>	
+			</div>
+		{{??}}
+			<div class="page number {{= value.className}}">
+				<div class="top big">v</div>
+				<a href={{=value.url}}>{{=value.page}}</a>	
+			</div>
+		{{?}}
+	{{~}}
+</div>
+

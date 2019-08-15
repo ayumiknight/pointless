@@ -10,8 +10,8 @@ const parseEntry = require('./parseEntry/parseEntry.js')
 axiosRretry(axios, { retries: 3 });
 
 
-function getPageUrl({ pageindex, pagesize = 30 }) {
-    return `https://www.r18.com/videos/vod/movies/list/id=6793/pagesize=120/price=all/sort=new/type=category/page=1/?dmmref=pc_header`
+function getPageUrl(pageindex) {
+    return `https://www.r18.com/videos/vod/movies/list/id=6793/pagesize=30/price=all/sort=new/type=category/page=${pageindex}/?dmmref=pc_header`
 }
 
 async function loadPage(pageindex) {

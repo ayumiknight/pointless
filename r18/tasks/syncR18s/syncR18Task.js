@@ -4,7 +4,7 @@ const { R18BulkCreate, R18Create,  SyncDB } = require('../../sequelize/methods/r
 const generateData = require('./syncR18s.js');
 const fs = require('fs');
 
-let pageAll = 2;
+let pageAll = 200;
 async function crawlAndCreate() {
 	await SyncDB();
 	let pageindex = 1;

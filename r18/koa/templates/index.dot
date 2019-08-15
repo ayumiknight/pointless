@@ -6,12 +6,14 @@
 </head>
 <body>
 <div id='root'>
-	<div class="main">
 	{{#def.sideMenu}}
-	{{? it.single}}
+	<div class="main">
+	
+	{{? it.type === 'jvf'}}
 	{{#def.singleView}}
 	{{??}}
 	{{#def.listView}}
+	{{#def.pagination}}
 	{{?}}
 	<div>
 </div>

@@ -1,19 +1,10 @@
-<div class="side-menu">
+<div class="side-menu f r fc">
 	<div class="site-name">
-		JvrLibrary	
+		JvrLibrary
+
 	</div>
-	<div class="menu-items">
-		<a class="menu-item" href="/studio">
-			Studio
-		</a>
-		<a class="menu-item" href="/series">
-			Series
-		</a>
-		<a class="menu-item" href="/actress">
-			Actress
-		</a>
-		<a class="menu-item" href="/genre">
-			Genre
-		</a>
+	<div class="search">
+		<input type="text" placeholder="Search Anything!">
 	</div>
+	<div class="right">Japan VR films Only</div> 
 </div>
