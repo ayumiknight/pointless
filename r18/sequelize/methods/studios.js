@@ -19,11 +19,20 @@ async function StudiosCreate(studio) {
 	})
 }
 
-
+async function searchForStudio(search) {
+	return Studio.findAndCountAll({
+		where: {
+			en: search
+		},
+		offset: 0,
+		limit: 1
+	})
+}
 
 
 module.exports = {
 	StudiosBulkCreate,
 	StudiosCreate,
-	SyncDB
+	SyncDB,
+	searchForStudio
 }

@@ -1,7 +1,7 @@
 
 <div class="list-view">
 	{{~it.r18s :value:index}}
-		<a class="list-item" href="/jvr?id={{=value.id}}">
+		<a class="list-item" href="/jvr?id={{=encodeURIComponent(value.code)}}">
 			<img src="{{=value.cover}}" />
 			<div class="bottom">
 				<div class="code">

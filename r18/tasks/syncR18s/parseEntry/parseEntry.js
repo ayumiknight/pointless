@@ -3,12 +3,18 @@ const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle 
 
 
 function parseEntry(entry) {
-	var $ = cheerio.load(entry.data, {
+	let [ enEntry, zhEntry ] = entry;
+	var $ = cheerio.load(enEntry.data, {
 	    xml: {
 	        normalizeWhitespace: true,
 	        decodeEntities: true
 	    }
-
+	});
+	let zh$ = cheerio.load(zhEntry.data, {
+	    xml: {
+	        normalizeWhitespace: true,
+	        decodeEntities: true
+	    }
 	});
 
 	let cover = $('.product-area .product-image img').attr('src'),
@@ -27,6 +33,7 @@ function parseEntry(entry) {
 	    Actresses = [],
 	    Categories = [],
 	    title = getTitle($('.product-details-page h1'));
+	    zhTitle = getTitle(zh$('.product-details-page h1'));
 
 	details.find('dl').each(function( i, dl ) {
 		$(this).find('dd').each(function(j, dd) {
@@ -104,8 +111,9 @@ function parseEntry(entry) {
 		Actresses,
 		Galleries,
 		Categories,
-		referer: entry.config.url,
-		title
+		referer: enEntry.config.url,
+		title,
+		zhTitle
 	}
 };
 

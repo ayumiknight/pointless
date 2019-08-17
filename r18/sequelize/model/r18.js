@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING(1000),
 			comment: "标题",
 		},
+		zhTitle: {
+			type: DataTypes.STRING(1000),
+			comment: "中文标题",
+		},
 		cover: {
 			type: DataTypes.STRING,
 			comment: "封面图",

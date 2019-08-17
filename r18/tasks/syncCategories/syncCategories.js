@@ -51,7 +51,7 @@ async function loadCategories({
 				}
 	
 				categoryMap[id][parentCategory] = 1;
-				id == ""  && console.log('from 1', i, j)
+				categoryMap[id]['en'] == ""  && console.log('from 1', i, j)
 
 			} else {
 				let name = $(this).find('a').text().trimStart().trimEnd(),
@@ -62,7 +62,7 @@ async function loadCategories({
 				categoryMap[id]['en'] = categoryMap[id]['en'] || name;
 				categoryMap[id]['category_id'] = categoryMap[id]['category_id'] || id;
 				categoryMap[id]['parent'] = categoryMap[id]['parent'] || index - 1;
-				id == ""  && console.log('from 2', i, j)
+				categoryMap[id]['en'] == ""  && console.log('from 2', i, j)
 			}
 		})
 		index++;
@@ -84,12 +84,12 @@ async function loadCategories({
 
 				if (!categoryMap[id]) categoryMap[id] = {};
 				categoryMap[id] = {
-					category_id: categoryMap[id]['category_id'] || id,
+					...categoryMap[id],
 					logo: categoryMap[id]['logo'] || logo,
 					zh: categoryMap[id]['zh'] || name
 				}
 				categoryMap[id][parentCategory] = 1;
-				id == ""  && console.log('from 3', i, j)
+			
 			} else {
 
 				let name = $(this).find('a').text().trimStart().trimEnd(),
@@ -106,7 +106,7 @@ async function loadCategories({
 	})
    	
    	let finalCategories = Object.keys(categoryMap).map(key => categoryMap[key]);
-   	console.log( finalCategories, '======================');
+ 
    	fs.writeFileSync(parentCategory + '.txt', JSON.stringify(finalCategories) )
 	await CategoriesBulkCreate(finalCategories);
 }

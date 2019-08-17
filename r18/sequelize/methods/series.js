@@ -20,10 +20,20 @@ async function SeriesCreate(series) {
 }
 
 
+async function searchForSeries(search) {
+	return Series.findAndCountAll({
+		where: {
+			en: search
+		},
+		offset: 0,
+		limit: 1
+	})
+}
 
 
 module.exports = {
 	SeriesBulkCreate,
 	SeriesCreate,
-	SyncDB
+	SyncDB,
+	searchForSeries
 }

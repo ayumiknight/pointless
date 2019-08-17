@@ -4,20 +4,20 @@ const util = {
 	getStudioTranslated(studio) {
 
 		if (!studio || !studio.studio_id) return '----';
-		return `<a href="/studio?id=${studio.studio_id}">${studio.en}</a>`
+		return `<a href="/?studio=${studio.en}">${studio.en}</a>`
 	},
 	getSeriesTranslated(series) {
 
 		if (!series || !series.series_id) return '----';
-		return `<a href="/series?id=${series.series_id}">${series.en}</a>`
+		return `<a href="/?series=${series.en}">${series.en}</a>`
 	},
 	getCategorysTranslated(categories) {
 		if (!categories || !categories.length) return '----';
-		return categories.map( cate => `<a href="/genre?id=${cate.category_id}">${cate.en}</a>`).join('');
+		return categories.map( cate => `<a href="/?genre=${cate.en}">${cate.en}</a>`).join('');
 	},
 	getActressTranslated(actresses) {
 		if (!actresses || !actresses.length) return '----';
-		return actresses.map( actress => `<a href="/actress?id=${actress.actress_id}">${actress.en}</a>`).join('');
+		return actresses.map( actress => `<a href="/?cast=${actress.en}">${actress.en}</a>`).join('');
 	},
 	formatSingleEntryForRender(entry) {
 
@@ -49,26 +49,26 @@ const util = {
 					className: index + 1 === current ? 'current' : ''
 				}		
 			});
-		} else if (left >= 4 && right >= 4 ) {
+		} else if (leftCount >= 4 && rightCount >= 4 ) {
 			pages = [...Array(9)].map((v,index) => {
 				return {
 					url: util.addQuery('page', index , baseUrl),
 					page: current - 4 + index,
-					className: page === current ? 'current': ''
+					className: current - 4 + index === current ? 'current': ''
 				}
 			})
 		} else {
-			left < 4 ? pages = [...Array(9)].map((v,index) => {
+			leftCount < 4 ? pages = [...Array(9)].map((v,index) => {
 				return {
 					url: util.addQuery('page', 1 + index , baseUrl),
 					page: 1 + index,
-					className: page === current ? 'current': ''
+					className: 1 + index === current ? 'current': ''
 				}
 			}) : pages = [...Array(9)].map((v,index) => {
 				return {
 					url: util.addQuery('page', total - 8 + index, baseUrl),
 					page: total - 8 + index,
-					className: page === current ? 'current': ''
+					className: total - 8 + index === current ? 'current': ''
 				}		
 			})
 		}
@@ -93,6 +93,42 @@ const util = {
 		else {
 			return href + separator + key + "=" + value;
 		}
+	},
+	addQueries(kvPairs, href = location.href) {
+		let keys = Object.keys(kvPairs),
+			result = href;
+
+		keys.forEach(key => {
+			let value = kvPairs[key];
+			result = util.addQuery(key, value, result);
+		});
+		return result;
+	},
+	getAtoZ() {
+		if (util.AtoZ) return util.AtoZ;
+		
+		let AtoZ = [];	 
+	    for(var i = 97; i < 123; i++){
+	        AtoZ.push(String.fromCharCode(i));
+	    }
+	    util.AtoZ = AtoZ;
+	    return AtoZ;
+	},
+	generateLetterPagination(pageinfo) {
+		let { baseUrl, current } = pageinfo,
+			letters = util.getAtoZ();
+
+
+		return letters.map( letter => {
+			return {
+				url: util.addQueries({
+					letter,
+					page: 1
+				}, baseUrl),
+				className: letter === current.toLowerCase() ? 'current' : '',
+				letter
+			}
+		});
 	}
 }
 

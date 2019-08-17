@@ -9,12 +9,15 @@
 	{{#def.sideMenu}}
 	<div class="main">
 	
-	{{? it.type === 'jvf'}}
-	{{#def.singleView}}
-	{{??}}
-	{{#def.listView}}
-	{{#def.pagination}}
-	{{?}}
+		{{? it.type === 'jvr'}}
+			{{#def.singleView}}
+		{{?? it.type === 'actress'}}
+			{{#def.actressView}}
+			{{#def.pagination}}
+		{{??}}
+			{{#def.listView}}
+			{{#def.pagination}}
+		{{?}}
 	<div>
 </div>
 </body>

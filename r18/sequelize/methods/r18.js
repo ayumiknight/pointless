@@ -1,6 +1,7 @@
 const db = require('../index.js');
 const { R18, Series, Studio, Actress, Category, Gallery } = db;
-
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 //never use bulkcreate, mysql won't return primary ids for bulk insert!!!
 
 async function SyncDB() {
@@ -10,7 +11,14 @@ async function SyncDB() {
 async function R18BulkCreate({
 	entries
 }) {
-	await Promise.all(entries.map( entry => R18Create({ entry })));
+	//Promise.all approach can save r18s ,but following assciations are not saved because of timeout
+	//await Promise.all(entries.map( entry => R18Create({ entry })));
+	
+	let i = 0;
+	while(entries[i]) {
+		await R18Create({ entry: entries[i] });
+		i++;
+	}
 }
 
 async function R18Create({
@@ -79,51 +87,57 @@ async function R18Paged(query) {
 		category_id, 
 		series_id, 
 		studio_id, 
-		page_index,
-		page_size 
+		page,
+		pagesize 
 	} = query;
 
-	return R18.findAll({
-		offset: (page_index - 1) * page_size,
-		limit: page_size,
-		include: [{
-			model: Category,
-			as: 'Categories'
-		}, {
-			association: R18.Actresses,
-			as: 'Actresses'
-		}, {
-			association: R18.Series
-		}, {
-			association: R18.Studio
-		},{
-			association: R18.Galleries,
-			as: 'Galleries'
-		}]
-	})
-	if (actress_id) {
-		return R18.find({
-		    offset: 0,
-		    limit: 10,
-		    include: [{
-		        model: Category,
-		        where: [
-		            '`Categories.CityCategory`.`year` = 2015'
-		        ],
-		        attributes: ['id', 'name', 'year']
-		    }]
-		})
+
+	// include: [{
+	// 	model: Category,
+	// 	as: 'Categories'
+	// }, {
+	// 	association: R18.Actresses,
+	// 	as: 'Actresses'
+	// }, {
+	// 	association: R18.Series
+	// }, {
+	// 	association: R18.Studio
+	// },{
+	// 	association: R18.Galleries,
+	// 	as: 'Galleries'
+	// }]
+	// 
+	let r18Query = {
+		offset: (page - 1) * pagesize,
+		limit: pagesize	
 	}
 
+	if (actress_id) {
+		r18Query.include = [{
+			association:  R18.Actresses,
+			as: 'Actresses',
+			where: {
+				actress_id
+			}
+		}]
+	}
+	return R18.findAndCountAll(r18Query);
 }
 
-async function R18Single(query) {
-	if (!(query.id * 1)) return null;
+async function R18Single({
+	id,
+	code
+}) {
+	if (!id && !code) return null;
 	
+	let where = id ? {
+			id
+		} : {
+			code
+		};
+
 	return R18.findOne({
-		where: {
-			id: query.id
-		},
+		where,
 		include: [{
 			model: Category,
 			as: 'Categories'

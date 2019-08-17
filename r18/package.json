@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "startdev": "nodemon -e def,js,dot --watch koa --watch koa/templates koa/index.js",
+    "crawlSave": "node tasks/syncR18s/syncR18Task.js",
     "dev": "npm start",
     "build": "node build/build.js"
   },

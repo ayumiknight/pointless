@@ -172,3 +172,36 @@ body .fc {
 .pagination .page.current * {
   color: red;
 }
+.actress-view .actress-pagination .pagination {
+  width: 20px;
+}
+.actress-view .actress-pagination .pagination.current * {
+  color: red;
+}
+.actress-view .actress-lists {
+  width: 100%;
+  flex-wrap: wrap;
+}
+.actress-view .actress-lists .list-item {
+  width: 125px !important;
+  height: 160px;
+  background: white;
+  margin: 10px;
+  box-shadow: 0 2px 3px rgba(155, 155, 155, 0.5);
+  display: inline-block;
+  text-decoration: none;
+}
+.actress-view .actress-lists .list-item .img {
+  width: 100%;
+}
+.actress-view .actress-lists .list-item .bottom {
+  padding: 8px;
+}
+.actress-view .actress-lists .list-item .bottom .title {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

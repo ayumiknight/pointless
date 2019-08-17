@@ -15,6 +15,7 @@ function getPageUrl(pageindex) {
 }
 
 async function loadPage(pageindex) {
+
     let pageUrl = getPageUrl(pageindex);
 
     let res = await axios.get(pageUrl);
@@ -34,7 +35,10 @@ async function loadPage(pageindex) {
 
 async function loadPageEntries(entries) {
     let allEntries = await Promise.all(entries.map(url => {
-        return axios.get(url);
+        return Promise.all([
+            axios.get(url),
+            axios.get(url + '&lg=zh')
+        ]);
     }));
 
     formattedEntries = allEntries.map(entryRes => {
@@ -48,5 +52,6 @@ async function generateData(pageIndex) {
     let formattedEntries = await loadPageEntries(formattedEntryUrls);
     return formattedEntries;
 }
+
 
 module.exports = generateData;
