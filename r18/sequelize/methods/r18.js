@@ -114,6 +114,30 @@ async function R18Paged(query) {
 			}
 		}]
 	}
+	if (category_id) {
+		r18Query.include = [{
+			association:  R18.Categories,
+			where: {
+				category_id
+			}
+		}];
+	}
+	if (studio_id) {
+		r18Query.include = [{
+			association:  R18.Studio,
+			where: {
+				studio_id
+			}
+		}];
+	}
+	if (series_id) {
+		r18Query.include = [{
+			association:  R18.Series,
+			where: {
+				series_id
+			}
+		}];
+	}
 	return R18.findAndCountAll(r18Query);
 }
 

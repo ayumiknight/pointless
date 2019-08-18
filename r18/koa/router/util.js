@@ -4,20 +4,20 @@ const util = {
 	getStudioTranslated(studio) {
 
 		if (!studio || !studio.studio_id) return '----';
-		return `<a href="/?studio=${studio.en}">${studio.en}</a>`
+		return `<a href="/?studio=${encodeURIComponent(studio.en)}">${studio.en}</a>`
 	},
 	getSeriesTranslated(series) {
 
 		if (!series || !series.series_id) return '----';
-		return `<a href="/?series=${series.en}">${series.en}</a>`
+		return `<a href="/?series=${encodeURIComponent(series.en)}">${series.en}</a>`
 	},
 	getCategorysTranslated(categories) {
 		if (!categories || !categories.length) return '----';
-		return categories.map( cate => `<a href="/?genre=${cate.en}">${cate.en}</a>`).join('');
+		return categories.map( cate => `<a href="/?genre=${encodeURIComponent(cate.en)}">${cate.en}</a>`).join('');
 	},
 	getActressTranslated(actresses) {
 		if (!actresses || !actresses.length) return '----';
-		return actresses.map( actress => `<a href="/?cast=${actress.en}">${actress.en}</a>`).join('');
+		return actresses.map( actress => `<a href="/?cast=${encodeURIComponent(actress.en)}">${actress.en}</a>`).join('');
 	},
 	formatSingleEntryForRender(entry) {
 

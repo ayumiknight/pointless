@@ -21,13 +21,14 @@ router.use(async (ctx, next) => {
 	let {  page = 1, code, id, cast, genre, studio, series, search, lcode} = ctx.query;
 
 	//this block will be used to sanitize and filter allowed input
-	ctx.query = {
-		page,
-		code,
-		id,
-		search,
-		lcode
-	};
+	// ctx.query = {
+	// 	page,
+	// 	code,
+	// 	id,
+	// 	search,
+	// 	lcode
+	// };
+	ctx.query.page = page;
 
 	if (cast) {
 		let actressList = await searchForActress(cast);	
@@ -44,8 +45,7 @@ router.use(async (ctx, next) => {
 		}
 	}
 	if (studio) {
-		let studioList = await searchForCategory(studio);
-
+		let studioList = await searchForStudio(studio);
 		if (studioList.rows && studioList.rows[0])  {
 			ctx.query.studio_id = studioList.rows[0].studio_id;
 			ctx.studio = studioList.rows[0];
