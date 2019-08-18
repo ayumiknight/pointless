@@ -88,30 +88,23 @@ async function R18Paged(query) {
 		series_id, 
 		studio_id, 
 		page,
-		pagesize 
+		pagesize,
+		lcode
 	} = query;
 
 
-	// include: [{
-	// 	model: Category,
-	// 	as: 'Categories'
-	// }, {
-	// 	association: R18.Actresses,
-	// 	as: 'Actresses'
-	// }, {
-	// 	association: R18.Series
-	// }, {
-	// 	association: R18.Studio
-	// },{
-	// 	association: R18.Galleries,
-	// 	as: 'Galleries'
-	// }]
-	// 
 	let r18Query = {
 		offset: (page - 1) * pagesize,
-		limit: pagesize	
+		limit: pagesize
 	}
 
+	if (lcode) {
+		r18Query.where = {
+			code: {
+				[Op.like]: `${lcode}%`
+			}
+		}
+	}
 	if (actress_id) {
 		r18Query.include = [{
 			association:  R18.Actresses,

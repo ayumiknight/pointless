@@ -1,4 +1,5 @@
 <div class="actress-view f c fc">
+	<div class="page-title">Casts</div>
 	<div class="actress-pagination f r fc">
 		{{~ it.letterPagination :value:index}}
 			<div class="pagination f fc {{=value.className}}">

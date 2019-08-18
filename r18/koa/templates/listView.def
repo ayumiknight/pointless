@@ -1,18 +1,24 @@
+<div class="jvr-list">
+	<div class="page-title">{{=it.pageTitle}}</div>
+	<div class="list-view f r fc">
 
-<div class="list-view">
-	{{~it.r18s :value:index}}
-		<a class="list-item" href="/jvr?id={{=encodeURIComponent(value.code)}}">
-			<img src="{{=value.cover}}" />
-			<div class="bottom">
-				<div class="code">
-					{{=value.code}}
+		{{~it.r18s :value:index}}
+			<a class="list-item f" href="/jvr?id={{=encodeURIComponent(value.code)}}">
+				<img src="{{=value.cover}}" />
+				<div class="bottom">
+					<div class="code">
+						{{=value.code}}
+					</div>
+
+					<div class="title">
+						{{=value.title}}
+					</div>	
 				</div>
-
-				<div class="title">
-					{{=value.title}}
-				</div>	
-			</div>
-		</a>
-	{{~}}
+			</a>
+		{{~}}
+		{{? it.r18s.length === 0}}
+			{{#def.empty}}
+		{{?}}
+	</div>
 </div>
 

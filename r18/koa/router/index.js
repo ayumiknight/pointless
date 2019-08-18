@@ -16,17 +16,18 @@ const jvrList = require('./jvrList.js');
 const jvrSingle = require('./jvrSingle.js');
 const actressList = require('./actressList.js');
 const categoryList = require('./categoryList.js');
-
+const userSearch = require('./userSearch.js')
 router.use(async (ctx, next) => {
-	let {  page = 1, code, id, cast, genre, studio, series } = ctx.query;
+	let {  page = 1, code, id, cast, genre, studio, series, search, lcode} = ctx.query;
 
-	//clean
+	//this block will be used to sanitize and filter allowed input
 	ctx.query = {
 		page,
 		code,
-		id
+		id,
+		search,
+		lcode
 	};
-
 
 	if (cast) {
 		let actressList = await searchForActress(cast);	
@@ -44,9 +45,10 @@ router.use(async (ctx, next) => {
 	}
 	if (studio) {
 		let studioList = await searchForCategory(studio);
+
 		if (studioList.rows && studioList.rows[0])  {
 			ctx.query.studio_id = studioList.rows[0].studio_id;
-			ctx.category = studioList.rows[0];
+			ctx.studio = studioList.rows[0];
 		}
 	}
 	if (series) {
@@ -61,11 +63,9 @@ router.use(async (ctx, next) => {
 })
 
 router.get('/jvr', jvrSingle);
-
 router.get('/actress', actressList);
-
-router.get('/category', categoryList)
-
+router.get('/category', categoryList);
+router.get('/search', userSearch);
 router.get('/', jvrList);
 
 module.exports = router;

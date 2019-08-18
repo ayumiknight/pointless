@@ -1,45 +1,80 @@
 .actress-view {
-	
+
 	.actress-pagination {
 		.pagination {
 			width: 20px;
+
 			&.current {
-			    * {
-			        color: @primary;
-			    }
+				* {
+					color: @primary;
+				}
 			}
 		}
 	}
-	
+
 	.actress-lists {
 		width: 100%;
 		flex-wrap: wrap;
-	    .list-item {
-	        width: 125px !important;
-	        height: 160px;
-	        background: white;
-	        margin: 10px;
-			box-shadow: 0 2px 3px rgba(155 ,155 ,155, 0.5);
+
+		.list-item {
+			
+			background: white;
+			margin: 10px;
+			box-shadow: 0 2px 3px rgba(155, 155, 155, 0.5);
 			display: inline-block;
-	        text-decoration: none;
-	        .img {
-	            width: 100%;
-	        }
+			text-decoration: none;
 
-	        .bottom {
-	            padding: 8px;
+			.img {
+				width: 100%;
+			}
 
-	            .title {
-	                font-size: 13px;
-	                overflow: hidden;
-	                text-overflow: ellipsis;
-	                display: -webkit-box;
-	                -webkit-line-clamp: 2;
-	                -webkit-box-orient: vertical;
+			.bottom {
+				padding: 8px;
 
-	            }
-	        }
-	    }
+				.title {
+					font-size: 13px;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+
+				}
+			}
+		}
 	}
-   
+
+}
+
+@media only screen and (max-width: 480px) {
+    .actress-view {
+
+        .actress-lists {
+
+        	.list-item {
+				margin: 0;
+				box-shadow: none;
+				width: 50%;
+
+        		img {
+        			width: 100%;
+        			height: 47vw;
+        		}
+
+        		.bottom {
+        			padding: 8px;
+
+        			.title {
+        				font-size: 13px;
+        				overflow: hidden;
+        				text-overflow: ellipsis;
+        				display: -webkit-box;
+        				-webkit-line-clamp: 2;
+        				-webkit-box-orient: vertical;
+
+        			}
+        		}
+        	}
+        }
+    }
 }

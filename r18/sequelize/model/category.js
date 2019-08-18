@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
         logo: {
             type: DataTypes.STRING,
             comment: 'logo'
+        },
+        fromAdult: {
+            type: DataTypes.INTEGER,
+            comment: "来源"
         }
     });
 

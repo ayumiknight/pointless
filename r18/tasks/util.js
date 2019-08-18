@@ -45,6 +45,17 @@ const util = {
 	getTitle(node) {
 		let text = node.text() || node.find('cite').text();
 		return text.trimStart().trimEnd();
+	},
+	safeMerge(a, b) {
+		let keys = Object.keys({
+			...a,
+			...b
+		});
+		let merged = {};
+		keys.forEach(key => {
+			merged[key] = a[key] || b[key];
+		})
+		return merged;
 	}
 }
 

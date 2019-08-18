@@ -4,7 +4,15 @@
 
 	</div>
 	<div class="search">
-		<input type="text" placeholder="Search Anything!">
+		<input id="idSearch" type="text" placeholder="Search by Film Id">
 	</div>
 	<div class="right">Japan VR films Only</div> 
+</div>
+<div class="bottom-nav">
+	<a class="nav-button" href="/">
+		Popular
+	</a>
+	<a class="nav-button" href="/actress">
+		Casts
+	</a>
 </div>

@@ -1,4 +1,5 @@
 .list-view {
+    justify-content: space-around;
     .list-item {
         width: 147px;
         background: white;
@@ -6,10 +7,12 @@
 		box-shadow: 0 2px 3px rgba(155 ,155 ,155, 0.5);
 		display: inline-block;
         text-decoration: none;
-        .img {
-            width: 100%;
+
+        img {
+            width: 147px;
             height: 200px;
         }
+
 
         .bottom {
             padding: 8px;
@@ -27,5 +30,40 @@
 
             }
         }
+    }
+
+}
+
+@media only screen and (max-width: 480px) {
+    .list-view {
+       
+        .list-item {
+            width: 50%;
+            margin: 0;
+            box-shadow: none;
+            img {
+                width: 100%;
+                height: 68vw;
+            }
+
+
+            .bottom {
+                padding: 8px;
+                .code {
+                    font-size: 20px;
+                }
+
+                .title {
+                    font-size: 13px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+
+                }
+            }
+        }
+
     }
 }

@@ -4,7 +4,7 @@ const axiosRretry = require('axios-retry');
 const cheerio = require('cheerio');
 const path = require('path');
 const url = require("url");
-const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle } = require('../util.js');
+const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle, safeMerge } = require('../util.js');
 const { 
 	CategoriesBulkCreate, 
 	SyncDB 
@@ -43,26 +43,27 @@ async function loadCategories({
 					logo = $(this).find('a .img01 img').attr('data-original'),
 					id = getIdFromUrl($(this).find('a').attr('href') || '', 'id');
 
-				if (!categoryMap[id]) categoryMap[id] = {};
-				categoryMap[id] = {
-					category_id: categoryMap[id]['category_id'] || id,
-					logo: categoryMap[id]['logo'] || logo,
-					en: categoryMap[id]['en'] || name
-				}
-	
-				categoryMap[id][parentCategory] = 1;
-				categoryMap[id]['en'] == ""  && console.log('from 1', i, j)
+				
+				let extracted = {
+					category_id: id,
+					logo,
+					en: name,
+				};
+				extracted[parentCategory] = 1;
+
+				categoryMap[id] = safeMerge(categoryMap[id] || {}, extracted);
 
 			} else {
 				let name = $(this).find('a').text().trimStart().trimEnd(),
 					id = getIdFromUrl($(this).find('a').attr('href') || '', 'id');
 
-				if (!categoryMap[id]) categoryMap[id] = {};
+				let extracted = {
+					en: name,
+					category_id: id,
+					parent: index - 1
+				};
+				categoryMap[id] = safeMerge(categoryMap[id] || {}, extracted);
 
-				categoryMap[id]['en'] = categoryMap[id]['en'] || name;
-				categoryMap[id]['category_id'] = categoryMap[id]['category_id'] || id;
-				categoryMap[id]['parent'] = categoryMap[id]['parent'] || index - 1;
-				categoryMap[id]['en'] == ""  && console.log('from 2', i, j)
 			}
 		})
 		index++;
@@ -82,14 +83,15 @@ async function loadCategories({
 					logo = $(this).find('a .img01 img').attr('src'),
 					id = getIdFromUrl($(this).find('a').attr('href') || '', 'id');
 
-				if (!categoryMap[id]) categoryMap[id] = {};
-				categoryMap[id] = {
-					...categoryMap[id],
-					logo: categoryMap[id]['logo'] || logo,
-					zh: categoryMap[id]['zh'] || name
-				}
-				categoryMap[id][parentCategory] = 1;
-			
+				let extracted = {
+					category_id: id,
+					logo,
+					zh: name,
+				};
+				extracted[parentCategory] = 1;
+
+				categoryMap[id] = safeMerge(categoryMap[id] || {}, extracted)
+
 			} else {
 
 				let name = $(this).find('a').text().trimStart().trimEnd(),
@@ -97,15 +99,22 @@ async function loadCategories({
 				id == ""  && console.log('from 4', i, j);
 				if (!categoryMap[id]) categoryMap[id] = {};
 
-				categoryMap[id]['zh'] = categoryMap[id]['zh'] || name;
-				categoryMap[id]['category_id'] = categoryMap[id]['category_id'] || id;
-				categoryMap[id]['parent'] = categoryMap[id]['parent'] || zhIndex - 1;
+
+				let extracted = {
+					category_id: id,
+					zh: name,
+					parent: zhIndex - 1
+				};
+				categoryMap[id] = safeMerge(categoryMap[id] || {}, extracted);
 			}
 		})
 		zhIndex++;
 	})
    	
-   	let finalCategories = Object.keys(categoryMap).map(key => categoryMap[key]);
+   	let finalCategories = Object.keys(categoryMap)
+   		.map(key => {
+   			return {fromAdult: 1, ...categoryMap[key]}
+   		});
  
    	fs.writeFileSync(parentCategory + '.txt', JSON.stringify(finalCategories) )
 	await CategoriesBulkCreate(finalCategories);
@@ -118,14 +127,14 @@ async function index() {
 		indexUrl: 'https://www.r18.com/videos/vod/movies/category/',
 		parentCategory: 'topAdult'
 	});
-	await loadCategories({
-		indexUrl: 'https://www.r18.com/videos/vod/amateur/category/',
-		parentCategory: 'topAmateur'
-	});
-	await loadCategories({
-		indexUrl: 'https://www.r18.com/videos/vod/anime/category/',
-		parentCategory: 'topAnime'
-	});
+	// await loadCategories({
+	// 	indexUrl: 'https://www.r18.com/videos/vod/amateur/category/',
+	// 	parentCategory: 'topAmateur'
+	// });
+	// await loadCategories({
+	// 	indexUrl: 'https://www.r18.com/videos/vod/anime/category/',
+	// 	parentCategory: 'topAnime'
+	// });
 }
 
 index();

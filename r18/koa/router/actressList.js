@@ -1,5 +1,9 @@
 const { ActressesPagedByFirstLetter, searchForActress } = require('../../sequelize/methods/actresses.js');
-
+const {
+	formatSingleEntryForRender,
+	generatePagination,
+	generateLetterPagination
+} = require('./util.js');
 
 module.exports = async (ctx, next) => {
 	let { page = 1, letter = 'a' } = ctx.query;
