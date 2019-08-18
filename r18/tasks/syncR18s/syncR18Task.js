@@ -17,7 +17,7 @@ async function crawlAndCreate() {
 	let pageindex = 61;
 	while( pageindex <= pageAll) {
 		let formattedEntries = await generateData(pageindex);
-		console.log('\x1b[32m%s\x1b[0m', `crawiling=====================${pageindex} saved=====!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
+		console.log(`crawiling=====================${pageindex} saved=====!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
 		fs.writeFileSync(`./crawled${pageindex}.txt`, JSON.stringify(formattedEntries));
 		try {
 			let buldSavingResult = await R18BulkCreate({
@@ -27,7 +27,7 @@ async function crawlAndCreate() {
 
 		}
 		
-		console.log('\x1b[32m%s\x1b[0m', `!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!=======${pageindex} saved=====!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
+		console.log(`!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!=======${pageindex} saved=====!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
 		pageindex += 1;
 
 	}

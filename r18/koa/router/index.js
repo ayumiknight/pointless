@@ -14,6 +14,8 @@ const {
 } = require('./util.js');
 const jvrList = require('./jvrList.js');
 const jvrSingle = require('./jvrSingle.js');
+const actressList = require('./actressList.js');
+const categoryList = require('./categoryList.js');
 
 router.use(async (ctx, next) => {
 	let {  page = 1, code, id, cast, genre, studio, series } = ctx.query;
@@ -60,36 +62,9 @@ router.use(async (ctx, next) => {
 
 router.get('/jvr', jvrSingle);
 
+router.get('/actress', actressList);
 
-router.get('/actress', async (ctx, next) => {
-	let { page = 1, letter = 'a' } = ctx.query;
-	
-	page = parseInt(page);
-	letter = letter.toLowerCase();
-
-	let actressesPaged = await ActressesPagedByFirstLetter({
-		firstLetter: letter,
-		pageindex: page,
-		pagesize: 20
-	})
-
-	ctx.body = ctx.dots.index({
-		type: 'actress',
-		actresses: actressesPaged.rows,
-		letterPagination: generateLetterPagination({
-			baseUrl: ctx.request.url,
-			current: letter
-		}),
-		pagination: generatePagination({
-			baseUrl: ctx.request.url,
-			current: page,
-			total: Math.ceil((actressesPaged.count || 0) / 20)
-		})
-	});
-
-	return;
-});
-
+router.get('/category', categoryList)
 
 router.get('/', jvrList);
 
