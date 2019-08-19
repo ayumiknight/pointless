@@ -27,7 +27,12 @@ const app = new Koa();
 app.use(conditional());
 app.use(etag());
 app.use((ctx, next) => {
-
+	if (ctx.request.url.match('well-known')) {
+		ctx.body = `092D3A508ACAA57B529F0F8D89DBE6366E38768BC68366E73EE44F8A2E3D003F
+comodoca.com
+ree86b00d8a8890829c`;
+		return;
+	}
 	ctx.dots = {
 		index: (args) => {
 			return dots.index({
