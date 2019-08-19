@@ -8,7 +8,7 @@
 			<div class="category-items f r fc">
 				{{~ it.categories[prop] :value:index}}
 					{{? prop === 'Top Categories' }}
-						<a class="list-item image" href="/?category={{=encodeURIComponent(value.en)}}">
+						<a class="list-item image" href="/genre?genre={{=encodeURIComponent(value.en)}}">
 							<img src="{{=value.logo}}"/>
 							<div class="bottom">
 								<div class="title">
@@ -17,7 +17,7 @@
 							</div>
 						</a>
 					{{??}}
-						<a class="list-item flat" href="/?category={{=encodeURIComponent(value.en)}}">
+						<a class="list-item flat" href="/genre?genre={{=encodeURIComponent(value.en)}}">
 							{{=value.en}}
 						</a>
 					{{?}}

@@ -63,9 +63,18 @@ router.use(async (ctx, next) => {
 })
 
 router.get('/jvr', jvrSingle);
-router.get('/actress', actressList);
-router.get('/category', categoryList);
+
+router.get('/casts', actressList);
+router.get('/categories', categoryList);
+
 router.get('/search', userSearch);
+
+
+router.get('/cast', jvrList);
+router.get('/genre', jvrList);
+router.get('/studio', jvrList);
+router.get('/series', jvrList);
+router.get('/lcode', jvrList);
 router.get('/', jvrList);
 
 module.exports = router;

@@ -71,6 +71,7 @@ body .footer {
   background: rgba(255, 255, 255, 0.95);
   height: 50px;
   box-shadow: 0 0 10px rgba(155, 155, 155, 0.5);
+  z-index: 1000;
 }
 .side-menu * {
   text-align: center;
@@ -99,6 +100,7 @@ body .footer {
   background: white;
   box-shadow: 0 0px 5px rgba(155, 155, 155, 0.5);
   width: 100%;
+  z-index: 1001;
 }
 .bottom-nav a {
   display: inline-block;
@@ -204,11 +206,41 @@ body .footer {
 }
 .single-view .detail .left {
   display: inline-block;
+  position: relative;
 }
-.single-view .detail .left img {
+.single-view .detail .left #video-button {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 5px;
+  border-radius: 5px;
+}
+.single-view .detail .left #video-button svg path {
+  fill: #999;
+}
+.single-view .detail .left #video-button div {
+  color: #999;
+}
+.single-view .detail .left > img {
   width: 500px;
   height: 312px;
   margin-top: 10px;
+}
+.single-view .detail .left .gallery {
+  height: 100px;
+  width: 500px;
+  white-space: nowrap;
+  overflow-x: scroll;
+  touch-action: manipulation;
+  -webkit-overflow-scrolling: touch;
+  margin: 10px 0;
+}
+.single-view .detail .left .gallery a img {
+  height: 100%;
+  width: auto;
+  margin-left: 10px;
 }
 .single-view .detail .right {
   display: inline-block;
@@ -247,10 +279,28 @@ body .footer {
   text-decoration: none;
   color: white;
 }
+.jBox-wrapper.jBox-Modal .jBox-container .jBox-content {
+  padding: 0px !important;
+}
+.jBox-wrapper.jBox-Modal .jBox-container .jBox-content video {
+  width: 100%;
+}
+.jBox-overlay.jBox-overlay-Modal {
+  background: black !important;
+}
 @media only screen and (max-width: 480px) {
+  .single-view .detail {
+    width: 100%;
+  }
+  .single-view .detail .left {
+    width: 100%;
+  }
   .single-view .detail .left img {
     width: 100%;
     height: 60vw;
+  }
+  .single-view .detail .gallery {
+    width: 100% !important;
   }
   .single-view .detail .right {
     width: 100%;

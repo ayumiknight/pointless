@@ -9,7 +9,7 @@
 	</div>
 	<div class="actress-lists f r fc">
 		{{~it.actresses :value:index}}
-			<a class="list-item" href="/?cast={{=encodeURIComponent(value.en)}}">
+			<a class="list-item" href="/cast?cast={{=encodeURIComponent(value.en)}}">
 				<img src="{{=value.logo}}"/>
 				<div class="bottom">
 					<div class="title">

@@ -14,6 +14,9 @@
 	  src="https://code.jquery.com/jquery-3.4.1.min.js"
 	  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 	  crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.0.5/dist/jBox.all.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.0.5/dist/jBox.all.min.css" rel="stylesheet">
+	
 	<script>
 		$(document).ready(function() {
 			$("#idSearch").bind('keypress', function(e) {
@@ -25,7 +28,21 @@
 						alert('Sorry, this will not work')
 					}	 
 				}
-			});	
+			});
+			new jBox('Image');	
+
+			if ($("#video-button")) {
+				window.jBoxVideo = new jBox('Modal', {
+					width: '100%',
+					height: 'auto',
+					attach: '#video-button',
+					content: '<video controls><source src="{{= it.r18 && it.r18.video}}"/></div>',
+					onClose: () => {
+						$("video").get(0) && $('video').get(0).pause();
+					}
+				});
+			}
+			 
 		})
 	</script>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
