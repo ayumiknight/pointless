@@ -36,6 +36,9 @@
 				{{ } }}
 			</div>
 		</div>
+		<div class='action'>
+			<a href="https://www.r18.com/common/search/searchword={{=it.r18.code}}/">Purchase on R18.com</a>
+		</div>
 	{{??}}
 		{{#def.empty}}
 	{{?}}

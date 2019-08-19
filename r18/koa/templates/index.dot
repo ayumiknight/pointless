@@ -62,6 +62,7 @@
 	
 		{{? it.type === 'jvr'}}
 			{{#def.singleView}}
+			{{#def.recommendSection}}
 		{{?? it.type === 'actress'}}
 			{{#def.actressView}}
 			{{#def.pagination}}

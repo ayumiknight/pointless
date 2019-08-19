@@ -26,11 +26,11 @@ const util = {
 			"Release Date": moment(entry.released).isValid ? moment(entry.released).format('YYYY-MM-DD') : '----',
 			"Length": entry.duration * 1 ? entry.duration + ' mins' : '----',
 			"Director": entry.director || '----',
-			"Channel": entry.channel || '----',
+			"Casts": util.getActressTranslated(entry.Actresses),
 			"Studio": util.getStudioTranslated(entry.Studio),
 			"Series": util.getSeriesTranslated(entry.Series),
 			"Genres": util.getCategorysTranslated(entry.Categories),
-			"Casts": util.getActressTranslated(entry.Actresses)
+			
 		};
 		entry.details = details;
 		return entry;

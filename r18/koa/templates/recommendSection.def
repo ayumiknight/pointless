@@ -1,0 +1,25 @@
+{{? it.relatedR18s.length }}
+<div class="jvr-list recommend">
+	<a href="{{=it.reletedHref}}" class="page-title">
+		{{=it.relatedKeyword}}
+	</a>
+	<div class="list-view f r fc">
+
+		{{~it.relatedR18s :value:index}}
+			<a class="list-item f" href="/jvr?id={{=encodeURIComponent(value.code)}}">
+				<img src="{{=value.cover}}" />
+				<div class="bottom">
+					<div class="code">
+						{{=value.code}}
+					</div>
+
+					<div class="title">
+						{{=value.title}}
+					</div>	
+				</div>
+			</a>
+		{{~}}
+	</div>
+</div>
+{{?}}
+

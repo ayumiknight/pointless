@@ -59,6 +59,9 @@ body .footer {
     width: 100%;
     padding-left: 0;
   }
+  body #root .main {
+    padding: 2.5vw;
+  }
 }
 @font-face {
   font-family: 'HemiHead';
@@ -110,7 +113,7 @@ body .footer {
   text-align: center;
 }
 .bottom-nav a.current {
-  color: red;
+  color: #f72020;
 }
 @media only screen and (min-width: 480px) {
   .bottom-nav {
@@ -252,9 +255,10 @@ body .footer {
 }
 .single-view .detail .right .line * {
   line-height: 2;
+  font-size: 13px;
 }
 .single-view .detail .right .line .label {
-  width: 30%;
+  width: 25%;
   color: #999;
   display: inline-block;
   text-align: right;
@@ -262,13 +266,13 @@ body .footer {
 .single-view .detail .right .line .value {
   color: #333;
   display: inline-block;
-  width: 70%;
+  width: 75%;
   padding-left: 10px;
 }
 .single-view .detail .right .line .value a {
   padding: 0 5px;
   border-radius: 5px;
-  background: rgba(255, 85, 85, 0.5);
+  background: #EEE;
   display: inline-block;
   max-width: 200px;
   overflow: hidden;
@@ -277,7 +281,20 @@ body .footer {
   margin-bottom: 5px;
   margin-right: 10px;
   text-decoration: none;
+  color: #DD1B1B;
+}
+.single-view .action {
+  text-align: center;
+}
+.single-view .action a {
+  display: inline-block;
+  background: #f72020;
+  font-weight: bold;
   color: white;
+  width: 200px;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
 }
 .jBox-wrapper.jBox-Modal .jBox-container .jBox-content {
   padding: 0px !important;
@@ -335,7 +352,7 @@ body .footer {
   width: 20px;
 }
 .actress-view .actress-pagination .pagination.current * {
-  color: red;
+  color: #f72020;
 }
 .actress-view .actress-lists {
   width: 100%;
@@ -385,7 +402,7 @@ body .footer {
   }
 }
 .category-view .category-block .category-title {
-  background: red;
+  background: #f72020;
   color: white;
   width: 100%;
   line-height: 50px;
@@ -429,4 +446,31 @@ body .footer {
   height: 400px;
   font-size: 25px;
   text-align: center;
+}
+.recommend {
+  border-top: 1px solid #e4e4e4;
+}
+.recommend .page-title {
+  font-size: 25px;
+  line-height: 40px;
+  text-decoration: none;
+}
+.recommend .list-view {
+  width: 100%;
+  flex-wrap: nowrap !important;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+}
+@media only screen and (max-width: 480px) {
+  .recommend {
+    border-top: 1px solid #e4e4e4;
+  }
+  .recommend .list-view {
+    justify-content: flex-start !important;
+  }
+  .recommend .list-view .list-item img {
+    height: 54vw;
+    width: 40vw;
+  }
 }
