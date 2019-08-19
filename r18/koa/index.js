@@ -27,7 +27,15 @@ const app = new Koa();
 app.use(conditional());
 app.use(etag());
 app.use((ctx, next) => {
-	ctx.dots = dots;
+
+	ctx.dots = {
+		index: (args) => {
+			return dots.index({
+				...args,
+				currentUrl: ctx.request.url
+			})
+		}
+	}
 	return next();
 })
 app.use(serveStatic());

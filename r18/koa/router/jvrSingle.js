@@ -14,6 +14,7 @@ module.exports = async (ctx, next) => {
 
 	ctx.body = ctx.dots.index({
 		type: 'jvr',
+		pageTitle: ctx.query.id,
 		r18: r18 && r18.code && formatSingleEntryForRender(r18)
 	});
 	return;

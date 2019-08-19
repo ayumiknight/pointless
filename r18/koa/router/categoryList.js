@@ -14,6 +14,7 @@ module.exports = async (ctx, next) => {
 
 	ctx.body = ctx.dots.index({
 		type: 'category',
+		pageTitle: 'Categories',
 		categories: categoryPaged
 	});
 
