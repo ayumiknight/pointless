@@ -32,7 +32,8 @@ app.use((ctx, next) => {
 		index: (args) => {
 			return dots.index({
 				...args,
-				currentUrl: ctx.request.url
+				currentUrl: ctx.request.url,
+				currentPath: ctx.request.path
 			})
 		}
 	}

@@ -1,0 +1,23 @@
+<div class="actress-view f c fc">
+	<div class="page-title">Studios</div>
+	<div class="actress-pagination f r fc">
+		{{~ it.letterPagination :value:index}}
+			<div class="pagination f fc {{=value.className}}">
+				<a href="{{=value.url}}">{{=value.letter}}</a>
+			</div>
+		{{~}}
+	</div>
+	<div class="actress-lists f r fc">
+		{{~it.studios :value:index}}
+			<a class="list-item" href="/studio?studio={{=encodeURIComponent(value.en)}}">
+				<img src="{{=value.logo}}"/>
+				<div class="bottom">
+					<div class="title">
+						{{=value.en}}
+					</div>	
+				</div>
+			</a>
+		{{~}}
+	</div>
+</div>
+

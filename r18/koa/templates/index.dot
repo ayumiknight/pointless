@@ -68,6 +68,9 @@
 			{{#def.pagination}}
 		{{?? it.type === 'category'}}
 			{{#def.categoryView}}
+		{{?? it.type === 'studio'}}
+			{{#def.studioView}}
+			{{#def.pagination}}
 		{{??}}
 			{{#def.listView}}
 			{{#def.pagination}}

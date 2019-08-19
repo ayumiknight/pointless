@@ -11,13 +11,17 @@ body * {
 body #root {
   background: #f5f5f5;
   padding-bottom: 50px;
+  position: relative;
 }
 body #root .main {
   background: white;
   padding: 10px;
-  max-width: 1024px;
+  width: 1024px;
   margin: auto;
   box-shadow: 0 0 10px rgba(155, 155, 155, 0.5);
+  position: absolute;
+  top: 50px;
+  left: 160px;
 }
 body .f {
   display: flex;
@@ -61,6 +65,8 @@ body .footer {
   }
   body #root .main {
     padding: 2.5vw;
+    position: static !important;
+    width: 100vw;
   }
 }
 @font-face {
@@ -115,6 +121,25 @@ body .footer {
 .bottom-nav a.current {
   color: #f72020;
 }
+.real-side-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 100vh;
+  background: white;
+  justify-content: flex-start !important;
+  padding-top: 100px;
+}
+.real-side-menu a {
+  line-height: 40px;
+  font-size: 15px;
+  text-decoration: none;
+  font-family: "HemiHead", Helvetica, Arial, Utkal, sans-serif;
+}
+.real-side-menu a.current {
+  color: #f72020;
+}
 @media only screen and (min-width: 480px) {
   .bottom-nav {
     display: none;
@@ -135,6 +160,9 @@ body .footer {
   }
   .side-menu .right {
     display: none;
+  }
+  .real-side-menu {
+    display: none !important;
   }
 }
 .list-view {
@@ -175,6 +203,7 @@ body .footer {
   .list-view .list-item img {
     width: 100%;
     height: 68vw;
+    padding: 1.5vw;
   }
   .list-view .list-item .bottom {
     padding: 8px;
@@ -331,6 +360,7 @@ body .footer {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin: 20px 0;
 }
 .pagination * {
   display: flex;
@@ -359,14 +389,15 @@ body .footer {
   flex-wrap: wrap;
 }
 .actress-view .actress-lists .list-item {
+  width: 125px;
   background: white;
   margin: 10px;
   box-shadow: 0 2px 3px rgba(155, 155, 155, 0.5);
   display: inline-block;
   text-decoration: none;
 }
-.actress-view .actress-lists .list-item .img {
-  width: 100%;
+.actress-view .actress-lists .list-item img {
+  width: 125px;
 }
 .actress-view .actress-lists .list-item .bottom {
   padding: 8px;
@@ -472,5 +503,30 @@ body .footer {
   .recommend .list-view .list-item img {
     height: 54vw;
     width: 40vw;
+  }
+}
+.actress-view .actress-lists .list-item img {
+  padding: 5px;
+}
+@media only screen and (max-width: 480px) {
+  .actress-view .actress-lists .list-item {
+    margin: 0;
+    box-shadow: none;
+    width: 50%;
+  }
+  .actress-view .actress-lists .list-item img {
+    width: 100%;
+    height: 47vw;
+  }
+  .actress-view .actress-lists .list-item .bottom {
+    padding: 8px;
+  }
+  .actress-view .actress-lists .list-item .bottom .title {
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 }
