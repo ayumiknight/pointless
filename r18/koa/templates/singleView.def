@@ -18,7 +18,7 @@
 				{{? it.r18.Galleries}}
 					<div class="gallery">
 						{{~ it.r18.Galleries :value:index}}
-							<a href="{{=value.url.replace(/(-\d+)$/, 'jp$1')}}" title="{{=it.r18.code}}" data-jbox-image="gallery1"><img src="{{=value.url}}" alt=""></a>
+							<a href="{{=value.url.replace(/(-\d+\.\w+)$/, 'jp$1')}}" title="{{=it.r18.code}}" data-jbox-image="gallery1"><img src="{{=value.url}}" alt=""></a>
 						{{~}}
 					</div>
 				{{?}}
