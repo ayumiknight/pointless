@@ -17,7 +17,7 @@ Implemented using client side react rendering, browser babel environemnt, Nodejs
 ### /r18 A Japan VR film library ( Adult Content) 
 
 #### /r18/koa
-A webside rendering app using dot.js as template, Nodejs, Koa, Sequelize as data provider
+A server side rendering app using dot.js as template engine, Nodejs, Koa, Sequelize as data provider
 
 #### /r18/sequelize
 Mysql schemas for theh website, implements 1:n and n:m asoociations and defines paged query or single query methods or all models.
