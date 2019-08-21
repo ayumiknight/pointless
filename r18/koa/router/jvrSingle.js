@@ -42,7 +42,7 @@ module.exports = async (ctx, next) => {
 
 	ctx.body = ctx.dots.index({
 		type: 'jvr',
-		pageTitle: ctx.query.id,
+		pageTitle: ctx.query.id + (r18 && r18.title  ? ' - ' +  r18.title.slice(0, 150) + ' - ' : ' '),
 		r18: r18 && r18.code && formatSingleEntryForRender(r18),
 		relatedR18s,
 		relatedKeyword,
