@@ -5,31 +5,54 @@ const Koa = require('koa');
 const path = require('path');
 const IO = require( 'koa-socket-2');
 const io = new IO();
+const RandomNames = require('./static/random-names'); //4946 entries
+const staticServer = new Koa({
 
-const staticServer = new Koa();
+});
+const cookie = require('cookie');
+
 staticServer.use(conditional());
 staticServer.use(etag());
 staticServer.use(serve(__dirname + '/static'));
 io.attach( staticServer );
 
-io.use((ctx, next) => {
-	let {
-		event,
-		data,
-		socket,
-		acknowledge
-	} = ctx;
-	
-	socket.emit('news','dasadsad11')
+
+staticServer._io.engine.generateId = function (req) {
+    let cookies = cookie.parse(req.headers.cookie || '');
+    if (cookies.key) {
+    	return cookies.key;
+    } else {
+    	let random = Math.round(Math.random() * 4946),
+    		randomName = RandomNames[random],
+    		timeStampNow = + new Date();
+
+    	return Buffer.from(randomName + '|' + timeStampNow, 'binary').toString('base64');
+    }
+}
+
+
+
+io.on('connection', (socket) => {
+	let	cookies = cookie.parse(socket.handshake.headers['cookie'] || ''),
+		roomName = socket.handshake.query.redirectTo;
+	if (roomName) {
+		socket.join(roomName);
+	} else {
+		socket.join('hall')
+	}
+
+
+	let name = Buffer.from(cookies['io'], 'base64').toString().split('|')[0];
+	socket.emit('init', {
+		name,
+		count: socket.adapter.rooms[roomName || 'hall'].length
+	})
 })
 
-io.on('my other event', (ctx, data) => {
-  console.log('client sent data to message endpoint', data);
-});
 async function bootServer() {
 
 	staticServer.listen(8080, () => {
-		console.log('+++++++++++++++r18 chatroom++++++++++++++')
+
 	});
 
 }
