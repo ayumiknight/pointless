@@ -18,9 +18,30 @@ class Root extends Component {
 	}
 
 	handleMessage(data) {
+		let _data = this.parseMessage(data);
 		this.setState({
-			messages: this.state.messages.concat(data)
+			messages: this.state.messages.concat(_data)
 		});
+	}
+
+	parseMessage(data) {
+		return data;
+	}
+
+	async encodeMessage(data) {
+		let videoCode = data.message.match(/\s*\/{2}[a-zA-Z]+[-\s]*[0-9]+\s*/g),
+			finalData = data;
+		if (videoCode) {
+			let tasks = await axios.get(`/chatSearch?ids=${encodeURIComponent(JSON.stringify(videoCode))}`),
+				formattedMessages = data.message.replace(/\s*\/{2}[a-zA-Z]+[-\s]*[0-9]+\s*/g, '||').split('||').map(content => !!content),
+				index = 0;
+
+			while( index < formattedMessages.length - 1 ) {
+				
+			}
+
+		}
+		return finalData;
 	}
 
 	hanldeInit(data) {
@@ -54,7 +75,7 @@ class Root extends Component {
 	  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 	}
 
-	sendMessage() {
+	async sendMessage() {
 		let { input, name, messages, avatar } = this.state,
 			wrapped = {
 				name,
@@ -62,10 +83,10 @@ class Root extends Component {
 				message: input,
 				fromId: this.socket.id
 			};
-
-		this.socket.emit('message', wrapped);
+		let wrappedEncoded = await this.encodeMessage(wrapped);
+		this.socket.emit('message', wrappedEncoded);
 		this.setState({
-			messages: this.state.messages.concat(wrapped)
+			messages: this.state.messages.concat(wrappedEncoded)
 		})
 	}
 
@@ -125,7 +146,7 @@ class Message extends React.PureComponent {
 	}
 	renderLoginMessage() {
 		return <div className="message-wrap f c fc">
-			<div className="time-stamp f fc">{this.props.wrappedMessage.message}, use&emsp;\\video-code&emsp;to send snapshots.</div>
+			<div className="time-stamp f fc">{this.props.wrappedMessage.message}, use&emsp;&#47;&#47;video-code&emsp;to send snapshots.</div>
 		</div>
 	}
 	render() {
@@ -136,4 +157,4 @@ class Message extends React.PureComponent {
 		}
 	}
 }
-ReactDOM.render(<Root/>, document.getElementById('root'))
+ReactDOM.render(<Root/>, document.getElementById('instant-message'))

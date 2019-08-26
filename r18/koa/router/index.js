@@ -17,7 +17,8 @@ const jvrSingle = require('./jvrSingle.js');
 const actressList = require('./actressList.js');
 const categoryList = require('./categoryList.js');
 const studioList = require('./studioList.js');
-const userSearch = require('./userSearch.js')
+const userSearch = require('./userSearch.js');
+const chatSearch = require('./chatSearch.js');
 router.use(async (ctx, next) => {
 	let {  page = 1, code, id, cast, genre, studio, series, search, lcode} = ctx.query;
 
@@ -71,7 +72,7 @@ router.get('/categories', categoryList);
 router.get('/studios', studioList);
 
 router.get('/search', userSearch);
-
+router.get('/chatSearch', chatSearch);
 
 router.get('/cast', jvrList);
 router.get('/genre', jvrList);

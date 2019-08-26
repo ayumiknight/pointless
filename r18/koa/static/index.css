@@ -537,7 +537,7 @@ body .footer {
   bottom: 0;
   right: 0;
   z-index: 10000;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.96);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }

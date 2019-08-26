@@ -172,10 +172,28 @@ async function R18Single({
 	});
 }
 
+async function R18SingleSimple({
+	id,
+	code
+}) {
+	if (!id && !code) return null;
+	
+	let where = id ? {
+			id
+		} : {
+			code
+		};
+
+	return R18.findOne({
+		where
+	});
+}
+
 module.exports = {
 	R18BulkCreate,
 	R18Create,
 	R18Paged,
 	R18Single,
-	SyncDB
+	SyncDB,
+	R18SingleSimple
 }

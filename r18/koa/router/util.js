@@ -129,6 +129,13 @@ const util = {
 				letter
 			}
 		});
+	},
+	formatCode(search) {
+		let number = search.match(/\d+/) && search.match(/\d+/)[0],
+			letter = search.match(/[a-zA-Z]+/) && search.match(/[a-zA-Z]+/)[0] || '';
+		letter = letter.toUpperCase();
+
+		return `${letter}-${number}`;
 	}
 }
 
