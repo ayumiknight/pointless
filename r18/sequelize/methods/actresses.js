@@ -47,10 +47,15 @@ async function searchForActress(search) {
 	})
 }
 
+async function getActressById(id) {
+	return Actress.findByPk(id);
+}
+
 module.exports = {
 	ActressesBulkCreate,
 	ActressCreate,
 	ActressesPagedByFirstLetter,
 	searchForActress,
-	SyncDB
+	SyncDB,
+	getActressById
 }

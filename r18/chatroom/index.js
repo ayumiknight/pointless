@@ -41,18 +41,20 @@ io.on('connection', (socket) => {
 		socket.join('hall')
 	}
 
-
-	let name = Buffer.from(cookies['io'], 'base64').toString().split('|')[0];
+	let name = Buffer.from(socket.id, 'base64').toString().split('|')[0];
 	socket.emit('init', {
 		name,
 		count: socket.adapter.rooms[roomName || 'hall'].length
 	})
+	socket.on('message', (data) => {
+		socket.broadcast.to(roomName).emit('message', data);
+	});
 })
 
 async function bootServer() {
 
 	staticServer.listen(8080, () => {
-
+		console.log('server up at 8080')
 	});
 
 }

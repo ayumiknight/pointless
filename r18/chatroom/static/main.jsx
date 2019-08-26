@@ -4,7 +4,7 @@ class Root extends Component {
 	constructor() {
 		super();
 		this.state = {
-
+			messages: []
 		};
 	}
 
@@ -13,19 +13,18 @@ class Root extends Component {
 			room: 'jvr'
 		});
 		this.socket = io(`http://localhost:8080/?redirectTo=jvr&key=${document.cookie.key || ''}`);
-		this.socket.on('messages', this.handleMessage.bind(this))
-		this.socket.on('init', this.hanldeInit.bind(this))
-		console.log(this.socket,'=====')
+		this.socket.on('message', this.handleMessage.bind(this));
+		this.socket.on('init', this.hanldeInit.bind(this));
 	}
 
 	handleMessage(data) {
-		if (data.match) {
-
-		}
+		let _data = decodeURIComponent(data);
+		this.setState({
+			messages: this.state.messages.concat(_data)
+		});
 	}
 
 	hanldeInit(data) {
-		console.log(data,'==========')
 		let {
 			name,
 			count 
@@ -84,8 +83,9 @@ class Root extends Component {
 
 class Message extends React.Component {
 	render() {
-		let { message = {}} = this.props;
+		let { message } = this.props;
 		return <div className="message">
+			{message}
 		</div>
 	}
 }

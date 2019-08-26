@@ -530,3 +530,88 @@ body .footer {
     -webkit-box-orient: vertical;
   }
 }
+.instant-message {
+  width: 250px;
+  height: 500px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 10000;
+  background: rgba(255, 255, 255, 0.5);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.instant-message .room-title {
+  text-align: left;
+  padding-left: 20px;
+  line-height: 50px;
+  border-bottom: 1px solid #e4e4e4;
+}
+.instant-message .room-title .count {
+  float: right;
+  font-size: 13px;
+  color: #aaa;
+  line-height: 50px;
+  padding-right: 20px;
+}
+.instant-message .message-panel {
+  height: 400px;
+  overflow-y: scroll;
+}
+.instant-message .message-panel .message-wrap {
+  padding: 10px 0;
+}
+.instant-message .message-panel .message-wrap .time-stamp {
+  font-size: 11px;
+  color: #aaa;
+  padding: 0 20px;
+}
+.instant-message .message-panel .message-wrap .message {
+  justify-content: flex-start;
+  width: 100%;
+}
+.instant-message .message-panel .message-wrap .message.mine {
+  flex-direction: row-reverse;
+}
+.instant-message .message-panel .message-wrap .message.mine .message-content {
+  align-items: flex-end;
+}
+.instant-message .message-panel .message-wrap .message.mine .message-content .content {
+  background: white;
+  color: #aaa;
+}
+.instant-message .message-panel .message-wrap .message .avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 60px;
+  margin: 0px 8px;
+  box-shadow: 0 5px 5px rgba(155, 155, 155, 0.5);
+}
+.instant-message .message-panel .message-wrap .message .message-content {
+  align-items: flex-start;
+}
+.instant-message .message-panel .message-wrap .message .message-content .name {
+  font-size: 11px;
+  color: #aaa;
+}
+.instant-message .message-panel .message-wrap .message .message-content .content {
+  font-size: 15px;
+  color: #666;
+  max-width: 180px;
+  border-radius: 10px;
+  padding: 10px;
+  background: #2977fa;
+  color: white;
+}
+.instant-message .user-input * {
+  line-height: 50px;
+}
+.instant-message .user-input input {
+  border: none;
+  width: 190px;
+  padding: 0 15px;
+}
+.instant-message .user-input button {
+  border: none;
+  width: 60px;
+}
