@@ -28,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
         	type: DataTypes.STRING(50),
         	comment: '消息人avatar'
         }
+    }, {
+        charset: 'utf16',
+        collate: 'utf16_unicode_ci'
     });
 
     return Message;

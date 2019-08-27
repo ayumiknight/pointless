@@ -51,7 +51,7 @@ class Root extends Component {
 
             if (formattedMessages.length) {
                 finalMessage = [{
-                    message: formattedMessages.shift().trimStart().trimEnd(),
+                    message: $.trim(formattedMessages.shift()),
                     type: 'text',
                     room: 'Jvr'
                 }];
