@@ -26,6 +26,7 @@ class Root extends Component {
     }
 
     handleMessage(data) {
+
         let _data = this.parseMessage(data);
         this.setState({
             messages: this.state.messages.concat(_data)
@@ -102,7 +103,7 @@ class Root extends Component {
                 avatar
             }]
         }
-        console.log(finalMessage, ' ============')
+
         return finalMessage;
     }
 
@@ -118,12 +119,12 @@ class Root extends Component {
             name,
             count,
             avatar,
-            messages: [{
+            messages: this.state.messages.concat([{
                 name,
                 avatar,
                 message: `You are logined as ${name}`,
                 loginMessasge: true
-            }],
+            }])
 
         })
         this.setCookie('key', id, 365);
@@ -156,7 +157,7 @@ class Root extends Component {
         let messagePanel = this.refs && this.refs.messagePanel,
             scrollHeight = messagePanel.scrollHeight,
             height = messagePanel.offsetHeight;
-        console.log('called with', scrollHeight - height - 1)
+
         window.messagePanel = messagePanel;
         height && scrollHeight && (messagePanel.scrollTop = scrollHeight - height - 1);
     }
