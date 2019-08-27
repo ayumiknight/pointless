@@ -46,7 +46,7 @@ app.use((ctx, next) => {
 app.use(serveStatic());
 app.use(router.routes());
 
-if (!process.env.dev) {
+if (!process.env.dev && false) {
 	io.attach(app, true, {
 	  key: fs.readFileSync('../certs/jvrlibrary.key'),
 	  cert: fs.readFileSync('../certs/Jvrlibrary_com.crt'),
