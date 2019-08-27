@@ -2,8 +2,8 @@ const { CategoryPaged } = require('../../sequelize/methods/categories.js');
 
 module.exports = async (ctx, next) => {
 	let { search } = ctx.query,
-		number = search.match(/\d+/) && search.match(/\d+/)[0],
-		letter = search.match(/[a-zA-Z]+/) && search.match(/[a-zA-Z]+/)[0];
+		number = search.match(/\d{2,8}/) && search.match(/\d{2,8}/)[0],
+		letter = search.match(/[0-9a-zA-Z]+/) && search.match(/[0-9a-zA-Z]+/)[0];
 	letter = ("" || letter).toUpperCase();
 
 	if (number && letter) {

@@ -7,6 +7,7 @@ const mount = require('koa-mount');
 const Koa = require('koa');
 const router = require('./router/index.js');
 const { SyncDB, ActressesPagedByFirstLetter, getActressById, searchForActress } = require('../sequelize/methods/actresses.js');
+const { writeMessages, getRecentMessages } = require('../sequelize/methods/messages.js');
 const path = require('path');
 const dots = require("dot").process({
 	path: path.join(__dirname, "/templates")
@@ -15,6 +16,7 @@ const IO = require( 'koa-socket-2');
 const io = new IO();
 const RandomNames = require('./static/random-names'); //4946 entries
 const cookie = require('cookie');
+const moment = require('moment');
 
 function serveStatic() {
 	const staticServer = new Koa();
@@ -55,21 +57,20 @@ app._io.engine.generateId =  async function (req) {
     		randomActress = await getActressById(random),
     		timeStampNow = + new Date(),
     		avatar = randomActress.logo && randomActress.logo.split('/').pop();
-    		
+    	
     	return Buffer.from(`${randomActress.en}|${avatar || ""}|${timeStampNow}`, 'binary').toString('base64');
     }
 }
 
 
 
-io.on('connection', (socket) => {
-
+io.on('connection', async (socket) => {
 	let	roomName = socket.handshake.query.redirectTo;
 
 	if (roomName) {
 		socket.join(roomName);
 	} else {
-		socket.join('hall')
+		socket.join('hall');
 	}
 
 	let authInfo = Buffer.from(socket.id, 'base64').toString().split('|');
@@ -78,11 +79,24 @@ io.on('connection', (socket) => {
 		avatar: authInfo[1],
 		count: socket.adapter.rooms[roomName || 'hall'].length
 	})
-	socket.on('message', (data) => {
-		let date = + new Date();
-		data.stamp = date;
+
+	let messages = await getRecentMessages({
+		mins: 60 * 24
+	});
+
+	socket.emit('message', messages.rows || []);
+
+	socket.on('message', async (data) => {
+		let date = moment().toDate();
+
+		await writeMessages(data);
+
+		data.forEach( message  => {
+			message.createdAt = date;
+		})
 		socket.broadcast.to(roomName).emit('message', data);
 	});
+
 })
 
 async function bootServer() {

@@ -2,6 +2,15 @@ body {
   background: #f5f5f5;
   margin: 0;
 }
+body *::-webkit-scrollbar {
+  width: 5px;
+}
+body *::-webkit-scrollbar-track {
+  background: #ddd;
+}
+body *::-webkit-scrollbar-thumb {
+  background: #666;
+}
 body * {
   font-family: Helvetica Neue, Helvetica, Arial, Utkal, sans-serif;
   line-height: 1.4;
@@ -531,15 +540,30 @@ body .footer {
   }
 }
 .instant-message {
-  width: 250px;
-  height: 500px;
+  transform: translateX(100%);
+  transition: all 0.3s ease-in-out;
+  width: 300px;
+  height: calc(100vh - 50px);
   position: fixed;
   bottom: 0;
   right: 0;
-  z-index: 10000;
+  z-index: 5000;
   background: rgba(255, 255, 255, 0.96);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+}
+.instant-message.booted {
+  transform: translateX(0);
+}
+.instant-message .switch {
+  position: absolute;
+  top: calc(50% - 30px);
+  left: -20px;
+}
+.instant-message .switch i {
+  font-size: 40px;
+  color: #aaa;
+  font-weight: lighter;
 }
 .instant-message .room-title {
   text-align: left;
@@ -555,8 +579,9 @@ body .footer {
   padding-right: 20px;
 }
 .instant-message .message-panel {
-  height: 400px;
+  height: calc(100vh - 150px);
   overflow-y: scroll;
+  border-bottom: 1px solid #e4e4e4;
 }
 .instant-message .message-panel .message-wrap {
   padding: 10px 0;
@@ -577,7 +602,10 @@ body .footer {
   align-items: flex-end;
 }
 .instant-message .message-panel .message-wrap .message.mine .message-content .content {
-  background: white;
+  background: #f1f1f1;
+  color: #aaa;
+}
+.instant-message .message-panel .message-wrap .message.mine .message-content .content * {
   color: #aaa;
 }
 .instant-message .message-panel .message-wrap .message .avatar img {
@@ -595,7 +623,7 @@ body .footer {
   color: #aaa;
 }
 .instant-message .message-panel .message-wrap .message .message-content .content {
-  font-size: 15px;
+  font-size: 13px;
   color: #666;
   max-width: 180px;
   border-radius: 10px;
@@ -603,15 +631,74 @@ body .footer {
   background: #2977fa;
   color: white;
 }
-.instant-message .user-input * {
-  line-height: 50px;
+.instant-message .message-panel .message-wrap .message .message-content .content .jvr .jvr-title {
+  font-size: 12px;
+  width: 100%;
+  color: #aaa;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.instant-message .message-panel .message-wrap .message .message-content .content .jvr img {
+  width: 60%;
+  height: auto;
+}
+.instant-message .emoji-pop {
+  position: absolute;
+  bottom: 50px;
+  right: 0;
+  background: white;
+}
+.instant-message .emoji-pop .top {
+  padding: 10px;
+}
+.instant-message .emoji-pop .top i {
+  float: right;
+}
+.instant-message .emoji-pop .emoji-wrap {
+  width: 300px;
+  height: 200px;
+  overflow: auto;
+  flex-wrap: wrap;
+}
+.instant-message .emoji-pop .emoji-wrap .emoji {
+  width: 10%;
+  height: 30px;
+}
+.instant-message .user-input {
+  height: 50px;
 }
 .instant-message .user-input input {
   border: none;
-  width: 190px;
+  width: 195px;
   padding: 0 15px;
+  margin-right: 5px;
+  height: 50px;
 }
 .instant-message .user-input button {
   border: none;
-  width: 60px;
+  width: 50px;
+  font-size: 20px;
+  background: white;
+  line-height: 50px;
+}
+.instant-message .user-input button i {
+  color: #aaa !important;
+  font-size: 20px;
+}
+@media only screen and (max-width: 480px) {
+  .instant-message *::-webkit-scrollbar {
+    display: none !important;
+  }
+  .instant-message .message-panel {
+    touch-action: manipulation;
+    -webkit-overflow-scrolling: touch;
+  }
+  .instant-message .emoji-pop .emoji-wrap {
+    touch-action: manipulation;
+    -webkit-overflow-scrolling: touch;
+  }
 }

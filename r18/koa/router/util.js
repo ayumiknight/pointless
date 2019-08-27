@@ -130,12 +130,8 @@ const util = {
 			}
 		});
 	},
-	formatCode(search) {
-		let number = search.match(/\d+/) && search.match(/\d+/)[0],
-			letter = search.match(/[a-zA-Z]+/) && search.match(/[a-zA-Z]+/)[0] || '';
-		letter = letter.toUpperCase();
-
-		return `${letter}-${number}`;
+	formatCode(search = "") {
+		return search.replace(/\s*\/{2}([0-9]*[a-zA-Z]+)[-\s]*([0-9]+)\s*/g, '$1-$2');
 	}
 }
 
