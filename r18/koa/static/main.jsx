@@ -125,8 +125,7 @@ class Root extends Component {
                 message: `You are logined as ${name}`,
                 loginMessasge: true
             }])
-
-        })
+        }, this.scrollTo.bind(this))
         this.setCookie('key', id, 365);
 
     }
