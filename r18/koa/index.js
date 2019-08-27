@@ -17,6 +17,7 @@ const io = new IO();
 const RandomNames = require('./static/random-names'); //4946 entries
 const cookie = require('cookie');
 const moment = require('moment');
+const fs = require('fs');
 
 function serveStatic() {
 	const staticServer = new Koa();
