@@ -74,17 +74,19 @@ io.on('connection', async (socket) => {
 	}
 
 	let authInfo = Buffer.from(socket.id, 'base64').toString().split('|');
+	
+	let messages = await getRecentMessages({
+		mins: 60 * 24
+	});
+
+	socket.emit('message', messages.rows || []);
+
 	socket.emit('init', {
 		name: authInfo[0],
 		avatar: authInfo[1],
 		count: socket.adapter.rooms[roomName || 'hall'].length
 	})
 
-	let messages = await getRecentMessages({
-		mins: 60 * 24
-	});
-
-	socket.emit('message', messages.rows || []);
 
 	socket.on('message', async (data) => {
 		let date = moment().toDate();

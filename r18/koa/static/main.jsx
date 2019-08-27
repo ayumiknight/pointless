@@ -15,9 +15,14 @@ class Root extends Component {
         this.socket = io(`//${location.host}/?redirectTo=jvr&key=${document.cookie.key || ''}`);
         this.socket.on('message', this.handleMessage.bind(this));
         this.socket.on('init', this.hanldeInit.bind(this));
-        this.setState({
-            booted: true
-        });
+        let blockChat = document.cookie.match('chatPoped');
+        if (!blockChat) {
+        	this.setState({
+        	    booted: true
+        	});
+        	this.setCookie('chatPoped', '1', 0.3);
+        }
+        
     }
 
     handleMessage(data) {
@@ -186,6 +191,7 @@ class Root extends Component {
 				JVR Discuss <div className="count">({count} online)</div>
 			</div>
 			<div className="switch" onClick={() => {
+
 					this.setState({
 						booted: !booted
 					});

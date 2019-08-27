@@ -557,12 +557,12 @@ body .footer {
 }
 .instant-message .switch {
   position: absolute;
-  top: calc(50% - 30px);
+  top: calc(50% - 15px);
   left: -20px;
 }
 .instant-message .switch i {
-  font-size: 40px;
-  color: #aaa;
+  font-size: 30px;
+  color: #4e4e4e;
 }
 .instant-message .room-title {
   text-align: left;
