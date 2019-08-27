@@ -45,8 +45,16 @@ app.use((ctx, next) => {
 app.use(serveStatic());
 app.use(router.routes());
 
+if (!process.env.dev) {
+	io.attach(app, true, {
+	  key: fs.readFileSync('../certs/jvrlibrary.key'),
+	  cert: fs.readFileSync('../certs/Jvrlibrary_com.crt'),
+	  ca: fs.readFileSync('../certs/Jvrlibrary_com.ca-bundle')
+	});
+} else {
+	io.attach( app );
+}
 
-io.attach( app );
 
 app._io.engine.generateId =  async function (req) {
     let cookies = cookie.parse(req.headers.cookie || '');
