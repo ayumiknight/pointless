@@ -9,7 +9,8 @@
 		{{?}}
 		JvrLibrary
 	</title>
-	<meta name="description" content="Japan VR Adult Videos">
+	<link rel="icon" type="image/png" href="/static/favicon.png">
+	<meta name="description" content="Japan VR Adult Videos and Torrents">
 	<link rel="canonical" href="http://www.jvrlibrary.com{{=it.currentUrl}}" />
 	<link href="/static/index.css" rel="stylesheet" type="text/css"/>
 	<link href="/static/webfonts/all.min.css" rel="stylesheet" type="text/css"/>
