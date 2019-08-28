@@ -313,4 +313,6 @@ class EmojiPicker extends React.Component {
     	</div>
     }
 }
-ReactDOM.render(<Root/>, document.getElementById('instant-message'))
+
+const isBot = (window.navigator && window.navigator.userAgent || '').match(/(googlebot)/i);
+!isBot && ReactDOM.render(<Root/>, document.getElementById('instant-message'))
