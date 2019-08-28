@@ -640,7 +640,6 @@ body .footer {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  color: white;
 }
 .instant-message .message-panel .message-wrap .message .message-content .content .jvr img {
   width: 60%;

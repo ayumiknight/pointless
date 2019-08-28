@@ -12,7 +12,10 @@ class Root extends Component {
         this.setState({
             room: 'jvr'
         });
-        this.socket = io(`//${location.host}/?redirectTo=jvr&key=${document.cookie.key || ''}`);
+
+        //to prevent google from crawling this like a relative url;
+        let wsUrl = '//' + location.host + '/?' + 'redirectTo' + '=jvr&' + 'key=' + (document.cookie.key || '');
+        this.socket = io(wsUrl);
         this.socket.on('message', this.handleMessage.bind(this));
         this.socket.on('init', this.hanldeInit.bind(this));
         let blockChat = document.cookie.match('chatPoped');
