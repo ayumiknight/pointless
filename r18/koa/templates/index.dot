@@ -25,7 +25,9 @@
 	<script type="text/javascript" src="/static/react-dom.development.js" ></script>
 	<script type="text/javascript" src="/static/babel.min.js" ></script>
 	<script type="text/javascript" src="/static/axios.min.js" ></script>
-	<script type="text/babel" src="/static/main.jsx"></script>
+	{{? !it.isBot }}
+		<script type="text/babel" src="/static/main.jsx"></script>
+	{{?}}
 	<script type="text/javascript" src="/static/dayjs.min.js"></script>	
 	<script src="/static/socket.io.dev.js"></script>
 

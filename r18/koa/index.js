@@ -32,12 +32,17 @@ const app = new Koa();
 app.use(conditional());
 app.use(etag());
 app.use((ctx, next) => {
+	let headers = ctx.request.header,
+		isBot = (headers['user-agent'] || '').match(/(googlebot)/i);
+
+	console.log(isBot, 'isBot value incoming ===+++++++++++++++++++++++++++++++++++++++=')
 	ctx.dots = {
 		index: (args) => {
 			return dots.index({
 				...args,
 				currentUrl: ctx.request.url,
-				currentPath: ctx.request.path
+				currentPath: ctx.request.path,
+				isBot: !!isBot
 			})
 		}
 	}
