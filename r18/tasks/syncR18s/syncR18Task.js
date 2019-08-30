@@ -14,7 +14,7 @@ console.log = function(d) { //
 let pageAll = 200;
 async function crawlAndCreate() {
 	await SyncDB();
-	let pageindex = 61;
+	let pageindex = 1;
 	while( pageindex <= pageAll) {
 		let formattedEntries = await generateData(pageindex);
 		console.log(`crawiling=====================${pageindex} saved=====!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!`)
