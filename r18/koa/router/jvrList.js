@@ -1,5 +1,5 @@
 const { R18Paged, R18Single } = require('../../sequelize/methods/r18.js');
-
+const { recentClickCreate } = require('../../sequelize/methods/recentClick.js');
 
 const {
 	formatSingleEntryForRender,
@@ -22,19 +22,40 @@ module.exports = async (ctx, next) => {
 		pagesize: 20
 	});
 
-	let pageTitle;
+	let pageTitle,
+		clickAction;
 	if (actress_id) {
 		pageTitle = ctx.actress.en;
+		clickAction = {
+			type: 'actress',
+			clickId: actress_id
+		};
 	} else if (category_id) {
 		pageTitle = ctx.category.en;
+		clickAction = {
+			type: 'category',
+			clickId: category_id
+		};
 	} else if (studio_id) {
 		pageTitle = ctx.studio.en;
+		clickAction = {
+			type: 'studio',
+			clickId: studio_id
+		};
 	} else if (series_id) {
 		pageTitle = ctx.series.en;
+		clickAction = {
+			type: 'series',
+			clickId: series_id
+		};
 	} else if (lcode) { 
 		pageTitle = lcode;
 	} else {
 		pageTitle = 'Popular';
+	}
+
+	if (clickAction && clickAction.clickId) {
+		await recentClickCreate(clickAction)
 	}
 
 	ctx.body = ctx.dots.index({

@@ -1,5 +1,6 @@
 const { R18Paged, R18Single } = require('../../sequelize/methods/r18.js');
 const { searchForActress } = require('../../sequelize/methods/actresses.js');
+const { recentClickCreate } = require('../../sequelize/methods/recentClick.js');
 const {
 	formatSingleEntryForRender,
 	generatePagination,
@@ -39,7 +40,13 @@ module.exports = async (ctx, next) => {
 			relatedR18s = relatedR18s.rows;
 		}
 	}
-
+	if (r18 && r18.id) {
+		await recentClickCreate({
+			type: 'jvr',
+			clickId: r18.id
+		})
+	}
+	
 	ctx.body = ctx.dots.index({
 		type: 'jvr',
 		pageTitle: ctx.query.id + (r18 && r18.title  ? ' - ' +  r18.title.slice(0, 150) + ' - ' : ' '),

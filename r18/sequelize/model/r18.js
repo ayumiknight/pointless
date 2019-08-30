@@ -48,6 +48,10 @@ module.exports = (sequelize, DataTypes) => {
 		thumbup: {
 			type: DataTypes.INTEGER,
 			comment: "Thumbup"
+		},
+		order: {
+			type: DataTypes.INTEGER,
+			comment: "爬虫的默认顺序，新的在前面"
 		}
 	});
 

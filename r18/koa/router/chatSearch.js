@@ -6,7 +6,7 @@ module.exports = async (ctx, next) => {
 		decodedCodes = JSON.parse(ids).map( code => {
 			return util.formatCode(code)
 		});
-	console.log(decodedCodes, '===========decodedCodes==========')
+
 	let r18s = await Promise.all(decodedCodes.map(code => {
 		return  R18SingleSimple({
 			code
