@@ -95,7 +95,10 @@ async function R18Paged(query) {
 
 	let r18Query = {
 		offset: (page - 1) * pagesize,
-		limit: pagesize
+		limit: pagesize,
+		order: [[
+			'order', 'ASC'
+		]]
 	}
 
 	if (lcode) {

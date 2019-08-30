@@ -9,7 +9,7 @@ let sampleData = require('./testdata.js');
 
 
 
-if (env.NODE_ENV === 'dev') {
+if (true || env.NODE_ENV === 'dev') {
     var sequelize = new Sequelize('r18', 'point', '1414914fdysg', {
         dialect: 'mysql',
         host: '202.182.117.178',

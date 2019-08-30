@@ -11,7 +11,7 @@ console.log = function(d) { //
   log_file.write(util.format(d) + '\n');
   log_stdout.write(util.format(d) + '\n');
 };
-let pageAll = 200;
+let pageAll = 4;
 async function crawlAndCreate() {
 	await SyncDB();
 	let pageindex = 1;
@@ -32,7 +32,7 @@ async function crawlAndCreate() {
 
 	}
 	await new Promise((resolve, reject) => {
-		setTimeout(resolve, 30 * 1000);
+		setTimeout(resolve, 5 * 60 * 1000);
 	})
 }
 
