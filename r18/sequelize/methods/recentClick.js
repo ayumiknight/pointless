@@ -2,7 +2,14 @@ const db = require('../index.js');
 const { R18, Series, Studio, Actress, Category, Gallery, RecentClick } = db;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const moment = require('moment');
 
+const rankingOrder = [
+		'jvr',
+		'actress',
+		'category',
+		'studio'
+	];
 async function SyncDB() {
 	await db.sequelize.sync();
 }
@@ -11,57 +18,88 @@ async function recentClickCreate(click) {
 	return RecentClick.create(click); //promise
 }
 
-async function CategoryCreate(category) {
+async function getRecentClicksFormatted({
+	days
+}) {
 
-	let category = await Category.findOrCreate({
-		where: {
-			category_id: category.category_id
-		},
-		default: category
-	});
-
-	if (!category[1]) {
-		await category[0].update({
-			en: category[0].en || category.en,
-			zh: category[0].zh || category.zh,
-			logo: category[0].logo || category.logo
+	let clicksFormatted = rankingOrder.map( type => {
+		return RecentClick.findAll({
+			where: {
+				createdAt: {
+					[Op.gte]: moment().subtract(days, 'days').toDate()
+				},
+				type
+			},
+			group: ['clickId'],
+			attributes: ['clickId', 'type', [Sequelize.fn('count', Sequelize.col('id')), 'clickCount']],
+			order: [[Sequelize.literal('clickCount'), 'DESC']],
+			limit: 10,
+			raw: true
 		})
-	}
-	return category;
-}
-
-async function CategoryPaged() {
-	let raw = await Category.findAndCountAll({
-		where: {
-			fromAdult: 1,
-			category_id: {
-				[Op.notIn]: [6613, 6614, 6615, 6619, 6620, 6621, 6671, 6793, 6925, 1000022, 10000164]
-			}
-		}
-	});
-
-	return {
-		"Top Categories": raw.rows.filter( a => a.topAdult),
-		"Situation": raw.rows.filter( a => a.parent === 1),
-		"Type": raw.rows.filter( a => a.parent === 2),
-		"Costume": raw.rows.filter( a => a.parent === 3),
-		"Genre": raw.rows.filter( a => a.parent === 4),
-		"Play": raw.rows.filter( a => a.parent === 5),
-		'Other': raw.rows.filter( a => a.parent === 6)
-	};
-}
-
-async function searchForCategory(search) {
-	return Category.findAndCountAll({
-		where: {
-			en: search
-		},
-		offset: 0,
-		limit: 1
 	})
-}
+	
 
+	clicksFormatted = await Promise.all(clicksFormatted),
+		index = 0;
+
+
+	while( index <= 3) {
+		clicksFormatted[index] = await Promise.all(clicksFormatted[index].map((entry) => {
+			return new Promise(async (resolve, reject) => {
+				let data;
+				switch( index) {
+					case 0: 
+						data = await R18.findOne({
+							where: {
+								id: entry.clickId
+							},
+							raw: true
+						});
+						break;
+					case 1: 
+						data = await Actress.findOne({
+							where: {
+								actress_id: entry.clickId
+							},
+							raw: true
+						});
+						break;
+					case 2: 
+						data = await Category.findOne({
+							where: {
+								category_id: entry.clickId
+							},
+							raw: true
+						});
+						break;
+					case 3: 
+						data = await Studio.findOne({
+							where: {
+								studio_id: entry.clickId
+							},
+							raw: true
+						});
+						break;
+				}
+
+				entry = {
+					...data,
+					...entry
+				};
+				resolve(entry);	
+			})
+			
+		}))
+		index++;
+
+	}
+
+	return clicksFormatted;
+
+
+}
 
 module.exports = {
-	recentClickCreate
+	recentClickCreate,
+	getRecentClicksFormatted
 }

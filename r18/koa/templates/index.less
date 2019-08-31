@@ -1,3 +1,6 @@
+@primary: #f72020;
+@hemi: "HemiHead", "微软雅黑","黑体","宋体", Helvetica, Arial, Utkal, sans-serif;
+@normal: Helvetica Neue,Helvetica,Arial,Utkal,sans-serif;
 body {
 	background: #f5f5f5;
 	margin: 0;
@@ -12,7 +15,7 @@ body {
 	  background: #666; 
 	}
 	*	{
-		font-family: Helvetica Neue,Helvetica,Arial,Utkal,sans-serif;
+		font-family: @normal;
 		line-height: 1.4;
 		color:  #333;
 		box-sizing: border-box;
@@ -46,8 +49,12 @@ body {
 		justify-content: center;
 		align-items: center
 	}
+	.fs {
+		justify-content: flex-start;
+		align-items: center
+	}
 	.page-title {
-		font-family: "HemiHead", Helvetica, Arial, Utkal, sans-serif;
+		font-family: @hemi;
 		font-size: 40px;
 		line-height: 60px;
 		width: 100%;
@@ -85,7 +92,7 @@ body {
 	}
 }
 
-@primary: #f72020;
+
 
 @font-face {
 	font-family: 'HemiHead';
@@ -102,3 +109,4 @@ body {
 @import './recommendSection.less';
 @import './studioView.less';
 @import './chatRoom.less';
+@import './ranking.less';

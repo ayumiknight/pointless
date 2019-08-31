@@ -20,7 +20,7 @@ module.exports = async (ctx, next) => {
 	ctx.body = ctx.dots.index({
 		type: 'studio',
 		studios: studiosPaged.rows,
-		pageTitle: 'Studios',
+		pageTitle: ctx.zh ? '发行商' : 'Studios',
 		letterPagination: generateLetterPagination({
 			baseUrl: ctx.request.url,
 			current: letter

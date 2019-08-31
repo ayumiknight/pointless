@@ -1,35 +1,43 @@
 const moment = require('moment');
 
 const util = {
-	getStudioTranslated(studio) {
+	getStudioTranslated(studio, zh) {
 
 		if (!studio || !studio.studio_id) return '----';
-		return `<a href="/studio?studio=${encodeURIComponent(studio.en)}">${studio.en}</a>`
+		let studio_name = zh ? studio.zh : studio.en;
+		return `<a href="${zh? '/zh' : ''}/studio?studio=${encodeURIComponent(studio_name)}">${studio_name}</a>`
 	},
-	getSeriesTranslated(series) {
+	getSeriesTranslated(series, zh) {
 
 		if (!series || !series.series_id) return '----';
-		return `<a href="/series?series=${encodeURIComponent(series.en)}">${series.en}</a>`
+		let series_name = zh ? series.zh : series.en;
+		return `<a href="${zh? '/zh' : ''}/series?series=${encodeURIComponent(series_name)}">${series_name}</a>`
 	},
-	getCategorysTranslated(categories) {
-		if (!categories || !categories.length) return '----';
-		return categories.map( cate => `<a href="/genre?genre=${encodeURIComponent(cate.en)}">${cate.en}</a>`).join('');
+	getCategorysTranslated(categories, zh) {
+		if (!categories || !categories.length) return '----';		
+		return categories.map( cate => {
+			
+			return `<a href="${zh? '/zh' : ''}/genre?genre=${encodeURIComponent(cate_name)}">${cate_name}</a>`
+		}).join('');
 	},
-	getActressTranslated(actresses) {
+	getActressTranslated(actresses, zh) {
 		if (!actresses || !actresses.length) return '----';
-		return actresses.map( actress => `<a href="/cast?cast=${encodeURIComponent(actress.en)}">${actress.en}</a>`).join('');
+		return actresses.map( actress => {
+			let actress_name = zh ? actress.zh : actress.en;
+			return `<a href="${zh? '/zh' : ''}/cast?cast=${encodeURIComponent(actress_name)}">${actress_name}</a>`
+		}).join('');
 	},
-	formatSingleEntryForRender(entry) {
+	formatSingleEntryForRender(entry, zh) {
 
 		let details = {
 			"ID": entry.code,
 			"Release Date": moment(entry.released).isValid ? moment(entry.released).format('YYYY-MM-DD') : '----',
-			"Length": entry.duration * 1 ? entry.duration + ' mins' : '----',
+			"Length": entry.duration * 1 ? entry.duration + (zh ? '分钟' : 'mins' ) : '----',
 			"Director": entry.director || '----',
-			"Casts": util.getActressTranslated(entry.Actresses),
-			"Studio": util.getStudioTranslated(entry.Studio),
-			"Series": util.getSeriesTranslated(entry.Series),
-			"Genres": util.getCategorysTranslated(entry.Categories),
+			"Casts": util.getActressTranslated(entry.Actresses, zh),
+			"Studio": util.getStudioTranslated(entry.Studio, zh),
+			"Series": util.getSeriesTranslated(entry.Series, zh),
+			"Genres": util.getCategorysTranslated(entry.Categories, zh),
 			
 		};
 		entry.details = details;

@@ -46,8 +46,12 @@ body .fc {
   justify-content: center;
   align-items: center;
 }
+body .fs {
+  justify-content: flex-start;
+  align-items: center;
+}
 body .page-title {
-  font-family: "HemiHead", Helvetica, Arial, Utkal, sans-serif;
+  font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
   font-size: 40px;
   line-height: 60px;
   width: 100%;
@@ -93,7 +97,7 @@ body .footer {
 }
 .side-menu * {
   text-align: center;
-  font-family: "HemiHead", Helvetica, Arial, Utkal, sans-serif;
+  font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
 }
 .side-menu .site-name {
   font-size: 22px;
@@ -104,12 +108,14 @@ body .footer {
 .side-menu .search input {
   font-size: 20px;
   width: 200px;
+  font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
 }
 .side-menu .right {
   position: absolute;
   right: 30px;
   font-size: 15px;
   color: #999;
+  font-style: italic;
 }
 .bottom-nav {
   position: fixed;
@@ -144,7 +150,7 @@ body .footer {
   line-height: 40px;
   font-size: 20px;
   text-decoration: none;
-  font-family: "HemiHead", Helvetica, Arial, Utkal, sans-serif;
+  font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
 }
 .real-side-menu a.current {
   color: #f72020;
@@ -373,7 +379,7 @@ body .footer {
 }
 .pagination * {
   display: flex;
-  font-family: "HemiHead", Helvetica, Arial, Utkal, sans-serif;
+  font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
   justify-content: center;
   align-items: center;
 }
@@ -700,4 +706,65 @@ body .footer {
     touch-action: manipulation;
     -webkit-overflow-scrolling: touch;
   }
+}
+.ranking .ranking-column {
+  width: 25%;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.ranking .ranking-column .ranking-item {
+  height: 90px;
+  width: 100%;
+}
+.ranking .ranking-column .ranking-item.title {
+  font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
+  height: 40px;
+}
+.ranking .ranking-column .ranking-item .item-index {
+  padding: 5px;
+  margin-right: 2px;
+  border-radius: 3px;
+  text-decoration: none;
+}
+.ranking .ranking-column .ranking-item img {
+  height: 60px;
+  width: auto;
+}
+.ranking .ranking-column .ranking-item .title {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 160px;
+  padding: 0 5px;
+  line-height: 1.4;
+  font-size: 14px;
+  color: #999;
+}
+.ranking .ranking-column .ranking-item:nth-child( -n + 4 ) .item-index {
+  color: white;
+  background: #f72020;
+}
+.days-select {
+  border: 1px solid #f72020;
+  border-radius: 5px;
+  height: 24px;
+  width: 212px;
+  margin-left: 25px;
+}
+.days-select .days-select-button {
+  line-height: 24px;
+  height: 100%;
+  color: #999;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+}
+.days-select .days-select-button.current {
+  background: #f72020;
+  color: white;
+}
+.days-select .days-select-button:nth-child(n + 2) {
+  border-left: 1px solid #f72020;
 }

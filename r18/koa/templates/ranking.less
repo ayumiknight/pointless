@@ -1,0 +1,67 @@
+.ranking {
+	.ranking-column {
+		width: 25%;
+		flex-grow: 0;
+		flex-shrink: 0;
+		.ranking-item {
+			height: 90px;
+			width: 100%;
+			&.title {
+				font-family: @hemi;
+				height: 40px;
+				
+			}
+			.item-index {
+				padding: 5px;
+				margin-right: 2px;
+				border-radius: 3px;
+				text-decoration: none;
+			}
+			img {
+				height: 60px;
+				width: auto;
+			}
+			.title {
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				width: 160px;
+				padding: 0 5px;
+				line-height: 1.4;
+				font-size: 14px;
+				color: #999;
+			}
+			
+		}
+		.ranking-item:nth-child( -n + 4 ) {
+			.item-index {
+				color: white;
+				background: @primary;
+			}
+		}
+	}
+}
+.days-select {
+	border: 1px solid @primary;
+	border-radius:  5px;
+	height: 24px;
+	width: 212px;
+	margin-left: 25px;
+	.days-select-button {
+		line-height: 24px;
+		height: 100%;
+		color: #999;
+		width: 70px;
+		display: flex;
+		justify-content: center;
+		&.current {
+			background: @primary;
+			color: white;
+		}
+	}
+	.days-select-button:nth-child(n + 2) {
+		border-left: 1px solid @primary;
+	}
+}

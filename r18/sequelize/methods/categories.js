@@ -32,7 +32,9 @@ async function CategoryCreate(category) {
 	return category;
 }
 
-async function CategoryPaged() {
+async function CategoryPaged({
+	CategoryPaged
+}) {
 	let raw = await Category.findAndCountAll({
 		where: {
 			fromAdult: 1,

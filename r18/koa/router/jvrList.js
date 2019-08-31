@@ -16,7 +16,9 @@ module.exports = async (ctx, next) => {
 		series_id,
 		lcode
 	} = ctx.query;
-		
+	let {
+		zh
+	} = ctx;
 	let r18s = await R18Paged({
 		...ctx.query,
 		pagesize: 20
@@ -25,25 +27,25 @@ module.exports = async (ctx, next) => {
 	let pageTitle,
 		clickAction;
 	if (actress_id) {
-		pageTitle = ctx.actress.en;
+		pageTitle = zh ? ctx.actress.zh : ctx.actress.en;
 		clickAction = {
 			type: 'actress',
 			clickId: actress_id
 		};
 	} else if (category_id) {
-		pageTitle = ctx.category.en;
+		pageTitle = zh ? ctx.category.zh : ctx.category.en;
 		clickAction = {
 			type: 'category',
 			clickId: category_id
 		};
 	} else if (studio_id) {
-		pageTitle = ctx.studio.en;
+		pageTitle = zh ? ctx.studio.zh : ctx.studio.en;
 		clickAction = {
 			type: 'studio',
 			clickId: studio_id
 		};
 	} else if (series_id) {
-		pageTitle = ctx.series.en;
+		pageTitle = zh ? ctx.series.zh : ctx.series.en;
 		clickAction = {
 			type: 'series',
 			clickId: series_id
@@ -51,7 +53,7 @@ module.exports = async (ctx, next) => {
 	} else if (lcode) { 
 		pageTitle = lcode;
 	} else {
-		pageTitle = 'Popular';
+		pageTitle = zh ? '热度' : 'Popular';
 	}
 
 	if (clickAction && clickAction.clickId) {

@@ -33,15 +33,20 @@ app.use(conditional());
 app.use(etag());
 app.use((ctx, next) => {
 	let headers = ctx.request.header,
-		isBot = (headers['user-agent'] || '').match(/(googlebot)/i);
+		isBot = (headers['user-agent'] || '').match(/(googlebot)/i),
+		zh = ctx.path.match(/\/zh/),
+		path = ctx.path.replace(/\/zh/, '');
 
+	ctx.path = path;
+	ctx.zh = zh;
 	console.log(isBot, 'isBot value incoming ===+++++++++++++++++++++++++++++++++++++++=')
 	ctx.dots = {
 		index: (args) => {
 			return dots.index({
 				...args,
+				zh,
 				currentUrl: ctx.request.url,
-				currentPath: ctx.request.path,
+				currentPath: path,
 				isBot: !!isBot
 			})
 		}

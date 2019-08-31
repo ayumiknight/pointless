@@ -19,6 +19,7 @@ const categoryList = require('./categoryList.js');
 const studioList = require('./studioList.js');
 const userSearch = require('./userSearch.js');
 const chatSearch = require('./chatSearch.js');
+const ranking = require('./ranking.js');
 router.use(async (ctx, next) => {
 	let {  page = 1, code, id, cast, genre, studio, series, search, lcode} = ctx.query;
 
@@ -79,6 +80,7 @@ router.get('/genre', jvrList);
 router.get('/studio', jvrList);
 router.get('/series', jvrList);
 router.get('/lcode', jvrList);
+router.get('/ranking', ranking);
 router.get('/', jvrList);
 
 module.exports = router;

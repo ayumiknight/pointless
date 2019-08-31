@@ -20,7 +20,7 @@ module.exports = async (ctx, next) => {
 	ctx.body = ctx.dots.index({
 		type: 'actress',
 		actresses: actressesPaged.rows,
-		pageTitle: 'Casts',
+		pageTitle: ctx.zh ? '女优' : 'Casts',
 		letterPagination: generateLetterPagination({
 			baseUrl: ctx.request.url,
 			current: letter

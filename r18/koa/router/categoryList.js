@@ -9,12 +9,13 @@ module.exports = async (ctx, next) => {
 	let categoryPaged = await CategoryPaged({
 		firstLetter: letter,
 		pageindex: page,
-		pagesize: 20
+		pagesize: 20,
+		zh: ctx.zh
 	})
 
 	ctx.body = ctx.dots.index({
 		type: 'category',
-		pageTitle: 'Categories',
+		pageTitle: ctx.zh ? '类别' : 'Genre',
 		categories: categoryPaged
 	});
 

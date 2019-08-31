@@ -1,0 +1,44 @@
+<div class="page-title">{{=it.zh ? '排行' : 'Ranking'}}</div>
+<div class="days-select f r fs">
+	{{~ [1, 7, 30] :days:index}}
+		<a class="days-select-button {{= it.days === days ? 'current' : ''}}" href="{{=it.zh ? '/zh' : ''}}/ranking?days={{=days}}">
+			{{=days}}{{= it.zh ? "日" : (days > 1 ? "days": "day")}}
+		</a>
+	{{~}}
+</div>
+<div class="ranking f r fc ">
+	{{~ it.ranking :column:index}}
+		<div class="ranking-column f c fs">
+			<div class="ranking-item f r fs title">
+				{{= it.zh ? it.columnMap[index].zh || it.columnMap[index].en : it.columnMap[index].en}}
+			</div> 
+			{{~ column :item:itemi}}
+				<div class="ranking-item f r fs" >
+					<div class="item-index">{{=itemi + 1}}</div>
+					<a class="f r fs" href="{{? item.type.toLowerCase() === 'jvr'}}
+						{{=it.zh ? '/zh' : ''}}/jvr?id={{=item.code}}
+					{{?? item.type.toLowerCase() === 'actress'}}
+						{{=it.zh ? '/zh' : ''}}/cast?cast={{= encodeURIComponent(it.zh ? item.zh : item.en)}}
+					{{?? item.type.toLowerCase() === 'category'}}
+						{{=it.zh ? '/zh' : ''}}/genre?genre={{= encodeURIComponent(it.zh ? item.zh : item.en)}}
+					{{?? item.type.toLowerCase() === 'studio'}}
+						{{=it.zh ? '/zh' : ''}}/studio?studio={{= encodeURIComponent(it.zh ? item.zh : item.en)}}
+					{{?}}">
+						{{? item.type.toLowerCase() === 'jvr'}}
+							<img src="{{=item.cover}}" />
+							<div class="title">{{=item.code}}{{= it.zh ? item.zhTitle : item.title}}</div>
+						{{?? item.type.toLowerCase() === 'actress'}}
+							<img src="{{=item.logo}}" />
+							<div class="title">{{= it.zh ? item.zh : item.en}}</div>
+						{{?? item.type.toLowerCase() === 'category'}}
+							<div class="title">{{= it.zh ? item.zh : item.en}}</div>
+						{{?? item.type.toLowerCase() === 'studio'}}
+							<img src="{{=item.logo}}" style="width: 60px; height: auto;" />
+							<div class="title">{{= it.zh ? item.zh : item.en}}</div>
+						{{?}}
+					</a>
+				</div>
+			{{~}}
+		</div>
+	{{~}}
+</div>

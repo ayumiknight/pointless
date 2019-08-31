@@ -8,7 +8,7 @@
 	z-index: 1000;
 	* {
 		text-align: center;
-		font-family: "HemiHead", Helvetica, Arial, Utkal, sans-serif;
+		font-family: @hemi;
 	}
 
 	.site-name {
@@ -22,6 +22,7 @@
 		input {
 			font-size: 20px;
 			width: 200px;
+			font-family: @hemi;
 		}
 	}
 
@@ -30,6 +31,7 @@
 		right: 30px;
 		font-size: 15px;
 		color: #999;
+		font-style: italic;
 	}
 }
 
@@ -67,7 +69,7 @@
 		line-height: 40px;
 		font-size: 20px;
 		text-decoration: none;
-		font-family: "HemiHead", Helvetica, Arial, Utkal, sans-serif;
+		font-family: @hemi;
 		&.current {
 			color: @primary;
 		}
