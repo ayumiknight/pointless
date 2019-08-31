@@ -21,13 +21,17 @@ async function SeriesCreate(series) {
 
 
 async function searchForSeries(search) {
-	return Series.findAndCountAll({
+	return Series.findOne({
 		where: {
-			en: search
+			[Op.or]: [{
+				zh: search
+			}, {
+				en: search
+			}]	
 		},
-		offset: 0,
-		limit: 1
+		raw: true
 	})
+	
 }
 
 

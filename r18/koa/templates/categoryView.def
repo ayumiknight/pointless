@@ -7,12 +7,11 @@
 			</div>
 			<div class="category-items f r fc">
 				{{~ it.categories[prop] :value:index}}
-					{{? prop === 'Top Categories' }}
+					{{? prop === 'Top Categories' || prop === '热门'}}
 						<a class="list-item image" href="{{=it.zh ? '/zh' : ''}}/genre?genre={{=encodeURIComponent(it.zh ? value.zh : value.en)}}">
 							<img src="{{=value.logo}}"/>
 							<div class="bottom">
 								<div class="title">
-									{{=value.en}}
 									{{=it.zh ? value.zh : value.en}}
 								</div>	
 							</div>

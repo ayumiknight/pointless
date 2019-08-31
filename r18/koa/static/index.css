@@ -12,7 +12,7 @@ body *::-webkit-scrollbar-thumb {
   background: #666;
 }
 body * {
-  font-family: Helvetica Neue, Helvetica, Arial, Utkal, sans-serif;
+  font-family: Helvetica Neue, "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
   line-height: 1.4;
   color: #333;
   box-sizing: border-box;
@@ -108,7 +108,7 @@ body .footer {
 .side-menu .search input {
   font-size: 20px;
   width: 200px;
-  font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
+  font-style: italic;
 }
 .side-menu .right {
   position: absolute;
@@ -153,6 +153,22 @@ body .footer {
   font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
 }
 .real-side-menu a.current {
+  color: #f72020;
+}
+.real-side-menu .language {
+  width: 100%;
+  position: absolute;
+  bottom: 200px;
+}
+.real-side-menu .language .language-btn {
+  text-decoration: none;
+  line-height: 24px;
+  padding: 0 10px;
+  font-size: 20px;
+  font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
+  font-style: italic;
+}
+.real-side-menu .language .language-btn *.current {
   color: #f72020;
 }
 @media only screen and (min-width: 480px) {

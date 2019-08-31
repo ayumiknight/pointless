@@ -38,12 +38,15 @@ async function ActressesPagedByFirstLetter({
 }
 
 async function searchForActress(search) {
-	return Actress.findAndCountAll({
+	return Actress.findOne({
 		where: {
-			en: search
+			[Op.or]: [{
+				zh: search
+			}, {
+				en: search
+			}]	
 		},
-		offset: 0,
-		limit: 1
+		raw: true
 	})
 }
 

@@ -33,17 +33,26 @@ async function CategoryCreate(category) {
 }
 
 async function CategoryPaged({
-	CategoryPaged
+	zh
 }) {
 	let raw = await Category.findAndCountAll({
 		where: {
-			fromAdult: 1,
-			category_id: {
-				[Op.notIn]: [6613, 6614, 6615, 6619, 6620, 6621, 6671, 6793, 6925, 1000022, 10000164]
-			}
-		}
+			fromAdult: 1
+		},
+		raw: true
 	});
 
+	if (zh) {
+		return {
+			"热门": raw.rows.filter( a => a.topAdult),
+			"类别": raw.rows.filter( a => a.parent === 1),
+			"类型": raw.rows.filter( a => a.parent === 2),
+			"服装": raw.rows.filter( a => a.parent === 3),
+			"种类": raw.rows.filter( a => a.parent === 4),
+			"Play": raw.rows.filter( a => a.parent === 5),
+			'其他': raw.rows.filter( a => a.parent === 6)
+		};
+	}
 	return {
 		"Top Categories": raw.rows.filter( a => a.topAdult),
 		"Situation": raw.rows.filter( a => a.parent === 1),
@@ -56,12 +65,15 @@ async function CategoryPaged({
 }
 
 async function searchForCategory(search) {
-	return Category.findAndCountAll({
+	return Category.findOne({
 		where: {
-			en: search
+			[Op.or]: [{
+				zh: search
+			}, {
+				en: search
+			}]	
 		},
-		offset: 0,
-		limit: 1
+		raw: true
 	})
 }
 

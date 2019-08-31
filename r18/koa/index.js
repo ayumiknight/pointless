@@ -18,6 +18,12 @@ const RandomNames = require('./static/random-names'); //4946 entries
 const cookie = require('cookie');
 const moment = require('moment');
 const fs = require('fs');
+const NodeCache = require('node-cache');
+
+const nodeCache = new NodeCache({ 
+	stdTTL: 60 * 180, 
+	checkperiod: 120
+});
 
 function serveStatic() {
 	const staticServer = new Koa();
@@ -34,11 +40,12 @@ app.use(etag());
 app.use((ctx, next) => {
 	let headers = ctx.request.header,
 		isBot = (headers['user-agent'] || '').match(/(googlebot)/i),
-		zh = ctx.path.match(/\/zh/),
-		path = ctx.path.replace(/\/zh/, '');
+		zh = ctx.path.match(/\/zh/i),
+		path = ctx.path.replace(/\/zh/i, '');
 
 	ctx.path = path;
 	ctx.zh = zh;
+	ctx.nodeCache = nodeCache;
 	console.log(isBot, 'isBot value incoming ===+++++++++++++++++++++++++++++++++++++++=')
 	ctx.dots = {
 		index: (args) => {

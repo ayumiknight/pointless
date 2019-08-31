@@ -16,10 +16,12 @@ const jvrList = require('./jvrList.js');
 const jvrSingle = require('./jvrSingle.js');
 const actressList = require('./actressList.js');
 const categoryList = require('./categoryList.js');
-const studioList = require('./studioList.js');
+const studio = require('./studioList.js');
 const userSearch = require('./userSearch.js');
 const chatSearch = require('./chatSearch.js');
 const ranking = require('./ranking.js');
+
+
 router.use(async (ctx, next) => {
 	let {  page = 1, code, id, cast, genre, studio, series, search, lcode} = ctx.query;
 
@@ -35,31 +37,31 @@ router.use(async (ctx, next) => {
 	ctx.query.page = page;
 
 	if (cast) {
-		let actressList = await searchForActress(cast);	
-		if (actressList.rows && actressList.rows[0])  {
-			ctx.query.actress_id = actressList.rows[0].actress_id;
-			ctx.actress = actressList.rows[0];
+		let actress = await searchForActress(cast);	
+		if (actress && actress.actress_id)  {
+			ctx.query.actress_id = actress.actress_id;
+			ctx.actress = actress;
 		}
 	}
 	if (genre) {
-		let categoryList = await searchForCategory(genre);
-		if (categoryList.rows && categoryList.rows[0])  {
-			ctx.query.category_id = categoryList.rows[0].category_id
-			ctx.category = categoryList.rows[0];
+		let category = await searchForCategory(genre);
+		if (category && category.category_id)  {
+			ctx.query.category_id = category.category_id;
+			ctx.category = category
 		}
 	}
 	if (studio) {
-		let studioList = await searchForStudio(studio);
-		if (studioList.rows && studioList.rows[0])  {
-			ctx.query.studio_id = studioList.rows[0].studio_id;
-			ctx.studio = studioList.rows[0];
+		let _studio = await searchForStudio(studio);
+		if (_studio && _studio.studio_id)  {
+			ctx.query.studio_id = _studio.studio_id;
+			ctx.studio = _studio;
 		}
 	}
 	if (series) {
-		let seriesList = await searchForSeries(series);
-		if (seriesList.rows && seriesList.rows[0])  {
-			ctx.query.series_id = seriesList.rows[0].series_id;
-			ctx.series = seriesList.rows[0];
+		let _series = await searchForSeries(series);
+		if (_series && _series.series_id)  {
+			ctx.query.series_id = _series.series_id;
+			ctx.series = _series;
 		}
 	}
 
@@ -70,7 +72,7 @@ router.get('/jvr', jvrSingle);
 
 router.get('/casts', actressList);
 router.get('/categories', categoryList);
-router.get('/studios', studioList);
+router.get('/studios', studio);
 
 router.get('/search', userSearch);
 router.get('/chatSearch', chatSearch);

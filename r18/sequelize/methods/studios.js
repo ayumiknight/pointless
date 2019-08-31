@@ -38,12 +38,15 @@ async function StudiosPagedByFirstLetter({
 }
 
 async function searchForStudio(search) {
-	return Studio.findAndCountAll({
+	return Studio.findOne({
 		where: {
-			en: search
+			[Op.or]: [{
+				zh: search
+			}, {
+				en: search
+			}]	
 		},
-		offset: 0,
-		limit: 1
+		raw: true
 	})
 }
 

@@ -14,17 +14,18 @@ const util = {
 		return `<a href="${zh? '/zh' : ''}/series?series=${encodeURIComponent(series_name)}">${series_name}</a>`
 	},
 	getCategorysTranslated(categories, zh) {
-		if (!categories || !categories.length) return '----';		
+		if (!categories || !categories.length) return '----';
+		console.log(categories, '===============')		
 		return categories.map( cate => {
-			
-			return `<a href="${zh? '/zh' : ''}/genre?genre=${encodeURIComponent(cate_name)}">${cate_name}</a>`
+			let cate_name = zh ? cate.zh || cate.en : cate.en;
+			return cate_name ? `<a href="${zh? '/zh' : ''}/genre?genre=${encodeURIComponent(cate_name)}">${cate_name}</a>` : '';
 		}).join('');
 	},
 	getActressTranslated(actresses, zh) {
 		if (!actresses || !actresses.length) return '----';
 		return actresses.map( actress => {
 			let actress_name = zh ? actress.zh : actress.en;
-			return `<a href="${zh? '/zh' : ''}/cast?cast=${encodeURIComponent(actress_name)}">${actress_name}</a>`
+			return actress_name ? `<a href="${zh? '/zh' : ''}/cast?cast=${encodeURIComponent(actress_name)}">${actress_name}</a>` : '';
 		}).join('');
 	},
 	formatSingleEntryForRender(entry, zh) {
@@ -37,7 +38,7 @@ const util = {
 			"Casts": util.getActressTranslated(entry.Actresses, zh),
 			"Studio": util.getStudioTranslated(entry.Studio, zh),
 			"Series": util.getSeriesTranslated(entry.Series, zh),
-			"Genres": util.getCategorysTranslated(entry.Categories, zh),
+			"Genre": util.getCategorysTranslated(entry.Categories, zh),
 			
 		};
 		entry.details = details;

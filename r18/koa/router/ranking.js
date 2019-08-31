@@ -2,12 +2,19 @@ const { getRecentClicksFormatted } = require('../../sequelize/methods/recentClic
 
 
 module.exports = async (ctx, next) => {
-	let days = parseInt(ctx.query.days || '') || 1;
+	let days = parseInt(ctx.query.days || '') || 7;
 
 	if (![1, 7, 30].includes(days)) days = 7;
-	let recentClicksFormatted = await getRecentClicksFormatted({
-		days
-	});
+
+	let nodeCache = ctx.nodeCache,
+		ranking = nodeCache.get('ranking' + days);
+	if (!ranking) {
+		ranking = await getRecentClicksFormatted({
+			days
+		});
+		nodeCache.set('ranking' + days, ranking);
+	}
+	
 
 	let mapping = [{
 		en: 'Top Videos',
@@ -22,11 +29,12 @@ module.exports = async (ctx, next) => {
 		en: 'Top Studios',
 		zh: '热门发行商'
 	}]
+
 	ctx.body = ctx.dots.index({
 		type: 'ranking',
 		pageTitle: 'Ranking',
 		columnMap: mapping,
-		ranking: recentClicksFormatted,
+		ranking: ranking,
 		days
 	});
 
