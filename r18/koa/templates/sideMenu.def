@@ -6,19 +6,19 @@
 	<div class="search">
 		<input id="idSearch" type="text" placeholder="Search by Film Id">
 	</div>
-	<div class="right">Japan VR films Only</div> 
+	<div class="right">{{=it.zh ? '日本VR影片' : 'Japan VR films Only'}</div> 
 </div>
 <div class="real-side-menu f c fc">
-	<a href="/" class="{{= it.currentPath === '/' ? 'current' : ''}}">Home</a>
-	<a href="/casts" class="{{= it.currentPath === '/casts' ? 'current' : ''}}">Casts</a>
-	<a href="/studios" class="{{= it.currentPath === '/studios' ? 'current' : ''}}">Studios</a>
-	<a href="/categories" class="{{= it.currentPath === '/categories' ? 'current' : ''}}">Genre</a>
+	<a href="{{=it.zh ? '/zh' : ''}}/" class="{{= it.currentPath === '/' ? 'current' : ''}}">{{=it.zh ? 'Home' : '首页' }}</a>
+	<a href="{{=it.zh ? '/zh' : ''}}/casts" class="{{= it.currentPath === '/casts' ? 'current' : ''}}">{{=it.zh ? 'Casts' : '女优' }}</a>
+	<a href="{{=it.zh ? '/zh' : ''}}/studios" class="{{= it.currentPath === '/studios' ? 'current' : ''}}">{{=it.zh ? 'Studios' : '发行商' }}</a>
+	<a href="{{=it.zh ? '/zh' : ''}}/categories" class="{{= it.currentPath === '/categories' ? 'current' : ''}}">{{=it.zh ? 'Genre' : '类别' }}</a>
 </div>
 <div class="bottom-nav">
-	<a class="nav-button" href="/">
-		Popular
+	<a class="nav-button" href="{{=it.zh ? '/zh' : ''}}/">
+		{{=it.zh ? '热度' : 'Popular'}} 
 	</a>
-	<a class="nav-button" href="/casts">
-		Casts
+	<a class="nav-button" href="{{=it.zh ? '/zh' : ''}}/casts">
+		{{=it.zh ? 'Casts' : '女优' }}
 	</a>
 </div>

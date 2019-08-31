@@ -4,8 +4,10 @@
 	<title>
 		{{? it.type === 'jvr' }}
 			{{=it.pageTitle}}
-		{{?? it.pageTitle}}
+		{{?? it.pageTitle && it.pageTitle !== 'ranking'}}
 			{{= it.pageTitle + ' archive - '}}
+		{{?? it.pageTitle && it.pageTitle === 'ranking'}}
+			{{it.zh ? '排行' : 'Ranking'}} -
 		{{?}}
 		JvrLibrary
 	</title>
@@ -85,13 +87,15 @@
 		{{?? it.type === 'studio'}}
 			{{#def.studioView}}
 			{{#def.pagination}}
+		{{?? it.type === 'ranking'}}
+			{{#def.ranking}}
 		{{??}}
 			{{#def.listView}}
 			{{#def.pagination}}
 		{{?}}
 	</div>
 	<div class="footer">
-		Brewed by ProfessionalDrunker.
+		{{=it.zh ? '酒后表演艺术家酿造' : 'Brewed by ProfessionalDrunker.' }}
 	</div>
 	<div id="instant-message"></div>
 </div>

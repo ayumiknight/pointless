@@ -1,3 +1,3 @@
 <div class="empty f fc">
-	Sorry, Nothing was found on your criteria.
+	{{=it.zh ? '抱歉，没哟搜索到相关内容' : 'Sorry, Nothing was found on your criteria.'}}
 </div>

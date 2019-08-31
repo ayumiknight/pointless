@@ -3,7 +3,7 @@
 	{{? it.r18 && it.r18.code}}
 		<div class="title">
 			<span class="code">{{=it.r18.code}}</span>
-			{{=it.r18.title}}
+			{{=it.zh ? it.r18.zhTitle : it.r18.title}}
 		</div>
 		<div class="detail">		
 			<div class="left">
@@ -37,7 +37,7 @@
 			</div>
 		</div>
 		<div class='action'>
-			<a href="https://www.r18.com/common/search/searchword={{=it.r18.code}}/">Purchase on R18.com</a>
+			<a href="https://www.r18.com/common/search/searchword={{=it.r18.code}}/">{{=it.zh ? '在R18.com上购买' :'Purchase on R18.com'}}</a>
 		</div>
 	{{??}}
 		{{#def.empty}}

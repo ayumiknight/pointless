@@ -1,5 +1,5 @@
 <div class="actress-view f c fc">
-	<div class="page-title">Casts</div>
+	<div class="page-title">{{=it.zh ? 'Casts' : '女优'}}</div>
 	<div class="actress-pagination f r fc">
 		{{~ it.letterPagination :value:index}}
 			<div class="pagination f fc {{=value.className}}">
@@ -9,11 +9,11 @@
 	</div>
 	<div class="actress-lists f r fc">
 		{{~it.actresses :value:index}}
-			<a class="list-item" href="/cast?cast={{=encodeURIComponent(value.en)}}">
+			<a class="list-item" href="{{=it.zh ? '/zh' : ''}}/cast?cast={{=encodeURIComponent(value.zh)}}">
 				<img src="{{=value.logo}}"/>
 				<div class="bottom">
 					<div class="title">
-						{{=value.en}}
+						{{=it.zh ? value.zh : value.en}}
 					</div>	
 				</div>
 			</a>

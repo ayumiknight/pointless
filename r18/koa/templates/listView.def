@@ -3,7 +3,7 @@
 	<div class="list-view f r fc">
 
 		{{~it.r18s :value:index}}
-			<a class="list-item f" href="/jvr?id={{=encodeURIComponent(value.code)}}">
+			<a class="list-item f" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
 				<img src="{{=value.cover}}" />
 				<div class="bottom">
 					<div class="code">
@@ -11,7 +11,7 @@
 					</div>
 
 					<div class="title">
-						{{=value.title}}
+						{{=it.zh ? value.zhTitle : value.title}}
 					</div>	
 				</div>
 			</a>
