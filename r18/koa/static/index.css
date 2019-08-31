@@ -743,8 +743,8 @@ body .footer {
   text-decoration: none;
 }
 .ranking .ranking-column .ranking-item img {
-  height: 60px;
-  width: auto;
+  height: 50px;
+  max-width: 60px;
 }
 .ranking .ranking-column .ranking-item .title {
   text-overflow: ellipsis;
@@ -776,6 +776,7 @@ body .footer {
   width: 70px;
   display: flex;
   justify-content: center;
+  font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
 }
 .days-select .days-select-button.current {
   background: #f72020;
@@ -783,4 +784,24 @@ body .footer {
 }
 .days-select .days-select-button:nth-child(n + 2) {
   border-left: 1px solid #f72020;
+}
+@media only screen and (max-width: 480px) {
+  .days-select {
+    margin-left: 0px;
+    height: 18px;
+  }
+  .days-select .days-select-button {
+    font-size: 14px;
+    line-height: 18px;
+  }
+  .ranking .ranking-column {
+    width: 50%;
+  }
+  .ranking .ranking-column .ranking-item .title {
+    width: 105px;
+    font-size: 12px;
+  }
+  .ranking .ranking-column .ranking-item .title.studio {
+    width: 95px;
+  }
 }

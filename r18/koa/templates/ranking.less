@@ -18,8 +18,8 @@
 				text-decoration: none;
 			}
 			img {
-				height: 60px;
-				width: auto;
+				height: 50px;
+				max-width: 60px;
 			}
 			.title {
 				text-overflow: ellipsis;
@@ -33,7 +33,7 @@
 				font-size: 14px;
 				color: #999;
 			}
-			
+
 		}
 		.ranking-item:nth-child( -n + 4 ) {
 			.item-index {
@@ -65,4 +65,29 @@
 	.days-select-button:nth-child(n + 2) {
 		border-left: 1px solid @primary;
 	}
+}
+
+@media only screen and (max-width: 480px) {
+    .days-select {
+    	margin-left: 0px;
+    	height: 18px;
+    	.days-select-button {
+    		font-size: 14px;
+    		line-height: 18px;
+    	}
+    }
+    .ranking {
+    	.ranking-column {
+    		width: 50%;
+    		.ranking-item {
+    			.title {
+    				width: 105px;
+    				font-size: 12px;
+    				&.studio {
+						width: 95px;
+    				}
+    			}
+    		}
+    	}
+    }
 }

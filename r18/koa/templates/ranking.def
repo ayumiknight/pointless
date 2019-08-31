@@ -26,15 +26,15 @@
 					{{?}}">
 						{{? item.type.toLowerCase() === 'jvr'}}
 							<img src="{{=item.cover}}" />
-							<div class="title">{{=item.code}}{{= it.zh ? item.zhTitle : item.title}}</div>
+							<div class="title">{{=item.code}}&nbsp;{{= it.zh ? item.zhTitle : item.title}}</div>
 						{{?? item.type.toLowerCase() === 'actress'}}
 							<img src="{{=item.logo}}" />
 							<div class="title">{{= it.zh ? item.zh : item.en}}</div>
 						{{?? item.type.toLowerCase() === 'category'}}
 							<div class="title">{{= it.zh ? item.zh || item.en : item.en}}</div>
 						{{?? item.type.toLowerCase() === 'studio'}}
-							<img src="{{=item.logo}}" style="width: 60px; height: auto;" />
-							<div class="title">{{= it.zh ? item.zh : item.en}}</div>
+							<img class="studio" src="{{=item.logo}}" />
+							<div class="title studio">{{= it.zh ? item.zh : item.en}}</div>
 						{{?}}
 					</a>
 				</div>

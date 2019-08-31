@@ -24,7 +24,7 @@
 	<a class="nav-button" href="{{=it.zh ? '/zh' : ''}}/">
 		{{=it.zh ? '热度' : 'Popular'}} 
 	</a>
-	<a class="nav-button" href="{{=it.zh ? '/zh' : ''}}/casts">
-		{{=it.zh ? '女优'  : 'Casts'}}
+	<a class="nav-button" href="{{=it.zh ? '/zh' : ''}}/ranking">
+		{{=it.zh ? '排行'  : 'Ranking'}}
 	</a>
 </div>
