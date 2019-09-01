@@ -41,12 +41,12 @@ app.use((ctx, next) => {
 	let headers = ctx.request.header,
 		isBot = (headers['user-agent'] || '').match(/(googlebot)/i),
 		zh = ctx.path.match(/\/zh/i),
-		path = ctx.path.replace(/\/zh/i, '');
+		path = ctx.path.replace(/\/zh/i, '') || '/';
 
 	ctx.path = path;
 	ctx.zh = zh;
 	ctx.nodeCache = nodeCache;
-	console.log(isBot, 'isBot value incoming ===+++++++++++++++++++++++++++++++++++++++=')
+
 	ctx.dots = {
 		index: (args) => {
 			return dots.index({
