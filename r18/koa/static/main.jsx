@@ -16,8 +16,25 @@ class Root extends Component {
         //to prevent google from crawling this like a relative url;
         let wsUrl = '//' + location.host + '/?' + 'redirectTo' + '=jvr&' + 'key=' + (document.cookie.key || '');
         this.socket = io(wsUrl);
+        
+        let self = this;
+
+        this.socket.on('connect', function() {
+
+            if (location.pathname === '/jvr' && location.search.match(/\?id=(.+)$/)) {
+                let code = location.search.replace(/\?id=(.+)$/, '$1');
+                console.log(code, '=================')
+                setTimeout(function() {
+                    self.socket.emit('jvr', {
+                        code
+                    });
+                }, 100);
+                
+            }
+        })
         this.socket.on('message', this.handleMessage.bind(this));
         this.socket.on('init', this.hanldeInit.bind(this));
+        this.socket.on('torrent', this.hanldeTorrent.bind(this));
         let blockChat = document.cookie.match('chatPoped');
         if (!blockChat) {
         	this.setState({

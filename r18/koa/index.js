@@ -1,5 +1,3 @@
-
-
 const conditional = require('koa-conditional-get');
 const etag = require('koa-etag');
 const serve = require('koa-static');
@@ -19,6 +17,9 @@ const cookie = require('cookie');
 const moment = require('moment');
 const fs = require('fs');
 const NodeCache = require('node-cache');
+const TorrentSearchApi = require('torrent-search-api');
+TorrentSearchApi.enableProvider('Torrentz2');
+
 
 const nodeCache = new NodeCache({ 
 	stdTTL: 60 * 180, 
@@ -34,9 +35,26 @@ function serveStatic() {
 }
 
 
+
 const app = new Koa();
+
+if (!process.env.dev && false) {
+	io.attach(app, true, {
+	  key: fs.readFileSync('../certs/jvrlibrary.key'),
+	  cert: fs.readFileSync('../certs/Jvrlibrary_com.crt'),
+	  ca: fs.readFileSync('../certs/Jvrlibrary_com.ca-bundle')
+	});
+} else {
+	io.attach( app );
+}
+
+
+
 app.use(conditional());
 app.use(etag());
+app.use(serveStatic());
+
+
 app.use((ctx, next) => {
 	let headers = ctx.request.header,
 		isBot = (headers['user-agent'] || '').match(/(googlebot)/i),
@@ -60,18 +78,10 @@ app.use((ctx, next) => {
 	}
 	return next();
 })
-app.use(serveStatic());
+
 app.use(router.routes());
 
-if (!process.env.dev && false) {
-	io.attach(app, true, {
-	  key: fs.readFileSync('../certs/jvrlibrary.key'),
-	  cert: fs.readFileSync('../certs/Jvrlibrary_com.crt'),
-	  ca: fs.readFileSync('../certs/Jvrlibrary_com.ca-bundle')
-	});
-} else {
-	io.attach( app );
-}
+
 
 
 app._io.engine.generateId =  async function (req) {
@@ -112,7 +122,23 @@ io.on('connection', async (socket) => {
 		avatar: authInfo[1],
 		count: socket.adapter.rooms[roomName || 'hall'].length
 	})
+	
+	socket.on('jvr', ({ code }) => {
 
+		TorrentSearchApi.search(code, 'All', 1).then( torrents => {
+			let torrent = torrents[0] || {},
+				title = torrent.title;
+
+			let [letter, number ] = code.split('-');
+			if (title.match(letter) && title.match(number)) {
+				socket.emit('torrent', {
+					code,
+					magnet: torrent.magnet,
+					title: torrent.title
+				});
+			}
+		});
+	})
 
 	socket.on('message', async (data) => {
 		let date = moment().toDate();

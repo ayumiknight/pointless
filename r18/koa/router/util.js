@@ -14,8 +14,7 @@ const util = {
 		return `<a href="${zh? '/zh' : ''}/series?series=${encodeURIComponent(series_name)}">${series_name}</a>`
 	},
 	getCategorysTranslated(categories, zh) {
-		if (!categories || !categories.length) return '----';
-		console.log(categories, '===============')		
+		if (!categories || !categories.length) return '----';	
 		return categories.map( cate => {
 			let cate_name = zh ? cate.zh || cate.en : cate.en;
 			return cate_name ? `<a href="${zh? '/zh' : ''}/genre?genre=${encodeURIComponent(cate_name)}">${cate_name}</a>` : '';
@@ -142,6 +141,7 @@ const util = {
 	formatCode(search = "") {
 		return search.replace(/\s*\/{2}([0-9]*[a-zA-Z]+)[-\s]*([0-9]+)\s*/g, '$1-$2');
 	}
+	
 }
 
 module.exports = util;

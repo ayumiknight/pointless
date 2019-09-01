@@ -4,7 +4,8 @@ const { recentClickCreate } = require('../../sequelize/methods/recentClick.js');
 const {
 	formatSingleEntryForRender,
 	generatePagination,
-	generateLetterPagination
+	generateLetterPagination,
+	searchTorrents
 } = require('./util.js');
 
 module.exports = async (ctx, next) => {
