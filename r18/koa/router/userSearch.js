@@ -1,5 +1,3 @@
-const { CategoryPaged } = require('../../sequelize/methods/categories.js');
-
 module.exports = async (ctx, next) => {
 	let { search } = ctx.query,
 		number = search.match(/\d{2,8}/) && search.match(/\d{2,8}/)[0],

@@ -1,9 +1,7 @@
 const db = require('../index.js');
 const { R18, Series, Studio, Actress, Category, Gallery } = db;
-
-async function SyncDB() {
-	await db.sequelize.sync();
-}
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 async function SeriesBulkCreate(serieses) {
 	return Series.bulkCreate(serieses); //promise
@@ -20,7 +18,7 @@ async function SeriesCreate(series) {
 }
 
 
-async function searchForSeries(search) {
+async function getSearchForSeries(search) {
 	return Series.findOne({
 		where: {
 			[Op.or]: [{
@@ -28,8 +26,7 @@ async function searchForSeries(search) {
 			}, {
 				en: search
 			}]	
-		},
-		raw: true
+		}
 	})
 	
 }
@@ -38,6 +35,5 @@ async function searchForSeries(search) {
 module.exports = {
 	SeriesBulkCreate,
 	SeriesCreate,
-	SyncDB,
-	searchForSeries
+	getSearchForSeries
 }

@@ -3,10 +3,6 @@ const { R18, Series, Studio, Actress, Category, Gallery } = db;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
-async function SyncDB() {
-	await db.sequelize.sync();
-}
-
 async function ActressesBulkCreate(actresses) {
 	return Actress.bulkCreate(actresses); //promise
 }
@@ -21,7 +17,7 @@ async function ActressCreate(actress) {
 	})
 }
 
-async function ActressesPagedByFirstLetter({
+async function getActressesPagedByFirstLetter({
 	firstLetter,
 	pageindex,
 	pagesize
@@ -37,7 +33,7 @@ async function ActressesPagedByFirstLetter({
 	})
 }
 
-async function searchForActress(search) {
+async function getSearchForActress(search) {
 	return Actress.findOne({
 		where: {
 			[Op.or]: [{
@@ -45,8 +41,7 @@ async function searchForActress(search) {
 			}, {
 				en: search
 			}]	
-		},
-		raw: true
+		}
 	})
 }
 
@@ -57,8 +52,7 @@ async function getActressById(id) {
 module.exports = {
 	ActressesBulkCreate,
 	ActressCreate,
-	ActressesPagedByFirstLetter,
-	searchForActress,
-	SyncDB,
+	getActressesPagedByFirstLetter,
+	getSearchForActress,
 	getActressById
 }

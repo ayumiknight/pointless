@@ -1,4 +1,4 @@
-const { R18Paged, R18Single } = require('../../sequelize/methods/r18.js');
+const { getR18Paged } = require('../../sequelize/methods/index.js');
 const { recentClickCreate } = require('../../sequelize/methods/recentClick.js');
 
 const {
@@ -19,7 +19,7 @@ module.exports = async (ctx, next) => {
 	let {
 		zh
 	} = ctx;
-	let r18s = await R18Paged({
+	let r18s = await getR18Paged({
 		...ctx.query,
 		pagesize: 20
 	});

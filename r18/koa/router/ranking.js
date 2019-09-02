@@ -1,4 +1,4 @@
-const { getRecentClicksFormatted } = require('../../sequelize/methods/recentClick.js');
+const { getRecentClicksFormatted } = require('../../sequelize/methods/index.js');
 
 
 module.exports = async (ctx, next) => {
@@ -6,15 +6,9 @@ module.exports = async (ctx, next) => {
 
 	if (![1, 7, 30].includes(days)) days = 7;
 
-	let nodeCache = ctx.nodeCache,
-		ranking = nodeCache.get('ranking' + days);
-	if (!ranking) {
-		ranking = await getRecentClicksFormatted({
-			days
-		});
-		nodeCache.set('ranking' + days, ranking);
-	}
-	
+	let ranking = await getRecentClicksFormatted({
+		days
+	});
 
 	let mapping = [{
 		en: 'Top Videos',
@@ -29,6 +23,7 @@ module.exports = async (ctx, next) => {
 		en: 'Top Studios',
 		zh: '热门发行商'
 	}]
+	console.log(ranking, 'data got==============')
 
 	ctx.body = ctx.dots.index({
 		type: 'ranking',

@@ -23,18 +23,18 @@ class Root extends Component {
 
             if (location.pathname === '/jvr' && location.search.match(/\?id=(.+)$/)) {
                 let code = location.search.replace(/\?id=(.+)$/, '$1');
-                console.log(code, '=================')
+
                 setTimeout(function() {
                     self.socket.emit('jvr', {
                         code
                     });
-                }, 100);
+                }, 500);
                 
             }
         })
         this.socket.on('message', this.handleMessage.bind(this));
         this.socket.on('init', this.hanldeInit.bind(this));
-        this.socket.on('torrent', this.hanldeTorrent.bind(this));
+        this.socket.on('torrent', this.handleMessage.bind(this));
         let blockChat = document.cookie.match('chatPoped');
         if (!blockChat) {
         	this.setState({
@@ -46,15 +46,14 @@ class Root extends Component {
     }
 
     handleMessage(data) {
-
-        let _data = this.parseMessage(data);
+        if (data.magnet) {
+            this.setState({
+                booted: true
+            });
+        }
         this.setState({
-            messages: this.state.messages.concat(_data)
+            messages: this.state.messages.concat(data)
         }, this.scrollTo.bind(this));
-    }
-
-    parseMessage(data) {
-        return data;
     }
 
     async encodeMessage(message) {
@@ -225,6 +224,7 @@ class Root extends Component {
 						wrappedMessage={message} 
 						wrappedPreMessage={messages[i - 1]}
 						myId={this.socket && this.socket.id}
+                        socket={this.socket}
 					/>
 				})}
 			</div>
@@ -294,9 +294,71 @@ class Message extends React.PureComponent {
 			<div className="time-stamp f fc">{this.props.wrappedMessage.message}</div>
 		</div>
     }
+
+    copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(this.props.wrappedMessage.magnet).select();
+        document.execCommand("copy");
+        $temp.remove();
+        jBox && new jBox('Notice', {
+            content: 'Magnet Copied To Clipboard.',
+            color: 'green'
+        });
+        this.props.socket.emit('torrentClicked', this.props.wrappedMessage);
+    }
+
+    renderTorrent() {
+        let { wrappedMessage, wrappedPreMessage = {}, myId } = this.props, { title, magnet, code, time, createdAt, fromId } = wrappedMessage,
+            showStamp = wrappedPreMessage.loginMessasge || (wrappedPreMessage.createdAt && createdAt && dayjs(createdAt) - dayjs(wrappedPreMessage.createdAt) > 1000 * 300);
+
+        return [<div className="message-wrap f c fc">
+            {showStamp ? <div className="time-stamp f fc">{window.dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}</div> : null}
+            <div className={`${ fromId === myId ? 'mine' : ''} message f r`}>
+                <div className="avatar f">
+                    <img src="/static/favicon.png" />
+                </div>
+                <div className="message-content f c">
+                    <div className="name">Professional Drunker</div>
+                    <div className="content">
+                        <div className="torrent">
+                            <div className="torrent-title">
+                                We just found a magnet link of {code} for you.
+                            </div>
+                            <div className="torrent-title">
+                                {title}
+                            </div>
+                            <div className="torrent-magnet">
+                                <a title={title} href={magnet}>{magnet}</a>
+                            </div>
+                            <div className="desc-and-copy">
+                                {time} old&emsp;                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>, <div className="message-wrap f c fc">   
+            <div className={`${ fromId === myId ? 'mine' : ''} message f r`}>
+                <div className="avatar f">
+                    <img src="/static/favicon.png" />
+                </div>
+                <div className="message-content f c">
+                    <div className="name">Professional Drunker</div>
+                    <div className="content"> 
+                        <div className="legal-notice">
+                            We don't host any files, all information is provided by <a href={`https://torrentz2.eu/search?f=${code}`}>Torrentz2.eu</a> 
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>];
+    }
     render() {
         if (this.props.wrappedMessage.loginMessasge) {
             return this.renderLoginMessage();
+        } else if (this.props.wrappedMessage.magnet) {
+            return this.renderTorrent();
         } else {
             return this.renderNormal();
         }

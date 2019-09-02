@@ -1,4 +1,4 @@
-const { StudiosPagedByFirstLetter } = require('../../sequelize/methods/studios.js');
+const { getStudiosPagedByFirstLetter } = require('../../sequelize/methods/index.js');
 const {
 	formatSingleEntryForRender,
 	generatePagination,
@@ -11,7 +11,7 @@ module.exports = async (ctx, next) => {
 	page = parseInt(page);
 	letter = letter.toLowerCase();
 
-	let studiosPaged = await StudiosPagedByFirstLetter({
+	let studiosPaged = await getStudiosPagedByFirstLetter({
 		firstLetter: letter,
 		pageindex: page,
 		pagesize: 20

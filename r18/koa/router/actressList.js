@@ -1,4 +1,4 @@
-const { ActressesPagedByFirstLetter, searchForActress } = require('../../sequelize/methods/actresses.js');
+const { getActressesPagedByFirstLetter } = require('../../sequelize/methods/index.js');
 const {
 	formatSingleEntryForRender,
 	generatePagination,
@@ -11,7 +11,7 @@ module.exports = async (ctx, next) => {
 	page = parseInt(page);
 	letter = letter.toLowerCase();
 
-	let actressesPaged = await ActressesPagedByFirstLetter({
+	let actressesPaged = await getActressesPagedByFirstLetter({
 		firstLetter: letter,
 		pageindex: page,
 		pagesize: 20

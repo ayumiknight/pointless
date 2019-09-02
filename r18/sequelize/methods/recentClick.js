@@ -5,14 +5,11 @@ const Op = Sequelize.Op;
 const moment = require('moment');
 
 const rankingOrder = [
-		'jvr',
-		'actress',
-		'category',
-		'studio'
-	];
-async function SyncDB() {
-	await db.sequelize.sync();
-}
+	'jvr',
+	'actress',
+	'category',
+	'studio'
+];
 
 async function recentClickCreate(click) {
 	return RecentClick.create(click); //promise

@@ -1,6 +1,9 @@
-const { R18Paged, R18Single } = require('../../sequelize/methods/r18.js');
-const { searchForActress } = require('../../sequelize/methods/actresses.js');
-const { recentClickCreate } = require('../../sequelize/methods/recentClick.js');
+const { 
+	getR18Paged, 
+	getR18Single,
+	recentClickCreate
+} = require('../../sequelize/methods/index.js');
+
 const {
 	formatSingleEntryForRender,
 	generatePagination,
@@ -10,7 +13,7 @@ const {
 
 module.exports = async (ctx, next) => {
 
-	let r18 = await R18Single({
+	let r18 = await getR18Single({
 		code: ctx.query.id
 	});
 
@@ -34,7 +37,7 @@ module.exports = async (ctx, next) => {
 			reletedHref = `/studio?studio=${encodeURIComponent(relatedKeyword)}`
 		}
 		if (Object.keys(relatedQuery).length) {
-			relatedR18s = await R18Paged({
+			relatedR18s = await getR18Paged({
 				...ctx.query,
 				pagesize: 20
 			});

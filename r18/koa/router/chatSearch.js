@@ -1,4 +1,4 @@
-const { R18Paged, R18SingleSimple } = require('../../sequelize/methods/r18.js');
+const { getR18SingleSimple } = require('../../sequelize/methods/index.js');
 const util = require('./util.js');
 
 module.exports = async (ctx, next) => {
@@ -8,7 +8,7 @@ module.exports = async (ctx, next) => {
 		});
 
 	let r18s = await Promise.all(decodedCodes.map(code => {
-		return  R18SingleSimple({
+		return  getR18SingleSimple({
 			code
 		});
 	}));

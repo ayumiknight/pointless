@@ -3,10 +3,6 @@ const { R18, Series, Studio, Actress, Category, Gallery } = db;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
-async function SyncDB() {
-	await db.sequelize.sync();
-}
-
 async function CategoriesBulkCreate(categories) {
 	return Category.bulkCreate(categories, {
         updateOnDuplicate: ['topAdult', 'topAmateur', 'topAnime', 'en', 'zh', 'logo', 'fromAdult']
@@ -32,14 +28,13 @@ async function CategoryCreate(category) {
 	return category;
 }
 
-async function CategoryPaged({
+async function getCategoryPaged({
 	zh
 }) {
 	let raw = await Category.findAndCountAll({
 		where: {
 			fromAdult: 1
-		},
-		raw: true
+		}
 	});
 
 	if (zh) {
@@ -64,7 +59,7 @@ async function CategoryPaged({
 	};
 }
 
-async function searchForCategory(search) {
+async function getSearchForCategory(search) {
 	return Category.findOne({
 		where: {
 			[Op.or]: [{
@@ -72,8 +67,7 @@ async function searchForCategory(search) {
 			}, {
 				en: search
 			}]	
-		},
-		raw: true
+		}
 	})
 }
 
@@ -81,7 +75,6 @@ async function searchForCategory(search) {
 module.exports = {
 	CategoriesBulkCreate,
 	CategoryCreate,
-	CategoryPaged,
-	SyncDB,
-	searchForCategory
+	getCategoryPaged,
+	getSearchForCategory
 }

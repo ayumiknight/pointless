@@ -1,9 +1,11 @@
 const router = require('koa-router')();
-const { R18Paged, R18Single } = require('../../sequelize/methods/r18.js');
-const { ActressesPagedByFirstLetter, searchForActress } = require('../../sequelize/methods/actresses.js');
-const { searchForCategory } = require('../../sequelize/methods/categories.js');
-const { searchForSeries } = require('../../sequelize/methods/series.js');
-const { searchForStudio } = require('../../sequelize/methods/studios.js');
+const { 
+	getSearchForActress, 
+	getSearchForCategory,
+	getSearchForSeries,
+	getSearchForStudio
+} = require('../../sequelize/methods/index.js');
+
 
 const path = require('path');
 const entries = require('./sampleData');
@@ -37,28 +39,28 @@ router.use(async (ctx, next) => {
 	ctx.query.page = page;
 
 	if (cast) {
-		let actress = await searchForActress(cast);	
+		let actress = await getSearchForActress(cast);	
 		if (actress && actress.actress_id)  {
 			ctx.query.actress_id = actress.actress_id;
 			ctx.actress = actress;
 		}
 	}
 	if (genre) {
-		let category = await searchForCategory(genre);
+		let category = await getSearchForCategory(genre);
 		if (category && category.category_id)  {
 			ctx.query.category_id = category.category_id;
 			ctx.category = category
 		}
 	}
 	if (studio) {
-		let _studio = await searchForStudio(studio);
+		let _studio = await getSearchForStudio(studio);
 		if (_studio && _studio.studio_id)  {
 			ctx.query.studio_id = _studio.studio_id;
 			ctx.studio = _studio;
 		}
 	}
 	if (series) {
-		let _series = await searchForSeries(series);
+		let _series = await getSearchForSeries(series);
 		if (_series && _series.series_id)  {
 			ctx.query.series_id = _series.series_id;
 			ctx.series = _series;

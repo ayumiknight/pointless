@@ -81,7 +81,7 @@ async function R18Create({
 }
 
 
-async function R18Paged(query) {
+async function getR18Paged(query) {
 	let { 
 		actress_id, 
 		category_id, 
@@ -144,7 +144,7 @@ async function R18Paged(query) {
 	return R18.findAndCountAll(r18Query);
 }
 
-async function R18Single({
+async function getR18Single({
 	id,
 	code
 }) {
@@ -175,7 +175,7 @@ async function R18Single({
 	});
 }
 
-async function R18SingleSimple({
+async function getR18SingleSimple({
 	id,
 	code
 }) {
@@ -195,8 +195,8 @@ async function R18SingleSimple({
 module.exports = {
 	R18BulkCreate,
 	R18Create,
-	R18Paged,
-	R18Single,
-	SyncDB,
-	R18SingleSimple
+	getR18Paged,
+	getR18Single,
+	getR18SingleSimple,
+	SyncDB
 }
