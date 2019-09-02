@@ -11,7 +11,7 @@ let allMethods = {
 
 fs.readdirSync(__dirname).map(f => {
 	console.log(__dirname, '===========')
-	let methods = require(__dirname + '\\' +  f);
+	let methods = require(__dirname + '/' +  f);
 	
 	Object.keys(methods).map(key => {
 		if (allMethods[key]) throw new Error('duplicate method declaration: ' + key);
