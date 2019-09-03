@@ -6,6 +6,7 @@ class Root extends Component {
         this.state = {
             messages: []
         };
+        this.torrentGot = {};
     }
 
     componentDidMount() {
@@ -25,15 +26,19 @@ class Root extends Component {
                 let code = location.search.replace(/\?id=(.+)$/, '$1');
 
                 setTimeout(function() {
-                    self.socket.emit('jvr', {
-                        code
-                    });
+                    if (!self.torrentGot[code]) {
+                        self.socket.emit('jvr', {
+                            code
+                        })
+                    }  
                 }, 500); 
             }
             window.torrentService = (code) => {
-                self.socket.emit('jvr', {
-                    code
-                })
+                if (!self.torrentGot[code]) {
+                    self.socket.emit('jvr', {
+                        code
+                    })
+                }    
             }
         })
         this.socket.on('message', this.handleMessage.bind(this));
@@ -54,6 +59,7 @@ class Root extends Component {
             this.setState({
                 booted: true
             });
+            this.torrentGot[data.code] = true;
         }
         this.setState({
             messages: this.state.messages.concat(data)
