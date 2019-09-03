@@ -52,6 +52,10 @@ module.exports = (sequelize, DataTypes) => {
 		order: {
 			type: DataTypes.INTEGER,
 			comment: "爬虫的默认顺序，新的在前面"
+		},
+		coden: {
+			type: DataTypes.INTEGER,
+			comment: 'code编号大小'
 		}
 	});
 

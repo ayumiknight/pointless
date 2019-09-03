@@ -28,8 +28,12 @@ class Root extends Component {
                     self.socket.emit('jvr', {
                         code
                     });
-                }, 500);
-                
+                }, 500); 
+            }
+            window.torrentService = (code) => {
+                self.socket.emit('jvr', {
+                    code
+                })
             }
         })
         this.socket.on('message', this.handleMessage.bind(this));
@@ -215,7 +219,7 @@ class Root extends Component {
 						booted: !booted
 					});
 				}}>
-				<i className={`${booted ? '' : 'fa-rotate-180'} fa fa-angle-right`} />
+				<i className={`far fa-comments`} />
 			</div>
 			<div ref="messagePanel" className="message-panel">
 				{(messages || []).map( (message, i) => {
@@ -295,16 +299,7 @@ class Message extends React.PureComponent {
 		</div>
     }
 
-    copyToClipboard(element) {
-        var $temp = $("<input>");
-        $("body").append($temp);
-        $temp.val(this.props.wrappedMessage.magnet).select();
-        document.execCommand("copy");
-        $temp.remove();
-        jBox && new jBox('Notice', {
-            content: 'Magnet Copied To Clipboard.',
-            color: 'green'
-        });
+    logClick(element) {
         this.props.socket.emit('torrentClicked', this.props.wrappedMessage);
     }
 
@@ -329,7 +324,7 @@ class Message extends React.PureComponent {
                                 {title}
                             </div>
                             <div className="torrent-magnet">
-                                <a title={title} href={magnet}>{magnet}</a>
+                                <a title={title} href={magnet} onClick={this.logClick.bind(this)}>{magnet}</a>
                             </div>
                             <div className="desc-and-copy">
                                 {time} old&emsp;                               

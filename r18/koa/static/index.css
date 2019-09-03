@@ -1,9 +1,11 @@
 body {
   background: #f5f5f5;
   margin: 0;
+  min-width: 1324px;
 }
 body *::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 body *::-webkit-scrollbar-track {
   background: #ddd;
@@ -22,15 +24,15 @@ body #root {
   padding-bottom: 50px;
   position: relative;
 }
-body #root .main {
+body #root .main.jvr {
+  width: 100%;
+  margin: auto;
+}
+body #root .main.normal {
+  width: 1024px;
   background: white;
   padding: 10px;
-  width: 1024px;
   margin: auto;
-  box-shadow: 0 0 10px rgba(155, 155, 155, 0.5);
-  position: absolute;
-  top: 50px;
-  left: 160px;
 }
 body .f {
   display: flex;
@@ -72,17 +74,35 @@ body .footer {
 body .jBox-Notice .jBox-Container .jbox-content {
   color: white;
 }
+body .panel {
+  margin-bottom: 10px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(155, 155, 155, 0.5);
+  border-radius: 3px;
+  background: white;
+}
+body .panel.panel-m-r {
+  margin-right: 10px;
+}
 @media only screen and (max-width: 480px) {
+  body {
+    min-width: 100vw;
+  }
   body .page-title {
     font-size: 25px;
     line-height: 40px;
     width: 100%;
     padding-left: 0;
   }
-  body #root .main {
+  body #root .main.normal,
+  body #root .main.jvr {
     padding: 2.5vw;
     position: static !important;
     width: 100vw;
+  }
+  body #root .main.jvr {
+    width: 100%;
+    margin: auto;
   }
 }
 @font-face {
@@ -141,6 +161,7 @@ body .jBox-Notice .jBox-Container .jbox-content {
 }
 .real-side-menu {
   position: fixed;
+  z-index: 100;
   top: 0;
   left: 0;
   width: 150px;
@@ -254,6 +275,37 @@ body .jBox-Notice .jBox-Container .jbox-content {
     -webkit-box-orient: vertical;
   }
 }
+.swiper-container .swiper-wrapper {
+  height: auto;
+}
+.swiper-container .jvr.swiper-slide {
+  width: 1004px !important;
+  margin: auto;
+}
+.swiper-container .swiper-button-next {
+  right: calc(50% - 490px) !important;
+}
+.swiper-container .swiper-button-prev {
+  left: calc(50% - 490px) !important;
+}
+.swiper-container .swiper-button-prev,
+.swiper-container .swiper-button-next {
+  z-index: 105 !important;
+  background-image: none !important;
+  color: #999;
+  cursor: pointer;
+  font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
+  color: #f72020;
+  width: auto;
+  line-height: 44px;
+  top: 570px;
+  font-size: 20px;
+}
+.swiper-container .swiper-button-prev.swiper-button-disable,
+.swiper-container .swiper-button-next.swiper-button-disable {
+  cursor: not-allowed;
+  color: #aaa;
+}
 .single-view .title {
   padding: 10px 0;
   border-bottom: 1px solid rgba(155, 155, 155, 0.5);
@@ -329,7 +381,7 @@ body .jBox-Notice .jBox-Container .jbox-content {
 .single-view .detail .right .line .value {
   color: #333;
   display: inline-block;
-  width: 75%;
+  width: 72%;
   padding-left: 10px;
 }
 .single-view .detail .right .line .value a {
@@ -384,9 +436,39 @@ body .jBox-Notice .jBox-Container .jbox-content {
   }
   .single-view .detail .right {
     width: 100%;
+    padding-top: 25px;
   }
   .single-view .detail .right .line .label {
     text-align: left;
+  }
+  .swiper-container .jvr.swiper-slide {
+    width: 100% !important;
+    margin: 0 auto;
+  }
+  .swiper-container .swiper-button-next {
+    right: 10px !important;
+  }
+  .swiper-container .swiper-button-prev {
+    left: 10px !important;
+  }
+  .swiper-container .swiper-button-prev,
+  .swiper-container .swiper-button-next {
+    z-index: 105 !important;
+    background-image: none !important;
+    color: #999;
+    cursor: pointer;
+    font-family: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
+    color: #f72020;
+    width: auto;
+    line-height: 44px;
+    top: 65%;
+    position: fixed !important;
+    font-size: 20px;
+  }
+  .swiper-container .swiper-button-prev.swiper-button-disable,
+  .swiper-container .swiper-button-next.swiper-button-disable {
+    cursor: not-allowed;
+    color: #aaa;
   }
 }
 .pagination {
@@ -512,9 +594,6 @@ body .jBox-Notice .jBox-Container .jbox-content {
   font-size: 25px;
   text-align: center;
 }
-.recommend {
-  border-top: 1px solid #e4e4e4;
-}
 .recommend .page-title {
   font-size: 25px;
   line-height: 40px;
@@ -583,11 +662,11 @@ body .jBox-Notice .jBox-Container .jbox-content {
 .instant-message .switch {
   position: absolute;
   top: calc(50% - 25px);
-  left: -25px;
+  left: -40px;
 }
 .instant-message .switch i {
-  font-size: 50px;
-  color: #4e4e4e;
+  font-size: 30px;
+  color: #f72020;
 }
 .instant-message .room-title {
   text-align: left;
@@ -750,6 +829,9 @@ body .jBox-Notice .jBox-Container .jbox-content {
 @media only screen and (max-width: 480px) {
   .instant-message *::-webkit-scrollbar {
     display: none !important;
+  }
+  .instant-message .switch {
+    top: 83%;
   }
   .instant-message .message-panel {
     touch-action: manipulation;

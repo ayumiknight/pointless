@@ -1,7 +1,7 @@
 const { 
 	getR18Paged, 
 	getR18Single,
-	recentClickCreate
+	getR18PreNext
 } = require('../../sequelize/methods/index.js');
 
 const {
@@ -11,27 +11,58 @@ const {
 	searchTorrents
 } = require('./util.js');
 
-module.exports = async (ctx, next) => {
+module.exports = async (ctx, _next) => {
 
-	let r18 = await getR18Single({
-		code: ctx.query.id
+	let {code, pre, next} = ctx.query,
+		[lcode, coden] = code.split('-');
+
+	coden = (coden || '').match(/\d+/);
+
+	if (!coden || !code) {
+		ctx.body = "{}";
+		return;
+	}
+	let [pre3, next3] = await Promise.all([
+		!next ? getR18PreNext({
+			lcode,
+			isNext: false,
+			coden
+		}): Promise.resolve({
+			rows: []
+		}), !pre ? getR18PreNext({
+			lcode,
+			isNext: true,
+			coden
+		}) : Promise.resolve({
+			rows: []
+		})
+	]);
+
+	pre3 = await Promise.all((pre3.rows || []).map( jvr => {
+		return renderOneJvr(ctx, jvr);
+	}));
+	next3 = await Promise.all((next3.rows || []).map( jvr => {
+		return renderOneJvr(ctx, jvr);
+	}));
+	ctx.body = JSON.stringify({
+		pre: pre3,
+		next: next3
 	});
+	return;
+}
 
+async function renderOneJvr(ctx, r18) {
 	let relatedQuery = {},
 		relatedKeyword,
 		reletedHref,
 		relatedR18s = [];
-
+	
 	if (r18 && r18.code) {
-		if (r18.Actresses && r18.Actresses.length === 1) {
+		if (r18.Actresses && r18.Actresses.length) {
 			relatedQuery.actress_id = r18.Actresses[0].actress_id;
 			relatedKeyword = r18.Actresses[0].en;
 			reletedHref = `${ctx.zh ? '/zh' : ''}/cast?cast=${encodeURIComponent(relatedKeyword)}`
-		} else if (r18.Series && r18.Series.series_id) {
-			relatedQuery.series_id = r18.Series.series_id;
-			relatedKeyword = r18.Series.en;
-			reletedHref = `${ctx.zh ? '/zh' : ''}/series?series=${encodeURIComponent(relatedKeyword)}`
-		} else if (r18.Studio && r18.Studio.studio_id) {
+		}  else if (r18.Studio && r18.Studio.studio_id) {
 			relatedQuery.studio_id = r18.Studio.studio_id;
 			relatedKeyword = r18.Studio.en;
 			reletedHref = `${ctx.zh ? '/zh' : ''}/studio?studio=${encodeURIComponent(relatedKeyword)}`
@@ -43,21 +74,14 @@ module.exports = async (ctx, next) => {
 			});
 			relatedR18s = relatedR18s.rows;
 		}
-	}
-	if (r18 && r18.id) {
-		await recentClickCreate({
-			type: 'jvr',
-			clickId: r18.id
-		})
+	} else {
+		return '';
 	}
 	
-	ctx.body = ctx.dots.index({
-		type: 'jvr',
-		pageTitle: ctx.query.id + (r18 && ( ctx.zh ? r18.zhTitle || r18.title :  r18.title)  ? ' - ' +  r18.title.slice(0, 150) + ' - ' : ' '),
+	return ctx.dots.singleViewAjax({
 		r18: r18 && r18.code && formatSingleEntryForRender(r18, ctx.zh),
 		relatedR18s,
 		relatedKeyword,
 		reletedHref
 	});
-	return;
 }

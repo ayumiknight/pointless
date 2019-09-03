@@ -22,7 +22,7 @@ const studio = require('./studioList.js');
 const userSearch = require('./userSearch.js');
 const chatSearch = require('./chatSearch.js');
 const ranking = require('./ranking.js');
-
+const preAndNext = require('./preAndNext');
 
 router.use(async (ctx, next) => {
 	let {  page = 1, code, id, cast, genre, studio, series, search, lcode} = ctx.query;
@@ -71,7 +71,7 @@ router.use(async (ctx, next) => {
 })
 
 router.get('/jvr', jvrSingle);
-
+router.get('/preAndNext', preAndNext);
 router.get('/casts', actressList);
 router.get('/categories', categoryList);
 router.get('/studios', studio);

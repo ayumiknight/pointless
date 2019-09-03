@@ -76,6 +76,15 @@ app.use((ctx, next) => {
 				currentPath: path,
 				isBot: !!isBot
 			})
+		},
+		singleViewAjax: (args) => {
+			return dots.singleViewAjax({
+				...args,
+				zh,
+				currentUrl: ctx.request.url,
+				currentPath: path,
+				isBot: !!isBot
+			})
 		}
 	}
 	return next();
@@ -140,7 +149,7 @@ io.on('connection', async (socket) => {
 				date = moment().toDate();
 			console.log(typeof torrents ,'======tupeof ========')
 			let [letter, number ] = code.split('-');
-			if (title.match(letter) && title.match(number)) {
+			if (title && title.match(letter) && title.match(number)) {
 				socket.emit('torrent', {
 					code,
 					magnet: torrent.magnet,

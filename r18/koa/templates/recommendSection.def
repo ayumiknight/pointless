@@ -1,9 +1,9 @@
 {{? it.relatedR18s.length }}
-<div class="jvr-list recommend">
+<div class="jvr-list recommend panel">
 	<a href="{{=it.reletedHref}}" class="page-title">
 		{{=it.relatedKeyword}}
 	</a>
-	<div class="list-view f r fc">
+	<div class="list-view f r fc swiper-no-swiping">
 
 		{{~it.relatedR18s :value:index}}
 			<a class="list-item f" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">

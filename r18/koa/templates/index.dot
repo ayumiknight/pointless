@@ -22,18 +22,21 @@
 	  crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.0.5/dist/jBox.all.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/gh/StephanWagner/jBox@v1.0.5/dist/jBox.all.min.css" rel="stylesheet">
-	
+	<script type="text/javascript" src="/static/swiper.min.js" ></script>
+	<link href="/static/swiper.min.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="/static/react.development.js" ></script>
 	<script type="text/javascript" src="/static/react-dom.development.js" ></script>
 	<script type="text/javascript" src="/static/babel.min.js" ></script>
 	<script type="text/javascript" src="/static/axios.min.js" ></script>
 	{{? !it.isBot }}
 		<script type="text/babel" src="/static/main.jsx"></script>
+		<script type="text/babel" src="/static/swiperInit.js"></script>
 	{{?}}
 	<script type="text/javascript" src="/static/dayjs.min.js"></script>	
 	<script src="/static/socket.io.dev.js"></script>
 
 	<script>
+		var code = "{{=it.r18 && it.r18.code || ""}}";
 		$(document).ready(function() {
 			$("#idSearch").bind('keypress', function(e) {
 				if (e.keyCode === 13) {
@@ -74,11 +77,10 @@
 <body>
 <div id='root'>
 	{{#def.sideMenu}}
-	<div class="main">
+	<div class="main {{=it.type === 'jvr' ? 'jvr' : 'normal'}}">
 	
 		{{? it.type === 'jvr'}}
 			{{#def.singleView}}
-			{{#def.recommendSection}}
 		{{?? it.type === 'actress'}}
 			{{#def.actressView}}
 			{{#def.pagination}}
