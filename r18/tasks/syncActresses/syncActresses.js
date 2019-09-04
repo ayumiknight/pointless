@@ -7,8 +7,10 @@ const url = require("url");
 const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle } = require('../util.js');
 const { 
 	ActressesBulkCreate, 
-	SyncDB 
-} = require('../../sequelize/methods/actresses.js');
+	SyncDB,
+	measureActresses,
+	sequelize
+} = require('../../sequelize/methods/index.js');
 //https://www.r18.com/videos/vod/movies/actress/letter=a/sort=popular/page=330/
 //https://www.r18.com/videos/vod/movies/studio/letter=a/sort=popular/page=1/?lg=zh
 
@@ -76,7 +78,6 @@ async function loadPage(pageindex) {
 
 	   	formattedActresses[i]['zh'] = formattedName;
   	})
-   	console.log(pageindex, formattedActresses, '======================')
 	await ActressesBulkCreate(formattedActresses);
 }
 
@@ -84,10 +85,16 @@ async function loadPage(pageindex) {
 
 async function index() {
 	await SyncDB();
+	let before = await measureActresses();
+	await fs.writeFileSync('./result.txt', JSON.stringify(before) '\n', { flag : 'a'})
 	while (currentPage <= totalPage) {
 		await loadPage(currentPage);
 		currentPage++;
 	}
+	await new Promise((resolve, reject) => {
+		setTimeout(resolve, 3 * 60 * 1000);
+	});
+	await fs.writeFileSync('./result.txt', JSON.stringify(before) '\n', { flag : 'a'})
 }
 
 index();

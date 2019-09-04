@@ -6,3 +6,4 @@ npm-debug.log
 logs/
 sequelize/index.js
 crawled*.*
+tasks/*/*.txt

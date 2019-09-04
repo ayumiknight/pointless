@@ -1,10 +1,12 @@
 const db = require('../index.js');
-const { R18, Series, Studio, Actress, Category, Gallery } = db;
+const { R18, Series, Studio, Actress, Category, Gallery, sequelize } = db;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 async function ActressesBulkCreate(actresses) {
-	return Actress.bulkCreate(actresses); //promise
+	return Promise.all(actresses.map(actress => {
+		return ActressCreate(actress)
+	})); //promise
 }
 
 async function ActressCreate(actress) {
@@ -13,7 +15,7 @@ async function ActressCreate(actress) {
 		where: {
 			actress_id: actress.actress_id
 		},
-		default: actress
+		defaults: actress
 	})
 }
 
@@ -49,10 +51,15 @@ async function getActressById(id) {
 	return Actress.findByPk(id);
 }
 
+async function measureActresses() {
+	return sequelize.query("SELECT COUNT(DISTINCT(`actress_id`)) FROM `Actresses`;")
+}
+
 module.exports = {
 	ActressesBulkCreate,
 	ActressCreate,
 	getActressesPagedByFirstLetter,
 	getSearchForActress,
-	getActressById
+	getActressById,
+	measureActresses
 }

@@ -1,5 +1,5 @@
 const db = require('../index.js');
-const { R18, Series, Studio, Actress, Category, Gallery } = db;
+const { R18, Series, Studio, Actress, Category, Gallery, sequelize } = db;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 //never use bulkcreate, mysql won't return primary ids for bulk insert!!!
@@ -247,5 +247,6 @@ module.exports = {
 	getR18Single,
 	getR18SingleSimple,
 	getR18PreNext,
-	SyncDB
+	SyncDB,
+	sequelize
 }
