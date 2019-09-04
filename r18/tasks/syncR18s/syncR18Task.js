@@ -8,7 +8,7 @@ var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
 var log_stdout = process.stdout;
 
 
-let pageAll = 10;
+let pageAll = 203;
 async function crawlAndCreate() {
 	await SyncDB();
 	let before = await measureR18s();
@@ -22,8 +22,9 @@ async function crawlAndCreate() {
 			let buldSavingResult = await R18BulkCreate({
 				entries: formattedEntries
 			});
+			await fs.writeFileSync('./result.txt', `${+new Date()} : page ${pageindex} crawled \n`, { flag : 'a'})
 		} catch(e) {
-
+			await fs.writeFileSync('./result.txt', `${+new Date()} : ` + (e.message || e.msg) + `error at page ${pageindex}!!!! \n`, { flag : 'a'})
 		}
 		pageindex += 1;
 
