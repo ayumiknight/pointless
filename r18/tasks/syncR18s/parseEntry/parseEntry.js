@@ -105,9 +105,12 @@ function parseEntry(entry) {
 		});
 	})
 
-
+	let code = formattedDetails.code,
+		match = (code.split('-')[1]).match(/\d+/),
+		coden = match && match[0] || 0;
 	return {
 		...formattedDetails,
+		coden,
 		Actresses,
 		Galleries,
 		Categories,

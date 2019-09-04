@@ -240,6 +240,13 @@ async function getR18PreNext({
 	}
 	return R18.findAndCountAll(query);
 }
+
+
+async function measureR18s() {
+	return sequelize.query("SELECT COUNT(DISTINCT(`code`)) FROM `R18s`;")
+}
+
+
 module.exports = {
 	R18BulkCreate,
 	R18Create,
@@ -248,5 +255,6 @@ module.exports = {
 	getR18SingleSimple,
 	getR18PreNext,
 	SyncDB,
-	sequelize
+	sequelize,
+	measureR18s
 }

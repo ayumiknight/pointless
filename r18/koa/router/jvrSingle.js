@@ -47,7 +47,8 @@ module.exports = async (ctx, next) => {
 	if (r18 && r18.id) {
 		await recentClickCreate({
 			type: 'jvr',
-			clickId: r18.id
+			clickId: r18.id,
+			code: r18.code
 		})
 	}
 	

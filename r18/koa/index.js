@@ -162,10 +162,10 @@ io.on('connection', async (socket) => {
 		});
 	})
 
-	socket.on('torrentClicked', (data) => {
-		recentClickCreate({
+	socket.on('torrentClicked', async (data) => {
+		await recentClickCreate({
 			type: 'torrent',
-			clickId: data.code
+			code: data.code
 		})
 	})
 

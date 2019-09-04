@@ -7,6 +7,10 @@ module.exports = (sequelize, DataTypes) => {
         type: {
             type: DataTypes.STRING,
             comment: "链接种类",
+        },
+        code: {
+            type: DataTypes.STRING(25),
+            comment: "code",
         }
     });
 

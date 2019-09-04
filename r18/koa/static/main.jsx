@@ -306,6 +306,7 @@ class Message extends React.PureComponent {
     }
 
     logClick(element) {
+        console.log('clicled====================')
         this.props.socket.emit('torrentClicked', this.props.wrappedMessage);
     }
 
