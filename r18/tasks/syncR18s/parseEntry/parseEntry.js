@@ -106,8 +106,9 @@ function parseEntry(entry) {
 	})
 
 	let code = formattedDetails.code,
-		match = (code.split('-')[1]).match(/\d+/),
+		match = (code.split('-')[1] || code.split('-')[0]).match(/\d+/),
 		coden = match && match[0] || 0;
+	if (!code ) console.warn(`no code found at ${enEntry.config.url} !!!!!!!`);
 	return {
 		...formattedDetails,
 		coden,
