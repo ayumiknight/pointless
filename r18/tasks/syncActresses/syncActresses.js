@@ -86,7 +86,7 @@ async function loadPage(pageindex) {
 async function index() {
 	await SyncDB();
 	let before = await measureActresses();
-	await fs.writeFileSync('./result.txt', JSON.stringify(before) '\n', { flag : 'a'})
+	await fs.writeFileSync('./result.txt', JSON.stringify(before) + '\n', { flag : 'a'})
 	while (currentPage <= totalPage) {
 		await loadPage(currentPage);
 		currentPage++;
@@ -94,7 +94,8 @@ async function index() {
 	await new Promise((resolve, reject) => {
 		setTimeout(resolve, 3 * 60 * 1000);
 	});
-	await fs.writeFileSync('./result.txt', JSON.stringify(before) '\n', { flag : 'a'})
+	let after = await measureActresses();
+	await fs.writeFileSync('./result.txt', JSON.stringify(after) + '\n', { flag : 'a'})
 }
 
 index();
