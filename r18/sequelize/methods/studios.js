@@ -1,19 +1,21 @@
 const db = require('../index.js');
-const { R18, Series, Studio, Actress, Category, Gallery } = db;
+const { R18, Series, Studio, Actress, Category, Gallery, sequelize } = db;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 async function StudiosBulkCreate(studios) {
-	return Studio.bulkCreate(studios); //promise
+	return Promise.all(studios.map(studio => {
+		return StudiosCreate(studio)
+	})) //promise
 }
 
 async function StudiosCreate(studio) {
 
-	return R18.findOrCreate({
+	return Studio.findOrCreate({
 		where: {
 			studio_id: studio.studio_id
 		},
-		default: studio
+		defaults: studio
 	})
 }
 
@@ -45,10 +47,14 @@ async function getSearchForStudio(search) {
 	})
 }
 
+async function measureStudios() {
+	return sequelize.query("SELECT COUNT(DISTINCT(`studio_id`)) FROM `Studios`;")
+}
 
 module.exports = {
 	StudiosBulkCreate,
 	StudiosCreate,
 	getSearchForStudio,
-	getStudiosPagedByFirstLetter
+	getStudiosPagedByFirstLetter,
+	measureStudios
 }

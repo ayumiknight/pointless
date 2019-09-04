@@ -1,10 +1,12 @@
 const db = require('../index.js');
-const { R18, Series, Studio, Actress, Category, Gallery } = db;
+const { R18, Series, Studio, Actress, Category, Gallery, sequelize } = db;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 async function SeriesBulkCreate(serieses) {
-	return Series.bulkCreate(serieses); //promise
+	return Promise.all(serieses.map(series => {
+		return SeriesCreate(series);
+	})); //promise
 }
 
 async function SeriesCreate(series) {
@@ -13,7 +15,7 @@ async function SeriesCreate(series) {
 		where: {
 			series_id: series.series_id
 		},
-		default: series
+		defaults: series
 	})
 }
 
@@ -31,9 +33,14 @@ async function getSearchForSeries(search) {
 	
 }
 
+async function measureSeries() {
+	return sequelize.query("SELECT COUNT(DISTINCT(`series_id`)) FROM `Series`;")
+}
+
 
 module.exports = {
 	SeriesBulkCreate,
 	SeriesCreate,
-	getSearchForSeries
+	getSearchForSeries,
+	measureSeries
 }

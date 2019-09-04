@@ -7,8 +7,9 @@ const url = require("url");
 const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle } = require('../util.js');
 const { 
 	SeriesBulkCreate, 
-	SyncDB 
-} = require('../../sequelize/methods/series.js');
+	SyncDB,
+	measureSeries
+} = require('../../sequelize/methods/index.js');
 
 //https://www.r18.com/videos/vod/movies/series/letter=a/sort=popular/page=1/
 
@@ -71,7 +72,6 @@ async function loadPage(pageindex) {
 	   		formattedSeries[i]['zh'] = name;
 	   		formattedSeries[i]['descZH'] = desc.slice(0, 999);
 	   	})
-	   	console.log(pageindex, formattedSeries, '======================')
 		await SeriesBulkCreate(formattedSeries);
 	} catch(e) {
 		fs.writeFileSync('error.log', `${pageindex} failed ${e.message}\n`, { flag : 'a'});
@@ -83,6 +83,8 @@ async function loadPage(pageindex) {
 
 async function index() {
 	await SyncDB();
+	let before = await measureSeries();
+	await fs.writeFileSync('./result.txt', JSON.stringify(before) + '\n', { flag : 'a'})
 	while (currentPage <= totalPage) {
 		let rest = totalPage - currentPage + 1,
 			tasks = [...new Array(rest >= 4 ? 4 : rest)].map((value, index) => loadPage(currentPage + index));
@@ -90,6 +92,8 @@ async function index() {
 		await Promise.all(tasks);
 		currentPage += 4;
 	}
+	let after = await measureSeries();
+	await fs.writeFileSync('./result.txt', JSON.stringify(after) + '\n\n', { flag : 'a'})
 }
 
 index();
