@@ -62,11 +62,16 @@ app.use((ctx, next) => {
 	let headers = ctx.request.header,
 		isBot = (headers['user-agent'] || '').match(/(googlebot)/i),
 		zh = ctx.path.match(/\/zh/i),
-		path = ctx.path.replace(/\/zh/i, '') || '/';
+		path = ctx.path.replace(/\/zh/i, '') || '/',
+		isBaidu = (headers['user-agent'] || '').match(/(baiduspider)/i);
 
 	ctx.path = path;
 	ctx.zh = zh;
 
+	if (isBaidu) {
+		ctx.body = "no crawl please";
+		return;
+	}
 	ctx.dots = {
 		index: (args) => {
 			return dots.index({
