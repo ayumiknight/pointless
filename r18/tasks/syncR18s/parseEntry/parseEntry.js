@@ -4,6 +4,8 @@ const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle 
 
 function parseEntry(entry) {
 	let [ enEntry, zhEntry ] = entry;
+	if (!enEntry || !zhEntry) return null;
+	
 	var $ = cheerio.load(enEntry.data, {
 	    xml: {
 	        normalizeWhitespace: true,

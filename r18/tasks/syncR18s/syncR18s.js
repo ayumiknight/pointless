@@ -16,9 +16,15 @@ function getPageUrl(pageindex) {
 
 async function loadPage(pageindex) {
 
-    let pageUrl = getPageUrl(pageindex);
-
-    let res = await axios.get(pageUrl);
+    let pageUrl = getPageUrl(pageindex),
+        res;
+    try {
+        res = await axios.get(pageUrl); 
+    } catch(e) {
+        console.warn(`${+new Date()} : load page failed at ${pageindex} !!!!!!!!!!!!!!1`);
+        return [];
+    }
+    
 
     let $ = cheerio.load(res.data),
         entries = $('body ul.cmn-list-product01 li'),
@@ -38,12 +44,15 @@ async function loadPageEntries(entries) {
         return Promise.all([
             axios.get(url),
             axios.get(url + '&lg=zh')
-        ]);
+        ]).then((e) => {
+            console.warn(`${+new Date()} : load jvr failed at ${url} !!!!!!!!!!!!!!1`)
+            return [null , null]
+        });
     }));
 
     formattedEntries = allEntries.map(entryRes => {
         return parseEntry(entryRes);
-    })
+    }).filter(formatted => !!formatted);
     return formattedEntries;
 }
 

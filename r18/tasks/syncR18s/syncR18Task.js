@@ -8,7 +8,7 @@ var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
 var log_stdout = process.stdout;
 
 
-let pageAll = 203;
+let pageAll = 100;
 async function crawlAndCreate() {
 	await SyncDB();
 	let before = await measureR18s();
