@@ -9,7 +9,6 @@ const parseEntry = require('./parseEntry/parseEntry.js')
 //axios包一层retry
 axiosRretry(axios, { retries: 3 });
 
-
 function getPageUrl(pageindex) {
     return `https://www.r18.com/videos/vod/movies/list/id=6793/pagesize=30/price=all/sort=new/type=category/page=${pageindex}/?dmmref=pc_header`
 }
@@ -21,7 +20,7 @@ async function loadPage(pageindex) {
     try {
         res = await axios.get(pageUrl); 
     } catch(e) {
-        console.warn(`${+new Date()} : load page failed at ${pageindex} !!!!!!!!!!!!!!1`);
+        console.warn(`${+new Date()} : load page failed at ${pageindex} ${pageUrl} !!!!!!!!!!!!!!1`);
         return [];
     }
     
@@ -44,7 +43,7 @@ async function loadPageEntries(entries) {
         return Promise.all([
             axios.get(url),
             axios.get(url + '&lg=zh')
-        ]).then((e) => {
+        ]).catch((e) => {
             console.warn(`${+new Date()} : load jvr failed at ${url} !!!!!!!!!!!!!!1`)
             return [null , null]
         });
