@@ -40,6 +40,10 @@ body {
             background: white;
             padding: 10px;
             margin: auto;
+            &.jvrList {
+                width: 1360px;
+                background: transparent;
+            }
         }
 
     }
@@ -116,14 +120,21 @@ body {
         }
         min-width: 100vw;
         #root {
-            .main.normal, .main.jvr {
+            .main.normal {
                 padding: 2.5vw;
                 position: static !important;
                 width: 100vw;
+                &.jvrList {
+                    width: 100vw;
+                    .my-selection {
+                        display: none;
+                    }
+                }
             }
             .main.jvr {
-                width: 100%;
-                margin: auto;
+                padding: 0;
+                position: static !important;
+                width: 100vw;
             }
         }
     }

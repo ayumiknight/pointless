@@ -77,7 +77,7 @@
 <body>
 <div id='root'>
 	{{#def.sideMenu}}
-	<div class="main {{=it.type === 'jvr' ? 'jvr' : 'normal'}}">
+	<div class="main {{=it.type === 'jvr' ? 'jvr' : 'normal'}} {{=it.type === 'jvrList' ? 'jvrList' : ''}}">
 	
 		{{? it.type === 'jvr'}}
 			{{#def.singleView}}
@@ -93,7 +93,7 @@
 			{{#def.ranking}}
 		{{??}}
 			{{#def.listView}}
-			{{#def.pagination}}
+			{{#def.mySelection}}
 		{{?}}
 	</div>
 	<div class="footer">

@@ -1,24 +1,30 @@
 .recommend {
-    
+    width: 1004px;
     .page-title {
         font-size: 25px;
         line-height: 40px;
         text-decoration: none;
+        width: 500px;
     }
     .list-view {
-        width: 100%;
+        width: 984px;
         flex-wrap: nowrap !important;
         overflow-x: scroll;
         -webkit-overflow-scrolling: touch;
         touch-action: manipulation;
     }
 }
+
 @media only screen and (max-width: 480px) {
     .recommend {
         border-top: 1px solid #e4e4e4;
-
+        width: 100vw;
+        .page-title {
+            width: 300px;
+        }
         .list-view {
         	justify-content: flex-start !important;
+            width: calc(100vw - 20px);
             .list-item {
             	img {
             		height: 54vw;

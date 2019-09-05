@@ -20,5 +20,6 @@
 			{{#def.empty}}
 		{{?}}
 	</div>
+	{{#def.pagination}}
 </div>
 

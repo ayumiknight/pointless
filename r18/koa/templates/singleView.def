@@ -1,4 +1,17 @@
 <div class="swiper-container" data="{{=it.r18 && it.r18.code}}">
+	<div class="nav-buttons f r fc">
+		<div class="swiper-button-prev">
+			<i class="fas fa-chevron-left" /></i>
+		</div>
+    	{{? !it.isBot }}
+	    	<div class="notice">
+	    		Click, swiper or press direction keys.
+	    	</div>
+    	{{?}}
+		<div class="swiper-button-next">
+    		<i class="fas fa-chevron-right" /></i>
+    	</div>
+    </div>
     <div class="swiper-wrapper">
     	<div class="swiper-slide jvr">
 	        <div class="single-view panel">
@@ -49,12 +62,5 @@
 	        </div>
 	        {{#def.recommendSection}}
     	</div>
-    </div>
-
-    <div class="swiper-button-next">
-    	Next
-    </div>
-    <div class="swiper-button-prev">
-    	Prev
     </div>
 </div>

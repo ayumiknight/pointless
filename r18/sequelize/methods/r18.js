@@ -3,7 +3,19 @@ const { R18, Series, Studio, Actress, Category, Gallery, sequelize } = db;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 //never use bulkcreate, mysql won't return primary ids for bulk insert!!!
+const mySelected = [
+	"KMVR-668",
+	"TMAVR-072",
+	"KMVR-618",
+	"MDVR-054",
+	"TMAVR-043",
+	"EXVR-141",
+	"TMAVR-055",
+	"DOVR-021",
+	"EXBVR-010",
+	"BIKMVR-108"
 
+]
 async function SyncDB() {
 	await db.sequelize.sync();
 }
@@ -241,6 +253,11 @@ async function getR18PreNext({
 	return R18.findAndCountAll(query);
 }
 
+async function getMySelected() {
+	return Promise.all(mySelected.map(code => {
+		return getR18SingleSimple({ code });
+	}));
+}
 
 async function measureR18s() {
 	return sequelize.query("SELECT COUNT(DISTINCT(`code`)) FROM `R18s`;")
@@ -256,5 +273,6 @@ module.exports = {
 	getR18PreNext,
 	SyncDB,
 	sequelize,
-	measureR18s
+	measureR18s,
+	getMySelected
 }

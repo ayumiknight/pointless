@@ -6,28 +6,29 @@
 		width: 1004px !important;
 		margin: 0 auto;
 	}
-	.swiper-button-next {
-		right: calc(50% - 490px) !important;
-	}
-	.swiper-button-prev {
-		left: calc(50% - 490px) !important;
-	}
-	.swiper-button-prev, .swiper-button-next {
-		z-index: 105 !important;
-		background-image: none !important;
-		color: #999;
-		cursor: pointer;
-		font-family: @hemi;
-		color: @primary;
-		width: auto;
-		line-height: 44px;
-		top: 570px;
-		font-size: 20px;
-		&.swiper-button-disable {
-			cursor: not-allowed;
-			color: #aaa;
+	.nav-buttons {
+		width: 1004px;
+		margin: 10px auto;
+		justify-content: space-between !important;
+		.swiper-button-prev, .swiper-button-next {
+			z-index: 105 !important;
+			background-image: none !important;
+			color: #999;
+			cursor: pointer;
+			font-family: @hemi;
+			color: @primary;
+			width: auto;
+			position: static !important;
+			height: auto !important;
+			margin-top: 0px !important;
+			font-size: 20px;
+			&.swiper-button-disable {
+				cursor: not-allowed;
+				color: #aaa;
+			}
 		}
 	}
+	
 }
 .single-view {
 	.title {
@@ -188,27 +189,13 @@
 			width: 100% !important;
 			margin: 0 auto;
 		}
-		.swiper-button-next {
-			right: 10px !important;
-		}
-		.swiper-button-prev {
-			left: 10px !important;
-		}
-		.swiper-button-prev, .swiper-button-next {
-			z-index: 105 !important;
-			background-image: none !important;
-			color: #999;
-			cursor: pointer;
-			font-family: @hemi;
-			color: @primary;
-			width: auto;
-			line-height: 44px;
-			top: 65%;
-			position: fixed !important;
-			font-size: 20px;
-			&.swiper-button-disable {
-				cursor: not-allowed;
-				color: #aaa;
+		.nav-buttons {
+			width: 100%;
+			margin: 10px auto;
+			padding: 0 10px;
+			justify-content: space-between !important;
+			.notice {
+				font-size: 12px;
 			}
 		}
 	}
