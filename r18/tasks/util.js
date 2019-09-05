@@ -6,6 +6,9 @@ const util = {
 		let text = util.trim(node.text() || '');
 		return text === "----" ? "" : text;
 	},
+	getCode(i) {
+		return i.replace(/^([a-zA-Z_]*)(\d*)([a-zA-Z]+)(\d+)$/, "$3-$4").toUpperCase();
+	},
 	trim(str) {
 		return str.trimStart().trimEnd();
 	},

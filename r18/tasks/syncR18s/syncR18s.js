@@ -5,7 +5,9 @@ const cheerio = require('cheerio');
 const path = require('path');
 const url = require("url");
 const parseEntry = require('./parseEntry/parseEntry.js')
-
+const {
+    R18Create
+} = require('../../sequelize/methods/index.js');
 //axios包一层retry
 axiosRretry(axios, { retries: 3 });
 
@@ -38,28 +40,32 @@ async function loadPage(pageindex) {
 }
 
 
-async function loadPageEntries(entries) {
-    let allEntries = await Promise.all(entries.map(url => {
-        return Promise.all([
+async function loadAndSave(entries) {
+    let i = 0;
+    while( i < entries.length) {
+        let url = entries[i];
+        let raw = await Promise.all([
             axios.get(url),
             axios.get(url + '&lg=zh')
         ]).catch((e) => {
             console.warn(`${+new Date()} : load jvr failed at ${url} !!!!!!!!!!!!!!1`)
             return [null , null]
         });
-    }));
-
-    formattedEntries = allEntries.map(entryRes => {
-        return parseEntry(entryRes);
-    }).filter(formatted => !!formatted);
-    return formattedEntries;
+        let r18Parsed = parseEntry(raw);
+        if (r18Parsed && r18Parsed.code) {
+            await R18Create({
+                entry: r18Parsed
+            });
+        }
+        i++;
+    }
 }
 
-async function generateData(pageIndex) {
+async function savePage(pageIndex) {
     let formattedEntryUrls = await loadPage(pageIndex);
-    let formattedEntries = await loadPageEntries(formattedEntryUrls);
-    return formattedEntries;
+    let result = await loadAndSave(formattedEntryUrls);
+    return result;
 }
 
 
-module.exports = generateData;
+module.exports = savePage;

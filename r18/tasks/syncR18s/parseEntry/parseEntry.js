@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle } = require('../../util.js');
+const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle, getCode } = require('../../util.js');
 
 
 function parseEntry(entry) {
@@ -65,6 +65,9 @@ function parseEntry(entry) {
 	                case 0:
 	                    formattedDetails.channel = getText($(this));
 	                    break;
+	                case 1:
+	                	formattedDetails.backupCode = getCode(getText($(this)));
+	                	break;
 	                case 2:
 	                    formattedDetails.code = getText($(this));
 	                    break;
@@ -107,6 +110,8 @@ function parseEntry(entry) {
 		});
 	})
 
+	formattedDetails.code = formattedDetails.code || formattedDetails.backupCode;
+	
 	let code = formattedDetails.code,
 		match = (code.split('-')[1] || code.split('-')[0]).match(/\d+/),
 		coden = match && match[0] || 0;

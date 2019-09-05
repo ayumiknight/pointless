@@ -1,7 +1,7 @@
 
 
 const { R18BulkCreate, R18Create,  SyncDB, measureR18s } = require('../../sequelize/methods/index.js');
-const generateData = require('./syncR18s.js');
+const savePage = require('./syncR18s.js');
 var fs = require('fs');
 var util = require('util');
 var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
@@ -14,14 +14,9 @@ async function crawlAndCreate() {
 	let before = await measureR18s();
 	await fs.writeFileSync('./result.txt', JSON.stringify(before) + '\n', { flag : 'a'})
 	let pageindex = 1;
-	while( pageindex <= pageAll) {
-
-		let formattedEntries = await generateData(pageindex);
-		fs.writeFileSync(`./crawled${pageindex}.txt`, JSON.stringify(formattedEntries));
+	while( pageindex <= pageAll) {	
 		try {
-			let buldSavingResult = await R18BulkCreate({
-				entries: formattedEntries
-			});
+			let result = await savePage(pageindex);
 			await fs.writeFileSync('./result.txt', `${+new Date()} : page ${pageindex} crawled \n`, { flag : 'a'})
 		} catch(e) {
 			await fs.writeFileSync('./result.txt', `${+new Date()} : ` + (e.message || e.msg) + `error at page ${pageindex}!!!! \n`, { flag : 'a'})
