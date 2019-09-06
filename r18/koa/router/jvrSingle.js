@@ -51,10 +51,10 @@ module.exports = async (ctx, next) => {
 			code: r18.code
 		})
 	}
-	
+	let title = r18 && r18.code ? ' - ' + (ctx.zh ? r18.zhTitle : r18.title): "- Not Found";
 	ctx.body = ctx.dots.index({
 		type: 'jvr',
-		pageTitle: ctx.query.id + (r18 && ( ctx.zh ? r18.zhTitle || r18.title :  r18.title)  ? ' - ' +  r18.title.slice(0, 150) + ' - ' : ' '),
+		pageTitle: ctx.query.id + title.slice(0, 150),
 		r18: r18 && r18.code && formatSingleEntryForRender(r18, ctx.zh),
 		relatedR18s,
 		relatedKeyword,

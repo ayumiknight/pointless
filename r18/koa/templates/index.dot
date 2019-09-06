@@ -9,7 +9,7 @@
 		{{?? it.pageTitle && it.pageTitle === 'ranking'}}
 			{{=it.zh ? '排行' : 'Ranking'}} -
 		{{?}}
-		JvrLibrary
+		&nbsp;JvrLibrary
 	</title>
 	<link rel="icon" type="image/png" href="/static/favicon.png">
 	<meta name="description" content="Japan VR Adult Videos and Torrents">
