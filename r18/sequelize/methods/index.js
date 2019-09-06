@@ -21,7 +21,7 @@ fs.readdirSync(__dirname).map(f => {
 				let	data = nodeCache.get(key + JSON.stringify(arguments));
 				if (!data) {
 					data = await methods[key].apply(null, arguments);
-					let raw = data.toJSON ? data.toJSON() : data;
+					let raw = data && data.toJSON ? data.toJSON() : data;
 					console.log(raw)
 					if (typeof raw !== 'string') {
 						raw = JSON.stringify(raw);
