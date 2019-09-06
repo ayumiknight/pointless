@@ -38,10 +38,10 @@ module.exports = async (ctx, _next) => {
 		})
 	]);
 
-	pre3 = await Promise.all((pre3.rows || []).map( jvr => {
+	pre3 = await Promise.all((pre3 || []).map( jvr => {
 		return renderOneJvr(ctx, jvr);
 	}));
-	next3 = await Promise.all((next3.rows || []).map( jvr => {
+	next3 = await Promise.all((next3 || []).map( jvr => {
 		return renderOneJvr(ctx, jvr);
 	}));
 	ctx.body = JSON.stringify({

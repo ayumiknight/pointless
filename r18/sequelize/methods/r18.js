@@ -211,7 +211,7 @@ async function getR18PreNext({
 	lcode,
 	isNext,
 	offset = 0,
-	limit = 5,
+	limit = 10,
 	coden
 }) {
 
@@ -222,7 +222,7 @@ async function getR18PreNext({
 			}
 		},
 		order: [[
-			'coden', 'DESC'
+			'coden', isNext ? 'DESC' : 'ASC'
 		]],
 		offset,
 		limit,
@@ -250,7 +250,7 @@ async function getR18PreNext({
 			[Op.gt]: coden
 		};
 	}
-	return R18.findAndCountAll(query);
+	return R18.findAll(query);
 }
 
 async function getMySelected() {

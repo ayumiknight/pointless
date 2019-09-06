@@ -20,7 +20,7 @@ async function sliderLoadMoreAndInit() {
 
 	window.swiper = swiper;
 	swiper.appendSlide(data.next || []);
-	swiper.prependSlide((data.pre || []).reverse());
+	swiper.prependSlide((data.pre || []));
 	swiper.update();
 	if ((data.next || []).length < 5 ) {
 		swiper.noNextSlides = true;
@@ -54,7 +54,7 @@ async function sliderOnChange() {
 			preSlides = await axios.get(`/preAndNext?code=${firstSlideCode}&pre=true`),
 			data = preSlides.data;
 		
-		swiper.prependSlide((data.pre || []).reverse());
+		swiper.prependSlide((data.pre || []));
 		swiper.update();
 		if ((data.pre || []).length < 5 ) {
 			swiper.noPreSlides = true;
