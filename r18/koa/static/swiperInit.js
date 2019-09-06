@@ -1,5 +1,5 @@
 async function sliderLoadMoreAndInit() {
-	
+	if (!code) return;
 	let preAndNext = await axios.get(`/preAndNext?code=${code}`),
 		data = preAndNext.data,
 		isMobile = navigator.userAgent.match(/mobile/i) && !navigator.userAgent.match(/ipad/i);
