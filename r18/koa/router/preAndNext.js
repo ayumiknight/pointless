@@ -27,15 +27,12 @@ module.exports = async (ctx, _next) => {
 			lcode,
 			isNext: false,
 			coden
-		}): Promise.resolve({
-			rows: []
-		}), !pre ? getR18PreNext({
+		}): Promise.resolve([]), 
+		!pre ? getR18PreNext({
 			lcode,
 			isNext: true,
 			coden
-		}) : Promise.resolve({
-			rows: []
-		})
+		}) : Promise.resolve([])
 	]);
 
 	pre3 = await Promise.all((pre3 || []).map( jvr => {

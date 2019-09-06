@@ -22,10 +22,10 @@ async function sliderLoadMoreAndInit() {
 	swiper.appendSlide(data.next || []);
 	swiper.prependSlide((data.pre || []));
 	swiper.update();
-	if ((data.next || []).length < 5 ) {
+	if ((data.next || []).length < 10 ) {
 		swiper.noNextSlides = true;
 	}
-	if ((data.pre || []).length < 5 ) {
+	if ((data.pre || []).length < 10 ) {
 		swiper.noPreSlides = true;
 	}
 }
@@ -46,7 +46,7 @@ async function sliderOnChange() {
 
 		swiper.appendSlide(data.next || []);
 		swiper.update();
-		if ((data.next || []).length < 5 ) {
+		if ((data.next || []).length <  10 ) {
 			swiper.noNextSlides = true;
 		}
 	} else if (currentIndex <= 2 && !swiper.noPreSlides) {
@@ -56,7 +56,7 @@ async function sliderOnChange() {
 		
 		swiper.prependSlide((data.pre || []));
 		swiper.update();
-		if ((data.pre || []).length < 5 ) {
+		if ((data.pre || []).length <  10 ) {
 			swiper.noPreSlides = true;
 		}
 	}
