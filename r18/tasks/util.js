@@ -7,7 +7,7 @@ const util = {
 		return text === "----" ? "" : text;
 	},
 	getCode(i) {
-		return i.replace(/^([a-zA-Z_]*)(\d*)([a-zA-Z]+)(\d+)$/, "$3-$4").toUpperCase();
+		return i.replace(/^([a-zA-Z_]*)(\d*)([a-zA-Z]+)(\d*)(\d{3})$/, "$3-$5").toUpperCase();
 	},
 	trim(str) {
 		return str.trimStart().trimEnd();

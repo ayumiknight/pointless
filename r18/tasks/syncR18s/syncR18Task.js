@@ -8,12 +8,12 @@ var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
 var log_stdout = process.stdout;
 
 
-let pageAll = 100;
+let pageAll = process.env.limit || 2;
 async function crawlAndCreate() {
 	await SyncDB();
 	let before = await measureR18s();
 	await fs.writeFileSync('./result.txt', JSON.stringify(before) + '\n', { flag : 'a'})
-	let pageindex = 1;
+	let pageindex = process.env.offset || 1;
 	while( pageindex <= pageAll) {	
 		try {
 			let result = await savePage(pageindex);
