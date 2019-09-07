@@ -152,7 +152,7 @@ io.on('connection', async (socket) => {
 			let torrent = torrents[0] || {},
 				title = torrent.title,
 				date = moment().toDate();
-			console.log(typeof torrents ,'======tupeof ========')
+			
 			let [letter, number ] = code.split('-');
 			if (title && title.match(letter) && title.match(number)) {
 				socket.emit('torrent', {

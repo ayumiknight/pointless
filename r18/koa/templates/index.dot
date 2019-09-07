@@ -93,7 +93,7 @@
 			{{#def.ranking}}
 		{{??}}
 			{{#def.listView}}
-			{{#def.mySelection}}
+			{{#def.mySelectionAndCurrentClicks}}
 		{{?}}
 	</div>
 	<div class="footer">

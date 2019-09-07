@@ -1,6 +1,7 @@
 const { 
 	getR18Paged,
-	getMySelected
+	getMySelected,
+	getCurrentClicks
 } = require('../../sequelize/methods/index.js');
 const { recentClickCreate } = require('../../sequelize/methods/recentClick.js');
 
@@ -63,12 +64,14 @@ module.exports = async (ctx, next) => {
 		await recentClickCreate(clickAction)
 	}
 	let mySelected = await getMySelected();
-	console.log(mySelected, '======================')
+	let currentClicks = await getCurrentClicks();
+
 	ctx.body = ctx.dots.index({
 		type: 'jvrList',
 		pageTitle,
 		r18s: r18s.rows || [],
 		mySelected,
+		currentClicks,
 		pagination: generatePagination({
 			baseUrl: ctx.request.url,
 			current: page * 1,

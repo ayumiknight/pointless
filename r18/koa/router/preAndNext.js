@@ -66,7 +66,7 @@ async function renderOneJvr(ctx, r18) {
 		}
 		if (Object.keys(relatedQuery).length) {
 			relatedR18s = await getR18Paged({
-				...ctx.query,
+				...relatedQuery,
 				pagesize: 10
 			});
 			relatedR18s = relatedR18s.rows;

@@ -4,30 +4,35 @@ const nodeCache = new NodeCache({
 	stdTTL: 60 * 180, 
 	checkperiod: 120
 });
-
+const fastCache = new NodeCache({
+	stdTTL: 60,
+	checkperiod: 60,
+});
 let allMethods = {
-	nodeCache
+	nodeCache,
+	fastCache
 };
 
 fs.readdirSync(__dirname).map(f => {
-	console.log(__dirname, '===========')
+
 	let methods = require(__dirname + '/' +  f);
 	
 	Object.keys(methods).map(key => {
 		if (allMethods[key]) throw new Error('duplicate method declaration: ' + key);
 		if (key.match('get') && key !== "getRecentMessages") {
-			allMethods[key] = async function() {
 
-				let	data = nodeCache.get(key + JSON.stringify(arguments));
+			let cacheObj = key === "getCurrentClicks" ? fastCache : nodeCache;
+
+			allMethods[key] = async function() {
+				let	data = cacheObj.get(key + JSON.stringify(arguments));
 				if (!data) {
 					data = await methods[key].apply(null, arguments);
 					let raw = data && data.toJSON ? data.toJSON() : data;
-					console.log(raw)
+					
 					if (typeof raw !== 'string') {
 						raw = JSON.stringify(raw);
 					}
-
-					nodeCache.set(key + JSON.stringify(arguments), raw);
+					cacheObj.set(key + JSON.stringify(arguments), raw);
 				} else {
 					data = JSON.parse(data);
 				}

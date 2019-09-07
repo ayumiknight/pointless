@@ -9,12 +9,7 @@ const mySelected = [
 	"KMVR-618",
 	"MDVR-054",
 	"TMAVR-043",
-	"EXVR-141",
-	"TMAVR-055",
-	"DOVR-021",
-	"EXBVR-010",
-	"BIKMVR-108"
-
+	"EXVR-141"
 ]
 async function SyncDB() {
 	await db.sequelize.sync();
@@ -99,11 +94,10 @@ async function getR18Paged(query) {
 		category_id, 
 		series_id, 
 		studio_id, 
-		page,
+		page = 1,
 		pagesize,
 		lcode
 	} = query;
-
 
 	let r18Query = {
 		offset: (page - 1) * pagesize,

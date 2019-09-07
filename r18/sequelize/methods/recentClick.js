@@ -15,6 +15,7 @@ async function recentClickCreate(click) {
 	return RecentClick.create(click); //promise
 }
 
+//used by Ranking
 async function getRecentClicksFormatted({
 	days
 }) {
@@ -88,15 +89,34 @@ async function getRecentClicksFormatted({
 			
 		}))
 		index++;
-
 	}
-
 	return clicksFormatted;
+}
 
+//used by recent clicks, update every 60s;
+async function getCurrentClicks(count = 6) {
+	let clicks = await RecentClick.findAll({
+		where: {
+			type: 'jvr'
+		},
+		group: ['code'],
+		attributes: ['code', [Sequelize.fn('max', Sequelize.col('createdAt')), '_createdAt']],
+		order: [[Sequelize.literal('_createdAt'), 'DESC']],
+		limit: count,
+		raw: true
+	})
 
+	return Promise.all(clicks.map(click => {
+		return R18.findOne({
+			where: {
+				code: click.code
+			}
+		});
+	}))
 }
 
 module.exports = {
 	recentClickCreate,
-	getRecentClicksFormatted
+	getRecentClicksFormatted,
+	getCurrentClicks
 }

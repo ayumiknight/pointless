@@ -234,7 +234,7 @@ body .panel.panel-m-r {
   width: 1024px;
   padding: 10px;
   margin-right: 10px;
-  box-shadow: 0 5px 5px rgba(155, 155, 155, 0.5);
+  box-shadow: 0 0 10px rgba(155, 155, 155, 0.5);
   background: white;
   display: inline-block;
 }
@@ -267,32 +267,37 @@ body .panel.panel-m-r {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.my-selection {
+.right-column-wrap {
+  display: inline-block;
+  width: 300px;
+  vertical-align: top;
+}
+.right-column-wrap .my-selection {
   display: inline-block;
   vertical-align: top;
   width: 300px;
 }
-.my-selection .page-title {
+.right-column-wrap .my-selection .page-title {
   font-size: 18px;
   line-height: 50px;
 }
-.my-selection .selection-wrap .list-item {
+.right-column-wrap .my-selection .selection-wrap .list-item {
   width: 100%;
   height: 90px;
   justify-content: flex-start !important;
 }
-.my-selection .selection-wrap .list-item img {
+.right-column-wrap .my-selection .selection-wrap .list-item img {
   height: auto;
   width: 50px;
   padding: 0 5px;
 }
-.my-selection .selection-wrap .list-item .item-index {
+.right-column-wrap .my-selection .selection-wrap .list-item .item-index {
   padding: 5px;
   margin-right: 2px;
   border-radius: 3px;
   text-decoration: inherit;
 }
-.my-selection .selection-wrap .list-item .title {
+.right-column-wrap .my-selection .selection-wrap .list-item .title {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -304,7 +309,7 @@ body .panel.panel-m-r {
   font-size: 14px;
   color: #999;
 }
-.my-selection .selection-wrap .list-item:nth-child( -n + 4 ) .item-index {
+.right-column-wrap .my-selection .selection-wrap .list-item:nth-child( -n + 3 ) .item-index {
   color: white;
   background: #f72020;
 }

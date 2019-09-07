@@ -23,22 +23,23 @@ module.exports = async (ctx, next) => {
 		relatedR18s = [];
 
 	if (r18 && r18.code) {
-		if (r18.Actresses && r18.Actresses.length === 1) {
+		if (r18.Actresses && r18.Actresses.length) {
 			relatedQuery.actress_id = r18.Actresses[0].actress_id;
 			relatedKeyword = r18.Actresses[0].en;
 			reletedHref = `${ctx.zh ? '/zh' : ''}/cast?cast=${encodeURIComponent(relatedKeyword)}`
-		} else if (r18.Series && r18.Series.series_id) {
-			relatedQuery.series_id = r18.Series.series_id;
-			relatedKeyword = r18.Series.en;
-			reletedHref = `${ctx.zh ? '/zh' : ''}/series?series=${encodeURIComponent(relatedKeyword)}`
 		} else if (r18.Studio && r18.Studio.studio_id) {
 			relatedQuery.studio_id = r18.Studio.studio_id;
 			relatedKeyword = r18.Studio.en;
 			reletedHref = `${ctx.zh ? '/zh' : ''}/studio?studio=${encodeURIComponent(relatedKeyword)}`
+		} else if (r18.Series && r18.Series.series_id) {
+			relatedQuery.series_id = r18.Series.series_id;
+			relatedKeyword = r18.Series.en;
+			reletedHref = `${ctx.zh ? '/zh' : ''}/series?series=${encodeURIComponent(relatedKeyword)}`
 		}
 		if (Object.keys(relatedQuery).length) {
+
 			relatedR18s = await getR18Paged({
-				...ctx.query,
+				...relatedQuery,
 				pagesize: 10
 			});
 			relatedR18s = relatedR18s.rows;

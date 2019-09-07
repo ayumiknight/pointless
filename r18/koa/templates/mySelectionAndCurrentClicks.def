@@ -1,0 +1,41 @@
+
+<div class="right-column-wrap">
+	<div class="my-selection panel">
+		<div class="page-title">
+			Drunker Selection
+		</div>
+		<div class="selection-wrap f c fc">
+			{{~it.mySelected :value:index}}
+				<a class="list-item f r fc" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
+					<div class="item-index">
+						{{=index + 1}}
+					</div>
+					<img src="{{=value.cover}}" />
+					<div class="title">
+						{{=value.code}}&nbsp;{{=it.zh ? value.zhTitle : value.title}}
+					</div>	
+					
+				</a>
+			{{~}}
+		</div>
+	</div>
+	<div class="my-selection panel">
+		<div class="page-title">
+			Recent Clicks
+		</div>
+		<div class="selection-wrap f c fc">
+			{{~it.currentClicks :value:index}}
+				<a class="list-item f r fc" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
+					<div class="item-index">
+						{{=index + 1}}
+					</div>
+					<img src="{{=value.cover}}" />
+					<div class="title">
+						{{=value.code}}&nbsp;{{=it.zh ? value.zhTitle : value.title}}
+					</div>	
+					
+				</a>
+			{{~}}
+		</div>
+	</div>
+</div>
