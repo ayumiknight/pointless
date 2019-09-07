@@ -12,7 +12,7 @@ let pageAll = process.env.limit || 2;
 async function crawlAndCreate() {
 	await SyncDB();
 	let before = await measureR18s();
-	await fs.writeFileSync('./result.txt', JSON.stringify(before) + '\n', { flag : 'a'})
+	await fs.writeFileSync('./result.txt', + new Date() + ': started' + JSON.stringify(before) + '\n', { flag : 'a'})
 	let pageindex = process.env.offset || 1;
 	while( pageindex <= pageAll) {	
 		try {
@@ -28,7 +28,7 @@ async function crawlAndCreate() {
 		setTimeout(resolve, 0.5 * 60 * 1000);
 	})
 	let after = await measureR18s();
-	await fs.writeFileSync('./result.txt', JSON.stringify(after) + '\n\n', { flag : 'a'})
+	await fs.writeFileSync('./result.txt', + new Date() + ': ended'  + JSON.stringify(after) + '\n\n', { flag : 'a'})
 }
 
 
