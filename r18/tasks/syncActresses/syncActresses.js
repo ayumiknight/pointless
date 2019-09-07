@@ -89,6 +89,7 @@ async function index() {
 	await fs.writeFileSync('./result.txt', + new Date() + ': started' + JSON.stringify(before) + '\n', { flag : 'a'})
 	while (currentPage <= totalPage) { 
 		await loadPage(currentPage);
+		await fs.writeFileSync('./result.txt', + new Date() + ': crawling page ' + currentPage +  '\n', { flag : 'a'})
 		currentPage++;
 	}
 	await new Promise((resolve, reject) => {
