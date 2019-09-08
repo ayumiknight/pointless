@@ -5,7 +5,7 @@
 		</div>
     	{{? !it.isBot }}
 	    	<div class="notice">
-	    		Click, swiper or press direction keys.
+	    		Click, swipe or press direction keys.
 	    	</div>
     	{{?}}
 		<div class="swiper-button-next">
