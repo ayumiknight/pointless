@@ -78,6 +78,7 @@ async function renderOneJvr(ctx, r18) {
 		r18: r18 && r18.code && formatSingleEntryForRender(r18, ctx.zh),
 		relatedR18s,
 		relatedKeyword,
-		reletedHref
+		reletedHref,
+		lazy: true
 	});
 }

@@ -16,11 +16,13 @@
                     <div>Sample</div>
                 </div>
                 {{?}}
-                <img src="{{=it.r18.fullCover}}" />
+                <img data-src="{{=it.r18.fullCover}}"  class="swiper-lazy"/>
                 {{? it.r18.Galleries}}
                 <div class="gallery swiper-no-swiping">
                     {{~ it.r18.Galleries :value:index}}
-                    <a href="{{=value.url.replace(/(-\d+\.\w+)$/, 'jp$1')}}" title="{{=it.r18.code}}" data-jbox-image="gallery1"><img src="{{=value.url}}" alt=""></a>
+                    <a href="{{=value.url.replace(/(-\d+\.\w+)$/, 'jp$1')}}" title="{{=it.r18.code}}" data-jbox-image="gallery1">
+                        <img data-src="{{=value.url}}" alt="" class="swiper-lazy">
+                    </a>
                     {{~}}
                 </div>
                 {{?}}

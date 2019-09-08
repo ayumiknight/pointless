@@ -17,6 +17,7 @@
 	        <div class="single-view panel">
 	            {{? it.r18 && it.r18.code}}
 	            <div class="title">
+	            	<span class='hidden'>Torrent</span>
 	                <span class="code">{{=it.r18.code}}</span>
 	                {{=it.zh ? it.r18.zhTitle : it.r18.title}}
 	            </div>

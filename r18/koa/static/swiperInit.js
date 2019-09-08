@@ -15,7 +15,9 @@ async function sliderLoadMoreAndInit() {
 	    on: {
 	    	slideChange: sliderOnChange
 	    },
-	    keyboard: true
+	    keyboard: true,
+	    preloadImages: false,
+	    lazy: true
 	});
 
 	window.swiper = swiper;

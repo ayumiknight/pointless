@@ -379,6 +379,13 @@ body .panel.panel-m-r {
 .single-view .title {
   padding: 10px 0;
   border-bottom: 1px solid rgba(155, 155, 155, 0.5);
+  position: relative;
+}
+.single-view .title .hidden {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .single-view .title span {
   font-weight: bold;

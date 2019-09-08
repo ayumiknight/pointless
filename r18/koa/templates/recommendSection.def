@@ -7,7 +7,7 @@
 
 		{{~it.relatedR18s :value:index}}
 			<a class="list-item f" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
-				<img src="{{=value.cover}}" />
+				<img {{= it.lazy ? "data-" : ""}}src="{{=value.cover}}" class="swiper-lazy"/>
 				<div class="bottom">
 					<div class="code">
 						{{=value.code}}
