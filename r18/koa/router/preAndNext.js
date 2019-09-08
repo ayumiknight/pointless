@@ -1,6 +1,5 @@
 const { 
-	getR18Paged, 
-	getR18Single,
+	getR18Paged,
 	getR18PreNext
 } = require('../../sequelize/methods/index.js');
 

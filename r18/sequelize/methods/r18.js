@@ -162,7 +162,10 @@ async function getR18Single({
 	let where = id ? {
 			id
 		} : {
-			code
+			code: {
+				[Op.like]: `${code.split('-')[0]}%`
+			},
+			coden: code.split('-')[1] * 1
 		};
 
 	return R18.findOne({
