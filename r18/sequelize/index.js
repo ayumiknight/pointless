@@ -12,7 +12,7 @@ let sampleData = require('./testdata.js');
 if (true || env.NODE_ENV === 'dev') {
     var sequelize = new Sequelize('r18', 'point', '1414914fdysg', {
         dialect: 'mysql',
-        host: '202.182.117.178',
+        host: '139.180.172.170',
         define: {
             charset: 'utf8',
             collate: 'utf8_general_ci', 

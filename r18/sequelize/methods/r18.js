@@ -4,13 +4,13 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 //never use bulkcreate, mysql won't return primary ids for bulk insert!!!
 const mySelected = [
+	"3DSVR-0473",
 	"KMVR-668",
 	"TMAVR-072",
 	"KMVR-618",
 	"MDVR-054",
-	"TMAVR-043",
-	"EXVR-141"
-]
+	"TMAVR-043"
+];
 async function SyncDB() {
 	await db.sequelize.sync();
 }
