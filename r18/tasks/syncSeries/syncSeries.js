@@ -90,6 +90,7 @@ async function index() {
 			tasks = [...new Array(rest >= 4 ? 4 : rest)].map((value, index) => loadPage(currentPage + index));
 		
 		await Promise.all(tasks);
+		await fs.writeFileSync('./result.txt', + new Date() + ': currentPage' + currentPage + '\n', { flag : 'a'})
 		currentPage += 4;
 	}
 	let after = await measureSeries();
