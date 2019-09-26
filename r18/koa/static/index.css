@@ -521,6 +521,8 @@ body .panel.panel-m-r {
   .swiper-container .jvr.swiper-slide {
     width: 100% !important;
     margin: 0 auto;
+    height: auto;
+    overflow: auto;
   }
   .swiper-container .nav-buttons {
     width: 100%;
