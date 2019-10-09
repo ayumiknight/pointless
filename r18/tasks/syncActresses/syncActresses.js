@@ -86,17 +86,17 @@ async function loadPage(pageindex) {
 async function index() {
 	await SyncDB();
 	let before = await measureActresses();
-	await fs.writeFileSync('./result.txt', + new Date() + ': started' + JSON.stringify(before) + '\n', { flag : 'a'})
+	await fs.writeFileSync('./result.txt', + new Date() + ': actresses started' + JSON.stringify(before) + '\n', { flag : 'a'})
 	while (currentPage <= totalPage) { 
 		await loadPage(currentPage);
 		await fs.writeFileSync('./result.txt', + new Date() + ': crawling page ' + currentPage +  '\n', { flag : 'a'})
 		currentPage++;
 	}
 	await new Promise((resolve, reject) => {
-		setTimeout(resolve, 3 * 60 * 1000);
+		setTimeout(resolve, 1 * 60 * 1000);
 	});
 	let after = await measureActresses();
-	await fs.writeFileSync('./result.txt', + new Date() + ': ended' + JSON.stringify(after) + '\n', { flag : 'a'})
+	await fs.writeFileSync('./result.txt', + new Date() + ': actresses ended' + JSON.stringify(after) + '\n', { flag : 'a'})
 }
 
-index();
+module.exports = index;

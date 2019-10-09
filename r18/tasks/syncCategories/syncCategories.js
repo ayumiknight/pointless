@@ -127,6 +127,9 @@ async function index() {
 		indexUrl: 'https://www.r18.com/videos/vod/movies/category/',
 		parentCategory: 'topAdult'
 	});
+	await new Promise((resolve, reject) => {
+		setTimeout(resolve, 1 * 60 * 1000);
+	});
 	// await loadCategories({
 	// 	indexUrl: 'https://www.r18.com/videos/vod/amateur/category/',
 	// 	parentCategory: 'topAmateur'
@@ -137,4 +140,5 @@ async function index() {
 	// });
 }
 
-index();
+module.exports = index;
+

@@ -84,7 +84,7 @@ async function loadPage(pageindex) {
 async function index() {
 	await SyncDB();
 	let before = await measureSeries();
-	await fs.writeFileSync('./result.txt', + new Date() + ': started' + JSON.stringify(before) + '\n', { flag : 'a'})
+	await fs.writeFileSync('./result.txt', + new Date() + ': series started' + JSON.stringify(before) + '\n', { flag : 'a'})
 	while (currentPage <= totalPage) {
 		let rest = totalPage - currentPage + 1,
 			tasks = [...new Array(rest >= 4 ? 4 : rest)].map((value, index) => loadPage(currentPage + index));
@@ -94,7 +94,7 @@ async function index() {
 		currentPage += 4;
 	}
 	let after = await measureSeries();
-	await fs.writeFileSync('./result.txt', + new Date() + ': ended' + JSON.stringify(after) + '\n\n', { flag : 'a'})
+	await fs.writeFileSync('./result.txt', + new Date() + ': series ended' + JSON.stringify(after) + '\n\n', { flag : 'a'})
 }
 
-index();
+module.exports = index;
