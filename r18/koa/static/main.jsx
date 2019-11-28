@@ -115,7 +115,7 @@ class Root extends Component {
                 })
             }
 
-            finalMessage = finalMessage.filter(message => message.message).map(message => {
+            finalMessage = finalMessage.filter(message => $.trim(message.message)).map(message => {
                 return {
                     ...message,
                     fromId: this.socket.id,
