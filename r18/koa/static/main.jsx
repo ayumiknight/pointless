@@ -251,7 +251,7 @@ class Root extends Component {
 			/> : null}
 			<div className="user-input">
 				<input value={input}
-					placeholder="Try send //video-code."
+					placeholder=" : ) Try (IPVR-048)"
 					onKeyDown={this.listenEnter.bind(this)}
 					onChange={(e) => {
 						this.setState({
