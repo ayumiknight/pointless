@@ -70,11 +70,11 @@ class Root extends Component {
         let { name, messages, avatar } = this.state,
             finalMessage;
 
-        let videoCode = message.match(/\s*\/{2}[0-9a-zA-Z]+[-\s]*[0-9]+\s*/g);
+        let videoCode = message.match(/\([0-9a-zA-Z]+[-\s]*[0-9]+\)/g);
 
         if (videoCode) {
             let tasks = await axios.get(`/chatSearch?ids=${encodeURIComponent(JSON.stringify(videoCode))}`),
-                formattedMessages = message.replace(/\s*\/{2}[0-9a-zA-Z]+[-\s]*[0-9]+\s*/g, '||').split('||'),
+                formattedMessages = message.replace(/\([0-9a-zA-Z]+[-\s]*[0-9]+\)/g, '||').split('||'),
                 index = 0;
 
             tasks = tasks.data || [];
@@ -90,12 +90,14 @@ class Root extends Component {
                     let video = tasks.shift() || {},
                         formattedMessage = formattedMessages.shift();
 
-                    finalMessage.push({
-                        message: video.code + ' ' + video.title,
-                        image: video.cover,
-                        type: 'Jvr',
-                        room: 'Jvr'
-                    });
+                    if (video && video.code) {
+                        finalMessage.push({
+                            message: video.code + ' ' + video.title,
+                            image: video.cover,
+                            type: 'Jvr',
+                            room: 'Jvr'
+                        });
+                    }        
                     finalMessage.push({
                         message: formattedMessage,
                         type: 'text',
