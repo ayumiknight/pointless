@@ -1,223 +1,198 @@
 var { Component } = React;
 
 class Root extends Component {
-    constructor() {
-        super();
-        this.state = {
-            messages: []
-        };
-        this.torrentGot = {};
-    }
+	constructor() {
+		super();
+		this.state = {
+			messages: []
+		};
+		this.torrentGot = {};
+	}
 
-    componentDidMount() {
-        this.setState({
-            room: 'jvr'
-        });
+	componentDidMount() {
+		this.setState({
+			room: 'jvr'
+		});
 
-        //to prevent google from crawling this like a relative url;
-        let wsUrl = '//' + location.host + '/?' + 'redirectTo' + '=jvr&' + 'key=' + (document.cookie.key || '');
-        this.socket = io(wsUrl);
-        
-        let self = this;
+		//to prevent google from crawling this like a relative url;
+		let wsUrl = '//' + location.host + '/?' + 'redirectTo' + '=jvr&' + 'key=' + (document.cookie.key || '');
+		this.socket = io(wsUrl);
+		
+		let self = this;
 
-        this.socket.on('connect', function() {
+		this.socket.on('connect', function() {
 
-            if (location.pathname === '/jvr' && location.search.match(/\?id=(.+)$/)) {
-                let code = location.search.replace(/\?id=(.+)$/, '$1');
+			if (location.pathname === '/jvr' && location.search.match(/\?id=(.+)$/)) {
+				let code = location.search.replace(/\?id=(.+)$/, '$1');
 
-                setTimeout(function() {
-                    if (!self.torrentGot[code]) {
-                        self.socket.emit('jvr', {
-                            code
-                        })
-                    }  
-                }, 500); 
-            }
-            window.torrentService = (code) => {
-                if (!self.torrentGot[code]) {
-                    self.socket.emit('jvr', {
-                        code
-                    })
-                }    
-            }
-        })
-        this.socket.on('message', this.handleMessage.bind(this));
-        this.socket.on('init', this.hanldeInit.bind(this));
-        this.socket.on('torrent', this.handleMessage.bind(this));
-        let blockChat = document.cookie.match('chatPoped');
-        if (!blockChat) {
-        	this.setState({
-        	    booted: true
-        	});
-        	this.setCookie('chatPoped', '1', 0.3);
-        }
-        
-    }
+				setTimeout(function() {
+					if (!self.torrentGot[code]) {
+						self.socket.emit('jvr', {
+							code
+						})
+					}  
+				}, 500); 
+			}
+			window.torrentService = (code) => {
+				if (!self.torrentGot[code]) {
+					self.socket.emit('jvr', {
+						code
+					})
+				}    
+			}
+		})
+		this.socket.on('message', this.handleMessage.bind(this));
+		this.socket.on('init', this.hanldeInit.bind(this));
+		this.socket.on('torrent', this.handleMessage.bind(this));
+		let blockChat = document.cookie.match('chatPoped');
+		if (!blockChat) {
+			this.setState({
+				booted: true
+			});
+			this.setCookie('chatPoped', '1', 0.3);
+		}
+		
+	}
 
-    handleMessage(data) {
-        if (data.magnet) {
-            this.setState({
-                booted: true
-            });
-            this.torrentGot[data.code] = true;
-        }
-        this.setState({
-            messages: this.state.messages.concat(data)
-        }, this.scrollTo.bind(this));
-    }
+	handleMessage(data) {
+		if (data.magnet) {
+			this.setState({
+				booted: true
+			});
+			this.torrentGot[data.code] = true;
+		}
+		this.setState({
+			messages: this.state.messages.concat(data)
+		}, this.scrollTo.bind(this));
+	}
 
-    async encodeMessage(message) {
-        let { name, messages, avatar } = this.state,
-            finalMessage;
+	async encodeMessage(message) {
+		let { name, messages, avatar } = this.state,
+			finalMessage;
 
-        let videoCode = message.match(/\([0-9a-zA-Z]+[-\s]*[0-9]+\)/g);
+		let videoCode = message.match(/^[0-9a-zA-Z]+[-\s]*[0-9]+$/g);
 
-        if (videoCode) {
-            let tasks = await axios.get(`/chatSearch?ids=${encodeURIComponent(JSON.stringify(videoCode))}`),
-                formattedMessages = message.replace(/\([0-9a-zA-Z]+[-\s]*[0-9]+\)/g, '||').split('||'),
-                index = 0;
+		if (videoCode) {
+			let tasks = await axios.get(`/chatSearch?ids=${encodeURIComponent(JSON.stringify(videoCode))}`);
 
-            tasks = tasks.data || [];
+			tasks = tasks.data || [];
 
-            if (formattedMessages.length) {
-                finalMessage = [{
-                    message: $.trim(formattedMessages.shift()),
-                    type: 'text',
-                    room: 'Jvr'
-                }];
+			if (tasks[0]) {
+				let video = tasks[0];
+				finalMessage = [{
+					message: video.code + ' ' + video.title,
+					image: video.cover,
+					type: 'Jvr',
+					room: 'Jvr',
+					fromId: this.socket.id,
+					name,
+					avatar
+				}];
+			} else {
+				finalMessage = [{
+					message,
+					type: 'text',
+					room: 'Jvr',
+					fromId: this.socket.id,
+					name,
+					avatar
+				}]
+			}
 
-                while (formattedMessages.length) {
-                    let video = tasks.shift() || {},
-                        formattedMessage = formattedMessages.shift();
+		} else {
+			finalMessage = [{
+				message,
+				type: 'text',
+				room: 'Jvr',
+				fromId: this.socket.id,
+				name,
+				avatar
+			}]
+		}
 
-                    if (video && video.code) {
-                        finalMessage.push({
-                            message: video.code + ' ' + video.title,
-                            image: video.cover,
-                            type: 'Jvr',
-                            room: 'Jvr'
-                        });
-                    }        
-                    finalMessage.push({
-                        message: formattedMessage,
-                        type: 'text',
-                        room: 'Jvr'
-                    });
-                }
-            } else {
-                finalMessage = tasks.map(video => {
-                    return {
-                        message: video.code + ' ' + video.title,
-                        image: video.cover,
-                        type: 'Jvr',
-                        room: 'Jvr'
-                    }
-                })
-            }
+		return finalMessage;
+	}
 
-            finalMessage = finalMessage.filter(message => $.trim(message.message)).map(message => {
-                return {
-                    ...message,
-                    fromId: this.socket.id,
-                    name,
-                    avatar
-                };
-            })
+	hanldeInit(data) {
+		let {
+			name,
+			count,
+			avatar
+		} = data,
+		id = this.socket.id;
 
-        } else {
-            finalMessage = [{
-                message,
-                type: 'text',
-                room: 'Jvr',
-                fromId: this.socket.id,
-                name,
-                avatar
-            }]
-        }
+		this.setState({
+			name,
+			count,
+			avatar,
+			messages: this.state.messages.concat([{
+				name,
+				avatar,
+				message: `You are logined as ${name}`,
+				loginMessasge: true
+			}])
+		}, this.scrollTo.bind(this))
+		this.setCookie('key', id, 365);
 
-        return finalMessage;
-    }
+	}
 
-    hanldeInit(data) {
-        let {
-            name,
-            count,
-            avatar
-        } = data,
-        id = this.socket.id;
+	setCookie(cname, cvalue, exdays) {
+		var d = new Date();
+		d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+		var expires = "expires=" + d.toUTCString();
+		document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
 
-        this.setState({
-            name,
-            count,
-            avatar,
-            messages: this.state.messages.concat([{
-                name,
-                avatar,
-                message: `You are logined as ${name}`,
-                loginMessasge: true
-            }])
-        }, this.scrollTo.bind(this))
-        this.setCookie('key', id, 365);
+	async sendMessage() {
+		let { input, name, messages, avatar } = this.state;
+		if (!input) return;
+		this.setState({
+			sending: true
+		});
+		let wrappedEncoded = await this.encodeMessage(input);
+		this.socket.emit('message', wrappedEncoded);
+		this.setState({
+			messages: this.state.messages.concat(wrappedEncoded),
+			input: '',
+			sending: false
+		}, this.scrollTo.bind(this))
+	}
 
-    }
+	scrollTo() {
+		let messagePanel = this.refs && this.refs.messagePanel,
+			scrollHeight = messagePanel.scrollHeight,
+			height = messagePanel.offsetHeight;
 
-    setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    }
+		window.messagePanel = messagePanel;
+		height && scrollHeight && (messagePanel.scrollTop = scrollHeight - height - 1);
+	}
 
-    async sendMessage() {
-        let { input, name, messages, avatar } = this.state;
-        if (!input) return;
-        this.setState({
-            sending: true
-        });
-        let wrappedEncoded = await this.encodeMessage(input);
-        this.socket.emit('message', wrappedEncoded);
-        this.setState({
-            messages: this.state.messages.concat(wrappedEncoded),
-            input: '',
-            sending: false
-        }, this.scrollTo.bind(this))
-    }
+	listenEnter(e) {
+		if (e.key === 'Enter') {
+			this.sendMessage();
+		}
+	}
 
-    scrollTo() {
-        let messagePanel = this.refs && this.refs.messagePanel,
-            scrollHeight = messagePanel.scrollHeight,
-            height = messagePanel.offsetHeight;
+	emojiGot(emoji) {
+		this.setState({
+			input: (this.state.input || '') + emoji,
+			showEmojiPicker: !this.state.showEmojiPicker
+		})
+	}
 
-        window.messagePanel = messagePanel;
-        height && scrollHeight && (messagePanel.scrollTop = scrollHeight - height - 1);
-    }
+	render() {
+		let {
+			room,
+			messages,
+			name,
+			input,
+			count,
+			booted,
+			sending,
+			showEmojiPicker
+		} = this.state;
 
-    listenEnter(e) {
-        if (e.key === 'Enter') {
-            this.sendMessage();
-        }
-    }
-
-    emojiGot(emoji) {
-        this.setState({
-            input: (this.state.input || '') + emoji,
-            showEmojiPicker: !this.state.showEmojiPicker
-        })
-    }
-
-    render() {
-        let {
-            room,
-            messages,
-            name,
-            input,
-            count,
-            booted,
-            sending,
-            showEmojiPicker
-        } = this.state;
-
-        return <div className={`${booted ? 'booted' : ''} instant-message`}>
+		return <div className={`${booted ? 'booted' : ''} instant-message`}>
 			<div className="room-title">
 				JVR Discuss <div className="count">({count} online)</div>
 			</div>
@@ -236,7 +211,7 @@ class Root extends Component {
 						wrappedMessage={message} 
 						wrappedPreMessage={messages[i - 1]}
 						myId={this.socket && this.socket.id}
-                        socket={this.socket}
+						socket={this.socket}
 					/>
 				})}
 			</div>
@@ -251,7 +226,7 @@ class Root extends Component {
 			/> : null}
 			<div className="user-input">
 				<input value={input}
-					placeholder=" : ) Try (IPVR-048)"
+					placeholder=" : ) Try 'IPVR-048'"
 					onKeyDown={this.listenEnter.bind(this)}
 					onChange={(e) => {
 						this.setState({
@@ -271,15 +246,15 @@ class Root extends Component {
 				}</button>
 			</div>
 		</div>
-    }
+	}
 }
 
 class Message extends React.PureComponent {
-    renderNormal() {
-        let { wrappedMessage, wrappedPreMessage = {}, myId } = this.props, { name, message, createdAt, type, image, fromId, avatar } = wrappedMessage,
-            showStamp = wrappedPreMessage.loginMessasge || (wrappedPreMessage.createdAt && createdAt && dayjs(createdAt) - dayjs(wrappedPreMessage.createdAt) > 1000 * 300);
+	renderNormal() {
+		let { wrappedMessage, wrappedPreMessage = {}, myId } = this.props, { name, message, createdAt, type, image, fromId, avatar } = wrappedMessage,
+			showStamp = wrappedPreMessage.loginMessasge || (wrappedPreMessage.createdAt && createdAt && dayjs(createdAt) - dayjs(wrappedPreMessage.createdAt) > 1000 * 300);
 
-        return <div className="message-wrap f c fc">
+		return <div className="message-wrap f c fc">
 			{showStamp ? <div className="time-stamp f fc">{window.dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}</div> : null}
 			<div className={`${ fromId === myId ? 'mine' : ''} message f r`}>
 				<div className="avatar f">
@@ -299,105 +274,105 @@ class Message extends React.PureComponent {
 				</div>
 			</div>
 		</div>
-    }
+	}
 
-    renderLoginMessage() {
-        return <div className="message-wrap f c fc">
+	renderLoginMessage() {
+		return <div className="message-wrap f c fc">
 			<div className="time-stamp f fc">{this.props.wrappedMessage.message}</div>
 		</div>
-    }
+	}
 
-    logClick(element) {
-        console.log('clicled====================')
-        this.props.socket.emit('torrentClicked', this.props.wrappedMessage);
-    }
+	logClick(element) {
+		console.log('clicled====================')
+		this.props.socket.emit('torrentClicked', this.props.wrappedMessage);
+	}
 
-    renderTorrent() {
-        let { wrappedMessage, wrappedPreMessage = {}, myId } = this.props, { title, magnet, code, time, createdAt, fromId } = wrappedMessage,
-            showStamp = wrappedPreMessage.loginMessasge || (wrappedPreMessage.createdAt && createdAt && dayjs(createdAt) - dayjs(wrappedPreMessage.createdAt) > 1000 * 300);
+	renderTorrent() {
+		let { wrappedMessage, wrappedPreMessage = {}, myId } = this.props, { title, magnet, code, time, createdAt, fromId } = wrappedMessage,
+			showStamp = wrappedPreMessage.loginMessasge || (wrappedPreMessage.createdAt && createdAt && dayjs(createdAt) - dayjs(wrappedPreMessage.createdAt) > 1000 * 300);
 
-        return [<div className="message-wrap f c fc">
-            {showStamp ? <div className="time-stamp f fc">{window.dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}</div> : null}
-            <div className={`${ fromId === myId ? 'mine' : ''} message f r`}>
-                <div className="avatar f">
-                    <img src="/static/favicon.png" />
-                </div>
-                <div className="message-content f c">
-                    <div className="name">Professional Drunker</div>
-                    <div className="content">
-                        <div className="torrent">
-                            <div className="torrent-title">
-                                We just found a magnet link of {code} for you.
-                            </div>
-                            <div className="torrent-title">
-                                {title}
-                            </div>
-                            <div className="torrent-magnet">
-                                <a title={title} href={magnet} onClick={this.logClick.bind(this)}>{magnet}</a>
-                            </div>
-                            <div className="desc-and-copy">
-                                {time} old&emsp;                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>, <div className="message-wrap f c fc">   
-            <div className={`${ fromId === myId ? 'mine' : ''} message f r`}>
-                <div className="avatar f">
-                    <img src="/static/favicon.png" />
-                </div>
-                <div className="message-content f c">
-                    <div className="name">Professional Drunker</div>
-                    <div className="content"> 
-                        <div className="legal-notice">
-                            We don't host any files, all information is provided by <a href={`https://torrentz2.eu/search?f=${code}`}>Torrentz2.eu</a> 
-                        </div> 
-                    </div>
-                </div>
-            </div>
-        </div>];
-    }
-    render() {
-        if (this.props.wrappedMessage.loginMessasge) {
-            return this.renderLoginMessage();
-        } else if (this.props.wrappedMessage.magnet) {
-            return this.renderTorrent();
-        } else {
-            return this.renderNormal();
-        }
-    }
+		return [<div className="message-wrap f c fc">
+			{showStamp ? <div className="time-stamp f fc">{window.dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}</div> : null}
+			<div className={`${ fromId === myId ? 'mine' : ''} message f r`}>
+				<div className="avatar f">
+					<img src="/static/favicon.png" />
+				</div>
+				<div className="message-content f c">
+					<div className="name">Professional Drunker</div>
+					<div className="content">
+						<div className="torrent">
+							<div className="torrent-title">
+								We just found a magnet link of {code} for you.
+							</div>
+							<div className="torrent-title">
+								{title}
+							</div>
+							<div className="torrent-magnet">
+								<a title={title} href={magnet} onClick={this.logClick.bind(this)}>{magnet}</a>
+							</div>
+							<div className="desc-and-copy">
+								{time} old&emsp;                               
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>, <div className="message-wrap f c fc">   
+			<div className={`${ fromId === myId ? 'mine' : ''} message f r`}>
+				<div className="avatar f">
+					<img src="/static/favicon.png" />
+				</div>
+				<div className="message-content f c">
+					<div className="name">Professional Drunker</div>
+					<div className="content"> 
+						<div className="legal-notice">
+							We don't host any files, all information is provided by <a href={`https://torrentz2.eu/search?f=${code}`}>Torrentz2.eu</a> 
+						</div> 
+					</div>
+				</div>
+			</div>
+		</div>];
+	}
+	render() {
+		if (this.props.wrappedMessage.loginMessasge) {
+			return this.renderLoginMessage();
+		} else if (this.props.wrappedMessage.magnet) {
+			return this.renderTorrent();
+		} else {
+			return this.renderNormal();
+		}
+	}
 }
 
 class EmojiPicker extends React.Component {
-    constructor() {
-        super();
-        this.group = [
-            [128513, 128591]
-        ];
-        let allEmojis = [];
-        for (var i = 0; i < this.group.length; i++) {
-            var range = this.group[i];
-            for (var x = range[0]; x < range[1]; x++) {
-                allEmojis.push(String.fromCodePoint(x))
-            }
-        }
-        this.allEmojis = allEmojis;
+	constructor() {
+		super();
+		this.group = [
+			[128513, 128591]
+		];
+		let allEmojis = [];
+		for (var i = 0; i < this.group.length; i++) {
+			var range = this.group[i];
+			for (var x = range[0]; x < range[1]; x++) {
+				allEmojis.push(String.fromCodePoint(x))
+			}
+		}
+		this.allEmojis = allEmojis;
 
-    }
-    render() {
-        return <div className="emoji-pop">
-    		<div className="top" onClick={this.props.onClose}>Emoji <i className="fa fa-times"/></div>
-    		
-    		<div className="emoji-wrap f r fc">
-    			{this.allEmojis.map((emoji, i) => {
-    				return <div onClick={() => {
-    					this.props.emojiGot(emoji)
-    				}} className="emoji f fc" key={i}>{emoji}</div>
-    			})}
-    		</div>
-    	</div>
-    }
+	}
+	render() {
+		return <div className="emoji-pop">
+			<div className="top" onClick={this.props.onClose}>Emoji <i className="fa fa-times"/></div>
+			
+			<div className="emoji-wrap f r fc">
+				{this.allEmojis.map((emoji, i) => {
+					return <div onClick={() => {
+						this.props.emojiGot(emoji)
+					}} className="emoji f fc" key={i}>{emoji}</div>
+				})}
+			</div>
+		</div>
+	}
 }
 
 const isBot = (window.navigator && window.navigator.userAgent || '').match(/(googlebot)/i);

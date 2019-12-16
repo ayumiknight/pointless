@@ -139,7 +139,7 @@ const util = {
 		});
 	},
 	formatCode(search = "") {
-		return search.replace(/\(([0-9]*[a-zA-Z]+)[-\s]*([0-9]+)\)/g, '$1-$2');
+		return search.replace(/^([0-9]*[a-zA-Z]+)[-\s]*([0-9]+)$/g, '$1-$2');
 	}
 	
 }
