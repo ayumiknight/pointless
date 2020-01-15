@@ -1200,4 +1200,5 @@ body .panel.panel-m-r {
     width: 100vw;
     background: rgba(255, 255, 255, 0);
     pointer-events: none;
+    z-index: 100000;
 }
