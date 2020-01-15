@@ -32,7 +32,7 @@ $(function() {
             self.clearAlpha = 25;
 
             self.canvas.setAttribute('class', 'mycanvas');
-            
+
             $(document.body).append(self.canvas);
             self.ctx = self.canvas.getContext('2d');
             self.ctx.lineCap = 'round';
@@ -267,8 +267,8 @@ $(function() {
             });
 
             $(window).on('click', function(e) {
-            	self.mx = e.clientX - self.canvas.offsetLeft;
-                self.my = e.clientY - self.canvas.offsetTop;
+            	self.mx = e.clientX;
+                self.my = e.clientY;
                 self.currentHue = rand(self.hueMin, self.hueMax);
                 self.createFireworks(self.cw / 2, self.ch, self.mx, self.my);
             })
