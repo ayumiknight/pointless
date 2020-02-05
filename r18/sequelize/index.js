@@ -3,7 +3,7 @@ var path = require('path');
 var Sequelize = require('sequelize');
 var env = process.env;
 var basename = path.basename(__filename);
-var { dbName, dbUser, dbPassword, dbAddress} = require('dbConfig.js');
+var { dbName, dbUser, dbPassword, dbAddress} = require('./dbConfig.js');
 var db = {};
 
 let sampleData = require('./testdata.js');
