@@ -3,36 +3,21 @@ var path = require('path');
 var Sequelize = require('sequelize');
 var env = process.env;
 var basename = path.basename(__filename);
+var { dbName, dbUser, dbPassword, dbAddress} = require('dbConfig.js');
 var db = {};
 
 let sampleData = require('./testdata.js');
 
 
-
-if (true || env.NODE_ENV === 'dev') {
-    var sequelize = new Sequelize('r18', 'point', '1414914fdysg', {
-        dialect: 'mysql',
-        host: '45.32.26.59',
-        define: {
-            charset: 'utf8',
-            collate: 'utf8_general_ci', 
-            timestamps: true
-        }
-    });
-
-} else {
-    var sequelize = new Sequelize('r18', 'root', '1414914fdysg', {
-        dialect: 'mysql',
-        host: '127.0.0.1',
-        define: {
-            charset: 'utf8',
-            collate: 'utf8_general_ci', 
-            timestamps: true
-        }
-    });
-
-}
-
+var sequelize = new Sequelize(dbName, dbUser, dbPassword, {
+    dialect: 'mysql',
+    host: dbAddress,
+    define: {
+        charset: 'utf8',
+        collate: 'utf8_general_ci', 
+        timestamps: true
+    }
+});
 
 fs
     .readdirSync(__dirname + '/model')

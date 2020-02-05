@@ -4,6 +4,7 @@ npm-debug.log
 .idea
 *.swp
 logs/
-sequelize/index.js
+sequelize/dbConfig.js
+javarchiveTasks/rapidgatorConfig.js
 crawled*.*
 *.txt
