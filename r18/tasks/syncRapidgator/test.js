@@ -1,3 +1,3 @@
 const syncRapidgator = require('./syncRapidgator.js');
 
-syncRapidgator();
+syncRapidgator(true);
