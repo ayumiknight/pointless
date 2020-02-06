@@ -1,7 +1,10 @@
 @primary: #f72020;
 @hemi: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
 @normal: Helvetica Neue, "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
-
+@activeColor: #ffffff;
+@unactiveColor: #eeeeee;
+@unactiveHoverColor: #dddddd;
+@linkColor: #e4530b;
 body {
 
     background: #f5f5f5;
@@ -34,19 +37,20 @@ body {
         position: relative;
 
         .main.jvr {
-            width: 100%;
+            width: 1000px;
             margin: auto;
         }
 
         .main.normal {
-            width: 1024px;
+            width: 1000px;
             background: white;
-            padding: 10px;
             margin: auto;
+            padding: 10px;
 
             &.jvrList {
-                width: 1360px;
+                width: 1000px;
                 background: transparent;
+                padding: 0px;
             }
         }
 
@@ -96,14 +100,6 @@ body {
         line-height: 50px;
     }
 
-    .jBox-Notice {
-        .jBox-Container {
-            .jbox-content {
-                color: white;
-            }
-        }
-    }
-
     .panel {
         margin-bottom: 10px;
         padding: 10px;
@@ -141,7 +137,6 @@ body {
 
         #root {
             .main.normal {
-                padding: 2.5vw;
                 position: static !important;
                 width: 100vw;
 

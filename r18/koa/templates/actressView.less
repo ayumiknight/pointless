@@ -48,7 +48,17 @@
 
 @media only screen and (max-width: 480px) {
     .actress-view {
-
+		.actress-pagination {
+		.pagination {
+			width: 20px;
+			margin: 5px 0;
+			&.current {
+				* {
+					color: @primary;
+				}
+			}
+		}
+	}
         .actress-lists {
 
         	.list-item {

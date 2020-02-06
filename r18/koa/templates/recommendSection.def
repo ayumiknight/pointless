@@ -3,7 +3,7 @@
 	<a href="{{=it.reletedHref}}" class="page-title">
 		{{=it.relatedKeyword}}
 	</a>
-	<div class="list-view f r fc swiper-no-swiping">
+	<div class="list-view fc swiper-no-swiping">
 
 		{{~it.relatedR18s :value:index}}
 			<a class="list-item f" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">

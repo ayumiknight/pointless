@@ -1,30 +1,39 @@
 .recommend {
-    width: 1004px;
+    width: 190px;
+    margin: 0px 10px;
     .page-title {
         font-size: 25px;
-        line-height: 40px;
         text-decoration: none;
-        width: 500px;
+        width: 100%;
+        padding-left: 0;
     }
     .list-view {
-        width: 984px;
-        flex-wrap: nowrap !important;
-        overflow-x: scroll;
-        -webkit-overflow-scrolling: touch;
-        touch-action: manipulation;
+        display: flex;
+        flex-direction: column;
+        .list-item {
+            margin: 0 0 10px 0;
+            width: 170px;
+            img {
+                width: 170px;
+                height: 220px;
+            }
+        }
     }
 }
 
 @media only screen and (max-width: 480px) {
     .recommend {
-        border-top: 1px solid #e4e4e4;
+        margin: 10px 0;
         width: 100vw;
         .page-title {
             width: 300px;
         }
         .list-view {
         	justify-content: flex-start !important;
+            flex-direction: row !important;
             width: calc(100vw - 20px);
+            overflow-x: auto;
+            white-space: nowrap;
             .list-item {
             	img {
             		height: 54vw;

@@ -1,5 +1,5 @@
 const db = require('../index.js');
-const { R18, Series, Studio, Actress, Category, Gallery, sequelize } = db;
+const { R18, Series, Studio, Actress, Category, Gallery, sequelize, Extra } = db;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 //never use bulkcreate, mysql won't return primary ids for bulk insert!!!
@@ -180,9 +180,12 @@ async function getR18Single({
 			association: R18.Series
 		}, {
 			association: R18.Studio
-		},{
+		}, {
 			association: R18.Galleries,
 			as: 'Galleries'
+		}, {
+			model: Extra,
+			as: 'Extras'
 		}]
 	});
 }
@@ -204,11 +207,30 @@ async function getR18SingleSimple({
 	});
 }
 
+async function getR18WithExtraPaged({
+	page = 1,
+	pagesize = 20,
+}) {
+
+	let query = {
+		offset: (page - 1) * pagesize,
+		limit: pagesize,
+		order: [[
+			'id', 'DESC'
+		]],
+		include: [{
+			model: Extra,
+			as: 'Extras'
+		}]
+	};
+	return R18.findAll(query);
+}
+
 async function getR18PreNext({
 	lcode,
 	isNext,
 	offset = 0,
-	limit = 10,
+	limit = 1,
 	coden
 }) {
 
@@ -222,21 +244,7 @@ async function getR18PreNext({
 			'coden', isNext ? 'DESC' : 'ASC'
 		]],
 		offset,
-		limit,
-		include: [{
-			model: Category,
-			as: 'Categories'
-		}, {
-			association: R18.Actresses,
-			as: 'Actresses'
-		}, {
-			association: R18.Series
-		}, {
-			association: R18.Studio
-		},{
-			association: R18.Galleries,
-			as: 'Galleries'
-		}]
+		limit
 	};
 	if (isNext) {
 		query.where.coden = {
@@ -265,6 +273,7 @@ module.exports = {
 	R18BulkCreate,
 	R18Create,
 	getR18Paged,
+	getR18WithExtraPaged,
 	getR18Single,
 	getR18SingleSimple,
 	getR18PreNext,

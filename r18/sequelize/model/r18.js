@@ -88,6 +88,10 @@ module.exports = (sequelize, DataTypes) => {
 		models.R18.Galleries = models.R18.hasMany(models.Gallery, {
 			as: 'Galleries'
 		});
+		models.R18.Extras = models.R18.hasOne(models.Extra, {
+			as: 'Extras',
+			foreignKey: 'R18Id'
+		});
 	};
 	return R18;
 };

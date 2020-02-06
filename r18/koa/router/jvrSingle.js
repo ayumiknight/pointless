@@ -1,7 +1,8 @@
 const { 
 	getR18Paged, 
 	getR18Single,
-	recentClickCreate
+	recentClickCreate,
+	getR18PreNext
 } = require('../../sequelize/methods/index.js');
 
 const {
@@ -36,15 +37,44 @@ module.exports = async (ctx, next) => {
 			relatedKeyword = r18.Series.en;
 			reletedHref = `${ctx.zh ? '/zh' : ''}/series?series=${encodeURIComponent(relatedKeyword)}`
 		}
+
+		//related 5 items
 		if (Object.keys(relatedQuery).length) {
 
 			relatedR18s = await getR18Paged({
 				...relatedQuery,
-				pagesize: 10
+				pagesize: 5
 			});
 			relatedR18s = relatedR18s.rows;
 		}
+
+		if (r18.Extras) {
+			let extras = JSON.parse(r18.Extras.extra);
+			r18.rapidgator = extras.rapidgator;
+			r18.pixhost = extras.pixhost;
+		}
+
+		//items in same series
+		let [pre, next] = await Promise.all([
+			getR18PreNext({
+				lcode: r18.code.split('-')[0],
+				isNext: false,
+				coden: r18.coden
+			}), 
+			getR18PreNext({
+				lcode: r18.code.split('-')[0],
+				isNext: true,
+				coden: r18.coden
+			})
+		]);
+		if (pre && pre[0] && pre[0].code) {
+			r18.previous = pre[0].code;
+		}
+		if (next && next[0] && next[0].code) {
+			r18.next = next[0].code;
+		}
 	}
+
 	if (r18 && r18.id) {
 		await recentClickCreate({
 			type: 'jvr',
@@ -53,6 +83,7 @@ module.exports = async (ctx, next) => {
 		})
 	}
 	let title = r18 && r18.code ? ' - ' + (ctx.zh ? r18.zhTitle : r18.title): "- Not Found";
+
 	ctx.body = ctx.dots.index({
 		type: 'jvr',
 		pageTitle: ctx.query.id + title.slice(0, 150),
