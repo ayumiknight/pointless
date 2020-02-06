@@ -18,8 +18,9 @@ process.stdout.write = write;
 async function syncRapidgator() {
 	let page = 1;
 	let pageNum = process.argv.find(one => {
-		return one == '-all'
+		return one == '--all'
 	}) ? 349 : 5;
+	console.log('=======================pageNum to sync', pageNum, '========================')
 	let rows = await getR18WithExtraPaged({
 		page,
 		pagesize: 10
