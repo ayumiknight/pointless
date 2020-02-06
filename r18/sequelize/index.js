@@ -6,9 +6,6 @@ var basename = path.basename(__filename);
 var { dbName, dbUser, dbPassword, dbAddress} = require('./dbConfig.js');
 var db = {};
 
-let sampleData = require('./testdata.js');
-
-
 var sequelize = new Sequelize(dbName, dbUser, dbPassword, {
     dialect: 'mysql',
     host: dbAddress,
