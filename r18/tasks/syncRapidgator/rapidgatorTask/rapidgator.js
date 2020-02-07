@@ -72,10 +72,13 @@ class Rapidgator {
 		}
 	}
 
-	async getAll() {
-		console.log(this.b + `/folder/content?folder_id=${RConfig.root}&token=${this.token}\n`)
+	async getAll({
+		page = 1,
+		pagesize = 200,
+		folderId = RConfig.root
+	}) {
 		let res = await axios({
-			url: this.b + `/folder/content?folder_id=${RConfig.root}&token=${this.token}`,
+			url: this.b + `/folder/content?folder_id=${folderId}&token=${this.token}&page=${page}&per_page=${pagesize}`,
 			method: 'GET'
 		});
 		if (res.data && res.data.response && res.data.response.folder) {
@@ -83,7 +86,14 @@ class Rapidgator {
 		} else {
 			throw new Error('get root folder having issues')
 		}
-	} 
+	}
+
+	getFileInfo(fid) {
+		return axios({
+			url: this.b + `/file/info?file_id=${fid}&token=${this.token}`,
+			method: 'GET'
+		});
+	}
 
 	async saveLinksToFolder({
 		fileLinks,
