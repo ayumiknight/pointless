@@ -13,7 +13,8 @@ var sequelize = new Sequelize(dbName, dbUser, dbPassword, {
         charset: 'utf8',
         collate: 'utf8_general_ci', 
         timestamps: true
-    }
+    },
+    logging: process.env.logsql ? true : false
 });
 
 fs
