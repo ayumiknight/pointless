@@ -37,7 +37,7 @@ async function tryGetRapidgatorLink({
 
 		let $d = cheerio.load(detail.data),
 			articleContent = $d('#post-entry .post-meta-single .post-content');
-		//console.log(detail.data, '=====================')
+
 		javInfo.pixhost = [];
 		javInfo.rapidgator = [];
 

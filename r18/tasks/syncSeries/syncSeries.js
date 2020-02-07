@@ -74,7 +74,7 @@ async function loadPage(pageindex) {
 	   	})
 		await SeriesBulkCreate(formattedSeries);
 	} catch(e) {
-		fs.writeFileSync('error.log', `${pageindex} failed ${e.message}\n`, { flag : 'a'});
+		console.log(`${pageindex} failed ${e.message}\n`);
 	}
 	
 }
@@ -82,19 +82,18 @@ async function loadPage(pageindex) {
 
 
 async function index() {
-	await SyncDB();
 	let before = await measureSeries();
-	await fs.writeFileSync('./result.txt', + new Date() + ': series started' + JSON.stringify(before) + '\n', { flag : 'a'})
+	console.log( + new Date() + ': series started' + JSON.stringify(before) + '\n')
 	while (currentPage <= totalPage) {
 		let rest = totalPage - currentPage + 1,
 			tasks = [...new Array(rest >= 4 ? 4 : rest)].map((value, index) => loadPage(currentPage + index));
 		
 		await Promise.all(tasks);
-		await fs.writeFileSync('./result.txt', + new Date() + ': currentPage' + currentPage + '\n', { flag : 'a'})
+		console.log( + new Date() + ': currentPage' + currentPage + '\n')
 		currentPage += 4;
 	}
 	let after = await measureSeries();
-	await fs.writeFileSync('./result.txt', + new Date() + ': series ended' + JSON.stringify(after) + '\n\n', { flag : 'a'})
+	console.log( + new Date() + ': series ended' + JSON.stringify(after) + '\n\n');
 }
 
 module.exports = index;

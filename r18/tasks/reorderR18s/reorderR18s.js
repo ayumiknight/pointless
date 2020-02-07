@@ -23,7 +23,6 @@ async function reorderR18s() {
 			orderStart = previousOrder.order - 1;
 
 		let updateResult = await sequelize.query(`UPDATE R18s set \`order\` = id + (${orderStart - highId}) WHERE id BETWEEN ${lowId} AND ${highId}`);
-		console.log(JSON.stringify(updateResult))
 	}
 }
 

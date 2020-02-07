@@ -77,7 +77,7 @@ async function loadPage(pageindex) {
 async function index() {
 	await SyncDB();
 	let before = await measureStudios();
-	await fs.writeFileSync('./result.txt', + new Date() + ': studios started' + JSON.stringify(before) + '\n', { flag : 'a'})
+	console.log( + new Date() + ': studios started' + JSON.stringify(before) + '\n')
 	while (currentPage <= totalPage) {
 		await loadPage(currentPage);
 		currentPage++;
@@ -86,7 +86,7 @@ async function index() {
 		setTimeout(resolve, 0.5 * 60 * 1000);
 	});
 	let after = await measureStudios();
-	await fs.writeFileSync('./result.txt', + new Date() + ': studios ended' + JSON.stringify(after) + '\n\n', { flag : 'a'})
+	console.log( + new Date() + ': studios ended' + JSON.stringify(after) + '\n\n')
 } 
 
 module.exports = index;

@@ -96,7 +96,7 @@ async function loadCategories({
 
 				let name = $(this).find('a').text().trimStart().trimEnd(),
 					id = getIdFromUrl($(this).find('a').attr('href') || '', 'id');
-				id == ""  && console.log('from 4', i, j);
+
 				if (!categoryMap[id]) categoryMap[id] = {};
 
 
@@ -116,13 +116,11 @@ async function loadCategories({
    			return {fromAdult: 1, ...categoryMap[key]}
    		});
  
-   	fs.writeFileSync(parentCategory + '.txt', JSON.stringify(finalCategories) )
+   	console.log('finalCategories=============\n', JSON.stringify(finalCategories) )
 	await CategoriesBulkCreate(finalCategories);
 }
 
-async function index() {
-	await SyncDB();
-	
+async function index() {	
 	await loadCategories({
 		indexUrl: 'https://www.r18.com/videos/vod/movies/category/',
 		parentCategory: 'topAdult'
