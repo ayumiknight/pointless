@@ -52,7 +52,7 @@ class Rapidgator {
 			return r.data && r.data.response && r.data.response.file && r.data.response.file.url || ''
 		}).filter( r => !!r);
 		if (!myLinks.length) {
-			await deleteFolder({ folderId });
+			await this.deleteFolder({ folderId });
 			throw new Error('xcopy process having issues');
 		}
 		return myLinks;
