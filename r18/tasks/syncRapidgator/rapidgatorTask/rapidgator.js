@@ -72,6 +72,19 @@ class Rapidgator {
 		}
 	}
 
+	async getAll() {
+		console.log(this.b + `/folder/content?folder_id=${RConfig.root}&token=${this.token}\n`)
+		let res = await axios({
+			url: this.b + `/folder/content?folder_id=${RConfig.root}&token=${this.token}`,
+			method: 'GET'
+		});
+		if (res.data && res.data.response && res.data.response.folder) {
+			return res.data.response.folder;
+		} else {
+			throw new Error('get root folder having issues')
+		}
+	} 
+
 	async saveLinksToFolder({
 		fileLinks,
 		name
