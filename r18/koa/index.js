@@ -1,6 +1,7 @@
 const conditional = require('koa-conditional-get');
 const etag = require('koa-etag');
 const serve = require('koa-static');
+const compose = require('koa-compose');
 const mount = require('koa-mount');
 const Koa = require('koa');
 const router = require('./router/index.js');
@@ -31,9 +32,9 @@ TorrentSearchApi.enableProvider('Torrentz2');
 
 function serveStatic() {
 	const staticServer = new Koa();
-	staticServer.use(conditional());
-	staticServer.use(etag());
-	staticServer.use(serve(__dirname + '/static'));
+	staticServer.use(serve(__dirname + '/static', {
+		maxAge: 1000 * 60 * 60 * 24 * 30
+	}));
 	return mount('/static', staticServer);
 }
 
@@ -53,8 +54,16 @@ if (!process.env.dev && false) {
 
 
 
-app.use(conditional());
-app.use(etag());
+app.use(async (ctx, next) => {
+	if (ctx.path.match(/^\/static/i)) {
+		return next();
+	} else {
+		await compose([
+			conditional(),
+			etag()
+		])(ctx, next);
+	}
+})
 app.use(serveStatic());
 
 
