@@ -41,7 +41,7 @@ async function crawlPage(page) {
 }
 
 async function crawlAll() {
-	let pagenum = 2,
+	let pagenum = 546,
 		page = 1,
 		total = [];
 
@@ -51,7 +51,7 @@ async function crawlAll() {
 		page++
 	}
 
-	let allFiles = fs.createWriteStream(_dirname + `/${+new Date()}allFiles.log`, {flags : 'w'});
+	let allFiles = fs.createWriteStream(__dirname + `/${+new Date()}allFiles.log`, {flags : 'w'});
 	allFiles.write(JSON.stringify(total));
 }
 
