@@ -44,7 +44,7 @@ async function tryGetRapidgatorLink({
 		articleContent.find('a').each(function(i, elem) {
 
 			let link = $(this).attr('href');
-			if (link && link.match('pixhost')) {
+			if (link && (link.match('pixhost') || link.match('javstore.net'))) {
 				let thumb = $(this).find('img').attr('src');
 				javInfo.pixhost.push({
 					thumb,

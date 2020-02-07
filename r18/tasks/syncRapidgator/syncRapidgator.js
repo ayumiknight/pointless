@@ -17,12 +17,8 @@ process.stdout.write = write;
 
 async function syncRapidgator(all) {
 	let page = 1;
-	let pageNum = all ? 349 : 5;
+	let pageNum = all ? 350 : 5;
 
-	let rows = await getR18WithExtraPaged({
-		page,
-		pagesize: 10
-	});	
 	while (page <= pageNum) {
 		let rows = await getR18WithExtraPaged({
 			page,

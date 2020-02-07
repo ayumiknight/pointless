@@ -51,9 +51,25 @@ class Rapidgator {
 		let myLinks = res.map(r => {
 			return r.data && r.data.response && r.data.response.file && r.data.response.file.url || ''
 		}).filter( r => !!r);
-		if (myLinks.length != fileLinks.length) throw new Error('xcopy process having issues');
-
+		if (!myLinks.length) {
+			await deleteFolder({ folderId });
+			throw new Error('xcopy process having issues');
+		}
 		return myLinks;
+	}
+
+	async deleteFolder({
+		folderId
+	}) {
+		let res = await axios({
+			url: this.b + `/folder/delete?folder_id=${folderId}&token=${this.token}`,
+			method: 'GET'
+		});
+		if (res.data && res.data.response && res.data.response.result) {
+			return true;
+		} else {
+			throw new Error('delete empty folder having issues', folderId)
+		}
 	}
 
 	async saveLinksToFolder({
