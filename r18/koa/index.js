@@ -33,7 +33,7 @@ TorrentSearchApi.enableProvider('Torrentz2');
 function serveStatic() {
 	const staticServer = new Koa();
 	staticServer.use(serve(__dirname + '/static', {
-		maxAge: 1000 * 60 * 60 * 24 * 30
+		maxAge: 1000 * 60 * 60 * 24
 	}));
 	return mount('/static', staticServer);
 }
@@ -55,14 +55,14 @@ if (!process.env.dev && false) {
 
 
 app.use(async (ctx, next) => {
-	// if (ctx.path.match(/^\/static/i)) {
-	// 	return next();
-	// } else {
+	if (ctx.path.match(/^\/static/i)) {
+		return next();
+	} else {
 		await compose([
 			conditional(),
 			etag()
 		])(ctx, next);
-	// }
+	}
 })
 app.use(serveStatic());
 
