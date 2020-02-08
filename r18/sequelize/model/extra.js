@@ -3,6 +3,14 @@ module.exports = (sequelize, DataTypes) => {
         extra: {
             type: DataTypes.STRING(5000),
             comment: "pixhost与rapidgator",
+        },
+        syncFrom: {
+            type: DataTypes.INTEGER,
+            comment: "1为rapidgator movie",
+        },
+        partialOK: {
+            type: DataTypes.TINYINT(1),
+            comment: "部分文件已失效",
         }
     });
 
