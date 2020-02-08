@@ -60,7 +60,7 @@ const util = {
 		} else if (leftCount >= 4 && rightCount >= 4 ) {
 			pages = [...Array(9)].map((v,index) => {
 				return {
-					url: util.addQuery('page', index + 1 , baseUrl),
+					url: util.addQuery('page', current - 4 + index , baseUrl),
 					page: current - 4 + index,
 					className: current - 4 + index === current ? 'current': ''
 				}
