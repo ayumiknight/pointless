@@ -70,7 +70,7 @@
                         <div class="tab4">
                             {{? it.r18.rapidgator}}
                             {{~it.r18.rapidgator :value:index}}
-                            <a href="{{=value}}" rel="nofollow">{{=value}}</a>
+                            <a href="{{=value}}" rel="nofollow" onclick="window.logRClick && window.logRClick('{{=it.r18.code}}')">{{=value}}</a>
                             {{~}}
                             {{?}}
                         </div>

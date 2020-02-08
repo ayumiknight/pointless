@@ -33,12 +33,11 @@ class Root extends Component {
 					}  
 				}, 500); 
 			}
-			window.torrentService = (code) => {
-				if (!self.torrentGot[code]) {
-					self.socket.emit('jvr', {
-						code
-					})
-				}    
+			window.mySocket = this.socket;
+			window.logRClick = function(code) {
+				this.socket.emit('rapidgatorClicked', {
+					code
+				})
 			}
 		})
 		this.socket.on('message', this.handleMessage.bind(this));

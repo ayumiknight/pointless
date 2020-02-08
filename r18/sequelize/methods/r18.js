@@ -96,7 +96,8 @@ async function getR18Paged(query) {
 		studio_id, 
 		page = 1,
 		pagesize,
-		lcode
+		lcode,
+		rapidgator
 	} = query;
 
 	let r18Query = {
@@ -147,6 +148,16 @@ async function getR18Paged(query) {
 			association:  R18.Series,
 			where: {
 				series_id
+			}
+		}];
+	}
+	if (rapidgator) {
+		r18Query.include = [{
+			association:  R18.Extras,
+			where: {
+				id: {
+					[Op.ne]: null
+				}
 			}
 		}];
 	}

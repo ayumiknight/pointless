@@ -183,6 +183,13 @@ io.on('connection', async (socket) => {
 		})
 	})
 
+	socket.on('rapidgatorClicked', async (data) => {
+		await recentClickCreate({
+			type: 'rapidgator',
+			code: data.code
+		})
+	})
+
 	socket.on('message', async (data) => {
 		let date = moment().toDate();
 

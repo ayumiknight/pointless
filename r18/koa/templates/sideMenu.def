@@ -30,4 +30,5 @@
 		<a href="{{=it.currentUrl.replace(/\/zh/i, '')}}" class="language-btn {{=it.zh ? '' : 'current'}}">Eng</a>
 		<a href="/zh{{=it.currentUrl.replace(/\/zh/i, '')}}" class="language-btn {{=it.zh ? 'current' : ''}}">中文</a>
 	</div>  -->
+	<a href="{{=it.zh ? '/zh' : ''}}/rapidgator" class="rapidgator style="width: 100%;text-align: left;" {{= it.currentPath === '/rapidgator' ? 'current' : ''}}">Fast Download With Rapidgator Premium</a>
 </div>

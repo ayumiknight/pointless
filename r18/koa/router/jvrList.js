@@ -20,12 +20,16 @@ module.exports = async (ctx, next) => {
 		series_id,
 		lcode
 	} = ctx.query;
+
+	let rapidgator = !!ctx.path.match(/^\/rapidgator$/);
+
 	let {
 		zh
 	} = ctx;
 	let r18s = await getR18Paged({
 		...ctx.query,
-		pagesize: 20
+		pagesize: 20,
+		rapidgator
 	});
 
 	let pageTitle,
@@ -56,6 +60,8 @@ module.exports = async (ctx, next) => {
 		};
 	} else if (lcode) { 
 		pageTitle = lcode;
+	} else if (rapidgator) {
+		pageTitle = 'Rapidgator!';
 	} else {
 		pageTitle = zh ? '热度' : 'Popular';
 	}
