@@ -55,14 +55,14 @@ if (!process.env.dev && false) {
 
 
 app.use(async (ctx, next) => {
-	if (ctx.path.match(/^\/static/i)) {
-		return next();
-	} else {
+	// if (ctx.path.match(/^\/static/i)) {
+	// 	return next();
+	// } else {
 		await compose([
 			conditional(),
 			etag()
 		])(ctx, next);
-	}
+	// }
 })
 app.use(serveStatic());
 
