@@ -6,6 +6,7 @@
 	height: 50px;
 	box-shadow: 0 0 10px rgba(155, 155, 155, 0.5);
 	z-index: 1000;
+	justify-content: space-between !important;
 	* {
 		text-align: center;
 		font-family: @hemi;
@@ -13,12 +14,11 @@
 
 	.site-name {
 		font-size: 22px;
-		position: absolute;
-		left: 100px;
-		line-height: 40px;
+		padding-left: 100px;
 	}
 
 	.search {
+		padding-right: 20px;
 		input {
 			font-size: 20px;
 			width: 200px;
@@ -27,8 +27,7 @@
 	}
 
 	.right {
-		position: absolute;
-		right: 30px;
+		padding-right: 30px;
 		font-size: 15px;
 		color: #999;
 		font-style: italic;
@@ -51,11 +50,11 @@
 		text-align: center;
 		&:hover {
 			background: @primary;
-			color: white;
+			color: white !important;
 		}
 		&:hover {
 			i {
-				color: white;
+				color: white !important;
 			}
 		}
 		&.current {
@@ -78,12 +77,10 @@
 	.side-menu {
 		.site-name {
 			font-size: 18px;
-			left: 20px;
+			padding-left: 20px;
 		}
 
 		.search {
-			position: absolute;
-			right: 20px;
 
 			input {
 				font-size: 15px;
