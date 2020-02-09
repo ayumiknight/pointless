@@ -24,7 +24,7 @@ const util = {
 		if (!actresses || !actresses.length) return '----';
 		return actresses.map( actress => {
 			let actress_name = zh ? actress.zh : actress.en;
-			return actress_name ? `<a href="${zh? '/zh' : ''}/cast?cast=${encodeURIComponent(actress_name)}">${actress_name}</a>` : '';
+			return actress_name ? `<a rel="nofollow" href="${zh? '/zh' : ''}/cast?cast=${encodeURIComponent(actress_name)}">${actress_name}</a>` : '';
 		}).join('');
 	},
 	formatSingleEntryForRender(entry, zh) {
