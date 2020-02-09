@@ -5,19 +5,19 @@ const util = {
 
 		if (!studio || !studio.studio_id) return '----';
 		let studio_name = zh ? studio.zh : studio.en;
-		return `<a href="${zh? '/zh' : ''}/studio?studio=${encodeURIComponent(studio_name)}">${studio_name}</a>`
+		return `<a rel="nofollow" href="${zh? '/zh' : ''}/studio?studio=${encodeURIComponent(studio_name)}">${studio_name}</a>`
 	},
 	getSeriesTranslated(series, zh) {
 
 		if (!series || !series.series_id) return '----';
 		let series_name = zh ? series.zh : series.en;
-		return `<a href="${zh? '/zh' : ''}/series?series=${encodeURIComponent(series_name)}">${series_name}</a>`
+		return `<a rel="nofollow" href="${zh? '/zh' : ''}/series?series=${encodeURIComponent(series_name)}">${series_name}</a>`
 	},
 	getCategorysTranslated(categories, zh) {
 		if (!categories || !categories.length) return '----';	
 		return categories.map( cate => {
 			let cate_name = zh ? cate.zh || cate.en : cate.en;
-			return cate_name ? `<a href="${zh? '/zh' : ''}/genre?genre=${encodeURIComponent(cate_name)}">${cate_name}</a>` : '';
+			return cate_name ? `<a rel="nofollow" href="${zh? '/zh' : ''}/genre?genre=${encodeURIComponent(cate_name)}">${cate_name}</a>` : '';
 		}).join('');
 	},
 	getActressTranslated(actresses, zh) {
