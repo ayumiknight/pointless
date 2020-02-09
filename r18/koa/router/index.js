@@ -23,6 +23,7 @@ const userSearch = require('./userSearch.js');
 const chatSearch = require('./chatSearch.js');
 const ranking = require('./ranking.js');
 const preAndNext = require('./preAndNext');
+const sitemap = require('./sitemap.js');
 
 router.use(async (ctx, next) => {
 	let {  page = 1, code, id, cast, genre, studio, series, search, lcode} = ctx.query;
@@ -86,6 +87,7 @@ router.get('/series', jvrList);
 router.get('/lcode', jvrList);
 router.get('/rapidgator', jvrList);
 router.get('/ranking', ranking);
+router.get(/^\/sitemap(.*)?/, sitemap);
 router.get('/', jvrList);
 
 module.exports = router;
