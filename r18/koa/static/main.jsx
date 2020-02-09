@@ -31,11 +31,11 @@ class Root extends Component {
 							code
 						})
 					}  
-				}, 500); 
+				}, 500);
 			}
-			window.mySocket = this.socket;
+			window.mySocket = self.socket;
 			window.logRClick = function(code) {
-				this.socket.emit('rapidgatorClicked', {
+				self.socket.emit('rapidgatorClicked', {
 					code
 				})
 			}
