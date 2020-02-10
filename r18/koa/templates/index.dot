@@ -22,9 +22,10 @@
 	  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 	  crossorigin="anonymous"></script>
 	
-	<script type="text/javascript" src="/static/react.development.js" ></script>
-	<script type="text/javascript" src="/static/axios.min.js" ></script>
 	<script type="text/javascript" src="/static/babel.min.js" ></script>
+	<script type="text/javascript" src="/static/browser.min.js" ></script>
+	<script type="text/javascript" src="/static/axios.min.js" ></script>	
+	<script type="text/javascript" src="/static/react.development.js" ></script>
 	<script type="text/javascript" src="/static/react-dom.development.js" ></script>
 	
 	{{? !it.isBot }}
