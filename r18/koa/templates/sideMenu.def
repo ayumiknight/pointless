@@ -1,7 +1,6 @@
-<div class="side-menu f r fc">
+<div class="side-menu">
 	<div class="site-name">
 		JvrLibrary
-
 	</div>
 	<div class="search">
 		<input id="idSearch" type="text" placeholder="{{=it.zh ? '影片ID搜索' : 'Search by Film Id'}}">

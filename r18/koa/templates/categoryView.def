@@ -1,11 +1,11 @@
-<div class="category-view f c fc">
+<div class="category-view">
 	<div class="page-title">{{=it.zh ? '类别' : 'Genre'}}</div>
 	{{ for(var prop in it.categories) { }}
-		<div class="category-block f c fc">
-			<div class="category-title f fc">
+		<div class="category-block">
+			<div class="category-title">
 				{{=prop}}
 			</div>
-			<div class="category-items f r fc">
+			<div class="category-items">
 				{{~ it.categories[prop] :value:index}}
 					{{? prop === 'Top Categories' || prop === '热门'}}
 						<a class="list-item image" href="{{=it.zh ? '/zh' : ''}}/genre?genre={{=encodeURIComponent(it.zh ? value.zh : value.en)}}">

@@ -1,13 +1,13 @@
-<div class="actress-view f c fc">
+<div class="actress-view">
 	<div class="page-title">{{=it.zh ? '女优' : 'Casts'}}</div>
-	<div class="actress-pagination f r fc">
+	<div class="actress-pagination">
 		{{~ it.letterPagination :value:index}}
-			<div class="pagination f fc {{=value.className}}">
+			<div class="pagination {{=value.className}}">
 				<a href="{{=value.url}}">{{=value.letter}}</a>
 			</div>
 		{{~}}
 	</div>
-	<div class="actress-lists f r fc">
+	<div class="actress-lists">
 		{{~it.actresses :value:index}}
 			<a class="list-item" href="{{=it.zh ? '/zh' : ''}}/cast?cast={{=encodeURIComponent(it.zh ? value.zh : value.en)}}">
 				<img src="{{=value.logo}}"/>

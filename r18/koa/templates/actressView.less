@@ -1,9 +1,17 @@
 .actress-view {
 
 	.actress-pagination {
+		width: 100%;
+		text-align: center;
 		.pagination {
+			display: inline-block;
 			width: 20px;
-
+			* {
+				display: inline-block;
+				width: 20px;
+				text-align: center;
+			}
+			
 			&.current {
 				* {
 					color: @primary;
@@ -14,8 +22,8 @@
 
 	.actress-lists {
 		width: 100%;
-		flex-wrap: wrap;
-
+		display: inline-block;
+		text-align: center;
 		.list-item {
 			width: 125px;
 			background: white;

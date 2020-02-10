@@ -4,9 +4,9 @@
 		<div class="page-title">
 			Drunker Selection
 		</div>
-		<div class="selection-wrap f c fc">
+		<div class="selection-wrap">
 			{{~it.mySelected :value:index}}
-				<a class="list-item f r fc" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
+				<a class="list-item" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
 					<div class="item-index">
 						{{=index + 1}}
 					</div>
@@ -23,9 +23,9 @@
 		<div class="page-title">
 			Recent Clicks
 		</div>
-		<div class="selection-wrap f c fc">
+		<div class="selection-wrap">
 			{{~it.currentClicks :value:index}}
-				<a class="list-item f r fc" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
+				<a class="list-item" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
 					<div class="item-index">
 						{{=index + 1}}
 					</div>

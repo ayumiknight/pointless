@@ -310,8 +310,12 @@ $(function() {
             self.drawParticles();
 
         };
+        if (window.navigator.userAgent && window.navigator.userAgent.match(/MSIE/i)) {
 
-        self.init();
+        } else {
+            self.init();
+        }
+        
 
     }
 

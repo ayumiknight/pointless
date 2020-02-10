@@ -1,7 +1,9 @@
 .jvr-single-container {
 	width: 1000px;
-	display: flex;
-	flex-direction: row;
+    .jvr-single-wrapper {
+        display: inline-block;
+        vertical-align: top;
+    }
 }
 
 .single-view {
@@ -194,8 +196,6 @@
 @media only screen and (max-width: 480px) {
 	.jvr-single-container {
 		width: 100%;
-		display: flex;
-		flex-direction: column;
 	}
     .single-view {
     	width: 100%;

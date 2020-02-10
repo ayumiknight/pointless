@@ -1,21 +1,17 @@
 .pagination {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    display: inline-block;
     margin: 20px 0;
-
+    width: 100%;
+    text-align: center;
     * {
-        display: flex;
         font-family: @hemi;
-        justify-content: center;
-        align-items: center;
+        display: inline-block;
+        width: 30px;
+        text-align: center;
     }
 
     .page {
-        width: 30px;
-        flex-direction: column;
-
+        
         &.disabled {
             * {
                 color: #999;
