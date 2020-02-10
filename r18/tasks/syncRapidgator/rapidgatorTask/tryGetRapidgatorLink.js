@@ -18,17 +18,30 @@ async function tryGetRapidgatorLink({
 	let searchResult = await axios.get(`http://javarchive.com/?s=${series}+${id}`);
 
 	let $ = cheerio.load(searchResult.data),
-		firstArticle = $('#content .post-meta:first-child');
-
+		firstArticle = $('#content .post-meta:first-child'),
+		secondArticle = $('#content .post-meta:nth-child(2)');
 
 	if (firstArticle[0] && firstArticle.find('a')) {
 		let a = firstArticle.find('a'),
 			href = a.attr('href'),
 			title = a.attr('title') || '';
-		if (title.match(series) && title.match((id * 1) + '')) {
+		if (title.toUpperCase().match(series) && title.match((id * 1) + '')) {
 			javInfo = {
 				href
 			};
+		}
+	}
+
+	if (!javInfo) {
+		if (secondArticle[0] && secondArticle.find('a')) {
+			let a = secondArticle.find('a'),
+				href = a.attr('href'),
+				title = a.attr('title') || '';
+			if (title.toUpperCase().match(series) && title.match((id * 1) + '')) {
+				javInfo = {
+					href
+				};
+			}
 		}
 	}
 
