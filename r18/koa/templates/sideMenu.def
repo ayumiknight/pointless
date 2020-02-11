@@ -1,4 +1,4 @@
-<div class="side-menu">
+<div class="side-menu" style="background-image: url(/static/nav{{=Math.ceil(Math.random() * 3)}}.jpg)">
 	<div class="site-name">
 		JvrLibrary
 	</div>
