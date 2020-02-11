@@ -152,7 +152,7 @@ io.on('connection', async (socket) => {
 	socket.emit('init', {
 		name: authInfo[0],
 		avatar: authInfo[1],
-		count: socket.adapter.rooms[roomName || 'hall'].length
+		count: socket.adapter.rooms[roomName || 'hall'] ? socket.adapter.rooms[roomName || 'hall'].length : 1
 	})
 	
 	socket.on('jvr', ({ code }) => {

@@ -10,12 +10,15 @@
     background: rgba(255, 255, 255, 0.96);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-
+    * {
+        background: rgba(255, 255, 255, 0.96);
+    }
     &.booted {
         transform: translateX(0);
     }
 	.switch {
 		position: absolute;
+        background: transparent!important;
 		top: calc(50% - 25px);
 		left: -40px;
 		i {
@@ -39,7 +42,7 @@
     }
 
     .message-panel {
-        height: calc(100vh - 150px);
+        height: calc(100vh - 300px);
         overflow-y: scroll;
         border-bottom: 1px solid #e4e4e4;
 
@@ -189,7 +192,6 @@
 
     .user-input {
     	height: 50px;
-
         input {
             border: none;
             width: 195px;
@@ -198,7 +200,7 @@
             height: 50px;
         }
 
-        button {
+        button { 
             border: none;
             width: 50px;
             font-size: 20px;
@@ -224,6 +226,7 @@
 		.message-panel {
 			touch-action: manipulation;
 			-webkit-overflow-scrolling: touch;
+            height: calc(100vh - 200px);
 		}
     	.emoji-pop {
     		.emoji-wrap {
