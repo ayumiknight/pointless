@@ -782,7 +782,7 @@ body .mycanvas {
 }
 .instant-message .switch {
   position: absolute;
-  background: transparent!important;
+  background: transparent !important;
   top: calc(50% - 25px);
   left: -40px;
 }
