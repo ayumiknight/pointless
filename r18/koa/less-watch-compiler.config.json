@@ -1,7 +1,7 @@
 {
     "watchFolder": "./templates",   
     "outputFolder": "./static",
-    "mainFile": "./index2.less",   
+    "mainFile": "./index3.less",   
     "sourceMap": false,
     "runOnce": false,
     "enableJs": true
