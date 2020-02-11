@@ -7,7 +7,7 @@ const {
 module.exports = async (ctx, next) => {
     
     if (ctx.path === '/sitemap') {
-    	let all = 6,
+    	let all = 1,
     	i = 1,
     	content = [];
 
