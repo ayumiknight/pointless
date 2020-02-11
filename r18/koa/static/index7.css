@@ -774,15 +774,11 @@ body .mycanvas {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
-.instant-message * {
-  background: rgba(255, 255, 255, 0.96);
-}
 .instant-message.booted {
   transform: translateX(0);
 }
 .instant-message .switch {
   position: absolute;
-  background: transparent !important;
   top: calc(50% - 25px);
   left: -40px;
 }
