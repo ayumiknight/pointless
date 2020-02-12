@@ -200,7 +200,6 @@ class Root extends React.Component {
 				JVR Discuss <div className="count">({count} online)</div>
 			</div>
 			<div className="switch" onClick={() => {
-
 					this.setState({
 						booted: !booted
 					});
@@ -211,7 +210,7 @@ class Root extends React.Component {
 				{(messages || []).map( (message, i) => {
 					return <Message 
 						key={i} 
-						wrappedMessage={message} 
+						wrappedMessage={message}
 						wrappedPreMessage={messages[i - 1]}
 						myId={this.socket && this.socket.id}
 						socket={this.socket}
@@ -286,7 +285,6 @@ class Message extends React.PureComponent {
 	}
 
 	logClick(element) {
-		console.log('clicled====================')
 		this.props.socket.emit('torrentClicked', this.props.wrappedMessage);
 	}
 

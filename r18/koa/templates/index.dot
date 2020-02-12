@@ -16,9 +16,9 @@
 	<link rel="icon" type="image/png" href="/static/favicon.png">
 	<meta name="description" content="Japan VR Adult Videos and Torrents">
 	<link rel="canonical" href="http://www.jvrlibrary.com{{=it.currentUrl}}" />
-	<link href="/static/index7.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/index8.css" rel="stylesheet" type="text/css"/>
 	<link href="/static/webfonts/all.min.css" rel="stylesheet" type="text/css"/>
-
+	<script src="/static/jquery.min.js"></script>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145060231-2"></script>
 	<script>
@@ -62,26 +62,23 @@
 	</div>
 	<div id="instant-message"></div>
 </div>
-<script
-	  src="https://code.jquery.com/jquery-3.4.1.min.js"
-	  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-	  crossorigin="anonymous"></script>
-	<script>
-		var code = "{{=it.r18 && it.r18.code || ""}}";
-		$(document).ready(function() {
-			$("#idSearch").bind('keypress', function(e) {
-				if (e.keyCode === 13) {
-					let inputValue = $(this).val();
-					if (inputValue.match(/[a-zA-Z]+/)) {
-						location.href = "/search?search=" + encodeURIComponent(inputValue);  
-					} else {
-						alert('Sorry, this will not work')
-					}	 
-				}
-			});			 
-		})
-	</script>
+
+<script>
+	var code = "{{=it.r18 && it.r18.code || ""}}";
+	$(document).ready(function() {
+		$("#idSearch").bind('keypress', function(e) {
+			if (e.keyCode === 13) {
+				let inputValue = $(this).val();
+				if (inputValue.match(/[a-zA-Z]+/)) {
+					location.href = "/search?search=" + encodeURIComponent(inputValue);  
+				} else {
+					alert('Sorry, this will not work')
+				}	 
+			}
+		});			 
+	})
+</script>
 <script src="/static/cursor1.js"></script>
-<script src="/static/bundlef8b18656094b26b7abfa.js"></script>
+<script src="/static/bundlef6b2b8e030afa3fd0f37.js"></script>
 </body>
 </html>

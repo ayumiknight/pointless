@@ -1,5 +1,6 @@
 .instant-message {
-    transform: translateX(100%);
+    transform: translateX(300px);
+    -ms-transform: translateX(300px);
     transition: all 0.3s ease-in-out;
     width: 300px;
     height: calc(100vh - 200px);
@@ -12,7 +13,8 @@
     border-top-right-radius: 5px;
 
     &.booted {
-        transform: translateX(0) ;
+        transform: translateX(0px);
+        -ms-transform: translateX(0px);
     }
 	.switch {
 		position: absolute;
