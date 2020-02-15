@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{= it.zh ? 'zh' : 'en'}}">
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
 	<title>
@@ -12,7 +12,7 @@
 		{{?}}
 		&nbsp;JvrLibrary
 	</title>
-
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<link rel="icon" type="image/png" href="/static/favicon.png">
 	<meta name="description" content="Japan VR Adult Videos and Torrents">
 	<link rel="canonical" href="http://www.jvrlibrary.com{{=it.currentUrl}}" />
