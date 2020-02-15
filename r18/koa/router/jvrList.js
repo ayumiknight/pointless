@@ -18,11 +18,23 @@ module.exports = async (ctx, next) => {
 		category_id, 
 		studio_id, 
 		series_id,
-		lcode
+		lcode,
+		raw,
+		pagesize
 	} = ctx.query;
 
 	let rapidgator = !!ctx.path.match(/^\/rapidgator$/);
 
+	if (rapidgator && raw) {
+		let r18s = await getR18Paged({
+			...ctx.query,
+			pagesize: pagesize * 1,
+			rapidgator
+		});
+		ctx.body = JSON.stringify(r18s);
+		return;
+	}
+	
 	let {
 		zh
 	} = ctx;
