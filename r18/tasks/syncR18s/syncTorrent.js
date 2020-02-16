@@ -36,7 +36,12 @@ async function syncTorrents(all) {
 			
 				let [letter, number ] = row.code.split('-');
 				if (title && title.match(letter) && title.match(number)) {
-					await tagR18sWithTorrent(row.code)
+					try {
+						let save = await tagR18sWithTorrent(row.code)
+					} catch(e) {
+						console.log(e)
+					}
+					
 					console.log('found and marked', row.code, '==============\n');
 				}
 			}
