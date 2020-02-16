@@ -56,6 +56,10 @@ module.exports = (sequelize, DataTypes) => {
 		coden: {
 			type: DataTypes.INTEGER,
 			comment: 'code编号大小'
+		},
+		torrent: {
+			type: DataTypes.INTEGER,
+			comment: '是否有种子'
 		}
 	});
 

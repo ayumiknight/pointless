@@ -292,6 +292,8 @@ class Message extends React.PureComponent {
 		let { wrappedMessage, wrappedPreMessage = {}, myId } = this.props, { title, magnet, code, time, createdAt, fromId } = wrappedMessage,
 			showStamp = wrappedPreMessage.loginMessasge || (wrappedPreMessage.createdAt && createdAt && dayjs(createdAt) - dayjs(wrappedPreMessage.createdAt) > 1000 * 300);
 
+		let isZh = (location.pathname || '').match(/^\/zh.*$/i);
+
 		return [<div className="message-wrap f c fc">
 			{showStamp ? <div className="time-stamp f fc">{dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}</div> : null}
 			<div className={`${ fromId === myId ? 'mine' : ''} message f r`}>
@@ -303,7 +305,7 @@ class Message extends React.PureComponent {
 					<div className="content">
 						<div className="torrent">
 							<div className="torrent-title">
-								We just found a magnet link of {code} for you.
+								{isZh ? `我们为您找到了${code}的种子链接.` : `We just found a magnet link of ${code} for you.`}
 							</div>
 							<div className="torrent-title">
 								{title}
@@ -326,9 +328,11 @@ class Message extends React.PureComponent {
 				<div className="message-content f c">
 					<div className="name">Professional Drunker</div>
 					<div className="content"> 
-						<div className="legal-notice">
+						{isZh ? <div className="legal-notice">
+							搜索结果由 <a href={`https://torrentz2.eu/search?f=${code}`}>Torrentz2.eu</a> 为您提供
+						</div> : <div className="legal-notice">
 							We don't host any files, all information is provided by <a href={`https://torrentz2.eu/search?f=${code}`}>Torrentz2.eu</a> 
-						</div> 
+						</div>}
 					</div>
 				</div>
 			</div>

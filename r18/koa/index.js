@@ -11,7 +11,8 @@ const {
 	writeMessages,
 	getRecentMessages,
 	recentClickCreate,
-	nodeCache
+	nodeCache,
+	tagR18sWithTorrent
 } = require('../sequelize/methods/index.js');
 
 const path = require('path');
@@ -164,6 +165,7 @@ io.on('connection', async (socket) => {
 			
 			let [letter, number ] = code.split('-');
 			if (title && title.match(letter) && title.match(number)) {
+				tagR18sWithTorrent(code).then(res => {})
 				socket.emit('torrent', {
 					code,
 					magnet: torrent.magnet,

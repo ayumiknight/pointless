@@ -8,11 +8,10 @@
 	<div class="right">{{=it.zh ? '日本VR影片' : 'Japan VR films Only'}}</div> 
 </div>
 <div class="real-side-menu f r">
-	<a href="{{=it.zh ? '/zh' : ''}}/" class="{{= it.currentPath === '/' ? 'current' : ''}}">{{=!it.zh ? 'Home' : '首页' }}</a>
-	<a rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/casts" class="{{= it.currentPath === '/casts' ? 'current' : ''}}">{{=!it.zh ? 'Casts' : '女优' }}</a>
+	<a href="{{=it.zh ? '/zh' : ''}}/" class="{{= it.currentPath === '/' ? 'current' : ''}}">{{=!it.zh ? 'New' : '最新' }}</a>
 	<a rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/ranking" class="{{= it.currentPath === '/ranking' ? 'current' : ''}}">{{=!it.zh ? 'Top' : '排行' }}</a>
-	<a rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/studios" class="{{= it.currentPath === '/studios' ? 'current' : ''}}">{{=!it.zh ? 'Studios' : '发行商' }}</a>
 	<a rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/categories" class="{{= it.currentPath === '/categories' ? 'current' : ''}}">{{=!it.zh ? 'Genre' : '类别' }}</a>
+	<a rel="nofollow" href="{{=(it.zh ? '' : '/zh') + it.currentUrl.replace(/\/zh/i, '')}}">{{=it.zh ? 'Eng' : '中文' }}</a>
 
 	{{? it.r18 && it.r18.previous}}
 	<a href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=it.r18.previous}}">
@@ -24,10 +23,6 @@
 		<i class="fas fa-chevron-right" /></i>
 	</a>
 	{{?}}
-	<!-- 
-	<div class="language f r fc">
-		<a href="{{=it.currentUrl.replace(/\/zh/i, '')}}" class="language-btn {{=it.zh ? '' : 'current'}}">Eng</a>
-		<a href="/zh{{=it.currentUrl.replace(/\/zh/i, '')}}" class="language-btn {{=it.zh ? 'current' : ''}}">中文</a>
-	</div>  -->
-	<a href="{{=it.zh ? '/zh' : ''}}/rapidgator" class="rapidgator {{= it.currentPath === '/rapidgator' ? 'current' : ''}}" style="width:100%;text-align:left;">Rapidgator! Fast Donwload Section!</a>
+	<a href="{{=it.zh ? '/zh' : ''}}/rapidgator" class="rapidgator {{= it.currentPath === '/rapidgator' ? 'current' : ''}}" style="width:100%;text-align:left;">{{=it.zh ? 'Rapidgator快速下载区' : 'Rapidgator! Fast Donwload Section!' }}</a>
+	<a href="{{=it.zh ? '/zh' : ''}}/torrent" class="rapidgator {{= it.currentPath === '/torrent' ? 'current' : ''}}" style="width:100%;text-align:left;">{{=it.zh ? 'BT慢速下载区' : 'Torrent! Slow Donwload Section!' }}</a>
 </div>

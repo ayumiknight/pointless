@@ -23,13 +23,15 @@ module.exports = async (ctx, next) => {
 		pagesize
 	} = ctx.query;
 
-	let rapidgator = !!ctx.path.match(/^\/rapidgator$/);
+	let rapidgator = !!ctx.path.match(/^\/rapidgator/i),
+		torrent = !!ctx.path.match(/^\/torrent/i);
 
 	if (rapidgator && raw) {
 		let r18s = await getR18Paged({
 			...ctx.query,
 			pagesize: pagesize * 1,
-			rapidgator
+			rapidgator,
+			torrent
 		});
 		ctx.body = JSON.stringify(r18s);
 		return;
@@ -41,7 +43,8 @@ module.exports = async (ctx, next) => {
 	let r18s = await getR18Paged({
 		...ctx.query,
 		pagesize: 20,
-		rapidgator
+		rapidgator,
+		torrent
 	});
 
 	let pageTitle,
@@ -74,8 +77,10 @@ module.exports = async (ctx, next) => {
 		pageTitle = lcode;
 	} else if (rapidgator) {
 		pageTitle = 'Rapidgator!';
+	} else if (torrent) {
+		pageTitle = 'Torrent!';
 	} else {
-		pageTitle = zh ? '热度' : 'Popular';
+		pageTitle = zh ? '最新' : 'New';
 	}
 
 	if (clickAction && clickAction.clickId) {

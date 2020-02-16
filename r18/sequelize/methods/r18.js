@@ -97,7 +97,8 @@ async function getR18Paged(query) {
 		page = 1,
 		pagesize,
 		lcode,
-		rapidgator
+		rapidgator,
+		torrent
 	} = query;
 
 	let r18Query = {
@@ -173,6 +174,13 @@ async function getR18Paged(query) {
 				}
 			}
 		}];
+	}
+	if (torrent) {
+		r18Query.where = {
+			torrent: {
+				[Op.eq]: 1
+			}
+		}
 	}
 	return R18.findAndCountAll(r18Query);
 }
@@ -292,6 +300,9 @@ async function measureR18s() {
 	return sequelize.query("SELECT COUNT(DISTINCT(`code`)) FROM `R18s`;")
 }
 
+function tagR18sWithTorrent(code) {
+	return sequelize.query(`UPDATE R18s SET torrent = 1 WHERE \`code\` = '${code}'`)
+}
 
 module.exports = {
 	R18BulkCreate,
@@ -304,5 +315,6 @@ module.exports = {
 	SyncDB,
 	sequelize,
 	measureR18s,
-	getMySelected
+	getMySelected,
+	tagR18sWithTorrent
 }

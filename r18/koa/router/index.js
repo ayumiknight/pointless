@@ -86,6 +86,7 @@ router.get('/studio', jvrList);
 router.get('/series', jvrList);
 router.get('/lcode', jvrList);
 router.get('/rapidgator', jvrList);
+router.get('/torrent', jvrList);
 router.get('/ranking', ranking);
 router.get(/^\/sitemap(.*)?/, sitemap);
 router.get('/', jvrList);
