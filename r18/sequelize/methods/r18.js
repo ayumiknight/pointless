@@ -105,8 +105,12 @@ async function getR18Paged(query) {
 		limit: pagesize,
 		order: [[
 			'order', 'ASC'
-		]]
+		]],
+		include: [{
+			association:  R18.Extras
+		}]
 	}
+
 
 	if (lcode) {
 		r18Query.where = {
@@ -117,6 +121,7 @@ async function getR18Paged(query) {
 		r18Query.order = [[
 			'coden', 'DESC'
 		]]
+
 	}
 	if (actress_id) {
 		r18Query.include = [{
@@ -125,6 +130,8 @@ async function getR18Paged(query) {
 			where: {
 				actress_id
 			}
+		}, {
+			association:  R18.Extras
 		}]
 	}
 	if (category_id) {
@@ -133,6 +140,8 @@ async function getR18Paged(query) {
 			where: {
 				category_id
 			}
+		}, {
+			association:  R18.Extras
 		}];
 	}
 	if (studio_id) {
@@ -141,6 +150,8 @@ async function getR18Paged(query) {
 			where: {
 				studio_id
 			}
+		}, {
+			association:  R18.Extras
 		}];
 	}
 	if (series_id) {
@@ -149,6 +160,8 @@ async function getR18Paged(query) {
 			where: {
 				series_id
 			}
+		}, {
+			association:  R18.Extras
 		}];
 	}
 	if (rapidgator) {

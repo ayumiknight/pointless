@@ -1,4 +1,4 @@
-.recommend {
+.jvr-list.recommend {
     width: 190px;
     margin: 0 0 0 5px;
     display: inline-block;
@@ -14,16 +14,26 @@
         .list-item {
             margin: 0 0 10px 0;
             width: 170px;
-            img {
+            position: relative;
+            img.cover {
                 width: 170px;
                 height: 220px;
+                padding: 0 !important;
+            }
+            img.rgbtn {
+                width: 170px;
+                height: 23px;
+                position: absolute;
+                top: 197px;
+                left: 0;
+                padding: 0 !important;
             }
         }
     }
 }
 
 @media only screen and (max-width: 480px) {
-    .recommend {
+    .jvr-list.recommend {
         margin: 10px 0;
         width: 100vw;
         .page-title {
@@ -36,10 +46,18 @@
             overflow-x: auto;
             white-space: nowrap;
             .list-item {
-            	img {
-            		height: 54vw;
-            		width: 40vw;
-            	}
+                position: relative;
+                img.cover {
+                    height: 54vw;
+                    width: 40vw;
+                }
+                img.rgbtn {
+                    width: 40vw;
+                    height: 5vw;
+                    position: absolute;
+                    top: 49vw;
+                    left: 0;
+                }
             }
         }
     }

@@ -69,6 +69,15 @@
                         </div>
                         <div class="tab4">
                             {{? it.r18.rapidgator}}
+                                <div class="rg-ads">
+                                    <a href="https://rapidgator.net/article/premium/ref/4240100" target="_blank">
+                                        <img src="/static/rgPremium.gif" border="0" width="300" height="55" alt="Rapidgator.net"/>
+                                        <div>
+                                            Join us now !!<br/>
+                                            Enjoy your hundreds of JVR videos!! <br/>
+                                        </div>
+                                    </a>
+                                </div>
                             {{~it.r18.rapidgator :value:index}}
                             <a href="{{=value}}" rel="nofollow" onclick="window.logRClick && window.logRClick('{{=it.r18.code}}')">{{=value}}</a>
                             {{~}}

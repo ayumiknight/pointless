@@ -7,12 +7,15 @@
 
 		{{~it.relatedR18s :value:index}}
 			<a class="list-item f" rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
-				<img {{= it.lazy ? "data-" : ""}}src="{{=value.cover}}" class="swiper-lazy"/>
+				<img class="cover" src="{{=value.cover}}" >	
+				</img>
+				{{?it.r18.Extras}}
+				<img class="rgbtn" src="/static/rgbtn.gif"/>
+				{{?}}
 				<div class="bottom">
 					<div class="code">
 						{{=value.code}}
 					</div>
-
 					<div class="title">
 						{{=it.zh ? value.zhTitle : value.title}}
 					</div>	
