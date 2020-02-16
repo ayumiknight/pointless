@@ -165,7 +165,7 @@ io.on('connection', async (socket) => {
 			
 			let [letter, number ] = code.split('-');
 			if (title && title.match(letter) && title.match(number)) {
-				tagR18sWithTorrent(code).then(res => {})
+				tagR18sWithTorrent(code).then(res => {}).catch(e => {})
 				socket.emit('torrent', {
 					code,
 					magnet: torrent.magnet,
