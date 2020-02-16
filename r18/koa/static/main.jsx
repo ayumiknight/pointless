@@ -26,7 +26,7 @@ class Root extends React.Component {
 
 		this.socket.on('connect', function() {
 
-			if (location.pathname === '/jvr' && location.search.match(/\?id=(.+)$/)) {
+			if (location.pathname.match(/\/jvr/i) && location.search.match(/\?id=(.+)$/)) {
 				let code = location.search.replace(/\?id=(.+)$/, '$1');
 
 				setTimeout(function() {
