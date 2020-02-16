@@ -9,7 +9,7 @@
 			<a class="list-item f" rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
 				<img class="cover" src="{{=value.cover}}" >	
 				</img>
-				{{?it.r18.Extras}}
+				{{?value.Extras}}
 				<img class="rgbtn" src="/static/rgbtn.gif"/>
 				{{?}}
 				<div class="bottom">
