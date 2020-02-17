@@ -19,7 +19,7 @@ console.log(totalEntries, 'totalEntries=======================');
 
 async function syncRapidgator(all) {
 	let page = 1;
-	let pageNum = all ? 350 : 5;
+	let pageNum = all ? 350 : 20;
 
 	while (page <= pageNum) {
 		let rows = await getR18WithExtraPaged({
