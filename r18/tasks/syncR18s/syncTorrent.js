@@ -16,7 +16,7 @@ TorrentSearchApi.enableProvider('Torrentz2');
 
 async function syncTorrents(all) {
     let page = 1;
-    let pageNum = all ? 350 : 100;
+    let pageNum = all ? 10 : 5;
 
     while (page <= pageNum) {
         let rows = await getR18WithExtraPaged({
