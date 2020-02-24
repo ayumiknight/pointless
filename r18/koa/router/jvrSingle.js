@@ -82,10 +82,11 @@ module.exports = async (ctx, next) => {
 			code: r18.code
 		})
 	}
-	let title = r18 && r18.code ? ' - ' + (ctx.zh ? r18.zhTitle : r18.title): "- Not Found";
+	let title = 'Not Found',
+		keywords = '';
 
-	let keywords = '';
 	if (r18.code) {
+		title = r18.code + ' - ' + 'Rapidgator And Torrent - ' + (ctx.zh ? r18.zhTitle : r18.title); 
 		keywords = r18.code + ',' + parseInt(r18.code.split('-')[1]);
 	}
 	ctx.body = ctx.dots.index({
