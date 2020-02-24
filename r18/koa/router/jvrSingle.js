@@ -84,13 +84,18 @@ module.exports = async (ctx, next) => {
 	}
 	let title = r18 && r18.code ? ' - ' + (ctx.zh ? r18.zhTitle : r18.title): "- Not Found";
 
+	let keywords = '';
+	if (r18.code) {
+		keywords = r18.code + ',' + parseInt(r18.code.split('-')[1]);
+	}
 	ctx.body = ctx.dots.index({
 		type: 'jvr',
 		pageTitle: ctx.query.id + title.slice(0, 150),
 		r18: r18 && r18.code && formatSingleEntryForRender(r18, ctx.zh),
 		relatedR18s,
 		relatedKeyword,
-		reletedHref
+		reletedHref,
+		keywords
 	});
 	return;
 }

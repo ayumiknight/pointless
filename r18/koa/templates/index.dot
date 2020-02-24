@@ -16,6 +16,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="icon" type="image/png" href="/static/favicon.png">
 	<meta name="description" content="{{= it.type === 'jvr' ? it.r18 && it.r18.code || '' : ''}} Japan VR Porn, Rapidgator and Torrent">
+	<meta name="keywords" content="Rapidgator,Torrent,Virtual Reality,Porn,Japan,Download,Jvrlibrary,{{=keywords}}">
+	<meta name="author" content="ProfessionalDrunker">
 	<link rel="canonical" href="http://www.jvrlibrary.com{{=it.currentUrl}}" />
 	<link href="/static/index9.css" rel="stylesheet" type="text/css"/>
 	<link href="/static/webfonts/all.min.css" rel="stylesheet" type="text/css"/>
