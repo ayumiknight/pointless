@@ -78,10 +78,10 @@ app.use((ctx, next) => {
 	ctx.path = path;
 	ctx.zh = zh;
 
-	if (isBaidu) {
-		ctx.body = "no crawl please";
-		return;
-	}
+	// if (isBaidu) {
+	// 	ctx.body = "no crawl please";
+	// 	return;
+	// }
 	ctx.dots = {
 		index: (args) => {
 			return dots.index({
