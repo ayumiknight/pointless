@@ -18,6 +18,10 @@ module.exports = async (ctx, next) => {
 		code: ctx.query.id
 	});
 
+	if (ctx.query.raw) {
+		ctx.body = JSON.stringify(r18);
+		return;
+	}
 	let relatedQuery = {},
 		relatedKeyword,
 		reletedHref,
