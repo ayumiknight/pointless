@@ -30,8 +30,14 @@ module.exports = async (ctx, next) => {
 		let r18s = await getR18Paged({
 			...ctx.query,
 			pagesize: pagesize * 1,
-			rapidgator,
-			torrent
+			rapidgator
+		});
+		ctx.body = JSON.stringify(r18s);
+		return;
+	} else if (raw) {
+		let r18s = await getR18Paged({
+			...ctx.query,
+			pagesize: pagesize * 1
 		});
 		ctx.body = JSON.stringify(r18s);
 		return;
