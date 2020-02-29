@@ -9,8 +9,8 @@
 </div>
 <div class="real-side-menu f r">
 	
-	<a href="{{=it.zh ? '/zh' : ''}}/rapidgator" class="rapidgator {{= it.currentPath === '/rapidgator' ? 'current' : ''}}" style="width:100%;text-align:left;">{{=it.zh ? 'Rapidgator快速下载区' : 'Rapidgator! Fast Donwload Section!' }}</a>
-	<a href="{{=it.zh ? '/zh' : ''}}/torrent" class="rapidgator {{= it.currentPath === '/torrent' ? 'current' : ''}}" style="width:100%;text-align:left;">{{=it.zh ? 'BT慢速下载区' : 'Torrent! Slow Donwload Section!' }}</a>
+	<a href="{{=it.zh ? '/zh' : ''}}/rapidgator" class="rapidgator {{= it.currentPath === '/rapidgator' ? 'current' : ''}}" style="width:100%;text-align:left;">{{=it.zh ? 'Rapidgator土豪快速下载区' : 'Rapidgator! Fast Donwload Section!' }}</a>
+	<a href="{{=it.zh ? '/zh' : ''}}/torrent" class="rapidgator {{= it.currentPath === '/torrent' ? 'current' : ''}}" style="width:100%;text-align:left;">{{=it.zh ? 'BT免费慢速下载区' : 'Torrent! Slow Donwload Section!' }}</a>
 	
 	<a href="{{=it.zh ? '/zh' : ''}}/" class="{{= it.currentPath === '/' ? 'current' : ''}}">{{=!it.zh ? 'New' : '最新' }}</a>
 	<a rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/ranking" class="{{= it.currentPath === '/ranking' ? 'current' : ''}}">{{=!it.zh ? 'Top' : '排行' }}</a>
