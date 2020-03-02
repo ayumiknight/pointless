@@ -42,7 +42,8 @@ class TorrentTask {
 
 	async init() {
 		this.browser = await puppeteer.launch({
-			headless: false
+			headless: true,
+			args: ['--no-sandbox']
 		});
 		await this.createNewPage('page1');
 		await this.createNewPage('page2');
