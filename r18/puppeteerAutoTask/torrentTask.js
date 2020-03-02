@@ -153,7 +153,7 @@ http.createServer(async function (req, res) {
 				nodeCache.set(query.code, '');
 			}
 		}
-		
+		console.log(`search for ${query.code} returning ${JSON.stringify(result || {})}`)
 		res.write(JSON.stringify(result || {} ));
 		res.end();
 	}

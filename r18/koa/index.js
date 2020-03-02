@@ -149,12 +149,12 @@ io.on('connection', async (socket) => {
 	})
 	
 	socket.on('jvr', ({ code }) => {
-
+		console.log('code===============================got', code)
 		getTorrentByCode(code).then( _torrent => {
 			let torrent = _torrent || {},
 				title = (torrent.title || '').toUpperCase(),
 				date = moment().toDate();
-
+			console.log('torrent===============================got', torrent)
 			let [letter, number ] = code.split('-');
 
 			if (title && title.match(letter) && title.match(number)) {
