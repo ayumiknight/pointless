@@ -27,14 +27,15 @@ function injectLogger() {
 class TorrentTask {
 	constructor() {
 		this.init();
+		let self = this;
 		setInterval(() => {
-			this.page1Task._push({
+			self.page1Task._push({
 				type: 'clearCache',
-				task: this.clearCache.bind(this, this.page1)
+				task: this.clearCache.bind(self, self.page1)
 			});
-			this.page2Task._push({
+			self.page2Task._push({
 				type: 'clearCache',
-				task: this.clearCache.bind(this, this.page2)
+				task: this.clearCache.bind(self, self.page2)
 			});
 		}, 1000 * 60 * 10);
 	}
