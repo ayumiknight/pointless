@@ -16,6 +16,7 @@ const {
 } = require('../sequelize/methods/index.js');
 
 const path = require('path');
+const axios = require('axios');
 const dots = require("dot").process({
 	path: path.join(__dirname, "/templates")
 });
@@ -25,11 +26,6 @@ const io = new IO();
 const cookie = require('cookie');
 const moment = require('moment');
 const fs = require('fs');
-
-const TorrentSearchApi = require('torrent-search-api');
-TorrentSearchApi.enableProvider('Torrentz2');
-
-
 
 function serveStatic() {
 	const staticServer = new Koa();
@@ -125,12 +121,8 @@ app._io.engine.generateId =  async function (req) {
 }
 
 async function getTorrentByCode(code) {
-	let	data = nodeCache.get('torrent:' + code);
-	if (!data) {
-		data = await TorrentSearchApi.search(code, 'All', 1);
-		nodeCache.set('torrent:' + code, data);
-	}
-	return data;
+	let response = await axios.get(`http://localhost:8001/torrent?code=${code}`);
+	return response.data || {};
 }
 
 io.on('connection', async (socket) => {
@@ -158,12 +150,13 @@ io.on('connection', async (socket) => {
 	
 	socket.on('jvr', ({ code }) => {
 
-		getTorrentByCode(code).then( torrents => {
-			let torrent = torrents[0] || {},
-				title = torrent.title,
+		getTorrentByCode(code).then( _torrent => {
+			let torrent = _torrent || {},
+				title = (torrent.title || '').toUpperCase(),
 				date = moment().toDate();
-			
+
 			let [letter, number ] = code.split('-');
+
 			if (title && title.match(letter) && title.match(number)) {
 				tagR18sWithTorrent(code).then(res => {}).catch(e => {})
 				socket.emit('torrent', {
