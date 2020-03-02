@@ -47,6 +47,8 @@ class TorrentTask {
 		});
 		await this.createNewPage('page1');
 		await this.createNewPage('page2');
+		let pages = await this.browser.pages();
+		await pages[0].close();
 	}
 
 	async createNewPage(name) {
