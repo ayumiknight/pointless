@@ -61,14 +61,24 @@ class TorrentTask {
 	}
 
 	async createNewPage(name) {
-		this[name] = await this.browser.newPage();
-		await this[name].setUserAgent(userAgent);
-		await this[name].goto(`https://torrentz2.eu/`);
+		try {
+			this[name] = await this.browser.newPage();
+			await this[name].setUserAgent(userAgent);
+			await this[name].goto(`https://torrentz2.eu/`);
+		} catch(e) {
+			console.log(e.message)
+		}
+		
 		this[name + 'Task'] = [];
 		this[name + 'Task']._push = async function(task) {
 			this.push(task);
 			while(this.length) {
-				await this[0].task();
+				try {
+					await this[0].task();
+				} catch(e) {
+					console.log(e.message)
+				}
+				
 				this.shift();
 			}
 		}
@@ -98,6 +108,7 @@ class TorrentTask {
 			let rejected = false;
 			setTimeout(() => {
 				rejected = true;
+				callback.reject();
 				rej();
 			}, 2000);
 
