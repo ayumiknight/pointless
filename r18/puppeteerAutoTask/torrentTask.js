@@ -41,18 +41,23 @@ class TorrentTask {
 	}
 
 	async init() {
-		this.browser = await puppeteer.launch({
-			headless: true,
-			args: [
-				'--no-sandbox',
-				'--disable-gpu',
-				'--single-process'
-			]
-		});
-		await this.createNewPage('page1');
-		await this.createNewPage('page2');
-		let pages = await this.browser.pages();
-		await pages[0].close();
+		try {
+			this.browser = await puppeteer.launch({
+				headless: true,
+				args: [
+					'--no-sandbox',
+					'--disable-gpu',
+					'--single-process'
+				]
+			});
+			await this.createNewPage('page1');
+			await this.createNewPage('page2');
+			let pages = await this.browser.pages();
+			await pages[0].close();
+		} catch(e) {
+			console.log(e.message)
+		}
+		
 	}
 
 	async createNewPage(name) {
@@ -90,37 +95,47 @@ class TorrentTask {
 	async findTorrent(page, code, callback) {
 
 		return new Promise(async (resolve, rej) => {
-			setTimeout(rej, 2000);
-			await page.goto(`https://torrentz2.eu/search?f=${code.replace('-', '+')}`);
-			let res = await page.evaluate(function() {
-				try {
-					let results = document.getElementsByClassName('results')[0],
-						dl = results.getElementsByTagName('dl')[0],
-						dt = dl.getElementsByTagName('dt')[0],
-						aTag = dt.getElementsByTagName('a')[0],
-						href = aTag.href,
-						title = aTag.text;
+			let rejected = false;
+			setTimeout(() => {
+				rejected = true;
+				rej();
+			}, 2000);
 
-					let dd = dl.getElementsByTagName('dd')[0],
-						span = dd.getElementsByTagName('span')[1],
-						time = span.innerText;
+			let res;
+			try {
+				await page.goto(`https://torrentz2.eu/search?f=${code.replace('-', '+')}`);
+				res = await page.evaluate(function() {
+					try {
+						let results = document.getElementsByClassName('results')[0],
+							dl = results.getElementsByTagName('dl')[0],
+							dt = dl.getElementsByTagName('dt')[0],
+							aTag = dt.getElementsByTagName('a')[0],
+							href = aTag.href,
+							title = aTag.text;
 
-					let magnet = (href || '').split('/').pop();
+						let dd = dl.getElementsByTagName('dd')[0],
+							span = dd.getElementsByTagName('span')[1],
+							time = span.innerText;
 
-					if (magnet && title && time) {
-						return {
-							magnet,
-							title,
-							time
+						let magnet = (href || '').split('/').pop();
+
+						if (magnet && title && time) {
+							return {
+								magnet,
+								title,
+								time
+							}
+						} else {
+							return null
 						}
-					} else {
-						return null
+					} catch(e) {
+						return null;
 					}
-				} catch(e) {
-					return null;
-				}
-			})
-
+				})
+			} catch(e) {
+				console.log(e.message)
+			}
+			if (rejected) return;
 			if (res) {
 				callback.resolve(res)
 				resolve(res);
