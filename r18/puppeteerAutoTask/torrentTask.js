@@ -76,7 +76,7 @@ class TorrentTask {
 				try {
 					await this[0].task();
 				} catch(e) {
-					console.log(e.message)
+
 				}
 				
 				this.shift();
@@ -137,12 +137,21 @@ class TorrentTask {
 								time
 							}
 						} else {
-							return null
+							return {
+								type: 'error',
+								message: 'info not complete'
+							}
 						}
 					} catch(e) {
-						return null;
+						return {
+							type: 'error',
+							message: e.message
+						};
 					}
 				})
+				if (res.type === 'error') {
+					throw new Error(res.message);
+				}
 			} catch(e) {
 				console.log(e.message)
 			}
