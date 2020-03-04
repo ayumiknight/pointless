@@ -128,7 +128,7 @@ class TorrentTask {
 							span = dd.getElementsByTagName('span')[1],
 							time = span.innerText;
 
-						let magnet = (href || '').split('/').pop();
+						let magnet = 'magnet:?xt=urn:btih:' + (href || '').split('/').pop();
 
 						if (magnet && title && time) {
 							return {
