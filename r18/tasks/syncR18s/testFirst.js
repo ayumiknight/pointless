@@ -108,6 +108,7 @@ async function index() {
                 needSeries = entry.series && !series;
             }
 		}
+        index++;
 	}
     console.log('stop at ',index, 'returning', {
         needActress,
