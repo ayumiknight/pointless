@@ -5,6 +5,7 @@ var syncStudios = require('./syncStudios/syncStudios.js');
 var syncActresses = require('./syncActresses/syncActresses.js');
 var reorderR18s = require('./reorderR18s/reorderR18s.js');
 var syncRapidgator = require('./syncRapidgator/syncRapidgator.js');
+var testFirst = require('./syncR18s/testFirst.js');
 
 var fs = require('fs');
 var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
