@@ -66,12 +66,12 @@ async function index() {
 	while(index < entriesAll.length) {
 		let entry = await loadSingle(entriesAll[index]);
 		if (entry && entry.code) {
-			let R18 = await R18.findOne({
+			let _R18 = await R18.findOne({
                 where: {
                     code: entry.code
                 }
             });
-            if (R18) break;
+            if (_R18) break;
 
             let [ 
                 actresses,
