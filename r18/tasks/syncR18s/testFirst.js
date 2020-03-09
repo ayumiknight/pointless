@@ -124,5 +124,5 @@ async function index() {
 };
 
 
-index();
+module.exports = index;
 
