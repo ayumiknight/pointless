@@ -10,16 +10,16 @@ async function crawlAndCreate() {
 	let before = await measureR18s();
 	console.log(+ new Date() + ': r18s started' + JSON.stringify(before) + '\n')
 	let pageindex = process.env.offset || 1;
-	while( pageindex <= pageAll) {	
-		try {
+	try {
+		while( pageindex <= pageAll) {	
 			let result = await savePage(pageindex);
 			console.log(`${+ new Date()} : page ${pageindex} crawled \n`, { flag : 'a'})
-		} catch(e) {
-			console.log(`${+ new Date()} : ` + (e.message || e.msg) + `error at page ${pageindex}!!!! \n`, { flag : 'a'})
+			pageindex += 1;
 		}
-		pageindex += 1;
-
+	} catch(e) {
+		console.log(e.message)
 	}
+	
 	await new Promise((resolve, reject) => {
 		setTimeout(resolve, 0.5 * 60 * 1000);
 	})

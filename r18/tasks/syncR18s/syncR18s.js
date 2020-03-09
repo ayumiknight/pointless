@@ -53,9 +53,12 @@ async function loadAndSave(entries) {
         });
         let r18Parsed = parseEntry(raw);
         if (r18Parsed && r18Parsed.code) {
-            await R18Create({
+            let res = await R18Create({
                 entry: r18Parsed
             });
+            if (!res) {
+                throw new Error(`syncR18s stopped at =========${r18Parsed.code}`)
+            }
         }
         i++;
     }

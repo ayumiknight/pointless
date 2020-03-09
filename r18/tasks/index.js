@@ -18,9 +18,20 @@ function write() {
 process.stdout.write = write;
 
 var j = schedule.scheduleJob('52 14 * * *', async function() {
-	await syncActresses();
-	await syncStudios();
-	await syncSeries();
+	let {
+		needActress,
+        needStudio,
+        needSeries
+	} = await testFirst();
+	if (needActress) {
+		await syncActresses();
+	}
+	if (needStudio) {
+		await syncStudios();
+	}
+	if (needSeries) {
+		await syncSeries();
+	}
 	await syncR18s();
 	await reorderR18s();
 	await syncRapidgator();

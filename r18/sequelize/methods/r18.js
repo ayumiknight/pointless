@@ -85,6 +85,7 @@ async function R18Create({
 		studio && r18.setStudio(studio[0]),
 		r18.setGalleries(galleries.map( gallery => gallery[0]))
 	])
+	return created;
 }
 
 
