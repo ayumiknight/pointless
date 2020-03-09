@@ -106,7 +106,7 @@ async function index() {
             }
 
             if (!needSeries) {
-                needSeries = entry.Studio && !series;
+                needSeries = entry.Series && !series;
             }
 		}
         index++;
