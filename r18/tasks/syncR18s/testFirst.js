@@ -50,6 +50,7 @@ async function loadSingle(url) {
         return [null , null]
     });
     let r18Parsed = parseEntry(raw);
+    return r18Parsed;
 }
 
 
@@ -105,7 +106,7 @@ async function index() {
             }
 
             if (!needSeries) {
-                needSeries = entry.series && !series;
+                needSeries = entry.Studio && !series;
             }
 		}
         index++;
