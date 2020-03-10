@@ -51,9 +51,11 @@ async function downloadFromRapidgator(code, episode) {
 		await downloadOneTimeLink(oneTimeLink);
 		console.log(`=========download ${rapidgator[i]} ended=========`)
 	}
-	let firstFileName = rapidgator[0].split('/').pop();
-	execSync(`unrar x ${firstFileName}`)
-	console.log(`=========unrar ${firstFileName} ended=========`)
+	let firstFileName = rapidgator[0].split('/').pop().replace('.html', '');
+	if (firstFileName.match('.rar')) {
+		execSync(`unrar x ${firstFileName}`)
+		console.log(`=========unrar ${firstFileName} ended=========`)
+	}
 }
 
 async function index() {
