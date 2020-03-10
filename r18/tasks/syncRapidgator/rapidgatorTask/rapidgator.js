@@ -106,6 +106,16 @@ class Rapidgator {
 		});
 		return myLinks;
 	}
+	async generateOneTimeLink(myLink) {
+		//http://rapidgator.net/file/7d9252a17c5603109f597ebe3654dc41/KMVR-816-A.part2.rar.html
+		let fid = myLink.replace(/^(.+)\/file\/(.+)\/(.+)$/, "$2");
+		let res = await axios({
+			url: this.b + `/file/onetimelink_create?token=${this.token}&file_id=${fid}`,
+			method: 'GET'
+		});
+		let data = res.data;
+		return data.response.link.url;
+	}
 
 }
 

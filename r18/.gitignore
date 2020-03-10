@@ -9,3 +9,4 @@ javarchiveTasks/rapidgatorConfig.js
 *.log
 crawled*.*
 *.txt
+*.rar
