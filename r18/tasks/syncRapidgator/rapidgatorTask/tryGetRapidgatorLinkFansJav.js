@@ -72,7 +72,10 @@ async function tryGetRapidgatorLink({
 		let captchaOCR = await axios({
 			url: `https://api.ocr.space/parse/image`,
 			method: 'POST',
-			data: ocrForm
+			data: ocrForm,
+			headers: {
+				'content-type': 'form-data'
+			}
 		});
 
 		console.log(captchaOCR, '==========')
