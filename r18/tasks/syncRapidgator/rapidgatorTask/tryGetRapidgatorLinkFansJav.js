@@ -4,6 +4,7 @@ const axiosRretry = require('axios-retry');
 const cheerio = require('cheerio');
 const ocrConfig = require('./ocrConfig.js');
 const FormData = require('form-data');
+const qs = require('querystring')
 axiosRretry(axios, { retries: 3 });
 
 
@@ -50,26 +51,29 @@ async function tryGetRapidgatorLink({
 
 	if (javInfo) {
 		console.log(javInfo, '=======')
-		let detail = await axios.get(javInfo.href);
-
-		let $d = cheerio.load(detail.data),
-			contentProtector = $d('#main article .entry-content .content-protector-access-form');
-
-		let contentProtectorId = contentProtector.attr('id'),
-			id = contentProtectorId.split('-').pop();
-
-		let contentProtectorTokenInput = contentProtector.find('input[name=content-protector-token]'),
-			contentProtectorToken = contentProtectorTokenInput.attr('value');
-
-		let base64Image = contentProtector.find('.content-protector-captcha-img').attr('src');
-
-		let ocrForm = new FormData();
-
-		ocrForm.append('base64Image', base64Image);
-
-		console.log(ocrForm, '==firing========')
+		
 		try{
-			let captchaOCR = await axios({
+			let detail = await axios.get(javInfo.href);
+
+			let $d = cheerio.load(detail.data),
+				contentProtector = $d('#main article .entry-content .content-protector-access-form');
+
+			let contentProtectorId = contentProtector.attr('id');
+
+				contentProtectorId = contentProtectorId.split('-').pop();
+
+			let contentProtectorTokenInput = contentProtector.find('input[name=content-protector-token]'),
+				contentProtectorToken = contentProtectorTokenInput.attr('value');
+
+			let base64Image = contentProtector.find('.content-protector-captcha-img').attr('src');
+
+			let ocrForm = new FormData();
+
+			ocrForm.append('base64Image', base64Image);
+
+			let captchaOCR;
+
+			captchaOCR = await axios({
 				url: `https://api.ocr.space/parse/image`,
 				method: 'POST',
 				data: ocrForm,
@@ -80,10 +84,36 @@ async function tryGetRapidgatorLink({
 				}
 			});
 
-			console.log(captchaOCR, '==========')
+			captchaOCR = parseInt(captchaOCR.ParsedResults[0].ParsedText);
+
+			let captchaForm = {
+				'content-protector-captcha': 1,
+				'content-protector-password': captchaOCR,
+				'content-protector-token': contentProtectorToken,
+				'content-protector-ident': contentProtectorId,
+				'content-protector-submit': '>>>Click here submit<<<'
+			}
+			let queryString = qs.stringify(captchaForm)
+
+			let detailUnlocked = await axios({
+				url: javInfo.href,
+				data: queryString,
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				}
+			})
+
+			let $u = cheerio.load(detailUnlocked.data),
+				contentProtector = $d('#main article .entry-content .content-protector-access-form');
+
+			let rapidgatorLinks = contentProtector.find()
+
 		} catch(e) {
-			console.log(e.response)
+			console.log(e.message)
 		}
+
+
 		
 		
 	}
