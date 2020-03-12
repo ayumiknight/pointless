@@ -96,7 +96,7 @@ async function index() {
             ])
 
             if (!needActress) {
-                needActress = actresses.map(a => a[1]).reduce((a, b) => {
+                needActress = !!actresses.reduce((a, b) => {
                     return a || b;
                 }, false)
             }
