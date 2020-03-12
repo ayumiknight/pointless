@@ -69,16 +69,21 @@ async function tryGetRapidgatorLink({
 		ocrForm.append('base64Image', base64Image);
 
 		console.log(ocrForm, '==firing========')
-		let captchaOCR = await axios({
-			url: `https://api.ocr.space/parse/image`,
-			method: 'POST',
-			data: ocrForm,
-			headers: {
-				'content-type': 'form-data'
-			}
-		});
+		try{
+			let captchaOCR = await axios({
+				url: `https://api.ocr.space/parse/image`,
+				method: 'POST',
+				data: ocrForm,
+				headers: {
+					'content-type': 'multipart/form-data'
+				}
+			});
 
-		console.log(captchaOCR, '==========')
+			console.log(captchaOCR, '==========')
+		} catch(e) {
+			console.log(e.response)
+		}
+		
 		
 	}
 
