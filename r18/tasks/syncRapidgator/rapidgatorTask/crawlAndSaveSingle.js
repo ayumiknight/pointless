@@ -1,5 +1,5 @@
 const tryGetRapidgatorLinkJavArchive = require('./tryGetRapidgatorLinkJavArchive.js');
-const tryGetRapidgatorLinkFansJav = require('./tryGetRapidgatorLinkFansJav.js');
+//const tryGetRapidgatorLinkFansJav = require('./tryGetRapidgatorLinkFansJav.js');
 const Rapidgator = require('./rapidgator.js');
 
 async function crawlAndSaveSingle({
