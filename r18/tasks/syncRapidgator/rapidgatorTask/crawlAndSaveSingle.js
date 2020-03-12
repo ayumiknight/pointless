@@ -1,10 +1,11 @@
-const tryGetRapidgatorLink = require('./tryGetRapidgatorLink.js');
+const tryGetRapidgatorLinkJavArchive = require('./tryGetRapidgatorLinkJavArchive.js');
+const tryGetRapidgatorLinkFansJav = require('./tryGetRapidgatorLinkFansJav.js');
 const Rapidgator = require('./rapidgator.js');
 
 async function crawlAndSaveSingle({
 	code
 }) {
-	let javInfo = await tryGetRapidgatorLink({
+	let javInfo = await tryGetRapidgatorLinkJavArchive({
 		code
 	});
 	let R = new Rapidgator();

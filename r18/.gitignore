@@ -6,6 +6,7 @@ npm-debug.log
 logs/
 sequelize/dbConfig.js
 javarchiveTasks/rapidgatorConfig.js
+javarchiveTasks/ocrConfig.js
 *.log
 crawled*.*
 *.txt

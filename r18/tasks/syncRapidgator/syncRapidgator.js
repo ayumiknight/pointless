@@ -2,7 +2,7 @@
 
 const { getR18WithExtraPaged } = require('../../sequelize/methods/index.js');
 const { sequelize, Sequelize, Extra } = require('../../sequelize/index.js');
-const crawlAndSaveSingle = require('./rapidgatorTask/crawlAndSaveSingle.js');
+const crawlAndSaveSingle = require('./rapidgatorTask/crawlAndSaveSingleJavArchive.js');
 
 var fs = require('fs');
 var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
