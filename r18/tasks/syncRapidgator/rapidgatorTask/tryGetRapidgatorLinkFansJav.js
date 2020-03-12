@@ -65,7 +65,6 @@ async function tryGetRapidgatorLink({
 
 		let ocrForm = new FormData();
 
-		ocrForm.append('apiKey', ocrConfig.apiKey);
 		ocrForm.append('base64Image', base64Image);
 
 		console.log(ocrForm, '==firing========')
@@ -75,7 +74,8 @@ async function tryGetRapidgatorLink({
 				method: 'POST',
 				data: ocrForm,
 				headers: {
-					'content-type': 'multipart/form-data'
+					'content-type': 'multipart/form-data',
+					'apiKey': ocrConfig.apiKey
 				}
 			});
 
