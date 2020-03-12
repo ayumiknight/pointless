@@ -74,7 +74,8 @@ async function tryGetRapidgatorLink({
 				method: 'POST',
 				data: ocrForm,
 				headers: {
-					'content-type': 'multipart/form-data',
+					...ocrForm.getHeaders(),
+    				"Content-Length": ocrForm.getLengthSync(),
 					'apiKey': ocrConfig.apiKey
 				}
 			});
