@@ -59,10 +59,7 @@ async function downloadFromRapidgator(code, episode) {
 	return firstFileName;
 }
 
-//ffmpeg -i output.mp4 -ss 00:00:00.0 -t 3 -vf "scale=2048*1024,drawtext=text='More at Javlibrary.com':x=(w-text_w-50):y=(h-text_h-50):fontsize=70:fontcolor=white:shadowcolor=black:shadowx=5:shadowy=5" -c:v libx264  -c:a copy output1.mp4
-
-
-//ffmpeg -i out.mp4 -vf "scale=2048*1024,drawtext=text='More at Javlibrary.com':x=(w-text_w-50):y=(h-text_h-50):fontsize=70:fontcolor=white:shadowcolor=black:shadowx=5:shadowy=5" -c:v libx264  -c:a copy output1.mp4
+//ffmpeg  -i out1.mp4 -vf "scale=2048*1024,drawtext=text='More at Jvrlibrary.com':x=(w-text_w-30):y=(h-text_h-30):fontsize=30:fontcolor=white:shadowcolor=black:shadowx=2:shadowy=2" -c:v h264_nvenc  -c:a copy output1.mp4
 
 //ffmpeg -i ${fileName} -ss ${start} -c copy -t ${duration} out.mp4
 async function index() {
