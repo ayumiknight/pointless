@@ -25,7 +25,7 @@ function downloadOneTimeLink(url) {
 					headers = res.headers;
 
 				let fileName = headers['content-disposition'].replace(/^(.*)\"(.+)\"(.*)$/, "$2");
-				let writeStream = fs.createWriteStream(`./${fileName}`);
+				let writeStream = fs.createWriteStream(`../../koa/static/${fileName}`);
 				stream.pipe(writeStream);
 				stream.on('end', resolve)
 			})
@@ -39,22 +39,19 @@ async function downloadFromRapidgator(code, episode) {
 	let info = await axios.get(`https://www.jvrlibrary.com/jvr?id=${code}&raw=1`);
 		extras = JSON.parse(info.data.Extras.extra),
 		R = new Rapidgator();
-	console.log(`===============info got=${info.data}==========`)
+
 	let rapidgator = extras.rapidgator.filter(link => {
 		return link.split('/').pop().match(episode);
 	})
-	console.log(code, episode, rapidgator, '===========links got===========')
+
 	for (let i = 0; i < rapidgator.length; i++) {
 		await R.login();
 		let oneTimeLink = await R.generateOneTimeLink(rapidgator[i]);
-		console.log(`=========download ${rapidgator[i]} started=========`)
 		await downloadOneTimeLink(oneTimeLink);
-		console.log(`=========download ${rapidgator[i]} ended=========`)
 	}
 	let firstFileName = rapidgator[0].split('/').pop().replace('.html', '');
 	if (firstFileName.match('.rar')) {
 		execSync(`unrar x ${firstFileName}`)
-		console.log(`=========unrar ${firstFileName} ended=========`)
 	}
 	return firstFileName;
 }
