@@ -7,9 +7,9 @@
 		{{? it.type === 'jvr' }}
 			{{=it.pageTitle}}
 		{{?? it.pageTitle && it.pageTitle !== 'ranking'}}
-			{{= it.pageTitle + ' archive - '}}
+			{{=it.pageTitle + ' Archive'}}
 		{{?? it.pageTitle && it.pageTitle === 'ranking'}}
-			{{=it.zh ? '排行' : 'Ranking'}} -
+			{{=it.zh ? '排行' : ' Ranking'}} -
 		{{?}}	
 	</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />

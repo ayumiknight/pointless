@@ -89,13 +89,14 @@ module.exports = async (ctx, next) => {
 	let title = 'Not Found',
 		keywords = '';
 
-	if (r18.code) {
-		title = r18.code + ' - ' + 'Rapidgator And Torrent - ' + (ctx.zh ? r18.zhTitle : r18.title); 
+	if (r18 && r18.code) {
+		title = ' ' + r18.code + ' - ' + 'Rapidgator And Torrent - ' + (ctx.zh ? r18.zhTitle : r18.title); 
 		keywords = r18.code + ',' + parseInt(r18.code.split('-')[1]);
 	}
+
 	ctx.body = ctx.dots.index({
 		type: 'jvr',
-		pageTitle: ctx.query.id + title.slice(0, 150),
+		pageTitle: title.slice(0, 150),
 		r18: r18 && r18.code && formatSingleEntryForRender(r18, ctx.zh),
 		relatedR18s,
 		relatedKeyword,
