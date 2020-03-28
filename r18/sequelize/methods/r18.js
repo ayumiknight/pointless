@@ -309,6 +309,7 @@ module.exports = {
 	R18BulkCreate,
 	R18Create,
 	getR18Paged,
+	getR18PagedNoCache: getR18Paged,
 	getR18WithExtraPaged,
 	getR18Single,
 	getR18SingleSimple,

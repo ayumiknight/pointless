@@ -3,11 +3,11 @@ const NodeCache = require('node-cache');
 const nodeCache = new NodeCache({ 
 	stdTTL: 60 * 180, 
 	checkperiod: 120
-});
+}); //3 hours
 const fastCache = new NodeCache({
 	stdTTL: 60,
 	checkperiod: 60,
-});
+}); // 1 minute
 let allMethods = {
 	nodeCache,
 	fastCache
@@ -21,7 +21,7 @@ fs.readdirSync(__dirname).map(f => {
 		if (allMethods[key]) throw new Error('duplicate method declaration: ' + key);
 		if (key.match('get') && key !== "getRecentMessages") {
 
-			let cacheObj = key === "getCurrentClicks" ? fastCache : nodeCache;
+			let cacheObj = key in ["getCurrentClicks", "getR18PagedNoCache"] ? fastCache : nodeCache;
 
 			allMethods[key] = async function() {
 				let	data = cacheObj.get(key + JSON.stringify(arguments));

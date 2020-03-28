@@ -60,6 +60,10 @@ module.exports = (sequelize, DataTypes) => {
 		torrent: {
 			type: DataTypes.INTEGER,
 			comment: '是否有种子'
+		},
+		javlibrary: {
+			type: DataTypes.BOOLEAN,
+			comment: 'javlibrary是否同步过'
 		}
 	});
 

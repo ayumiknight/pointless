@@ -1,7 +1,7 @@
 const NodeCache = require('node-cache');
 const nodeCache = new NodeCache({ 
 	stdTTL: 60 * 60 * 24 * 3, // 3 days 
-	checkperiod: 120
+	checkperiod: 60 * 60
 });
 var http = require('http');
 const puppeteer = require('puppeteer');
@@ -176,7 +176,7 @@ class TorrentTask {
 
 let TorrentPuppeteer = new TorrentTask(),
 	getTorrentHanlder = TorrentPuppeteer.getTorrentHanlder.bind(TorrentPuppeteer);
-//create a server object:
+
 http.createServer(async function (req, res) {
 	if (req.url.match(/^\/torrent/)) {
 		let query = url.parse(req.url, true).query;

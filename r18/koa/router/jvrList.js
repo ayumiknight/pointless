@@ -27,7 +27,7 @@ module.exports = async (ctx, next) => {
 		torrent = !!ctx.path.match(/^\/torrent/i);
 
 	if (rapidgator && raw) {
-		let r18s = await getR18Paged({
+		let r18s = await getR18PagedNoCache({
 			...ctx.query,
 			pagesize: pagesize * 1,
 			rapidgator
@@ -35,7 +35,7 @@ module.exports = async (ctx, next) => {
 		ctx.body = JSON.stringify(r18s);
 		return;
 	} else if (raw) {
-		let r18s = await getR18Paged({
+		let r18s = await getR18PagedNoCache({
 			...ctx.query,
 			pagesize: pagesize * 1
 		});

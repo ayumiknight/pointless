@@ -5,6 +5,7 @@ npm-debug.log
 *.swp
 logs/
 sequelize/dbConfig.js
+puppeteerAutoTask/javlibraryConf.js
 javarchiveTasks/rapidgatorConfig.js
 javarchiveTasks/ocrConfig.js
 *.log
