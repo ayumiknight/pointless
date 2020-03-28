@@ -24,6 +24,7 @@ const chatSearch = require('./chatSearch.js');
 const ranking = require('./ranking.js');
 const preAndNext = require('./preAndNext');
 const sitemap = require('./sitemap.js');
+const downloadTask = require('./downloadTask.js');
 
 router.use(async (ctx, next) => {
 	let {  page = 1, code, id, cast, genre, studio, series, search, lcode} = ctx.query;
@@ -88,6 +89,7 @@ router.get('/lcode', jvrList);
 router.get('/rapidgator', jvrList);
 router.get('/torrent', jvrList);
 router.get('/ranking', ranking);
+router.get('/downloadTask', downloadTask);
 router.get(/^\/sitemap(.*)?/, sitemap);
 router.get('/', jvrList);
 
