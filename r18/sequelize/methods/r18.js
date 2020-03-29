@@ -99,7 +99,8 @@ async function getR18Paged(query) {
 		pagesize,
 		lcode,
 		rapidgator,
-		torrent
+		torrent,
+		javlibrary
 	} = query;
 
 	let r18Query = {
@@ -113,6 +114,13 @@ async function getR18Paged(query) {
 		}]
 	}
 
+	if (javlibrary && rapidgator) {
+		r18Query.where = {
+			javlibrary: {
+				[Op.eq]: null
+			}
+		}
+	}
 
 	if (lcode) {
 		r18Query.where = {
@@ -305,6 +313,17 @@ function tagR18sWithTorrent(code) {
 	return sequelize.query(`UPDATE R18s SET torrent = 1 WHERE \`code\` = '${code}'`)
 }
 
+async function updateR18Javlibrary(code) {
+	let R18 = await R18.findOne({
+		where: {
+			code
+		}
+	});
+	await R18.update({
+		javlibrary: 1
+	});
+
+}
 module.exports = {
 	R18BulkCreate,
 	R18Create,

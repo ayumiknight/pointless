@@ -7,7 +7,10 @@ const url = require('url');
 const axios = require('axios');
 const javlibraryConf = require('./javlibraryConf.js');
 const md5 = require('md5');
-
+const { 
+	getR18Paged,
+	updateR18Javlibrary 
+} = require('../sequelize/methods/r18.js');
 // injectLogger();
 
 // //https://www.jvrlibrary.com/jvr?id=${_code}&raw=1
@@ -45,7 +48,7 @@ class JavlibraryAutoPost {
 		await this.page.setUserAgent(userAgent);
 		//await this.syncCaptcha();
 		await this.login();
-		//this.beginTask();
+		await this.beginTask();
 	}
 
 	checkOrSaveCaptcha(captchaBase64) {
@@ -114,14 +117,8 @@ class JavlibraryAutoPost {
 		}
 	}
 
-
-	async login() {
-		//http://www.javlibrary.com/en/myaccount.php
-		await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 0});
-	  	await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
-
-	  	console.log('=============confirm obj appeared=============')
-	  	let res = await this.page.evaluate(async function() {
+	async getAndDownloadConfirmObj() {
+		let res = await this.page.evaluate(async function() {
 			let confirmObj = await new Promise((resolve, rej) => {
 				let myInter = setInterval(function() {
 					console.log('getting')
@@ -153,6 +150,16 @@ class JavlibraryAutoPost {
 			return content;
 		});
 		console.log(captcha, '======= raw captcha got ===========')
+		return captcha;
+	}
+
+	async login() {
+		//http://www.javlibrary.com/en/myaccount.php
+		await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 0});
+	  	await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
+	  	let captcha = await this.getAndDownloadConfirmObj();
+	  	console.log('=============confirm obj appeared=============')
+	  	
 		let captchaSolution = this.checkOrSaveCaptcha(captcha);
 		if (!captchaSolution) throw new Error('captcha no match================');
 
@@ -171,37 +178,61 @@ class JavlibraryAutoPost {
 	}
 
 	async beginTask() {
-		while(true) {
-			await this.checkAndPostSingle();
+		let R18 = await getR18Paged({
+			raw: 1,
+			pagesize: 1,
+			rapidgator: true,
+			javlibrary: true,
+			page: 1
+		});
+		let rows = R18s.rows.filter( row => row.javlibrary);
+		for(let i = 0; i < rows.length; i++) {
+			await this.checkAndPostSingle(row);
 		}
+		process.exit(0);
 	}
 
-	async checkAndPostSingle() {
-		let res = await axios.get(`http://localhost:8080/rapidgator?raw=1&page=${this.id}&pagesize=1`);
-		let response = JSON.parse(res.response);
-		let row = response.rows[0];
-		let code = row.code;
-		let javlibrary = row.javlibrary;
-
-		if (javlibrary) return;
+	async checkAndPostSingle(row) {
 		
-		await this.page.goto(`https://www.javlibrary/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`);
-		await this.page.waitForNavigation();
+		await this.wait(2);
+		let code = row.code;	
+		console.log('processing================', code)
+		await this.page.goto(`https://www.javlibrary/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
+			timeout: 0
+		});
+		
+		await this.page.waitForSelector('#video_comments', { visible: true, timeout: 30000 });	
+		console.log('comments block appeared==========')
+		let commented = await this.page.evaluate(function() {
+			return !!document.getElementById('video_comments').innerHTML.match('ayumiknight');
+		});
+		console.log('commented ==========', commented)
+		if (commented) await updateR18Javlibrary(code);
+		return;
+
+
 		let extras = row.Extras;
 		let rapidgator = JSON.parse(extras.extra).rapidgator;
 
-				// await setCurrentID(currentID + 1);
-				// textArea.value = formatEntry(rapidgator)
-				// stop = true;
-		let responseFromConnect = await new Promise((res, rej) => {
-			chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-		        chrome.tabs.sendMessage(tabs[0].id, { code }, function(response) {
-		        	console.log(response)
-		        	res(response)
-		        });
-		    });
-		    setTimeout(rej, 4000)
-		})
+		let formatEntry = this.formatEntry(rapidgator);
+		let openCommentAndFillEntry = await this.page.evaluate(function(formatEntry) {
+			document.getElementById('video_icn_comment_edit').getElementsByTagName('input')[0].click();
+			setTimeout(function() {
+				document.getElementById('video_comment_edit_text').value = formatEntry;
+
+			})
+		}, formatEntry);
+
+		let captcha = await this.getAndDownloadConfirmObj();
+		let captchaSolution = this.checkOrSaveCaptcha(captcha);
+		console.log('captchaSolution ==========', captchaSolution)
+		if (captchaSolution) {
+			let postResult = await this.page.evaluate(function(captchaSolution) {
+				document.getElementById('verification').value = captchaSolution;
+				document.getElementById('video_comment_edit').querySelector('.green.button').click();
+			}, captchaSolution);
+			await updateR18Javlibrary(code);
+		}
 	}
 
 	formatEntry(rapidgator) {
@@ -222,22 +253,25 @@ class JavlibraryAutoPost {
 
 // module.exports = JavlibraryAutoPost;
 async function test() {
-	let browser = await puppeteer.launch({
-		headless: false,
-		args: [
-	      '--proxy-server=http://127.0.0.1:1080',
-	    ],
-	});
-
 	// let browser = await puppeteer.launch({
-	// 	headless: true,
+	// 	headless: false,
 	// 	args: [
-	// 		'--no-sandbox',
-	// 		'--disable-gpu',
-	// 		'--single-process'
-	// 	]
+	//       '--proxy-server=http://127.0.0.1:1080',
+	//     ],
 	// });
+
+	let browser = await puppeteer.launch({
+		headless: true,
+		args: [
+			'--no-sandbox',
+			'--disable-gpu',
+			'--single-process'
+		]
+	});
 	let Javlibrary = new JavlibraryAutoPost(browser);
+
+
+	
 }
 
 test();
