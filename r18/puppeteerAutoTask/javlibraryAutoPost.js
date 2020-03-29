@@ -11,20 +11,21 @@ const {
 	getR18Paged,
 	updateR18Javlibrary 
 } = require('../sequelize/methods/r18.js');
-// injectLogger();
 
-// //https://www.jvrlibrary.com/jvr?id=${_code}&raw=1
+injectLogger();
 
-// function injectLogger() {
-// 	var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
+//https://www.jvrlibrary.com/jvr?id=${_code}&raw=1
 
-// 	var fn = process.stdout.write;
-// 	function write() {
-// 	  fn.apply(process.stdout, arguments);
-// 	  log_file.write.apply(log_file, arguments);
-// 	}
-// 	process.stdout.write = write;
-// }
+function injectLogger() {
+	var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
+
+	var fn = process.stdout.write;
+	function write() {
+	  fn.apply(process.stdout, arguments);
+	  log_file.write.apply(log_file, arguments);
+	}
+	process.stdout.write = write;
+}
 
 class JavlibraryAutoPost {
 	constructor(browser) {
@@ -149,7 +150,7 @@ class JavlibraryAutoPost {
 			});
 			return content;
 		});
-		console.log(captcha, '======= raw captcha got ===========')
+		console.log('======= raw captcha got ===========')
 		return captcha;
 	}
 
@@ -158,9 +159,9 @@ class JavlibraryAutoPost {
 		await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 0});
 	  	await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
 	  	let captcha = await this.getAndDownloadConfirmObj();
-	  	console.log('=============confirm obj appeared=============')
 	  	
 		let captchaSolution = this.checkOrSaveCaptcha(captcha);
+		console.log(captchaSolution, '==========captchaSolution for login')
 		if (!captchaSolution) throw new Error('captcha no match================');
 
 		let loginRes = await this.page.evaluate(function(input) {
@@ -178,7 +179,7 @@ class JavlibraryAutoPost {
 	}
 
 	async beginTask() {
-		let R18 = await getR18Paged({
+		let R18s = await getR18Paged({
 			raw: 1,
 			pagesize: 1,
 			rapidgator: true,
