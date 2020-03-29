@@ -10,7 +10,7 @@ const fs = require('fs');
 const url = require('url');
 injectLogger();
 
-const JavlibraryAutoPost = require('./JavlibraryAutoPost.js')
+const JavlibraryAutoPost = require('./javlibraryAutoPost.js')
 
 function injectLogger() {
 	var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
