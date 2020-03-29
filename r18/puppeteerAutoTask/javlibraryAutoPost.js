@@ -175,6 +175,7 @@ class JavlibraryAutoPost {
 			password: javlibraryConf.password,
 			captcha: captchaSolution
 		});
+		console.log('=============login completing wait 3 secs ===================')
 		await this.wait(3);
 	}
 
@@ -190,7 +191,6 @@ class JavlibraryAutoPost {
 		for(let i = 0; i < rows.length; i++) {
 			await this.checkAndPostSingle(row);
 		}
-		process.exit(0);
 	}
 
 	async checkAndPostSingle(row) {
