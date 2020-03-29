@@ -35,7 +35,7 @@ class JavlibraryAutoPost {
 		this.page = await this.browser.newPage();
 		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
 		await this.page.setUserAgent(userAgent);
-		await this.syncCaptcha();
+		//await this.syncCaptcha();
 		//await this.login();
 		//this.beginTask();
 	}
