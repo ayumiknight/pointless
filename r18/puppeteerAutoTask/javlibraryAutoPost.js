@@ -8,20 +8,20 @@ const axios = require('axios');
 const javlibraryConf = require('./javlibraryConf.js');
 const md5 = require('md5');
 
-injectLogger();
+// injectLogger();
 
-//https://www.jvrlibrary.com/jvr?id=${_code}&raw=1
+// //https://www.jvrlibrary.com/jvr?id=${_code}&raw=1
 
-function injectLogger() {
-	var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
+// function injectLogger() {
+// 	var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
 
-	var fn = process.stdout.write;
-	function write() {
-	  fn.apply(process.stdout, arguments);
-	  log_file.write.apply(log_file, arguments);
-	}
-	process.stdout.write = write;
-}
+// 	var fn = process.stdout.write;
+// 	function write() {
+// 	  fn.apply(process.stdout, arguments);
+// 	  log_file.write.apply(log_file, arguments);
+// 	}
+// 	process.stdout.write = write;
+// }
 
 class JavlibraryAutoPost {
 	constructor(browser) {
@@ -33,6 +33,7 @@ class JavlibraryAutoPost {
 
 	async init() {
 		this.page = await this.browser.newPage();
+		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
 		await this.page.setUserAgent(userAgent);
 		await this.syncCaptcha();
 		//await this.login();
@@ -47,20 +48,50 @@ class JavlibraryAutoPost {
 				[hash, value] = name.split('-');
 			this.captchaMap[hash] = value || 'null';
 		});
-		await this.page.goto('http://www.javlibrary.com/en/login.php');
-		await this.page.waitForNavigation();
-		let res = await page.evaluate(function() {
-			return document.getElementById('confirmobj').src;
-		});
-		while (true) {
-			let captcha = await axios.get(res, {responseType: "arraybuffer"});
-			captcha = captcha.data;
-			let hash = md5(captcha);
+		await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 0});
+	  	await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
 
-			if (!this.captchaMap[hash]) {
+		let res = await this.page.evaluate(async function() {
+
+			let confirmObj = await new Promise((resolve, rej) => {
+				let myInter = setInterval(function() {
+					console.log('getting')
+					src = document.getElementById('confirmobj').src;
+					if (src.match('img_confirmobj')) {
+						clearInterval(myInter)
+						resolve(src);
+					}
+				}, 1000);
+			})
+			return confirmObj;
+		});
+		
+		let captcha;
+		while(true) {
+			captcha = await this.page.evaluate(async function() {
+				console.log('getting captcha')
+				let content = await new Promise((resolve) => {
+					var xhr = new XMLHttpRequest();
+					xhr.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+						    let reader = new FileReader();
+						    reader.onload = function (e) { resolve(e.target.result); }
+						    reader.readAsDataURL(this.response);
+						}
+					}
+					xhr.open('GET',  document.getElementById('confirmobj').src);
+					xhr.responseType = 'blob';
+					xhr.send();   
+				});
+				return content;
+			})
+			if (captcha) {
+				captcha = captcha.replace(/^(.+base64,)(.+)$/, "$2");
+				captcha = Buffer.from(captcha,'base64');
+				let hash = md5(captcha);
+				console.log(captcha)
 				fs.writeFileSync(`./captcha/${hash}.jfif`, captcha);
-				this.captchaMap[hash] = 'null';
-			}			
+			}
 		}
 	}
 
@@ -120,15 +151,15 @@ class JavlibraryAutoPost {
 
 }
 
+module.exports = JavlibraryAutoPost;
+// async function test() {
+// 	let browser = await puppeteer.launch({
+// 		headless: false,
+// 		args: [
+// 	      '--proxy-server=http://127.0.0.1:1080',
+// 	    ],
+// 	});
+// 	let Javlibrary = new JavlibraryAutoPost(browser);
+// }
 
-async function test() {
-	let browser = await puppeteer.launch({
-		headless: false,
-		args: [
-	      '--proxy-server=http://127.0.0.1:1080',
-	    ],
-	});
-	let Javlibrary = new JavlibraryAutoPost(browser);
-}
-
-test();
+// test();

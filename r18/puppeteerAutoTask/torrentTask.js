@@ -10,7 +10,7 @@ const fs = require('fs');
 const url = require('url');
 injectLogger();
 
-
+const JavlibraryAutoPost = require('./JavlibraryAutoPost.js')
 
 function injectLogger() {
 	var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
@@ -38,16 +38,18 @@ class TorrentTask {
 				task: this.clearCache.bind(self, self.page2)
 			});
 		}, 1000 * 60 * 10);
+
 	}
 
 	async init() {
 		try {
 			this.browser = await puppeteer.launch({
-				headless: true,
+				headless: false,
 				args: [
 					'--no-sandbox',
 					'--disable-gpu',
-					'--single-process'
+					'--single-process',
+					'--proxy-server=http://127.0.0.1:1080'
 				]
 			});
 			await this.createNewPage('page1');
@@ -57,6 +59,7 @@ class TorrentTask {
 		} catch(e) {
 			console.log(e.message)
 		}
+		this.javlibraryAutoPost = new JavlibraryAutoPost(this.browser);
 		
 	}
 
