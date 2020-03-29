@@ -10,8 +10,6 @@ const fs = require('fs');
 const url = require('url');
 injectLogger();
 
-const JavlibraryAutoPost = require('./javlibraryAutoPost.js')
-
 function injectLogger() {
 	var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
 
@@ -58,8 +56,6 @@ class TorrentTask {
 		} catch(e) {
 			console.log(e.message)
 		}
-		this.javlibraryAutoPost = new JavlibraryAutoPost(this.browser);
-		
 	}
 
 	async createNewPage(name) {

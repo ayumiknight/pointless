@@ -1,7 +1,8 @@
 const { 
 	getR18Paged,
 	getMySelected,
-	getCurrentClicks
+	getCurrentClicks,
+	getR18PagedNoCache
 } = require('../../sequelize/methods/index.js');
 const { recentClickCreate } = require('../../sequelize/methods/recentClick.js');
 

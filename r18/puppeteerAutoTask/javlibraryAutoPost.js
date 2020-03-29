@@ -26,28 +26,44 @@ const md5 = require('md5');
 class JavlibraryAutoPost {
 	constructor(browser) {
 		this.browser = browser;
+		this.captchaMap = {};
 		this.init();
 		this.id = 1;
-		this.captchaMap = {};
+		
 	}
 
 	async init() {
+		let self = this;
+		fs.readdirSync('./captcha').map(f => {
+			let [name, ext] = f.split('.'),
+				[hash, value] = name.split('-');
+
+			self.captchaMap[hash] = value || 'null';
+		});
 		this.page = await this.browser.newPage();
 		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
 		await this.page.setUserAgent(userAgent);
 		//await this.syncCaptcha();
-		//await this.login();
+		await this.login();
 		//this.beginTask();
 	}
 
+	checkOrSaveCaptcha(captchaBase64) {
+		let captcha = captchaBase64.replace(/^(.+base64,)(.+)$/, "$2");
+		captcha = Buffer.from(captcha,'base64');
+		let hash = md5(captcha);
+		if (this.captchaMap[hash] && this.captchaMap[hash] !== 'null') {
+			return this.captchaMap[hash];
+		} else {
+			fs.writeFileSync(`./captcha/${hash}.jfif`, captcha);
+			return null;
+		}
+		
+	}
 	async syncCaptcha() {
 		//http://www.javlibrary.com/en/myaccount.php
 
-		fs.readdirSync('./captcha').map(f => {
-			let [name, ext] = f.split('.'),
-				[hash, value] = name.split('-');
-			this.captchaMap[hash] = value || 'null';
-		});
+	
 		await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 0});
 	  	await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
 
@@ -101,13 +117,57 @@ class JavlibraryAutoPost {
 
 	async login() {
 		//http://www.javlibrary.com/en/myaccount.php
-		await this.page.goto('http://www.javlibrary.com/en/login.php');
-		await this.page.waitForNavigation();
-		let res = await page.evaluate(function() {
-			document.getElementById('userid').value = javlibraryConf.username;
-			document.getElementById('password').value = javlibraryConf.password;
-			return document.getElementById('confirmobj').src;
+		await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 0});
+	  	await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
+
+	  	console.log('=============confirm obj appeared=============')
+	  	let res = await this.page.evaluate(async function() {
+			let confirmObj = await new Promise((resolve, rej) => {
+				let myInter = setInterval(function() {
+					console.log('getting')
+					src = document.getElementById('confirmobj').src;
+					if (src.match('img_confirmobj')) {
+						clearInterval(myInter)
+						resolve(src);
+					}
+				}, 1000);
+			})
+			return confirmObj;
 		});
+
+		console.log(res, '======= confirmObj detected ===========')
+		let	captcha = await this.page.evaluate(async function() {
+			let content = await new Promise((resolve) => {
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+					    let reader = new FileReader();
+					    reader.onload = function (e) { resolve(e.target.result); }
+					    reader.readAsDataURL(this.response);
+					}
+				}
+				xhr.open('GET',  document.getElementById('confirmobj').src);
+				xhr.responseType = 'blob';
+				xhr.send();   
+			});
+			return content;
+		});
+		console.log(captcha, '======= raw captcha got ===========')
+		let captchaSolution = this.checkOrSaveCaptcha(captcha);
+		if (!captchaSolution) throw new Error('captcha no match================');
+
+		let loginRes = await this.page.evaluate(function(input) {
+			console.log(input, '=============login info ===================')
+			document.getElementById('userid').value = input.username;
+			document.getElementById('password').value = input.password;
+			document.getElementById('verification').value = input.captcha;
+			document.getElementById('btn_login').click();
+		}, {
+			username: javlibraryConf.username,
+			password: javlibraryConf.password,
+			captcha: captchaSolution
+		});
+		await this.wait(3);
 	}
 
 	async beginTask() {
@@ -152,17 +212,32 @@ class JavlibraryAutoPost {
 		return `[url=https://jvrlibrary.com/rapidgator][img]https://jvrlibrary.com/static/jvrslogan-sm.jpg[/img][/url]\n\n\n[url=https://jvrlibrary.com/rapidgator][b]Japan VR Porn Download !! All in Rapidgator or Torrents !! Have FUUUNNNN !![/b][/url]\n\n\n` + rapidgatorFormatted;
 	}
 
+	wait(sec) {
+		return new Promise(res => {
+			setTimeout(res, sec * 1000)
+		});
+	}
+
 }
 
-module.exports = JavlibraryAutoPost;
-// async function test() {
-// 	let browser = await puppeteer.launch({
-// 		headless: false,
-// 		args: [
-// 	      '--proxy-server=http://127.0.0.1:1080',
-// 	    ],
-// 	});
-// 	let Javlibrary = new JavlibraryAutoPost(browser);
-// }
+// module.exports = JavlibraryAutoPost;
+async function test() {
+	let browser = await puppeteer.launch({
+		headless: false,
+		args: [
+	      '--proxy-server=http://127.0.0.1:1080',
+	    ],
+	});
 
-// test();
+	// let browser = await puppeteer.launch({
+	// 	headless: true,
+	// 	args: [
+	// 		'--no-sandbox',
+	// 		'--disable-gpu',
+	// 		'--single-process'
+	// 	]
+	// });
+	let Javlibrary = new JavlibraryAutoPost(browser);
+}
+
+test();
