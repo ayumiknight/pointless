@@ -92,6 +92,9 @@ class JavlibraryAutoPost {
 				console.log(captcha)
 				fs.writeFileSync(`./captcha/${hash}.jfif`, captcha);
 			}
+			await new Promise((res, rej) => {
+				setTimeout(res, 2000)
+			})
 		}
 	}
 
