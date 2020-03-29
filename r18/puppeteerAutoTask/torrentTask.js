@@ -44,12 +44,11 @@ class TorrentTask {
 	async init() {
 		try {
 			this.browser = await puppeteer.launch({
-				headless: false,
+				headless: true,
 				args: [
 					'--no-sandbox',
 					'--disable-gpu',
-					'--single-process',
-					'--proxy-server=http://127.0.0.1:1080'
+					'--single-process'
 				]
 			});
 			await this.createNewPage('page1');
