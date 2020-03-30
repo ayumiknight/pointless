@@ -192,7 +192,6 @@ class JavlibraryAutoPost {
 		});
 
 		let rows = R18s.rows.filter( row => !row.javlibrary);
-		console.log(rows ,'=============', rows.length)
 		for(let i = 13; i < rows.length; i++) {
 			await this.checkAndPostSingle(rows[i]);
 		}
