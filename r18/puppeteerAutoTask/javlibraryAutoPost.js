@@ -195,6 +195,7 @@ class JavlibraryAutoPost {
 		for(let i = 0; i < rows.length; i++) {
 			await this.checkAndPostSingle(rows[i]);
 		}
+		process.exit(0);
 	}
 
 	async checkAndPostSingle(row) {
