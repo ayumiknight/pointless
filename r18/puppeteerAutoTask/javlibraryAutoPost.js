@@ -187,7 +187,6 @@ class JavlibraryAutoPost {
 			raw: 1,
 			pagesize: 100,
 			rapidgator: true,
-			javlibrary: true,
 			page: 1
 		});
 
