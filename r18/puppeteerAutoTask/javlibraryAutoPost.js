@@ -192,7 +192,7 @@ class JavlibraryAutoPost {
 		});
 
 		let rows = R18s.rows.filter( row => !row.javlibrary);
-		for(let i = 13; i < rows.length; i++) {
+		for(let i = 0; i < rows.length; i++) {
 			await this.checkAndPostSingle(rows[i]);
 		}
 	}
@@ -251,6 +251,9 @@ class JavlibraryAutoPost {
 			let postResult = await this.page.evaluate(function(captchaSolution) {
 				document.getElementById('verification').value = captchaSolution;
 				document.getElementById('video_comment_edit').querySelector('.green.button').click();
+				setTimeout(() => {
+					document.getElementsByClassName('noty_buttons')[0].getElementsByClassName('green')[0].click();
+				},20)
 			}, captchaSolution);
 			console.log(`${code} successfully posted ==================`)
 			await updateR18Javlibrary(code);
