@@ -314,12 +314,12 @@ function tagR18sWithTorrent(code) {
 }
 
 async function updateR18Javlibrary(code) {
-	let R18 = await R18.findOne({
+	let r18 = await R18.findOne({
 		where: {
 			code
 		}
 	});
-	await R18.update({
+	await r18.update({
 		javlibrary: 1
 	});
 
@@ -337,5 +337,6 @@ module.exports = {
 	sequelize,
 	measureR18s,
 	getMySelected,
-	tagR18sWithTorrent
+	tagR18sWithTorrent,
+	updateR18Javlibrary
 }

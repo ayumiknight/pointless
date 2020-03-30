@@ -32,7 +32,7 @@ class JavlibraryAutoPost {
 		this.browser = browser;
 		this.captchaMap = {};
 		this.init();
-		this.id = 1;
+		
 		
 	}
 
@@ -166,6 +166,8 @@ class JavlibraryAutoPost {
 
 		let loginRes = await this.page.evaluate(function(input) {
 			console.log(input, '=============login info ===================')
+			document.getElementById('adultwarningmask').style.display='none';
+			setCookie('over18', 18);
 			document.getElementById('userid').value = input.username;
 			document.getElementById('password').value = input.password;
 			document.getElementById('verification').value = input.captcha;
@@ -175,41 +177,60 @@ class JavlibraryAutoPost {
 			password: javlibraryConf.password,
 			captcha: captchaSolution
 		});
-		console.log('=============login completing wait 3 secs ===================')
-		await this.wait(3);
+		console.log('=============login completing wait 5 secs ===================')
+		await this.wait(5);
 	}
 
 	async beginTask() {
+		console.log('begin task=====================')
 		let R18s = await getR18Paged({
 			raw: 1,
-			pagesize: 1,
+			pagesize: 100,
 			rapidgator: true,
 			javlibrary: true,
 			page: 1
 		});
-		let rows = R18s.rows.filter( row => row.javlibrary);
-		for(let i = 0; i < rows.length; i++) {
-			await this.checkAndPostSingle(row);
+
+		let rows = R18s.rows.filter( row => !row.javlibrary);
+		console.log(rows ,'=============', rows.length)
+		for(let i = 13; i < rows.length; i++) {
+			await this.checkAndPostSingle(rows[i]);
 		}
 	}
 
 	async checkAndPostSingle(row) {
-		
-		await this.wait(2);
-		let code = row.code;	
-		console.log('processing================', code)
-		await this.page.goto(`https://www.javlibrary/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
-			timeout: 0
-		});
-		
-		await this.page.waitForSelector('#video_comments', { visible: true, timeout: 30000 });	
-		console.log('comments block appeared==========')
+		await this.wait(30); //each post should have 30s cool down;
+
+		let code = row.code,
+			error = false;	
+
+		if (row.javlibrary == 1) {
+			console.log(`already posted ${code}================\n`);
+			return
+		}
+
+		console.log(`processing ${code}================\n`)
+		try {
+			await this.page.goto(`https://www.javlibrary.com/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
+				timeout: 30000
+			});
+			await this.page.waitForSelector('#video_comments', { visible: true, timeout: 3000 });
+		} catch(e) {
+			console.log(`${code} code not found ==================\n`)
+			error = true;
+		}
+
+		if (error) return;
+			
+		console.log('comments block appeared==========\n')
 		let commented = await this.page.evaluate(function() {
 			return !!document.getElementById('video_comments').innerHTML.match('ayumiknight');
 		});
-		console.log('commented ==========', commented)
-		if (commented) await updateR18Javlibrary(code);
-		return;
+		console.log(`commented ${commented} ==========\n`)
+		if (commented) {
+			await updateR18Javlibrary(code);
+			return;
+		}
 
 
 		let extras = row.Extras;
@@ -232,6 +253,7 @@ class JavlibraryAutoPost {
 				document.getElementById('verification').value = captchaSolution;
 				document.getElementById('video_comment_edit').querySelector('.green.button').click();
 			}, captchaSolution);
+			console.log(`${code} successfully posted ==================`)
 			await updateR18Javlibrary(code);
 		}
 	}
