@@ -60,7 +60,7 @@
                         <div class="tab4">
                             {{? it.r18.rapidgator}}
                                 <div class="rg-ads">
-                                    <a href="{{it.r18.rapidgator[0].value}}" target="_blank">
+                                    <a href="{{=it.r18.rapidgator[0].value}}" target="_blank">
                                         <img src="/static/rgPremium.gif" border="0" width="300" height="55" alt="Rapidgator.net"/>
                                         <div>
                                             Join us now !!<br/>
