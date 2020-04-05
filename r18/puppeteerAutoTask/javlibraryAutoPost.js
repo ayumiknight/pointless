@@ -211,14 +211,18 @@ class JavlibraryAutoPost {
 
 		console.log(`processing ${code}================\n`)
 		try {
-			await this.page.goto(`https://www.javlibrary.com/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
-				timeout: 30000
-			});
+			try {
+				await this.page.goto(`http://www.javlibrary.com/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
+					timeout: 60000
+				});
+			} catch(e) {
+				await this.page.screenshot({
+				    path: code + new Date() + '.png',
+				    fullPage: true
+				});
+			}		
 			await this.page.waitForSelector('#video_comments', { visible: true, timeout: 3000 });
-			await this.page.screenshot({
-			    path: code + new Date() + '.png',
-			    fullPage: true
-			});
+			
  
 		} catch(e) {
 			console.log(`${code} code not found ==================\n, ${e.message}`)
