@@ -215,6 +215,11 @@ class JavlibraryAutoPost {
 				timeout: 30000
 			});
 			await this.page.waitForSelector('#video_comments', { visible: true, timeout: 3000 });
+			await this.page.screenshot({
+			    path: code + new Date() + '.png',
+			    fullPage: true
+			});
+ 
 		} catch(e) {
 			console.log(`${code} code not found ==================\n, ${e.message}`)
 			error = true;
