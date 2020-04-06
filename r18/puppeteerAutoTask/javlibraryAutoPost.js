@@ -38,6 +38,7 @@ class JavlibraryAutoPost {
 
 	async init() {
 		let self = this;
+		await this.wait(10); //each start should have interval
 		fs.readdirSync('./captcha').map(f => {
 			let [name, ext] = f.split('.'),
 				[hash, value] = name.split('-');
