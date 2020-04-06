@@ -43,12 +43,7 @@ class JavlibraryAutoPost {
 				[hash, value] = name.split('-');
 
 			self.captchaMap[hash] = value || 'null';
-		});
-		this.page = await this.browser.newPage();
-		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
-		await this.page.setUserAgent(userAgent);
-		//await this.syncCaptcha();
-		await this.login();
+		});	
 		await this.beginTask();
 	}
 
@@ -191,15 +186,26 @@ class JavlibraryAutoPost {
 		});
 
 		let rows = R18s.rows.filter( row => !row.javlibrary);
-		for(let i = 0; i < rows.length; i++) {
-			await this.checkAndPostSingle(rows[i]);
+		if (!rows.length) {
+			console.log('all entries posted==============');
+			process.exit(0);
+		} else {
+			this.page = await this.browser.newPage();
+			this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
+			await this.page.setUserAgent(userAgent);	
+			await this.login();
+			for(let i = 0; i < rows.length; i++) {
+				await this.checkAndPostSingle(rows[i]);
+			}
+			await this.browser.close();
+			process.exit(0);
 		}
-		await this.browser.close();
-		process.exit(0);
+		
 	}
 
+
 	async checkAndPostSingle(row) {
-		await this.wait(30); //each post should have 30s cool down;
+		await this.wait(5);
 
 		let code = row.code,
 			error = false;	
@@ -267,6 +273,7 @@ class JavlibraryAutoPost {
 			}, captchaSolution);
 			console.log(`${code} successfully posted ==================`)
 			await updateR18Javlibrary(code);
+			await this.wait(25); //each post should have 30s cool down;
 		}
 	}
 
