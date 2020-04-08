@@ -32,7 +32,11 @@ class JavlibraryAutoPost {
 		this.browser = browser;
 		this.captchaMap = {};
 		this.init();
-		
+		setTimeout(async () => {
+			console.log('exited after 30min')
+			await this.browser.close();
+			process.exit(0);
+		}, 30 * 60 * 1000);
 		
 	}
 
