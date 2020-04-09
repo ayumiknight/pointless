@@ -7,17 +7,8 @@ var reorderR18s = require('./reorderR18s/reorderR18s.js');
 var syncRapidgator = require('./syncRapidgator/syncRapidgator.js');
 var testFirst = require('./syncR18s/testFirst.js');
 
-var fs = require('fs');
-var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
 
-var fn = process.stdout.write;
-function write() {
-  fn.apply(process.stdout, arguments);
-  log_file.write.apply(log_file, arguments);
-}
-process.stdout.write = write;
-
-var j = schedule.scheduleJob('52 14 * * *', async function() {
+module.exports = async function crawl() {
 	let {
 		needActress,
         needStudio,
@@ -35,4 +26,4 @@ var j = schedule.scheduleJob('52 14 * * *', async function() {
 	await syncR18s();
 	await reorderR18s();
 	await syncRapidgator();
-});
+};

@@ -11,6 +11,7 @@ const {
 	getR18Paged,
 	updateR18Javlibrary 
 } = require('../sequelize/methods/r18.js');
+const crawl = require('../tasks/index.js');
 
 injectLogger();
 
@@ -306,7 +307,8 @@ async function test() {
 	//       '--proxy-server=http://127.0.0.1:1080',
 	//     ],
 	// });
-
+	await crawl();
+	
 	let browser = await puppeteer.launch({
 		headless: true,
 		args: [
