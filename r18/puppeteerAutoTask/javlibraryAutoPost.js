@@ -228,10 +228,16 @@ class JavlibraryAutoPost {
 					timeout: 60000
 				});
 			} catch(e) {
-				await this.page.screenshot({
-				    path: code + new Date() + '.png',
-				    fullPage: true
+				let notFound = await this.page.evaluate(function() {
+					return !!document.getElementById('rightcolumn').innerHTML.match('Search returned no result.')
 				});
+				if (!notFound) {
+					await this.page.screenshot({
+					    path: new Date() + code + '.png',
+					    fullPage: true
+					});
+					throw new Error('time out page not loaded')
+				}
 			}		
 			await this.page.waitForSelector('#video_comments', { visible: true, timeout: 3000 });
 			

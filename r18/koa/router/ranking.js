@@ -22,8 +22,7 @@ module.exports = async (ctx, next) => {
 	},{
 		en: 'Top Studios',
 		zh: '热门发行商'
-	}]
-	console.log(ranking, 'data got==============')
+	}];
 
 	ctx.body = ctx.dots.index({
 		type: 'ranking',

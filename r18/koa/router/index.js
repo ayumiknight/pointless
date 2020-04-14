@@ -22,8 +22,8 @@ const studio = require('./studioList.js');
 const userSearch = require('./userSearch.js');
 const chatSearch = require('./chatSearch.js');
 const ranking = require('./ranking.js');
-const preAndNext = require('./preAndNext');
 const sitemap = require('./sitemap.js');
+const vrplayer = require('./vrplayer');
 const downloadTask = require('./downloadTask.js');
 
 router.use(async (ctx, next) => {
@@ -73,7 +73,6 @@ router.use(async (ctx, next) => {
 })
 
 router.get('/jvr', jvrSingle);
-router.get('/preAndNext', preAndNext);
 router.get('/casts', actressList);
 router.get('/categories', categoryList);
 router.get('/studios', studio);
@@ -91,6 +90,7 @@ router.get('/torrent', jvrList);
 router.get('/ranking', ranking);
 router.get('/downloadTask', downloadTask);
 router.get(/^\/sitemap(.*)?/, sitemap);
+router.get('/vrplayer', vrplayer);
 router.get('/', jvrList);
 
 module.exports = router;

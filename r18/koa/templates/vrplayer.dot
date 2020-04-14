@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="{{= it.zh ? 'zh' : 'en'}}">
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+	<title>
+		Online VR Player By Jvrlibrary
+	</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="icon" type="image/png" href="/static/favicon.png">
+	<meta name="description" content="A Online VR Player">
+	<meta name="keywords" content="VR Player, Free, Online">
+	<meta name="author" content="ProfessionalDrunker">
+	<link rel="canonical" href="https://www.jvrlibrary.com/vrplayer" />
+	<link href="/static/video-js.min.css" rel="stylesheet" type="text/css"/>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145060231-2"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-145060231-2');
+	</script>
+
+
+</head>
+<body>
+	
+	<video width="640" height="300" id="videojs-vr-player" class="video-js vjs-default-skin" controls playsinline>
+		<source src="/static/3DSVR-0581-B.mp4" type="video/mp4">
+	</video>
+
+	<script src="/static/video.min.js"></script>
+	<script src="/static/videojs-vr.min.js"></script>
+	<script>
+	(function(window, videojs) {
+	  var player = window.player = videojs('videojs-vr-player');
+	  player.mediainfo = player.mediainfo || {};
+	  player.mediainfo.projection = '180';
+
+	  var vr = window.vr = player.vr({projection: '180', debug: true, forceCardboard: false});
+	}(window, window.videojs));
+	</script>
+	<input type='text' placeholder="{{=it.zh ? '播放你自己的链接' : 'Play your own video link'}}" />
+</body>
+</html>
+
+

@@ -88,8 +88,8 @@ app.use((ctx, next) => {
 				isBot: !!isBot
 			})
 		},
-		singleViewAjax: (args) => {
-			return dots.singleViewAjax({
+		vrplayer: (args) => {
+			return dots.vrplayer({
 				...args,
 				zh,
 				currentUrl: ctx.request.url,
