@@ -194,6 +194,7 @@ class JavlibraryAutoPost {
 		let rows = R18s.rows.filter( row => !row.javlibrary);
 		if (!rows.length) {
 			console.log('all entries posted==============');
+			await this.browser.close();
 			process.exit(0);
 		} else {
 			this.page = await this.browser.newPage();
