@@ -314,9 +314,18 @@ async function test() {
 	//       '--proxy-server=http://127.0.0.1:1080',
 	//     ],
 	// });
+	let browser;
+	setTimeout(async () => {
+		if (browser) {
+			await browser.close();
+			console.log('about to end process after 1 hours');
+			process.exit(0);
+		}
+	}, 1000 * 60 * 60);
+
 	await crawl();
-	
-	let browser = await puppeteer.launch({
+
+	browser = await puppeteer.launch({
 		headless: true,
 		args: [
 			'--no-sandbox',

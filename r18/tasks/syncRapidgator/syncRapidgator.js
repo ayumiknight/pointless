@@ -4,16 +4,6 @@ const { getR18WithExtraPaged } = require('../../sequelize/methods/index.js');
 const { sequelize, Sequelize, Extra } = require('../../sequelize/index.js');
 const crawlAndSaveSingle = require('./rapidgatorTask/crawlAndSaveSingle.js');
 
-var fs = require('fs');
-var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
-
-var fn = process.stdout.write;
-function write() {
-  fn.apply(process.stdout, arguments);
-  log_file.write.apply(log_file, arguments);
-}
-process.stdout.write = write;
-
 
 async function syncRapidgator(all) {
 	let page = 1;
@@ -26,7 +16,7 @@ async function syncRapidgator(all) {
 		});
 		rows = rows || [];
 		let index = 0;
-		while(index <= rows.length -1 ) {
+		while(index <= rows.length - 1 ) {
 			let row = rows[index],
 				{ id, Extras, code } = rows[index] || {};
 
