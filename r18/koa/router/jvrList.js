@@ -90,6 +90,8 @@ module.exports = async (ctx, next) => {
 		pageTitle = zh ? '最新' : 'New';
 	}
 
+	pageTitle = ' ' + pageTitle;
+	
 	if (clickAction && clickAction.clickId) {
 		await recentClickCreate(clickAction)
 	}
