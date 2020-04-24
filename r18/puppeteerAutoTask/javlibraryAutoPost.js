@@ -295,7 +295,7 @@ class JavlibraryAutoPost {
 			return `[url=${link}]${link}[/url]\n`;
 		}).join('');
 
-		return `[url=https://jvrlibrary.com/rapidgator][img]https://jvrlibrary.com/static/jvrslogan-sm.jpg[/img][/url]\n\n\n[url=https://jvrlibrary.com/rapidgator][b]Japan VR Porn Download !! All in Rapidgator or Torrents !! Have FUUUNNNN !![/b][/url]\n\n\n` + rapidgatorFormatted;
+		return `[url=https://jvrlibrary.com/rapidgator][img]https://jvrlibrary.com/static/jvrslogan-sm.jpg[/img][/url]\n\n\n[url=https://jvrlibrary.com/rapidgator][b]Visit jvrlibrary.com for More Japan VR videos !! Have FUUUNNNN !![/b][/url]\n\n\n` + rapidgatorFormatted + `\n[url=https://jvrlibrary.com/rapidgator][img]https://jvrlibrary.com/static/coffin_dance.png[/img][/url]`;
 	}
 
 	wait(sec) {
