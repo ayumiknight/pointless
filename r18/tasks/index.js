@@ -8,7 +8,7 @@ var syncRapidgator = require('./syncRapidgator/syncRapidgator.js');
 var testFirst = require('./syncR18s/testFirst.js');
 
 
-module.exports = async function crawl() {
+module.exports = async function crawl(allR18s) {
 	let {
 		needActress,
         needStudio,
@@ -23,7 +23,7 @@ module.exports = async function crawl() {
 	if (needSeries) {
 		await syncSeries();
 	}
-	await syncR18s();
+	await syncR18s(allR18s);
 	await reorderR18s();
 	await syncRapidgator();
 };

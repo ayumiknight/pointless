@@ -40,7 +40,7 @@ async function loadPage(pageindex) {
 }
 
 
-async function loadAndSave(entries) {
+async function loadAndSave(entries, allR18s) {
     let i = 0;
     while( i < entries.length) {
         let url = entries[i];
@@ -57,16 +57,20 @@ async function loadAndSave(entries) {
                 entry: r18Parsed
             });
             if (!res) {
-                throw new Error(`syncR18s stopped at =========${r18Parsed.code}`)
+                if (allR18s) {
+                    console.log(`syncR18s stopped at =========${r18Parsed.code}`)
+                } else {
+                    throw new Error(`syncR18s stopped at =========${r18Parsed.code}`)
+                }          
             }
         }
         i++;
     }
 }
 
-async function savePage(pageIndex) {
+async function savePage(pageIndex, allR18s) {
     let formattedEntryUrls = await loadPage(pageIndex);
-    let result = await loadAndSave(formattedEntryUrls);
+    let result = await loadAndSave(formattedEntryUrls, allR18s);
     return result;
 }
 

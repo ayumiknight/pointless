@@ -314,8 +314,10 @@ async function test() {
 	//       '--proxy-server=http://127.0.0.1:1080',
 	//     ],
 	// });
-	let browser;
-	setTimeout(async () => {
+	let browser,
+		allR18s = !!process.argv.find(one => one.match('--allR18s'));
+
+	!allR18s && setTimeout(async () => {
 		if (browser) {
 			await browser.close();
 			console.log('about to end process after 1 hours');
@@ -323,7 +325,7 @@ async function test() {
 		}
 	}, 1000 * 60 * 60);
 
-	await crawl();
+	await crawl(allR18s);
 
 	browser = await puppeteer.launch({
 		headless: true,
