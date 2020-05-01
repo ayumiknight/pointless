@@ -17,8 +17,10 @@ injectLogger();
 
 //https://www.jvrlibrary.com/jvr?id=${_code}&raw=1
 
-let postPageFromArgv = process.argv.find(one => one.match(/^--postPage\d$/))
-let postPage = postPageFromArgv ? postPageFromArgv.replace(/^.*(\d+)$/i, '$1') : 100;
+let postPageFromArgv = process.argv.find(one => one.match(/^--postPage(\d+)$/))
+let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 100;
+console.log(postPage, '==========postPage!!!!!!!!!!!!!!\n\n\n', postPageFromArgv, process.argv);
+postPage *= 1;
 
 function injectLogger() {
 	var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
