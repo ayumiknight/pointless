@@ -10,10 +10,16 @@ let pageAll = pageAllFromArgv ? pageAllFromArgv.replace(/^--page(\d+)$/i, '$1') 
 console.log(pageAll, '==========pageAll!!!!!!!!!!!!!!\n\n\n');
 pageAll *= 1;
 
+
+let pageIndexFromArgv = process.argv.find(one => one.match(/^--pageOffset(\d+)$/))
+let pageindex = pageIndexFromArgv ? pageIndexFromArgv.replace(/^--pageOffset(\d+)$/i, '$1') : 1;
+console.log(pageindex, '==========pageindex!!!!!!!!!!!!!!\n\n\n');
+pageindex *= 1;
+
 async function crawlAndCreate(allR18s) {
 	let before = await measureR18s();
 	console.log(+ new Date() + ': r18s started' + JSON.stringify(before) + '\n')
-	let pageindex = process.env.offset || 1;
+	
 	try {
 		while( pageindex <= pageAll) {	
 			let result = await savePage(pageindex, allR18s);
