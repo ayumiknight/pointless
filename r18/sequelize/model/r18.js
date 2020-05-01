@@ -64,6 +64,10 @@ module.exports = (sequelize, DataTypes) => {
 		javlibrary: {
 			type: DataTypes.BOOLEAN,
 			comment: 'javlibrary是否同步过'
+		},
+		vr: {
+			type: DataTypes.BOOLEAN,
+			comment: '是否是vr电影'
 		}
 	});
 

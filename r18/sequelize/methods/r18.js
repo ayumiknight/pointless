@@ -31,6 +31,11 @@ async function R18BulkCreate({
 async function R18Create({
 	entry
 }) {
+
+	let isVR = !!(entry.Categories || []).find( one => {
+		return one.category_id == 6793
+	});
+	entry.vr = isVR;
 	let [r18, created] = await R18.findOrCreate({
 		where: {
 			code: entry.code

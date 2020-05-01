@@ -7,7 +7,7 @@ var reorderR18s = require('./reorderR18s/reorderR18s.js');
 var syncRapidgator = require('./syncRapidgator/syncRapidgator.js');
 var testFirst = require('./syncR18s/testFirst.js');
 
-
+//--allR18s --page1000 --rapidgatorPage1500 --p ostPage30000
 module.exports = async function crawl(allR18s) {
 	let {
 		needActress,
