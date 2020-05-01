@@ -56,6 +56,7 @@ async function loadAndSave(entries, allR18s) {
         });
         if (created && created.code) {
             console.log(`${ entries[i].code.toUpperCase()} already created !!!!!!!!!!!!!!!!!!\n`)
+            i++;
             continue;
         }
         let raw = await Promise.all([
