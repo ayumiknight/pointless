@@ -7,7 +7,7 @@ var util = require('util');
 
 let pageAllFromArgv = process.argv.find(one => one.match(/^--page\d$/))
 let pageAll = pageAllFromArgv ? pageAllFromArgv.replace(/^.*(\d+)$/i, '$1') : 2;
-console.log(pageAll, pageAllFromArgv);
+
 
 async function crawlAndCreate(allR18s) {
 	let before = await measureR18s();

@@ -12,7 +12,7 @@ const {
 axiosRretry(axios, { retries: 3 });
 
 function getPageUrl(pageindex) {
-    return `https://www.r18.com/videos/vod/movies/list/id=6793/pagesize=30/price=all/sort=new/type=category/page=${pageindex}/?dmmref=pc_header`
+    return `https://www.r18.com/videos/vod/movies/list/pagesize=30/price=all/sort=new/type=all/page=${pageindex}/?dmmref=pc_header`
 }
 
 async function loadPage(pageindex) {

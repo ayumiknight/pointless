@@ -4,10 +4,13 @@ const { getR18WithExtraPaged } = require('../../sequelize/methods/index.js');
 const { sequelize, Sequelize, Extra } = require('../../sequelize/index.js');
 const crawlAndSaveSingle = require('./rapidgatorTask/crawlAndSaveSingle.js');
 
+let rapidgatorPageAllFromArgv = process.argv.find(one => one.match(/^--rapidgatorPage\d$/))
+let rapidgatorPageAll = rapidgatorPageAllFromArgv ? rapidgatorPageAllFromArgv.replace(/^.*(\d+)$/i, '$1') : 5;
+
 
 async function syncRapidgator(all) {
 	let page = 1;
-	let pageNum = all ? 350 : 5;
+	let pageNum = rapidgatorPageAll;
 
 	while (page <= pageNum) {
 		let rows = await getR18WithExtraPaged({

@@ -17,6 +17,9 @@ injectLogger();
 
 //https://www.jvrlibrary.com/jvr?id=${_code}&raw=1
 
+let postPageFromArgv = process.argv.find(one => one.match(/^--postPage\d$/))
+let postPage = postPageFromArgv ? postPageFromArgv.replace(/^.*(\d+)$/i, '$1') : 100;
+
 function injectLogger() {
 	var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
 
@@ -33,11 +36,11 @@ class JavlibraryAutoPost {
 		this.browser = browser;
 		this.captchaMap = {};
 		this.init();
-		setTimeout(async () => {
-			console.log('exited after 30min')
-			await this.browser.close();
-			process.exit(0);
-		}, 30 * 60 * 1000);
+		// setTimeout(async () => {
+		// 	console.log('exited after 30min')
+		// 	await this.browser.close();
+		// 	process.exit(0);
+		// }, 30 * 60 * 1000);
 		
 	}
 
@@ -186,7 +189,7 @@ class JavlibraryAutoPost {
 		console.log('begin task=====================')
 		let R18s = await getR18Paged({
 			raw: 1,
-			pagesize: 100,
+			pagesize: postPage,
 			rapidgator: true,
 			page: 1
 		});
