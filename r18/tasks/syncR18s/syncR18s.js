@@ -6,7 +6,8 @@ const path = require('path');
 const url = require("url");
 const parseEntry = require('./parseEntry/parseEntry.js')
 const {
-    R18Create
+    R18Create,
+    getR18SingleSimple
 } = require('../../sequelize/methods/index.js');
 //axios包一层retry
 axiosRretry(axios, { retries: 3 });
@@ -32,8 +33,13 @@ async function loadPage(pageindex) {
         formattedEntryUrls = [];
 
     entries.each(function(i, entry) {
-        let link = $(this).find('a').attr('href');
-        formattedEntryUrls.push(link || '');
+        let link = $(this).find('a').attr('href'),
+            code = $(this).find('img').attr('alt');
+
+        formattedEntryUrls.push({
+            link,
+            code
+        });
     })
 
     return formattedEntryUrls;
@@ -43,7 +49,15 @@ async function loadPage(pageindex) {
 async function loadAndSave(entries, allR18s) {
     let i = 0;
     while( i < entries.length) {
-        let url = entries[i];
+        let url = entries[i].link;
+
+        let created = await getR18SingleSimple({
+            code: entries[i].code.toUpperCase()
+        });
+        if (created && created.code) {
+            console.log(`${ entries[i].code.toUpperCase()} already created !!!!!!!!!!!!!!!!!!\n`)
+            continue;
+        }
         let raw = await Promise.all([
             axios.get(url),
             axios.get(url + '&lg=zh')
