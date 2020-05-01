@@ -52,7 +52,6 @@ async function loadAndSave(entries, allR18s) {
             return [null , null]
         });
         let r18Parsed = parseEntry(raw);
-        console.log(r18Parsed, '====parsedd===')
         if (r18Parsed && r18Parsed.code) {
             let res = await R18Create({
                 entry: r18Parsed
