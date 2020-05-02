@@ -7,7 +7,7 @@ const {
 module.exports = async (ctx, next) => {
     
     if (ctx.path === '/sitemap') {
-    	let all = 1,
+    	let all = 30,
     	i = 1,
     	content = [];
 
@@ -25,7 +25,7 @@ module.exports = async (ctx, next) => {
 		return;
     } else {
     	let currentPage = ctx.path.replace(/^.*sitemappage(\d*).*$/, '$1');
-    	if (!currentPage || !currentPage * 1 || currentPage * 1 > 7 || currentPage * 1 <= 0) {
+    	if (!currentPage || !currentPage * 1 || currentPage * 1 > 30 || currentPage * 1 <= 0) {
     		ctx.body = 'You gotta be kidding me!'
     		return;
     	}
@@ -40,4 +40,4 @@ module.exports = async (ctx, next) => {
     	return;
     }
     
-}
+} 
