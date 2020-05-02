@@ -13,7 +13,7 @@ class Rapidgator {
 	}
 
 	async login() {
-		if (this.lastLogin && ((new Date() * 1) - this.lastLogin) < 30 * 60 * 1000) return;
+		if (this.token) return;
 
 		let res = await axios({
 			url: this.b + `/user/login?login=${encodeURIComponent(RConfig.email)}&password=${encodeURIComponent(RConfig.password)}`,
