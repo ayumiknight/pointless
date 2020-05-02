@@ -43,6 +43,7 @@ async function syncRapidgator(all) {
 					console.log(`!!!!!!!!!!!!! ${code} ${id}==${e.message}\n`);
 				}	
 			}
+			console.log(`!!!!!!!!!!!!! page ${index} rapidgator complete`)
 			index++;
 		}
 		page++;
