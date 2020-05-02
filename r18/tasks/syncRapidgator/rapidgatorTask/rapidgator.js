@@ -20,7 +20,7 @@ class Rapidgator {
 		
 		token && (this.token = token);
 		if (!this.token) {
-			throw new Error('login response having issues');
+			throw new Error('login response having issues' + JSON.stringify(res.data || {}));
 		}
 	}
 
