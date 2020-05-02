@@ -66,6 +66,7 @@ app.use(serveStatic());
 
 app.use((ctx, next) => {
 	let headers = ctx.request.header,
+		cookies = cookie.parse(ctx.request.headers.cookie || ''),
 		isBot = (headers['user-agent'] || '').match(/(googlebot)/i),
 		zh = ctx.path.match(/\/zh/i),
 		path = ctx.path.replace(/\/zh/i, '') || '/',
@@ -73,7 +74,7 @@ app.use((ctx, next) => {
 
 	ctx.path = path;
 	ctx.zh = zh;
-
+	ctx.nonVR = !!cookies.nonVR;
 	// if (isBaidu) {
 	// 	ctx.body = "no crawl please";
 	// 	return;
@@ -85,7 +86,8 @@ app.use((ctx, next) => {
 				zh,
 				currentUrl: ctx.request.url,
 				currentPath: path,
-				isBot: !!isBot
+				isBot: !!isBot,
+				nonVR: ctx.nonVR
 			})
 		},
 		vrplayer: (args) => {
@@ -94,7 +96,8 @@ app.use((ctx, next) => {
 				zh,
 				currentUrl: ctx.request.url,
 				currentPath: path,
-				isBot: !!isBot
+				isBot: !!isBot,
+				nonVR: ctx.nonVR
 			})
 		}
 	}

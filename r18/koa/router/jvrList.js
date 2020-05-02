@@ -51,7 +51,8 @@ module.exports = async (ctx, next) => {
 		...ctx.query,
 		pagesize: 20,
 		rapidgator,
-		torrent
+		torrent,
+		nonVR: ctx.nonVR
 	});
 
 	let pageTitle,
@@ -95,9 +96,12 @@ module.exports = async (ctx, next) => {
 	if (clickAction && clickAction.clickId) {
 		await recentClickCreate(clickAction)
 	}
-	let currentClicks = await getCurrentClicks();
+	let currentClicks = await getCurrentClicks({
+		nonVR: ctx.nonVR
+	});
 	let ranking = await getRecentClicksFormatted({
-		days: 3
+		days: 3,
+		nonVR: ctx.nonVR
 	});
 
 	ctx.body = ctx.dots.index({

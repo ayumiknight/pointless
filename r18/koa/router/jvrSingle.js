@@ -47,7 +47,8 @@ module.exports = async (ctx, next) => {
 
 			relatedR18s = await getR18Paged({
 				...relatedQuery,
-				pagesize: 5
+				pagesize: 5,
+				nonVR: ctx.nonVR
 			});
 			relatedR18s = relatedR18s.rows;
 		}
@@ -83,7 +84,8 @@ module.exports = async (ctx, next) => {
 		await recentClickCreate({
 			type: 'jvr',
 			clickId: r18.id,
-			code: r18.code
+			code: r18.code,
+			vr: r18.vr
 		})
 	}
 	let title = 'Not Found',

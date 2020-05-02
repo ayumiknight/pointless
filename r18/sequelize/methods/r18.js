@@ -105,7 +105,8 @@ async function getR18Paged(query) {
 		lcode,
 		rapidgator,
 		torrent,
-		javlibrary
+		javlibrary,
+		nonVR
 	} = query;
 
 	let r18Query = {
@@ -199,6 +200,16 @@ async function getR18Paged(query) {
 			}
 		}
 	}
+
+	if (!r18Query.where) {
+		r18Query.where = {};
+	}
+	r18Query.where.vr = nonVR ? {
+		[Op.eq]: 0
+	} : {
+ 		[Op.eq]: 1
+	};
+
 	return R18.findAndCountAll(r18Query);
 }
 

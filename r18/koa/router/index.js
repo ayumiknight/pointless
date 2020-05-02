@@ -8,7 +8,6 @@ const {
 
 
 const path = require('path');
-const entries = require('./sampleData');
 const {
 	formatSingleEntryForRender,
 	generatePagination,

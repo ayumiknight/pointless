@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
         code: {
             type: DataTypes.STRING(25),
             comment: "code",
+        },
+        vr: {
+            type: DataTypes.BOOLEAN,
+            comment: '是否是vr电影'
         }
     });
 

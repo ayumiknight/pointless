@@ -7,9 +7,34 @@
 	</div>
 	<div class="right">{{=it.zh ? '日本VR影片' : 'Japan VR films Only'}}</div> 
 </div>
+<script>
+	window.getCookie = function(name) {
+		var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+		if (match) return match[2];
+	};
+	window.setCookie = function(key, value, times) {
+        var date = new Date();
+        date.setTime(date.getTime() + times * 1000); 
+        document.cookie = key + "=" + encodeURIComponent(value) + ";path=/;expires=" + date.toGMTString();
+    };
+	window.setNonVR = function(on) {
+		let current = !!getCookie('nonVR');
+		console.log('invoked');
+		if (current != on) {
+			setCookie('nonVR', on ? 'true' : '', 60 * 60 * 24 * 30);
+			setTimeout(function() {
+				location.reload();
+			}, 0);
+		}
+	}
+</script>
 <div class="real-side-menu f r">
-	
-	<a href="{{=it.zh ? '/zh' : ''}}/rapidgator" class="rapidgator {{= it.currentPath === '/rapidgator' ? 'current' : ''}}" style="width:100%;text-align:left;">{{=it.zh ? 'Rapidgator专属下载区' : 'Rapidgator! Premium Donwload Section!' }}</a>
+	<a class="half {{= it.nonVR ? '' : 'current'}}" onclick="setNonVR(false)">Go VR Only！</a>
+	<a class="half {{= it.nonVR ? 'current' : ''}}" onclick="setNonVR(true)">Go Old School!</a>
+
+	<a href="{{=it.zh ? '/zh' : ''}}/rapidgator" class="rapidgator {{= it.currentPath === '/rapidgator' ? 'current' : ''}}">
+		{{=it.zh ? 'Rapidgator专属下载区' : 'Rapidgator! Premium Donwload Section!' }}
+	</a>
 	
 	<a href="{{=it.zh ? '/zh' : ''}}/" class="{{= it.currentPath === '/' ? 'current' : ''}}">{{=!it.zh ? 'New' : '最新' }}</a>
 	<a rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/ranking" class="{{= it.currentPath === '/ranking' ? 'current' : ''}}">{{=!it.zh ? 'Top' : '排行' }}</a>

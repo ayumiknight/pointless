@@ -1,7 +1,6 @@
 const {
     getR18Paged,
-    getMySelected,
-    getCurrentClicks
+    getMySelected
 } = require('../../sequelize/methods/index.js');
 
 module.exports = async (ctx, next) => {

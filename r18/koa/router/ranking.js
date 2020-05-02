@@ -7,7 +7,8 @@ module.exports = async (ctx, next) => {
 	if (![1, 7, 30].includes(days)) days = 7;
 
 	let ranking = await getRecentClicksFormatted({
-		days
+		days,
+		nonVR: ctx.nonVR
 	});
 
 	let mapping = [{

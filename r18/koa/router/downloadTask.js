@@ -5,7 +5,6 @@ const { execSync } = require('child_process');
 const { 
 	getR18Paged, 
 	getR18Single,
-	recentClickCreate,
 	getR18PreNext
 } = require('../../sequelize/methods/index.js');
 

@@ -17,17 +17,26 @@ async function recentClickCreate(click) {
 
 //used by Ranking
 async function getRecentClicksFormatted({
-	days
+	days,
+	nonVR
 }) {
 
 	let clicksFormatted = rankingOrder.map( type => {
-		return RecentClick.findAll({
-			where: {
-				createdAt: {
-					[Op.gte]: moment().subtract(days, 'days').toDate()
-				},
-				type
+		let where = {
+			createdAt: {
+				[Op.gte]: moment().subtract(days, 'days').toDate()
 			},
+			type
+		};
+		if (type === 'jvr') {
+			where.vr = nonVR ? {
+				[Op.eq]: 0
+			} : {
+				[Op.eq]: 1
+			};
+		}
+		return RecentClick.findAll({
+			where,
 			group: ['clickId'],
 			attributes: ['clickId', 'type', [Sequelize.fn('count', Sequelize.col('id')), 'clickCount']],
 			order: [[Sequelize.literal('clickCount'), 'DESC']],
@@ -94,10 +103,18 @@ async function getRecentClicksFormatted({
 }
 
 //used by recent clicks, update every 60s;
-async function getCurrentClicks(count = 6) {
+async function getCurrentClicks({
+	nonVR,
+	count = 6
+}) {
 	let clicks = await RecentClick.findAll({
 		where: {
-			type: 'jvr'
+			type: 'jvr',
+			vr: nonVR ? {
+				[Op.eq]: 0
+			} : {
+				[Op.eq]: 1
+			}
 		},
 		group: ['code'],
 		attributes: ['code', [Sequelize.fn('max', Sequelize.col('createdAt')), '_createdAt']],
