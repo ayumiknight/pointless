@@ -148,28 +148,28 @@ io.on('connection', async (socket) => {
 		count: socket.adapter.rooms[roomName || 'hall'] ? socket.adapter.rooms[roomName || 'hall'].length : 1
 	})
 	
-	socket.on('jvr', ({ code }) => {
-		console.log('code===============================got', code)
-		getTorrentByCode(code).then( _torrent => {
-			let torrent = _torrent || {},
-				title = (torrent.title || '').toUpperCase(),
-				date = moment().toDate();
-			console.log('torrent===============================got', torrent)
-			let [letter, number ] = code.split('-');
+	// socket.on('jvr', ({ code }) => {
+	// 	console.log('code===============================got', code)
+	// 	getTorrentByCode(code).then( _torrent => {
+	// 		let torrent = _torrent || {},
+	// 			title = (torrent.title || '').toUpperCase(),
+	// 			date = moment().toDate();
+	// 		console.log('torrent===============================got', torrent)
+	// 		let [letter, number ] = code.split('-');
 
-			if (title && title.match(letter) && title.match(number)) {
-				tagR18sWithTorrent(code).then(res => {}).catch(e => {})
-				socket.emit('torrent', {
-					code,
-					magnet: torrent.magnet,
-					title: torrent.title,
-					createdAt: date,
-					fromId: -1 ,
-					time: torrent.time
-				});
-			}
-		});
-	})
+	// 		if (title && title.match(letter) && title.match(number)) {
+	// 			tagR18sWithTorrent(code).then(res => {}).catch(e => {})
+	// 			socket.emit('torrent', {
+	// 				code,
+	// 				magnet: torrent.magnet,
+	// 				title: torrent.title,
+	// 				createdAt: date,
+	// 				fromId: -1 ,
+	// 				time: torrent.time
+	// 			});
+	// 		}
+	// 	});
+	// })
 
 	socket.on('torrentClicked', async (data) => {
 		await recentClickCreate({
