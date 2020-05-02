@@ -9,16 +9,23 @@ class Rapidgator {
 	constructor() {
 		this.token = '';
 		this.b = 'https://rapidgator.net/api/v2';
+		this.lastLogin = null;
 	}
 
 	async login() {
+		if (this.lastLogin && ((new Date() * 1) - this.lastLogin) < 30 * 60 * 1000) return;
+
 		let res = await axios({
 			url: this.b + `/user/login?login=${encodeURIComponent(RConfig.email)}&password=${encodeURIComponent(RConfig.password)}`,
 			method: 'GET'
 		});
 		let token = res.data && res.data.response && res.data.response.token;
 		
-		token && (this.token = token);
+		if (token) {
+			this.token = token;
+			this.lastLogin = new Date() * 1;
+		}
+
 		if (!this.token) {
 			throw new Error('login response having issues' + JSON.stringify(res.data || {}));
 		}
