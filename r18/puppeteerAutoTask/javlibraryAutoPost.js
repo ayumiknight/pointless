@@ -240,10 +240,6 @@ class JavlibraryAutoPost {
 					return !!document.getElementById('rightcolumn').innerHTML.match('Search returned no result.')
 				});
 				if (!notFound) {
-					await this.page.screenshot({
-					    path: new Date() + code + '.png',
-					    fullPage: true
-					});
 					throw new Error('time out page not loaded')
 				}
 			}		
@@ -251,7 +247,12 @@ class JavlibraryAutoPost {
 			
  
 		} catch(e) {
-			console.log(`${code} code not found ==================\n`, e)
+			let date = new Date() * 1;
+			console.log(`${date} ${code} code not found ==================\n`, e.message)
+			await this.page.screenshot({
+			    path: '../koa/static/' + date + code + '.png',
+			    fullPage: true
+			});
 			error = true;
 		}
 
@@ -355,6 +356,7 @@ async function test() {
 		});
 		await Javlibrary.init();
 		await browser.close();
+		console.log(pagenum, '= rapidgator complete====================')
 		pagenum++;
 	}	
 }
