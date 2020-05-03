@@ -29,7 +29,7 @@
 	}
 </script>
 <div class="real-side-menu f r">
-	<a class="half {{= it.nonVR ? '' : 'current'}}" onclick="setNonVR(false)">Go VR Only！</a>
+	<a class="half {{= it.nonVR ? '' : 'current'}}" onclick="setNonVR(false)">Go VR Only!</a>
 	<a class="half {{= it.nonVR ? 'current' : ''}}" onclick="setNonVR(true)">Go Old School!</a>
 
 	<a href="{{=it.zh ? '/zh' : ''}}/rapidgator" class="rapidgator {{= it.currentPath === '/rapidgator' ? 'current' : ''}}">
