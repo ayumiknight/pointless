@@ -106,7 +106,8 @@ async function getR18Paged(query) {
 		rapidgator,
 		torrent,
 		javlibrary,
-		nonVR
+		nonVR,
+		both
 	} = query;
 
 	let r18Query = {
@@ -204,11 +205,11 @@ async function getR18Paged(query) {
 	if (!r18Query.where) {
 		r18Query.where = {};
 	}
-	r18Query.where.vr = nonVR ? {
+	!both && (r18Query.where.vr = nonVR ? {
 		[Op.eq]: 0
 	} : {
  		[Op.eq]: 1
-	};
+	});
 
 	return R18.findAndCountAll(r18Query);
 }

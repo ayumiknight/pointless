@@ -192,8 +192,10 @@ class JavlibraryAutoPost {
 		let R18s = await getR18Paged({
 			raw: 1,
 			pagesize: this.pagesize,
+			page: this.pagenum,
 			rapidgator: true,
-			page: this.pagenum
+			javlibrary: true,
+			both: true
 		});
 
 		let rows = R18s.rows.filter( row => !row.javlibrary);
