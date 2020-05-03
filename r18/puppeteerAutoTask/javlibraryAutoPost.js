@@ -41,7 +41,7 @@ class JavlibraryAutoPost {
 	}) {
 		this.browser = browser;
 		this.captchaMap = {};
-		this.pagesize = pageisze;
+		this.pagesize = pagesize;
 		this.pagenum  = pagenum;
 		
 	}
@@ -362,7 +362,8 @@ async function test() {
 	//     ],
 	// });
 	let browser,
-		allR18s = !!process.argv.find(one => one.match('--allR18s'));
+		allR18s = !!process.argv.find(one => one.match('--allR18s')),
+		postOnly = !!process.argv.find(one => one.match('--postOnly'));
 
 	!allR18s && setTimeout(async () => {
 		if (browser) {
@@ -372,7 +373,7 @@ async function test() {
 		process.exit(0);
 	}, 1000 * 60 * 60);
 
-	await crawl(allR18s);
+	!postOnly && await crawl(allR18s);
 
 	let pagesize = 50,
 		pageoffset = 1,
