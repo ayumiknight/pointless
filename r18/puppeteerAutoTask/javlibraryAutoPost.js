@@ -37,16 +37,12 @@ class JavlibraryAutoPost {
 	constructor({
 		browser,
 		pagesize,
-		pageoffset,
 		pagenum
 	}) {
 		this.browser = browser;
 		this.captchaMap = {};
-		// setTimeout(async () => {
-		// 	console.log('exited after 30min')
-		// 	await this.browser.close();
-		// 	process.exit(0);
-		// }, 30 * 60 * 1000);
+		this.pagesize = pageisze;
+		this.pagenum  = pagenum;
 		
 	}
 
@@ -195,9 +191,9 @@ class JavlibraryAutoPost {
 		console.log('begin task=====================')
 		let R18s = await getR18Paged({
 			raw: 1,
-			pagesize: postPage,
+			pagesize: this.pagesize,
 			rapidgator: true,
-			page: 1
+			page: this.pagenum
 		});
 
 		let rows = R18s.rows.filter( row => !row.javlibrary);
@@ -394,7 +390,6 @@ async function test() {
 		let Javlibrary = new JavlibraryAutoPost({
 			browser,
 			pagesize,
-			pageoffset,
 			pagenum
 		});
 		await Javlibrary.init();
