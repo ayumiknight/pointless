@@ -34,10 +34,14 @@ function injectLogger() {
 }
 
 class JavlibraryAutoPost {
-	constructor(browser) {
+	constructor({
+		browser,
+		pagesize,
+		pageoffset,
+		pagenum
+	}) {
 		this.browser = browser;
 		this.captchaMap = {};
-		this.init();
 		// setTimeout(async () => {
 		// 	console.log('exited after 30min')
 		// 	await this.browser.close();
@@ -198,9 +202,8 @@ class JavlibraryAutoPost {
 
 		let rows = R18s.rows.filter( row => !row.javlibrary);
 		if (!rows.length) {
-			console.log('all entries posted==============');
-			await this.browser.close();
-			process.exit(0);
+			console.log('all entries posted============\n')
+			return;
 		} else {
 			this.page = await this.browser.newPage();
 			this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
@@ -209,8 +212,7 @@ class JavlibraryAutoPost {
 			for(let i = 0; i < rows.length; i++) {
 				await this.checkAndPostSingle(rows[i]);
 			}
-			await this.browser.close();
-			process.exit(0);
+			return;
 		}
 		
 	}
@@ -249,7 +251,7 @@ class JavlibraryAutoPost {
 			
  
 		} catch(e) {
-			console.log(`${code} code not found ==================\n, ${e.message}`)
+			console.log(`${code} code not found ==================\n`, e)
 			error = true;
 		}
 
@@ -325,25 +327,36 @@ async function test() {
 	!allR18s && setTimeout(async () => {
 		if (browser) {
 			await browser.close();
-			console.log('about to end process after 1 hours');
-			process.exit(0);
 		}
+		console.log('about to end process after 1 hours');
+		process.exit(0);
 	}, 1000 * 60 * 60);
 
 	await crawl(allR18s);
 
-	browser = await puppeteer.launch({
-		headless: true,
-		args: [
-			'--no-sandbox',
-			'--disable-gpu',
-			'--single-process'
-		]
-	});
-	let Javlibrary = new JavlibraryAutoPost(browser);
+	let pagesize = 50,
+		pageoffset = 1,
+		pagenum = 1;
 
-
-	
+	while(pagenum <= postPage) {
+		browser = await puppeteer.launch({
+			headless: true,
+			args: [
+				'--no-sandbox',
+				'--disable-gpu',
+				'--single-process'
+			]
+		});
+		let Javlibrary = new JavlibraryAutoPost({
+			browser,
+			pagesize,
+			pageoffset,
+			pagenum
+		});
+		await Javlibrary.init();
+		await browser.close();
+		pagenum++;
+	}	
 }
 
 test();
