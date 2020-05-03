@@ -243,8 +243,51 @@ class JavlibraryAutoPost {
 					throw new Error('time out page not loaded')
 				}
 			}		
-			await this.page.waitForSelector('#video_comments', { visible: true, timeout: 3000 });
-			
+
+			let searchResult = await this.page.evaluate(function(code) {
+				try {
+					let hasCommment = document.getElementById('#video_comments');
+					if (hasCommment) {
+						return {
+							hasCommment: true
+						}
+					}
+					let alinks = document.querySelectorAll('.video>a');
+
+					let j = 0,
+						link;
+					if (alinks.length) {
+						while(j < alinks.length) {
+							let id = alinks[j].querySelector('div').innerText || '';
+							if (id.toUpperCase() === code.replace('3DSVR', 'DSVR').toUpperCase()) {
+								link = alinks[j].href;
+								break;
+							}
+							j++;
+						}
+					}
+					if (link) {
+						return {
+							link
+						}
+					} else {
+						return {
+							error: 'something wrong with search result page'
+						}
+					}
+				} catch(e) {
+					return {
+						error: e.message
+					}
+				}
+			}, code);
+			if (searchResult.link) {
+				await this.page.goto(searchResult.link, {
+					timeout: 60000
+				})
+			} else if (searchResult.error) {
+				throw new Error(searchResult.error)
+			}
  
 		} catch(e) {
 			let date = new Date() * 1;
