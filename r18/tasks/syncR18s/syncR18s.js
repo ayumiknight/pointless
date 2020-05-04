@@ -56,11 +56,20 @@ async function loadAndSave(entries, allR18s) {
         let created = await getR18SingleSimple({
             code: entries[i].code.toUpperCase()
         });
+
+
         if (created && created.code) {
-            console.log(`${ entries[i].code.toUpperCase()} already created !!!!!!!!!!!!!!!!!!\n`)
+            console.log(`${ entries[i].code.toUpperCase()} already created !!!!!!!!!!!!!!!!!!\n`);
+            global.r18Counter += 1;
+            if (global.r18Counter === 5) {
+                throw new Error('syncR18 stopped with counter', + global.r18Counter);
+            }
             i++;
             continue;
+        } else {
+            global.r18Counter = 0;
         }
+        
         let raw = await Promise.all([
             axios.get(url),
             axios.get(url + '&lg=zh')
@@ -72,16 +81,7 @@ async function loadAndSave(entries, allR18s) {
         if (r18Parsed && r18Parsed.code) {
             let res = await R18Create({
                 entry: r18Parsed
-            });
-            if (!res) {
-                global.r18Counter += 1;
-                console.log(`${r18Parsed.code} already exists=========================`)         
-            } else {
-                global.r18Counter = 0;
-            }
-        }
-        if (global.r18Counter === 5) {
-            throw new Error('syncR18 stopped with counter', + global.r18Counter);
+            });   
         }
         i++;
     }
