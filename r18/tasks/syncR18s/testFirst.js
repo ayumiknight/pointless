@@ -105,9 +105,9 @@ async function index() {
             ])
 
             if (!needActress) {
-                needActress = !!actresses.reduce((a, b) => {
-                    return a || b;
-                }, false)
+                needActress = (entry.Actresses || []).length && actresses.filter(one => {
+                    return !one;
+                }).length;
             }
             
             if (!needStudio) {
