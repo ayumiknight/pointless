@@ -234,24 +234,26 @@ class JavlibraryAutoPost {
 					timeout: 60000
 				});
 			} catch(e) {
-				let notFound = await this.page.evaluate(function() {
-					return !!document.getElementById('rightcolumn').innerHTML.match('Search returned no result.')
-				});
-				if (!notFound) {
-					throw new Error('time out page not loaded')
-				} else {
-					throw new Error('no search result=================')
-				}
-			}		
+				
+			}
 
 			let searchResult = await this.page.evaluate(function(code) {
 				try {
+
 					let hasCommment = document.getElementById('video_comments');
 					if (hasCommment) {
 						return {
 							hasCommment: true
 						}
 					}
+					
+					let notFound = !!document.getElementById('rightcolumn').innerHTML.match('Search returned no result.');
+					if (notFound) {
+						return {
+							error: 'search no result======'
+						}
+					}
+					
 					let alinks = document.querySelectorAll('.video>a');
 
 					let j = 0,
