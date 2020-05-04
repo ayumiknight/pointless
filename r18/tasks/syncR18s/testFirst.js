@@ -14,6 +14,8 @@ const { R18, Series, Studio, Actress, Category, Gallery, sequelize, Extra} = db;
 //axios包一层retry
 axiosRretry(axios, { retries: 3 });
 
+global.r18TestCounter = 0;
+
 function getPageUrl(pageindex) {
     return `https://www.r18.com/videos/vod/movies/list/pagesize=30/price=all/sort=new/type=all/page=${pageindex}/?dmmref=pc_header`
 }
@@ -71,7 +73,14 @@ async function index() {
                     code: entry.code
                 }
             });
-            if (_R18) break;
+            if (_R18) {
+                global.r18TestCounter += 1;
+            } else {
+                global.r18TestCounter = 0;
+            }
+            if (glbal.r18TestCounter === 5) {
+                break;
+            }
 
             let [ 
                 actresses,
