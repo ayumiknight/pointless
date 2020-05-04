@@ -25,7 +25,7 @@ async function tryGetRapidgatorLink({
 		let a = firstArticle.find('a'),
 			href = a.attr('href'),
 			title = a.attr('title') || '';
-		if (title.toUpperCase().match(series) && title.match(id)) {
+		if (title.toUpperCase().match(series + '-' + id)) {
 			javInfo = {
 				href
 			};
