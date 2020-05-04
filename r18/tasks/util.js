@@ -7,7 +7,9 @@ const util = {
 		return text === "----" ? "" : text;
 	},
 	getCode(i) {
-		return i.replace(/^([a-zA-Z_]*)(\d*)([a-zA-Z]+)(\d*)(\d{3})$/, "$3-$5").toUpperCase();
+		let [ alpha, number] = i.trimStart().trimEnd().split('-');
+
+		return alpha + '-' + (number * 1 > 100 ? number * 1 + '' : ('00' + number).slice(-3));
 	},
 	trim(str) {
 		return str.trimStart().trimEnd();

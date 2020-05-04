@@ -69,7 +69,7 @@ function parseEntry(entry) {
 	                	formattedDetails.backupCode = getCode(getText($(this)));
 	                	break;
 	                case 2:
-	                    formattedDetails.code = getText($(this));
+	                    formattedDetails.code = getCode($(this));
 	                    break;
 	                case 3:
 	                    formattedDetails.Series = getTextWithId({

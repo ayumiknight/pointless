@@ -9,6 +9,8 @@ const {
     R18Create,
     getR18SingleSimple
 } = require('../../sequelize/methods/index.js');
+const { getCode } = require('../util.js');
+
 //axios包一层retry
 axiosRretry(axios, { retries: 3 });
 
@@ -36,7 +38,7 @@ async function loadPage(pageindex) {
 
     entries.each(function(i, entry) {
         let link = $(this).find('a').attr('href'),
-            code = $(this).find('img').attr('alt');
+            code = getCode($(this).find('img').attr('alt') || '');
 
         formattedEntryUrls.push({
             link,
@@ -56,7 +58,6 @@ async function loadAndSave(entries, allR18s) {
         let created = await getR18SingleSimple({
             code: entries[i].code.toUpperCase()
         });
-
 
         if (created && created.code) {
             console.log(`${ entries[i].code.toUpperCase()} already created !!!!!!!!!!!!!!!!!!\n`);
