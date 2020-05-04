@@ -239,12 +239,14 @@ class JavlibraryAutoPost {
 				});
 				if (!notFound) {
 					throw new Error('time out page not loaded')
+				} else {
+					throw new Error('no search result=================')
 				}
 			}		
 
 			let searchResult = await this.page.evaluate(function(code) {
 				try {
-					let hasCommment = document.getElementById('#video_comments');
+					let hasCommment = document.getElementById('video_comments');
 					if (hasCommment) {
 						return {
 							hasCommment: true
