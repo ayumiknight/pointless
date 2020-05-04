@@ -294,10 +294,10 @@ class JavlibraryAutoPost {
 		} catch(e) {
 			let date = new Date() * 1;
 			console.log(`${date} ${code} code not found ==================\n`, e.message)
-			await this.page.screenshot({
-			    path: '../koa/static/' + date + code + '.png',
-			    fullPage: true
-			});
+			// await this.page.screenshot({
+			//     path: '../koa/static/' + date + code + '.png',
+			//     fullPage: true
+			// });
 			error = true;
 		}
 
