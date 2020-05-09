@@ -8,7 +8,7 @@ const util = {
 	},
 	getCode(i) {
 		let [ alpha, number] = i.trimStart().trimEnd().split('-');
-
+		if (isNaN(number)) return i;
 		return alpha + '-' + (number * 1 > 100 ? number * 1 + '' : ('00' + number).slice(-3));
 	},
 	trim(str) {
