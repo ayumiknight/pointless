@@ -317,7 +317,7 @@ class JavlibraryAutoPost {
 		let extras = row.Extras;
 		let rapidgator = JSON.parse(extras.extra).rapidgator;
 
-		let formatEntry = this.formatEntry(rapidgator);
+		let formatEntry = this.formatEntry(rapidgator, code);
 		let openCommentAndFillEntry = await this.page.evaluate(function(formatEntry) {
 			document.getElementById('video_icn_comment_edit').getElementsByTagName('input')[0].click();
 			setTimeout(function() {
@@ -343,12 +343,12 @@ class JavlibraryAutoPost {
 		}
 	}
 
-	formatEntry(rapidgator) {
+	formatEntry(rapidgator, code) {
 		let rapidgatorFormatted = rapidgator.map(link => {
 			return `[url=${link}]${link}[/url]\n`;
 		}).join('');
 
-		return `[url=https://jvrlibrary.com/rapidgator][img]https://jvrlibrary.com/static/jvrslogan-sm.jpg[/img][/url]\n\n\n[url=https://jvrlibrary.com/rapidgator][b]Visit jvrlibrary.com for More Japan VR videos !! Have FUUUNNNN !![/b][/url]\n\n\n` + rapidgatorFormatted + `\n[url=https://jvrlibrary.com/rapidgator][img]https://jvrlibrary.com/static/coffin_dance.jpg[/img][/url]`;
+		return `[url=https://jvrlibrary.com/rapidgator?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/jvrslogan-sm.jpg[/img][/url]\n\n\n[url=https://jvrlibrary.com/rapidgator?from=javlibrary-${encodeURIComponent(code)}][b]Visit jvrlibrary.com for More Japan VR videos !! Have FUUUNNNN !![/b][/url]\n\n\n` + rapidgatorFormatted + `\n[url=https://jvrlibrary.com/rapidgator?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/coffin_dance.jpg[/img][/url]`;
 	}
 
 	wait(sec) {
