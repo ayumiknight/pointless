@@ -78,7 +78,7 @@ async function index() {
             } else {
                 global.r18TestCounter = 0;
             }
-            if (global.r18TestCounter === 5) {
+            if (global.r18TestCounter === (counterValue || 5)) {
                 break;
             }
 
