@@ -16,6 +16,11 @@ axiosRretry(axios, { retries: 3 });
 
 global.r18Counter = 0;
 
+let counterFromArgv = process.argv.find(one => one.match(/^--counter(\d+)$/))
+let counterValue = counterFromArgv ? counterFromArgv.replace(/^--counter(\d+)$/i, '$1') : 5;
+console.log(counterValue, '==========counterValue!!!!!!!!!!!!!!\n\n\n');
+counterValue *= 1;
+
 function getPageUrl(pageindex) {
     return `https://www.r18.com/videos/vod/movies/list/pagesize=30/price=all/sort=new/type=all/page=${pageindex}/?dmmref=pc_header`
 }
@@ -62,7 +67,7 @@ async function loadAndSave(entries, allR18s) {
         if (created && created.code) {
             console.log(`${ entries[i].code.toUpperCase()} already created !!!!!!!!!!!!!!!!!!\n`);
             global.r18Counter += 1;
-            if (global.r18Counter === 5) {
+            if (global.r18Counter === counterValue) {
                 throw new Error('syncR18 stopped with counter', + global.r18Counter);
             }
             i++;
