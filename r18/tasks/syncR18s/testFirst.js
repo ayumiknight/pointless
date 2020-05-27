@@ -16,6 +16,12 @@ axiosRretry(axios, { retries: 3 });
 
 global.r18TestCounter = 0;
 
+let counterFromArgv = process.argv.find(one => one.match(/^--counter(\d+)$/))
+let counterValue = counterFromArgv ? counterFromArgv.replace(/^--counter(\d+)$/i, '$1') : 5;
+console.log(counterValue, '==========counterValue!!!!!!!!!!!!!!\n\n\n');
+counterValue *= 1;
+
+
 function getPageUrl(pageindex) {
     return `https://www.r18.com/videos/vod/movies/list/pagesize=30/price=all/sort=new/type=all/page=${pageindex}/?dmmref=pc_header`
 }
