@@ -49,7 +49,7 @@ const util = {
 	},
 	getTitle(node) {
 		let text = node.text() || node.find('cite').text();
-		return text.trimStart().trimEnd();
+		return text.trimStart().trimEnd().replace(/( ·){2,1000}/, '');
 	},
 	safeMerge(a, b) {
 		let keys = Object.keys({
