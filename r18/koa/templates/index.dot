@@ -61,7 +61,7 @@
 		{{?}}
 	</div>
 	<div class="footer">
-		{{=it.zh ? '酒后表演艺术家酿造' : 'Brewed by ProfessionalDrunker.' }}
+		{{=it.zh ? '酒后表演艺术家酿造' : 'Brewed by ProfessionalDrunker. Open to Freelance Jobs.' }}
 	</div>
 	<div id="instant-message"></div>
 </div>
