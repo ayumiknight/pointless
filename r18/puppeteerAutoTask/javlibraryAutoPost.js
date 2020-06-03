@@ -1,7 +1,8 @@
 
 
 const puppeteer = require('puppeteer');
-const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36";
+//const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36"; //CHROME
+const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4159.0 Safari/537.36 Edg/85.0.535.0"; //IE EDGE
 const fs = require('fs');
 const url = require('url');
 const axios = require('axios');
@@ -162,8 +163,17 @@ class JavlibraryAutoPost {
 
 	async login() {
 		//http://www.javlibrary.com/en/myaccount.php
-		await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 0});
-	  	await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
+		try {
+			await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 30 * 1000 });
+	  		await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 30 * 1000 });
+		} catch(e) {
+			await this.page.screenshot({
+			    path: '../koa/static/' + (new Date() + 1) + '.png',
+			    fullPage: true
+			});
+			throw new Error('login has some issue')
+		}
+		
 	  	let captcha = await this.getAndDownloadConfirmObj();
 	  	
 		let captchaSolution = this.checkOrSaveCaptcha(captcha);
@@ -203,10 +213,14 @@ class JavlibraryAutoPost {
 			console.log('all entries posted============\n')
 			return;
 		} else {
+			console.log('ready to post============\n')
 			this.page = await this.browser.newPage();
+			console.log('new page created============\n')
 			this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
-			await this.page.setUserAgent(userAgent);	
+			await this.page.setUserAgent(userAgent);
+			console.log('before login============\n')
 			await this.login();
+
 			for(let i = 0; i < rows.length; i++) {
 				await this.checkAndPostSingle(rows[i]);
 			}
