@@ -173,6 +173,7 @@ class JavlibraryAutoPost {
 			});
 			throw new Error('login has some issue')
 		}
+		console.log('before extracting confirm obj======')
 		
 	  	let captcha = await this.getAndDownloadConfirmObj();
 	  	
