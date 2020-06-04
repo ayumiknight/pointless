@@ -11,14 +11,14 @@ async function CategoriesBulkCreate(categories) {
 
 async function CategoryCreate(category) {
 
-	let category = await Category.findOrCreate({
+	let _category = await Category.findOrCreate({
 		where: {
 			category_id: category.category_id
 		},
 		default: category
 	});
 
-	if (!category[1]) {
+	if (!_category[1]) {
 		await category[0].update({
 			en: category[0].en || category.en,
 			zh: category[0].zh || category.zh,
