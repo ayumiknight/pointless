@@ -35,21 +35,22 @@ function injectLogger() {
 }
 
 class JavlibraryAutoPost {
-	constructor({
-		browser,
-		pagesize,
-		pagenum
-	}) {
-		this.browser = browser;
+	constructor() {
+		this.browser = null;
 		this.captchaMap = {};
-		this.pagesize = pagesize;
-		this.pagenum  = pagenum;
-		
 	}
 
 	async init() {
 		let self = this;
 		await this.wait(10); //each start should have interval
+		this.browser = await puppeteer.launch({
+			headless: true,
+			args: [
+				'--no-sandbox',
+				'--disable-gpu',
+				'--single-process'
+			]
+		});
 		fs.readdirSync('./captcha').map(f => {
 			let [name, ext] = f.split('.'),
 				[hash, value] = name.split('-');
@@ -74,7 +75,6 @@ class JavlibraryAutoPost {
 	async syncCaptcha() {
 		//http://www.javlibrary.com/en/myaccount.php
 
-	
 		await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 0});
 	  	await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
 
@@ -200,34 +200,44 @@ class JavlibraryAutoPost {
 
 	async beginTask() {
 		console.log('begin task=====================')
-		let R18s = await getR18Paged({
-			raw: 1,
-			pagesize: this.pagesize,
-			page: this.pagenum,
-			rapidgator: true,
-			javlibrary: true,
-			both: true
-		});
 
-		let rows = R18s.rows.filter( row => !row.javlibrary);
-		if (!rows.length) {
-			console.log('all entries posted============\n')
-			return;
-		} else {
-			console.log('ready to post============\n')
-			this.page = await this.browser.newPage();
-			console.log('new page created============\n')
-			this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
-			await this.page.setUserAgent(userAgent);
-			console.log('before login============\n')
-			await this.login();
+		let pagesize = 50,
+			pageoffset = 1,
+			pagenum = 1;
 
-			for(let i = 0; i < rows.length; i++) {
-				await this.checkAndPostSingle(rows[i]);
+		while(pagenum <= postPage) {
+			let R18s = await getR18Paged({
+				raw: 1,
+				pagesize: pagesize,
+				page: pagenum,
+				rapidgator: true,
+				javlibrary: true,
+				both: true
+			});
+
+			let rows = R18s.rows.filter( row => !row.javlibrary);
+			if (!rows.length) {
+				console.log(pagenum + ' all entries posted============\n')
+				return;
+			} else {
+				this.page = await this.browser.newPage();
+				this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
+				await this.page.setUserAgent(userAgent);
+
+				for(let i = 0; i < rows.length; i++) {
+					await this.checkAndPostSingle(rows[i]);
+				}
+				return;
 			}
-			return;
-		}
-		
+	
+
+			
+			console.log(pagenum, '= rapidgator complete====================')
+			pagenum++;
+		}	
+
+		await this.browser.close();
+		return;	
 	}
 
 
@@ -396,29 +406,9 @@ async function test() {
 
 	!postOnly && await crawl(allR18s);
 
-	let pagesize = 50,
-		pageoffset = 1,
-		pagenum = 1;
-
-	while(pagenum <= postPage) {
-		browser = await puppeteer.launch({
-			headless: true,
-			args: [
-				'--no-sandbox',
-				'--disable-gpu',
-				'--single-process'
-			]
-		});
-		let Javlibrary = new JavlibraryAutoPost({
-			browser,
-			pagesize,
-			pagenum
-		});
-		await Javlibrary.init();
-		await browser.close();
-		console.log(pagenum, '= rapidgator complete====================')
-		pagenum++;
-	}	
+	let Javlibrary = new JavlibraryAutoPost();
+	await Javlibrary.init();
+	process.exit(0);
 }
 
 test();
