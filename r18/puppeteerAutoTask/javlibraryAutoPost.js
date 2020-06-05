@@ -386,25 +386,6 @@ class JavlibraryAutoPost {
 
 // module.exports = JavlibraryAutoPost;
 async function test() {
-	// let browser = await puppeteer.launch({
-	// 	headless: false,
-	// 	args: [
-	//       '--proxy-server=http://127.0.0.1:1080',
-	//     ],
-	// });
-	let browser,
-		allR18s = !!process.argv.find(one => one.match('--allR18s')),
-		postOnly = !!process.argv.find(one => one.match('--postOnly'));
-
-	!allR18s && setTimeout(async () => {
-		if (browser) {
-			await browser.close();
-		}
-		console.log('about to end process after 1 hours');
-		process.exit(0);
-	}, 1000 * 60 * 60);
-
-	!postOnly && await crawl(allR18s);
 
 	let Javlibrary = new JavlibraryAutoPost();
 	await Javlibrary.init();
