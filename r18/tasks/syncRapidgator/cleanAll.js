@@ -11,7 +11,7 @@ function write() {
 }
 process.stdout.write = write;
 
-var folders = require('./folders');
+var folders = require('./folders.js');
 
 async function cleanAll() {
 	let R = new Rapidgator();
