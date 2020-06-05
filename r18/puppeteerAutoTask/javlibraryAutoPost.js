@@ -55,14 +55,15 @@ class JavlibraryAutoPost {
 		this.page = await this.browser.newPage();
 		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
 		await this.page.setUserAgent(userAgent);
-		await this.login();
 		
+
 		fs.readdirSync('./captcha').map(f => {
 			let [name, ext] = f.split('.'),
 				[hash, value] = name.split('-');
 
 			self.captchaMap[hash] = value || 'null';
-		});	
+		});
+		await this.login();
 		await this.beginTask();
 	}
 
