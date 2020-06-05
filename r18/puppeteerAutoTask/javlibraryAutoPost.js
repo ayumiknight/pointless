@@ -51,6 +51,11 @@ class JavlibraryAutoPost {
 				'--single-process'
 			]
 		});
+
+		this.page = await this.browser.newPage();
+		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
+		await this.page.setUserAgent(userAgent);
+		
 		fs.readdirSync('./captcha').map(f => {
 			let [name, ext] = f.split('.'),
 				[hash, value] = name.split('-');
@@ -220,18 +225,11 @@ class JavlibraryAutoPost {
 				console.log(pagenum + ' all entries posted============\n')
 				return;
 			} else {
-				this.page = await this.browser.newPage();
-				this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
-				await this.page.setUserAgent(userAgent);
-
 				for(let i = 0; i < rows.length; i++) {
 					await this.checkAndPostSingle(rows[i]);
 				}
 				return;
-			}
-	
-
-			
+			}	
 			console.log(pagenum, '= rapidgator complete====================')
 			pagenum++;
 		}	
