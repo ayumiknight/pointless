@@ -270,14 +270,14 @@ async function getR18SingleSimple({
 
 async function getR18WithExtraPaged({
 	page = 1,
-	pagesize = 20,
+	pagesize = 20
 }) {
 
 	let query = {
 		offset: (page - 1) * pagesize,
 		limit: pagesize,
 		order: [[
-			'id', 'DESC'
+			'id', 'ASC'
 		]],
 		include: [{
 			model: Extra,
