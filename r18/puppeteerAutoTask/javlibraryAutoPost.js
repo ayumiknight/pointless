@@ -230,7 +230,6 @@ class JavlibraryAutoPost {
 				for(let i = 0; i < rows.length; i++) {
 					await this.checkAndPostSingle(rows[i]);
 				}
-				return;
 			}	
 			console.log(pagenum, '= rapidgator complete====================')
 			pagenum++;
