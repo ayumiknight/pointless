@@ -224,9 +224,8 @@ async function getR18Single({
 			id
 		} : {
 			code: {
-				[Op.like]: `${code.split('-')[0]}%`
-			},
-			coden: code.split('-')[1] * 1
+				[Op.eq]: code.toUpperCase()
+			}
 		};
 
 	return R18.findOne({
