@@ -183,7 +183,7 @@ async function getR18Paged(query) {
 	}
 	if (rapidgator) {
 		r18Query.order = [[
-			'Extras', 'createdAt', 'asc'
+			'order', 'ASC'
 		]];
 		r18Query.include = [{
 			association:  R18.Extras,
