@@ -94,12 +94,10 @@ async function tryGetRapidgatorLink({
 		})
 	}
 	if (!javInfo) {
-		console.log(`${code} not found javarchive\n`);
-		return false;
+		throw new Error(`${code} not found javarchive\n`);
 	}
 	if (!javInfo.rapidgator.length) {
-		console.log(`${code} rapidgator links not found javarchive\n`);
-		return false;
+		throw new Error(`${code} rapidgator links not found javarchive\n`);
 	}
 	return javInfo;
 }

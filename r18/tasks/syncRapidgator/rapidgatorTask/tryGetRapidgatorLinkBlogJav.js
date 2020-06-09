@@ -33,10 +33,9 @@ async function tryGetRapidgatorLink({
 	let [ series, id ] = code.split(' '),
 		javInfo;
 
-	//http://javarchive.com/?s=3dsvr+0551
-	//let searchResult = await axios.get(`http://blogjav.net/?s=${series}+${id}`);
+	let searchResult = await axios.get(`http://blogjav.net/?s=${series}+${id}`);
 
-	let $ = cheerio.load(list),
+	let $ = cheerio.load(searchResult.data),
 		firstArticle = $('#content .single:first-child h1'),
 		secondArticle = $('#content .single:nth-child(2) h1');
 
@@ -75,9 +74,9 @@ async function tryGetRapidgatorLink({
 	}
 
 	if (javInfo) {
-		//let detail = await axios.get(javInfo.href);
+		let detail = await axios.get(javInfo.href);
 
-		let $d = cheerio.load(a),
+		let $d = cheerio.load(detail.data),
 			articleContent = $d('#content .entry');
 
 		javInfo.pixhost = [];
@@ -99,12 +98,10 @@ async function tryGetRapidgatorLink({
 		})
 	}
 	if (!javInfo) {
-		console.log(`${code} not found blogjav\n`);
-		return false;
+		throw new Error(`${code} not found blogjav\n`);
 	}
 	if (!javInfo.rapidgator.length) {
-		console.log(`${code} rapidgator links not found blogjav\n`);
-		return false;
+		throw new Error(`${code} rapidgator links not found blogjav\n`);
 	}
 	return javInfo;
 }

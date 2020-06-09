@@ -3,33 +3,33 @@ const tryGetRapidgatorLinkBlogJav = require('./tryGetRapidgatorLinkBlogJav.js');
 
 
 async function crawlAndSaveSingle({
-	code,
-	R
+    code,
+    R
 }) {
-	let javInfo = await tryGetRapidgatorLinkJavArchive({
-		code
-	});
-	
-	if (!javInfo) {
-		javInfo = await tryGetRapidgatorLinkBlogJav({
-			code
-		});
-	} else {
-		console.log(`${ code } found by javarchive \n`);
-	}
+    let javInfo;
+    try {
+        javInfo = await tryGetRapidgatorLinkJavArchive({
+            code
+        });
+        let myLinks = await R.saveLinksToFolder({
+            name: code,
+            fileLinks: javInfo.rapidgator
+        });
+        javInfo.rapidgator = myLinks;
+    } catch (e) {
+        console.log(e.message);
+        javInfo = null;
+        javInfo = await tryGetRapidgatorLinkBlogJav({
+            code
+        });
+        let myLinks = await R.saveLinksToFolder({
+            name: code,
+            fileLinks: javInfo.rapidgator
+        });
+        javInfo.rapidgator = myLinks;
+    }
 
-	if (!javInfo) {
-		throw new Error(`failed to locate ${ code }======================\n`)
-	} else {
-		console.log(`${ code} found by blogjav \n`)
-	}
-	
-	let myLinks = await R.saveLinksToFolder({
-		name: code,
-		fileLinks: javInfo.rapidgator
-	});
-	javInfo.rapidgator = myLinks;
-	return javInfo;
+    return javInfo;
 }
 
 module.exports = crawlAndSaveSingle;
