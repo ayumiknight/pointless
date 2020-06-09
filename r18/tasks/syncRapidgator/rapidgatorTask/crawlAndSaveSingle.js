@@ -16,6 +16,7 @@ async function crawlAndSaveSingle({
             fileLinks: javInfo.rapidgator
         });
         javInfo.rapidgator = myLinks;
+        console.log(`${code } javInfo found by javarchive\n`)
     } catch (e) {
         console.log(e.message);
         javInfo = null;
@@ -27,6 +28,7 @@ async function crawlAndSaveSingle({
             fileLinks: javInfo.rapidgator
         });
         javInfo.rapidgator = myLinks;
+        console.log(`${code } javInfo found by blogjav\n`)
     }
 
     return javInfo;
