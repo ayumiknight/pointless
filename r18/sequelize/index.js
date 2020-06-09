@@ -14,7 +14,7 @@ var sequelize = new Sequelize(dbName, dbUser, dbPassword, {
         collate: 'utf8_general_ci', 
         timestamps: true
     },
-    logging: process.env.logsql || true ? true : false
+    logging: process.env.logsql ? true : false
 });
 
 fs
