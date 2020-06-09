@@ -5,6 +5,11 @@ module.exports = (sequelize, DataTypes) => {
 			comment: "番号",
 			unique: true
 		},
+		codeBackUp: {
+			type: DataTypes.STRING,
+			comment: "番号备份，用于unique鉴别",
+			unique: true
+		},
 		title: {
 			type: DataTypes.STRING(1000),
 			comment: "标题",

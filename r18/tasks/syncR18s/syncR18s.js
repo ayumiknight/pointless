@@ -89,6 +89,8 @@ async function loadAndSave(entries, allR18s) {
         let r18Parsed = parseEntry(raw);
         if (r18Parsed && r18Parsed.code) {
             r18Parsed.vr = entries[i].vr;
+            r18Parsed.codeBackUp = r18Parsed.code;
+            
             let res = await R18Create({
                 entry: r18Parsed
             });   
