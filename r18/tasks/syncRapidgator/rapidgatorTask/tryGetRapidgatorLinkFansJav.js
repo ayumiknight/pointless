@@ -15,7 +15,6 @@ async function tryGetRapidgatorLink({
 	let [ series, id ] = code.split(' '),
 		javInfo;
 
-	console.log(`https://fansjav.net/?s=${series}+${id}`, 'requesting==========')
 	let searchResult = await axios({
 		url: `https://fansjav.net/?s=${series}+${id}`,
 		method: 'GET'
