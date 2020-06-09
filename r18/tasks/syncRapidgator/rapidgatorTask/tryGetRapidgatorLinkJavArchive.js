@@ -7,6 +7,22 @@ const cheerio = require('cheerio');
 axiosRretry(axios, { retries: 3 });
 
 
+function matchTitle({
+	series,
+	id,
+	title
+}) {
+	if (title.toUpperCase().match(series + '-' + id)) {
+		return true
+	};
+	if (id * 1 >= 100) {
+		if (title.toUpperCase().match(series) && title.toUpperCase().match(id)) {
+			return true;
+		}
+	}
+	return false;
+}
+
 async function tryGetRapidgatorLink({
 	code
 }) {
@@ -25,7 +41,11 @@ async function tryGetRapidgatorLink({
 		let a = firstArticle.find('a'),
 			href = a.attr('href'),
 			title = a.attr('title') || '';
-		if (title.toUpperCase().match(series + '-' + id)) {
+		if (matchTitle({
+			title,
+			series,
+			id
+		})) {
 			javInfo = {
 				href
 			};
@@ -37,7 +57,11 @@ async function tryGetRapidgatorLink({
 			let a = secondArticle.find('a'),
 				href = a.attr('href'),
 				title = a.attr('title') || '';
-			if (title.toUpperCase().match(series + '-' + id)) {
+			if (matchTitle({
+				title,
+				series,
+				id
+			})) {
 				javInfo = {
 					href
 				};
