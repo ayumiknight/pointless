@@ -3,7 +3,7 @@
 		JvrLibrary
 	</div>
 	<div class="search">
-		<input id="idSearch" type="text" placeholder="{{=it.zh ? '影片ID搜索' : 'Search by Film Id'}}">
+		<input id="idSearch" type="text" placeholder="Eg. IPVR OR IPVR-070">
 	</div>
 	<div class="right">{{=it.zh ? '日本VR影片' : 'Japan VR films Only'}}</div> 
 </div>

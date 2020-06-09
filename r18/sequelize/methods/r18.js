@@ -126,17 +126,7 @@ async function getR18Paged(query) {
 		}
 	}
 
-	if (lcode) {
-		r18Query.where = {
-			code: {
-				[Op.like]: `${lcode}%`
-			}
-		}
-		r18Query.order = [[
-			'coden', 'DESC'
-		]]
-
-	}
+	
 	if (actress_id) {
 		r18Query.include = [{
 			association:  R18.Actresses,
@@ -191,6 +181,18 @@ async function getR18Paged(query) {
 			}
 		}];
 	}
+
+	if (lcode) {
+		r18Query.where = {
+			code: {
+				[Op.like]: `${lcode}%`
+			}
+		}
+		r18Query.order = [[
+			'coden', 'DESC'
+		]]
+	}
+	
 	if (torrent) {
 		r18Query.where = {
 			torrent: {
