@@ -12,6 +12,7 @@ function matchTitle({
 	id,
 	title
 }) {
+
 	if (title.toUpperCase().match(series + '-' + id)) {
 		return true
 	};
@@ -23,6 +24,8 @@ function matchTitle({
 	return false;
 }
 
+
+
 async function tryGetRapidgatorLink({
 	code
 }) {
@@ -31,16 +34,18 @@ async function tryGetRapidgatorLink({
 		javInfo;
 
 	//http://javarchive.com/?s=3dsvr+0551
-	let searchResult = await axios.get(`http://javarchive.com/?s=${series}+${id}`);
+	//let searchResult = await axios.get(`http://blogjav.net/?s=${series}+${id}`);
 
-	let $ = cheerio.load(searchResult.data),
-		firstArticle = $('#content .post-meta:first-child'),
-		secondArticle = $('#content .post-meta:nth-child(2)');
+	let $ = cheerio.load(list),
+		firstArticle = $('#content .single:first-child h1'),
+		secondArticle = $('#content .single:nth-child(2) h1');
+
 
 	if (firstArticle[0] && firstArticle.find('a')) {
 		let a = firstArticle.find('a'),
 			href = a.attr('href'),
 			title = a.attr('title') || '';
+
 		if (matchTitle({
 			title,
 			series,
@@ -70,10 +75,10 @@ async function tryGetRapidgatorLink({
 	}
 
 	if (javInfo) {
-		let detail = await axios.get(javInfo.href);
+		//let detail = await axios.get(javInfo.href);
 
-		let $d = cheerio.load(detail.data),
-			articleContent = $d('#post-entry .post-meta-single .post-content');
+		let $d = cheerio.load(a),
+			articleContent = $d('#content .entry');
 
 		javInfo.pixhost = [];
 		javInfo.rapidgator = [];
@@ -94,11 +99,11 @@ async function tryGetRapidgatorLink({
 		})
 	}
 	if (!javInfo) {
-		console.log(`${code} not found javarchive\n`);
+		console.log(`${code} not found blogjav\n`);
 		return false;
 	}
 	if (!javInfo.rapidgator.length) {
-		console.log(`${code} rapidgator links not found javarchive\n`);
+		console.log(`${code} rapidgator links not found blogjav\n`);
 		return false;
 	}
 	return javInfo;
