@@ -275,7 +275,7 @@ async function getR18WithExtraPaged({
 		offset: (page - 1) * pagesize,
 		limit: pagesize,
 		order: [[
-			'id', 'ASC'
+			'order', 'ASC'
 		]],
 		include: [{
 			model: Extra,
