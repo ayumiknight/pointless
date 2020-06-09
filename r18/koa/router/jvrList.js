@@ -2,7 +2,8 @@ const {
 	getR18Paged,
 	getCurrentClicks,
 	getR18PagedNoCache,
-	getRecentClicksFormatted
+	getRecentClicksFormatted,
+	getNewRapidgator
 } = require('../../sequelize/methods/index.js');
 const { recentClickCreate } = require('../../sequelize/methods/recentClick.js');
 
@@ -24,8 +25,8 @@ module.exports = async (ctx, next) => {
 		pagesize
 	} = ctx.query;
 
-	let rapidgator = !!ctx.path.match(/^\/rapidgator/i),
-		torrent = !!ctx.path.match(/^\/torrent/i);
+	let rapidgator = !!ctx.path.match(/^\/rapidgator/i) || true;
+	//	torrent = !!ctx.path.match(/^\/torrent/i);
 
 	if (rapidgator && raw) {
 		let r18s = await getR18PagedNoCache({
@@ -51,7 +52,7 @@ module.exports = async (ctx, next) => {
 		...ctx.query,
 		pagesize: 20,
 		rapidgator,
-		torrent,
+		//torrent,
 		nonVR: ctx.nonVR
 	});
 
@@ -83,13 +84,14 @@ module.exports = async (ctx, next) => {
 		};
 	} else if (lcode) { 
 		pageTitle = lcode;
-	} else if (rapidgator) {
-		pageTitle = 'Rapidgator!';
-	} else if (torrent) {
-		pageTitle = 'Torrent!';
 	} else {
-		pageTitle = zh ? '最新' : 'New';
+		pageTitle = 'Rapidgator!';
 	}
+	// } else if (torrent) {
+	// 	pageTitle = 'Torrent!';
+	// } else {
+	// 	pageTitle = zh ? '最新' : 'New';
+	// }
 
 	pageTitle = ' ' + pageTitle;
 	
@@ -103,6 +105,10 @@ module.exports = async (ctx, next) => {
 		days: 3,
 		nonVR: ctx.nonVR
 	});
+	let {
+		vr,
+		nonvr
+	} = await getNewRapidgator();
 
 	ctx.body = ctx.dots.index({
 		type: 'jvrList',
@@ -114,7 +120,9 @@ module.exports = async (ctx, next) => {
 			baseUrl: ctx.request.url,
 			current: page * 1,
 			total: Math.ceil((r18s.count || 0) / 20)
-		})
+		}),
+		vr,
+		nonvr
 	});
 	return;
 }

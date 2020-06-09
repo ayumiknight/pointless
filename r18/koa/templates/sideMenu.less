@@ -67,6 +67,11 @@
 		&:hover {
 			background: @primary;
 			color: white !important;
+			&.half {
+				span {
+					color: white !important;
+				}
+			}
 		}
 		&:hover {
 			i {
@@ -75,6 +80,11 @@
 		}
 		&.current {
 			color: @primary;
+			&.half {
+				span {
+					color:  @primary;
+				}
+			}
 		}
 		i {
 			line-height: 40px;
@@ -86,6 +96,13 @@
 		&.half {
 			width: 50%;
 			text-align: center;
+			span {
+				font-family: @hemi;
+				position: relative;
+				top: -5px;
+				left: 10px;
+				font-size: 14px;
+			}
 		}
  	}
 }

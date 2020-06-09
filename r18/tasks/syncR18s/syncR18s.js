@@ -43,11 +43,13 @@ async function loadPage(pageindex) {
 
     entries.each(function(i, entry) {
         let link = $(this).find('a').attr('href'),
-            code = getCode($(this).find('img').attr('alt') || '');
+            code = getCode($(this).find('img').attr('alt') || ''),
+            vr = !!($(this).find('span').attr('class') || '').match(/vrRibbon/i);
 
         formattedEntryUrls.push({
             link,
-            code
+            code,
+            vr
         });
     })
 
@@ -85,6 +87,7 @@ async function loadAndSave(entries, allR18s) {
         });
         let r18Parsed = parseEntry(raw);
         if (r18Parsed && r18Parsed.code) {
+            r18Parsed.vr = entries[i].vr;
             let res = await R18Create({
                 entry: r18Parsed
             });   

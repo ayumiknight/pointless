@@ -5,8 +5,8 @@
 		{{~it.r18s :value:index}}
 			<a class="list-item f" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
 				<img class="cover" src="{{=value.cover}}"/>
-				{{?value.Extras}}
-				<img class="rgbtn" src="/static/rgbtn.gif"/>
+				{{?value.newTag}}
+				<span class="new-tag">NEW TODAY</span>
 				{{?}}
 				<div class="bottom">
 					<div class="code">

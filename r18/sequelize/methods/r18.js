@@ -2,6 +2,7 @@ const db = require('../index.js');
 const { R18, Series, Studio, Actress, Category, Gallery, sequelize, Extra } = db;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+
 //never use bulkcreate, mysql won't return primary ids for bulk insert!!!
 const mySelected = [
 	"KMVR-831",
@@ -32,10 +33,6 @@ async function R18Create({
 	entry
 }) {
 
-	let isVR = !!(entry.Categories || []).find( one => {
-		return one.category_id == 6793
-	});
-	entry.vr = isVR;
 	let [r18, created] = await R18.findOrCreate({
 		where: {
 			code: entry.code
@@ -183,7 +180,7 @@ async function getR18Paged(query) {
 	}
 	if (rapidgator) {
 		r18Query.order = [[
-			'order', 'ASC'
+			'Extras', 'createdAt', 'DESC'
 		]];
 		r18Query.include = [{
 			association:  R18.Extras,
@@ -211,7 +208,20 @@ async function getR18Paged(query) {
  		[Op.eq]: 1
 	});
 
-	return R18.findAndCountAll(r18Query);
+	let res = await R18.findAndCountAll(r18Query);
+	let today = new Date();
+	today.setHours(0);
+	today.setMinutes(0);
+	today.setSeconds(0);
+
+	(res.rows || []).forEach(row => {		
+		if (row.Extras && row.Extras.createdAt) {
+			if (new Date(row.Extras.createdAt) - today > 0) {
+				row.newTag = true;
+			}
+		}
+	})
+	return res;
 }
 
 async function getR18Single({
@@ -343,6 +353,54 @@ async function updateR18Javlibrary(code) {
 	});
 
 }
+
+async function getNewRapidgator() {
+	let today = new Date();
+	today.setHours(0);
+	today.setMinutes(0);
+	today.setSeconds(0);
+	today = today.toJSON();
+
+	let query = {
+		order: [[
+			'id', 'ASC'
+		]],
+		include: [{
+			model: Extra,
+			as: 'Extras',
+			where: {
+				createdAt: {
+					[Op.gt]: today
+				}
+			}
+		}]
+	};
+	let res = await R18.findAll(query);
+	if (res && res.length) {
+		let vr = 0,
+			nonvr = 0;
+
+		res.forEach((v) => {
+			if (v.vr) {
+				vr++;
+			} else {
+				nonvr++;
+			}
+		})
+		console.log({
+			vr,
+			nonvr
+		})
+		return {
+			vr,
+			nonvr
+		}
+	}
+	return {
+
+	}
+}
+
 module.exports = {
 	R18BulkCreate,
 	R18Create,
@@ -357,5 +415,6 @@ module.exports = {
 	measureR18s,
 	getMySelected,
 	tagR18sWithTorrent,
-	updateR18Javlibrary
+	updateR18Javlibrary,
+	getNewRapidgator
 }

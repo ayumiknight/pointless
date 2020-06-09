@@ -29,15 +29,12 @@
 	}
 </script>
 <div class="real-side-menu f r">
-	<a class="half {{= it.nonVR ? '' : 'current'}}" onclick="setNonVR(false)">Go VR Only!</a>
-	<a class="half {{= it.nonVR ? 'current' : ''}}" onclick="setNonVR(true)">Go Old School!</a>
-
-	<a href="{{=it.zh ? '/zh' : ''}}/rapidgator" class="rapidgator {{= it.currentPath === '/rapidgator' ? 'current' : ''}}">
-		{{=it.zh ? 'Rapidgator专属下载区' : 'Rapidgator! Premium Donwload Section!' }}
-	</a>
+	<a class="half {{= it.nonVR ? '' : 'current'}}" onclick="setNonVR(false)">Go VR Only! <span>{{=it.vr > 0 ? `+${it.vr}` : ''}}</span></a>
+	<a class="half {{= it.nonVR ? 'current' : ''}}" onclick="setNonVR(true)">Go Old School! <span>{{=it.nonvr > 0 ? `+${it.nonvr}` : ''}}</span></a>
 	
 	<a href="{{=it.zh ? '/zh' : ''}}/" class="{{= it.currentPath === '/' ? 'current' : ''}}">{{=!it.zh ? 'New' : '最新' }}</a>
 	<a rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/ranking" class="{{= it.currentPath === '/ranking' ? 'current' : ''}}">{{=!it.zh ? 'Top' : '排行' }}</a>
+	<a rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/casts" class="{{= it.currentPath === '/casts' ? 'current' : ''}}">{{=!it.zh ? 'Cast' : '女优' }}</a>
 	<a rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/categories" class="{{= it.currentPath === '/categories' ? 'current' : ''}}">{{=!it.zh ? 'Genre' : '类别' }}</a>
 	<a rel="nofollow" href="{{=(it.zh ? '' : '/zh') + it.currentUrl.replace(/\/zh/i, '')}}">{{=it.zh ? 'Eng' : '中文' }}</a>
 
