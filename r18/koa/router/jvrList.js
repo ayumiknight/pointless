@@ -110,6 +110,20 @@ module.exports = async (ctx, next) => {
 		nonvr
 	} = await getNewRapidgator();
 
+
+	let today = new Date();
+	today.setHours(0);
+	today.setMinutes(0);
+	today.setSeconds(0);
+
+	(r18s.rows || []).forEach(row => {		
+		if (row.Extras && row.Extras.createdAt) {
+			if (new Date(row.Extras.createdAt) - today > 0) {
+				row.newTag = true;
+			}
+		}
+	})
+
 	ctx.body = ctx.dots.index({
 		type: 'jvrList',
 		pageTitle,

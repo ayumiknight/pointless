@@ -208,20 +208,7 @@ async function getR18Paged(query) {
  		[Op.eq]: 1
 	});
 
-	let res = await R18.findAndCountAll(r18Query);
-	let today = new Date();
-	today.setHours(0);
-	today.setMinutes(0);
-	today.setSeconds(0);
-
-	(res.rows || []).forEach(row => {		
-		if (row.Extras && row.Extras.createdAt) {
-			if (new Date(row.Extras.createdAt) - today > 0) {
-				row.newTag = true;
-			}
-		}
-	})
-	return res;
+	return R18.findAndCountAll(r18Query);
 }
 
 async function getR18Single({
