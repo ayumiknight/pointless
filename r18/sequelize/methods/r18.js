@@ -109,16 +109,10 @@ async function getR18Paged(query) {
 
 	let r18Query = {
 		offset: (page - 1) * pagesize,
-		limit: pagesize,
-		order: [[
-			'order', 'ASC'
-		]],
-		include: [{
-			association:  R18.Extras
-		}]
+		limit: pagesize
 	}
 
-	if (javlibrary && rapidgator) {
+	if (javlibrary) {
 		r18Query.where = {
 			javlibrary: {
 				[Op.eq]: null
@@ -134,8 +128,6 @@ async function getR18Paged(query) {
 			where: {
 				actress_id
 			}
-		}, {
-			association:  R18.Extras
 		}]
 	}
 	if (category_id) {
@@ -144,8 +136,6 @@ async function getR18Paged(query) {
 			where: {
 				category_id
 			}
-		}, {
-			association:  R18.Extras
 		}];
 	}
 	if (studio_id) {
@@ -154,8 +144,6 @@ async function getR18Paged(query) {
 			where: {
 				studio_id
 			}
-		}, {
-			association:  R18.Extras
 		}];
 	}
 	if (series_id) {
@@ -164,23 +152,20 @@ async function getR18Paged(query) {
 			where: {
 				series_id
 			}
-		}, {
-			association:  R18.Extras
 		}];
 	}
-	if (rapidgator) {
-		r18Query.order = [[
-			'Extras', 'createdAt', 'DESC'
-		]];
-		r18Query.include = [{
+	
+		r18Query.order = [[Sequelize.literal('`Extras.createdAt`'), 'DESC']];
+		r18Query.include = r18Query.include || [];
+		r18Query.include.push({
 			association:  R18.Extras,
 			where: {
 				id: {
 					[Op.ne]: null
 				}
 			}
-		}];
-	}
+		});
+	
 
 	if (lcode) {
 		r18Query.where = {
