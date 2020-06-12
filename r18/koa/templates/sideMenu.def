@@ -23,7 +23,7 @@
 		if (current != on) {
 			setCookie('nonVR', on ? 'true' : '', 60 * 60 * 24 * 30);
 			setTimeout(function() {
-				location.reload();
+				location.href = location.origin;
 			}, 0);
 		}
 	}
