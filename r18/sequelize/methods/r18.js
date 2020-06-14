@@ -270,7 +270,9 @@ async function getR18WithExtraPaged({
 	};
 	if (code) {
 		query.where = {
-			code: [Op.like]: `${code}%`
+			code: {
+				[Op.like]: `${code}`
+			}
 		}
 	}
 	return R18.findAll(query);
