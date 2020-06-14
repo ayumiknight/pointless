@@ -10,6 +10,13 @@ let rapidgatorPageAll = rapidgatorPageAllFromArgv ? rapidgatorPageAllFromArgv.re
 console.log(rapidgatorPageAll, '==========rapidgatorPageAll!!!!!!!!!!!!!!\n\n\n');
 rapidgatorPageAll *= 1;
 
+
+let rapidgatorPageSizeFromArgv = process.argv.find(one => one.match(/^--rapidgatorPageSize(\d+)$/))
+let rapidgatorPageSize = rapidgatorPageSizeFromArgv ? rapidgatorPageSizeFromArgv.replace(/^--rapidgatorPageSize(\d+)$/i, '$1') : 20;
+console.log(rapidgatorPageSize, '==========rapidgatorPageSize!!!!!!!!!!!!!!\n\n\n');
+rapidgatorPageSize *= 1;
+
+
 async function syncRapidgator(all) {
 	let page = 1;
 	let pageNum = rapidgatorPageAll;
@@ -20,7 +27,7 @@ async function syncRapidgator(all) {
 	while (page <= pageNum) {
 		let rows = await getR18WithExtraPaged({
 			page,
-			pagesize: 20
+			pagesize: rapidgatorPageSize
 		});
 		rows = rows || [];
 
