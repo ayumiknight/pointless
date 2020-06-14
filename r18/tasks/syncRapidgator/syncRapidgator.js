@@ -32,7 +32,7 @@ async function syncRapidgator(all) {
 		let rows = await getR18WithExtraPaged({
 			page,
 			pagesize: rapidgatorPageSize,
-			code: process.argv.find(one => one.match(/^--rapidgatorCode(\d+)$/))
+			code: rapidgatorCode
 		});
 		rows = rows || [];
 
