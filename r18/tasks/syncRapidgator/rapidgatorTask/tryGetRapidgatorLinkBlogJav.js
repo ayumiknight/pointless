@@ -111,7 +111,7 @@ async function tryGetRapidgatorLink({
 			linkContent.find('a').each(function(i, elem) {
 				let rLink = $(this).attr('href');
 				if (rLink.match('rapidgator')) {
-					javInfo.rapidgator.push(link);
+					javInfo.rapidgator.push(rLink);
 				}
 			})
 			
@@ -125,5 +125,6 @@ async function tryGetRapidgatorLink({
 	}
 	return javInfo;
 }
+
 
 module.exports = tryGetRapidgatorLink;
