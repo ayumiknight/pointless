@@ -94,6 +94,18 @@ async function tryGetRapidgatorLink({
 
 			} else if (link && link.match('rapidgator')) {
 				javInfo.rapidgator.push(link);
+			} else if (link.match('download.blogjav')) {
+				let rapidgatorLinkPage = await axios.get(link);
+				let $linkPage = cheerio.load(rapidgatorLinkPage.data),
+					linkContent = $rapidgatorLinkPage('#content');
+
+
+					linkContent.find('a').each(function(i, elem) {
+						let rLink = $(this).attr('href');
+						if (rLink.match('rapidgator')) {
+							javInfo.rapidgator.push(link);
+						}
+					})
 			}
 		})
 	}
