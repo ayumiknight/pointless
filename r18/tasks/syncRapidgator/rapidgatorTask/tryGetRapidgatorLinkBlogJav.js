@@ -82,7 +82,9 @@ async function tryGetRapidgatorLink({
 		javInfo.pixhost = [];
 		javInfo.rapidgator = [];
 
-		articleContent.find('a').each(function(i, elem) {
+		let downloadPge;
+
+		articleContent.find('a').each(async function(i, elem) {
 
 			let link = $(this).attr('href');
 			if (link && (link.match('pixhost') || link.match('javstore.net'))) {
@@ -95,19 +97,25 @@ async function tryGetRapidgatorLink({
 			} else if (link && link.match('rapidgator')) {
 				javInfo.rapidgator.push(link);
 			} else if (link.match('download.blogjav')) {
-				let rapidgatorLinkPage = await axios.get(link);
-				let $linkPage = cheerio.load(rapidgatorLinkPage.data),
-					linkContent = $rapidgatorLinkPage('#content');
-
-
-					linkContent.find('a').each(function(i, elem) {
-						let rLink = $(this).attr('href');
-						if (rLink.match('rapidgator')) {
-							javInfo.rapidgator.push(link);
-						}
-					})
+				downloadPage = link;
 			}
 		})
+
+		if (!javInfo.rapidgator.length && downloadPage) {
+
+			let rapidgatorLinkPage = await axios.get(downloadPage);
+			let $linkPage = cheerio.load(rapidgatorLinkPage.data),
+				linkContent = $linkPage('#content');
+
+
+			linkContent.find('a').each(function(i, elem) {
+				let rLink = $(this).attr('href');
+				if (rLink.match('rapidgator')) {
+					javInfo.rapidgator.push(link);
+				}
+			})
+			
+		}
 	}
 	if (!javInfo) {
 		throw new Error(`${code} not found blogjav\n`);
