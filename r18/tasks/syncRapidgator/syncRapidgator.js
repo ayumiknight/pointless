@@ -27,7 +27,8 @@ async function syncRapidgator(all) {
 	while (page <= pageNum) {
 		let rows = await getR18WithExtraPaged({
 			page,
-			pagesize: rapidgatorPageSize
+			pagesize: rapidgatorPageSize,
+			code: process.argv.find(one => one.match(/^--rapidgatorCode(\d+)$/))
 		});
 		rows = rows || [];
 
