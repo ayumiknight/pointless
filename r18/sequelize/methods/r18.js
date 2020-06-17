@@ -254,7 +254,8 @@ async function getR18SingleSimple({
 async function getR18WithExtraPaged({
 	page = 1,
 	pagesize = 20,
-	code
+	code,
+	vr = 1
 }) {
 
 	let query = {
@@ -266,13 +267,16 @@ async function getR18WithExtraPaged({
 		include: [{
 			model: Extra,
 			as: 'Extras'
-		}]
+		}],
+		where: {
+			vr: {
+				[Op.eq]: vr
+			}
+		}
 	};
 	if (code) {
-		query.where = {
-			code: {
-				[Op.like]: `${code}`
-			}
+		query.where.code = {
+			[Op.like]: `${code}`
 		}
 	}
 	return R18.findAll(query);

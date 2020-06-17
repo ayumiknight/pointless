@@ -21,18 +21,25 @@ let rapidgatorCode = rapidgatorCodeFromArgv ? rapidgatorCodeFromArgv.replace(/^-
 console.log(rapidgatorCode, '==========rapidgatorCode!!!!!!!!!!!!!!\n\n\n');
 
 
-async function syncRapidgator(all) {
+async function syncRapidgator({
+	rapidgatorPageAll,
+	rapidgatorPageSize,
+	rapidgatorCode,
+	vr
+}) {
 	let page = 1;
 	let pageNum = rapidgatorPageAll;
 
 	let R = new Rapidgator();
 	await R.login();
 
+
 	while (page <= pageNum) {
 		let rows = await getR18WithExtraPaged({
 			page,
 			pagesize: rapidgatorPageSize,
-			code: rapidgatorCode
+			code: rapidgatorCode,
+			vr
 		});
 		rows = rows || [];
 
@@ -72,6 +79,19 @@ async function syncRapidgator(all) {
 	}
 }
 
+async function syncRapidgatorTask() {
+	await syncRapidgator({
+		rapidgatorPageAll: 5,
+		rapidgatorPageSize,
+		rapidgatorCode,
+		vr: 1
+	});
+	await syncRapidgator({
+		rapidgatorPageAll,
+		rapidgatorPageSize,
+		rapidgatorCode,
+		vr: 0
+	});
+}
 
-
-module.exports = syncRapidgator;
+module.exports = syncRapidgatorTask;
