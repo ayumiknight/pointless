@@ -1,8 +1,8 @@
 
 
 const puppeteer = require('puppeteer');
-//const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36"; //CHROME
-const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4159.0 Safari/537.36 Edg/85.0.535.0"; //IE EDGE
+const userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"; //CHROME
+//const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4159.0 Safari/537.36 Edg/85.0.535.0"; //IE EDGE
 const fs = require('fs');
 const url = require('url');
 const axios = require('axios');
@@ -330,7 +330,10 @@ class JavlibraryAutoPost {
 			error = true;
 		}
 
-		if (error) return;
+		if (error) {
+			await this.wait(10);
+			return;
+		}
 			
 		console.log('comments block appeared==========\n')
 		let commented = await this.page.evaluate(function() {
