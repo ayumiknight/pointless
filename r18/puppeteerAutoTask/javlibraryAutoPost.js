@@ -331,7 +331,7 @@ class JavlibraryAutoPost {
 		}
 
 		if (error) {
-			await this.wait(10);
+			await this.wait(5);
 			return;
 		}
 			
