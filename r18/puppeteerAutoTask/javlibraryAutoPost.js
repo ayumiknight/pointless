@@ -176,8 +176,8 @@ class JavlibraryAutoPost {
 	async login() {
 		//http://www.javlibrary.com/en/myaccount.php
 		try {
-			await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 30 * 1000 });
-	  		await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 30 * 1000 });
+			await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 300 * 1000 });
+	  		await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 60 * 10 * 1000 });
 		} catch(e) {
 			await this.page.screenshot({
 			    path: '../koa/static/' + (new Date() + 1) + '.png',
