@@ -92,6 +92,7 @@ async function syncRapidgatorTask() {
 		rapidgatorCode,
 		vr: 0
 	});
+	process.exit(0);
 }
 
 module.exports = syncRapidgatorTask;
