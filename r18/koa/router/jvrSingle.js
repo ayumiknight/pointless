@@ -92,7 +92,7 @@ module.exports = async (ctx, next) => {
 		keywords = '';
 
 	if (r18 && r18.code) {
-		title = ' ' + r18.code + ' - ' + 'Rapidgator And Torrent - ' + (ctx.zh ? r18.zhTitle : r18.title); 
+		title = ' ' + r18.code + ' - ' + 'Rapidgator And Torrent Online Streaming And Download - ' + (ctx.zh ? r18.zhTitle : r18.title); 
 		keywords = r18.code + ',' + parseInt(r18.code.split('-')[1]);
 	}
 
