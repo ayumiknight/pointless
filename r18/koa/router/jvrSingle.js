@@ -7,6 +7,7 @@ const {
 
 const {
 	formatSingleEntryForRender,
+	generateOGandJSONLD,
 	generatePagination,
 	generateLetterPagination,
 	searchTorrents
@@ -89,11 +90,13 @@ module.exports = async (ctx, next) => {
 		})
 	}
 	let title = 'Not Found',
-		keywords = '';
+		keywords = '',
+		OGandJSONLD = '';
 
 	if (r18 && r18.code) {
 		title = ' ' + r18.code + ' - ' + 'Rapidgator And Torrent Online Streaming And Download - ' + (ctx.zh ? r18.zhTitle : r18.title); 
 		keywords = r18.code + ',' + parseInt(r18.code.split('-')[1]);
+		OGandJSONLD = generateOGandJSONLD(r18, ctx.zh);
 	}
 
 	ctx.body = ctx.dots.index({
@@ -103,7 +106,8 @@ module.exports = async (ctx, next) => {
 		relatedR18s,
 		relatedKeyword,
 		reletedHref,
-		keywords
+		keywords,
+		OGandJSONLD
 	});
 	return;
 }

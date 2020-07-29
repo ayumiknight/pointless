@@ -37,11 +37,45 @@ const util = {
 			"Casts": util.getActressTranslated(entry.Actresses, zh),
 			"Studio": util.getStudioTranslated(entry.Studio, zh),
 			"Series": util.getSeriesTranslated(entry.Series, zh),
-			"Genre": util.getCategorysTranslated(entry.Categories, zh),
-			
+			"Genre": util.getCategorysTranslated(entry.Categories, zh)
 		};
 		entry.details = details;
 		return entry;
+	},
+	generateOGandJSONLD(entry, zh) {
+		const desc = (zh ? entry.zhTitle || entry.title : entry.title).replace(/"/g, "'");
+		let JSONLD =  `{
+			"@context": "http://schema.org/",
+			"type": "Movie",
+			"description": "${desc}",
+			"image": "${entry.fullCover}",
+			"name": "${entry.code}",
+			"url": "https://jvrlibrary.com/jvr?id=${encodeURIComponent(entry.code)}",
+		`,
+		OG = `
+			<meta property="og:title" content="${entry.code}" />
+			<meta property="og:type" content="video.movie" />
+			<meta property="og:description" content="${desc}" />
+			<meta property="og:image" content="${entry.fullCover}" />
+			<meta property="og:url" content="https://jvrlibrary.com/jvr?id=${encodeURIComponent(entry.code)}" />
+		`
+		if ((entry.Actresses || []).length) {
+			JSONLD += `"actor": [${entry.Actresses.map( actress => {
+				return `"${zh ? actress.zh || actress.en : actress.en}"`
+			}).join(", ")}],`;
+			OG += entry.Actresses.map(actress => {
+				return `<meta property="og:video:actor" content="${zh ? actress.zh || actress.en : actress.en}" />`;
+			}).join('\n')
+		}
+		if (entry.studio && entry.studio.studio_id ) {
+			JSONLD +=  `"producer": "${zh ? entry.studio.zh || entry.studio.en : entry.studio.en}",`;
+			OG += `<meta property="og:video:producer" content="${zh ? entry.studio.zh || entry.studio.en : entry.studio.en}" />`
+		}
+		JSONLD = JSONLD.slice(0, JSONLD.length - 1);
+		JSONLD += "}"
+
+		return `${OG}\n<script type="application/ld+json">${JSONLD}</script>`
+
 	},
 	generatePagination(pageinfo) {
 		let { total, current, baseUrl } = pageinfo,
