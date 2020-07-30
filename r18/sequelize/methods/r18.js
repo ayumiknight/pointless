@@ -100,11 +100,10 @@ async function getR18Paged(query) {
 		page = 1,
 		pagesize,
 		lcode,
-		rapidgator,
-		torrent,
 		javlibrary,
 		nonVR,
-		both
+		both,
+		sitemap
 	} = query;
 
 	let r18Query = {
@@ -154,7 +153,7 @@ async function getR18Paged(query) {
 			}
 		}];
 	}
-	
+	if (!sitemap) {
 		r18Query.order = [[Sequelize.literal('`Extras.createdAt`'), 'DESC']];
 		r18Query.include = r18Query.include || [];
 		r18Query.include.push({
@@ -165,6 +164,9 @@ async function getR18Paged(query) {
 				}
 			}
 		});
+	} else {
+		r18Query.attributes = ['code']
+	}
 	
 
 	if (lcode) {
@@ -178,13 +180,13 @@ async function getR18Paged(query) {
 		]]
 	}
 	
-	if (torrent) {
-		r18Query.where = {
-			torrent: {
-				[Op.eq]: 1
-			}
-		}
-	}
+	// if (torrent) {
+	// 	r18Query.where = {
+	// 		torrent: {
+	// 			[Op.eq]: 1
+	// 		}
+	// 	}
+	// }
 
 	if (!r18Query.where) {
 		r18Query.where = {};
