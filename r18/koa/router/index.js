@@ -22,6 +22,7 @@ const userSearch = require('./userSearch.js');
 const chatSearch = require('./chatSearch.js');
 const ranking = require('./ranking.js');
 const sitemap = require('./sitemap.js');
+const robots = require('./robots.js');
 const vrplayer = require('./vrplayer');
 const downloadTask = require('./downloadTask.js');
 
@@ -90,6 +91,7 @@ router.get('/ranking', ranking);
 router.get('/downloadTask', downloadTask);
 router.get(/^\/sitemap(.*)?/, sitemap);
 router.get('/vrplayer', vrplayer);
+router.get(/^\/robots(.*)?/, robots);
 router.get('/', jvrList);
 
 module.exports = router;
