@@ -230,7 +230,6 @@ class JavlibraryAutoPost {
 			let rows = R18s.rows.filter( row => !row.javlibrary);
 			if (!rows.length) {
 				console.log(pagenum + ' all entries posted============\n')
-				return;
 			} else {
 				for(let i = 0; i < rows.length; i++) {
 					await this.checkAndPostSingle(rows[i]);
