@@ -19,7 +19,7 @@ injectLogger();
 //https://www.jvrlibrary.com/jvr?id=${_code}&raw=1
 
 let postPageFromArgv = process.argv.find(one => one.match(/^--postPage(\d+)$/))
-let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 100;
+let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 20;
 console.log(postPage, '==========postPage!!!!!!!!!!!!!!\n\n\n', postPageFromArgv, process.argv);
 postPage *= 1;
 
@@ -215,9 +215,9 @@ class JavlibraryAutoPost {
 
 		let pagesize = 50,
 			pageoffset = 1,
-			pagenum = 1;
+			pagenum = postPage;
 
-		while(pagenum <= postPage) {
+		while(pagenum >= 1) {
 			let R18s = await getR18Paged({
 				raw: 1,
 				pagesize: pagesize,
@@ -237,7 +237,7 @@ class JavlibraryAutoPost {
 				}
 			}	
 			console.log(pagenum, '= rapidgator complete====================')
-			pagenum++;
+			pagenum--;
 		}	
 
 		await this.browser.close();
