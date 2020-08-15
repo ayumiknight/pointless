@@ -1,8 +1,8 @@
 
 
 const puppeteer = require('puppeteer');
-const userAgent = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0"; //CHROME
-//const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4159.0 Safari/537.36 Edg/85.0.535.0"; //IE EDGE
+const getAgents = require('./userAgents');
+const userAgent = getAgents();
 const fs = require('fs');
 const url = require('url');
 const axios = require('axios');
@@ -16,7 +16,6 @@ const crawl = require('../tasks/index.js');
 
 injectLogger();
 
-//https://www.jvrlibrary.com/jvr?id=${_code}&raw=1
 
 let postPageFromArgv = process.argv.find(one => one.match(/^--postPage(\d+)$/))
 let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 20;
