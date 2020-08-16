@@ -114,10 +114,7 @@ async function getR18Paged(query) {
 	if (javlibrary) {
 		r18Query.where = {
 			javlibrary: {
-				[Op.or]: [{
-					[Op.eq]: null,
-					[Op.eq]: 0
-				}]
+				[Op.or]: [null, 0]
 			}
 		}
 	}
