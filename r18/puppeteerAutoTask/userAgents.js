@@ -12,5 +12,7 @@ const agents = [
  
 
 module.exports = function() {
-	return agents[Math.round(Math.random() * agents.length)]
+	let index = Math.round(Math.random() * agents.length);
+	index === 8 && (index = 7);
+	return agents[index]
 }

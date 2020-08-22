@@ -43,10 +43,7 @@ class JavlibraryAutoPost {
 		let self = this;
 		await this.wait(10); //each start should have interval
 		this.browser = await puppeteer.launch( process.argv.find(one => one.match(/^--headful$/)) ? {
-			headless: false,
-			args: [
-				'--no-sandbox'
-			]
+			headless: false
 		} : {
 			headless: true,
 			args: [
