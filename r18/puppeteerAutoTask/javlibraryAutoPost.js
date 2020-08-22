@@ -42,6 +42,19 @@ class JavlibraryAutoPost {
 	async init() {
 		let self = this;
 		await this.wait(10); //each start should have interval
+		console.log('starting options' , process.argv.find(one => one.match(/^--headful$/)) ? {
+			headless: false,
+			args: [
+				'--no-sandbox'
+			]
+		} : {
+			headless: true,
+			args: [
+				'--no-sandbox',
+				'--disable-gpu',
+				'--single-process'
+			]
+		})
 		this.browser = await puppeteer.launch( process.argv.find(one => one.match(/^--headful$/)) ? {
 			headless: false,
 			args: [
