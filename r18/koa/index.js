@@ -5,6 +5,7 @@ const compose = require('koa-compose');
 const mount = require('koa-mount');
 const Koa = require('koa');
 const router = require('./router/index.js');
+const ImageDownload = require('./imageDownload.js');
 const { 
 	SyncDB,  
 	getActressById,
@@ -62,7 +63,7 @@ app.use(async (ctx, next) => {
 	}
 })
 app.use(serveStatic());
-
+app.use(ImageDownload)
 
 app.use((ctx, next) => {
 	let headers = ctx.request.header,
@@ -71,7 +72,7 @@ app.use((ctx, next) => {
 		zh = ctx.path.match(/\/zh/i),
 		path = ctx.path.replace(/\/zh/i, '') || '/',
 		isBaidu = (headers['user-agent'] || '').match(/(baiduspider)/i);
-
+	
 	ctx.path = path;
 	ctx.zh = zh;
 	ctx.nonVR = !!cookies.nonVR;
