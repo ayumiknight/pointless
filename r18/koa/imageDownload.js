@@ -12,5 +12,7 @@ module.exports = async function(ctx, next) {
       ctx.body = res.data
       ctx.status = 200
     }
+  } else {
+    return next()
   }
 }
