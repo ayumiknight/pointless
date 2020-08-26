@@ -25,15 +25,15 @@
 						{{=it.zh ? '/zh' : ''}}/studio?studio={{= encodeURIComponent(it.zh ? item.zh : item.en)}}
 					{{?}}">
 						{{? item.type.toLowerCase() === 'jvr'}}
-							<img src="{{=item.cover}}" />
+							<img src="{{#def.proxy:item.cover}}" />
 							<div class="title">{{=item.code}}&nbsp;{{= it.zh ? item.zhTitle : item.title}}</div>
 						{{?? item.type.toLowerCase() === 'actress'}}
-							<img src="{{=item.logo}}" />
+							<img src="{{#def.proxy:item.logo}}" />
 							<div class="title">{{= it.zh ? item.zh : item.en}}</div>
 						{{?? item.type.toLowerCase() === 'category'}}
 							<div class="title">{{= it.zh ? item.zh || item.en : item.en}}</div>
 						{{?? item.type.toLowerCase() === 'studio'}}
-							<img class="studio" src="{{=item.logo}}" />
+							<img class="studio" src="{{#def.proxy:item.logo}}" />
 							<div class="title studio">{{= it.zh ? item.zh : item.en}}</div>
 						{{?}}
 					</a>

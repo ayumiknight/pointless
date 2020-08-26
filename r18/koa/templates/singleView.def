@@ -9,11 +9,11 @@
                     {{=it.zh ? it.r18.zhTitle : it.r18.title}}
                 </div>
                 <div class="detail">
-                    <img src="{{=it.r18.fullCover}}" />
+                    <img src="{{#def.proxy:it.r18.fullCover}}" />
                     {{? it.r18.Galleries}}
                     <div class="gallery">
                         {{~ it.r18.Galleries :value:index}}
-                        <img src="{{=value.url.replace(/(-\d+\.\w+)$/, 'jp$1')}}" alt="">
+                        <img src="{{#def.proxyLg:value.url}}" alt="">
                         {{~}}
                     </div>
                     {{?}}
@@ -52,7 +52,7 @@
                             {{? it.r18.pixhost}}
                             {{~it.r18.pixhost :value:index}}
                             <a href="{{=value.link}}" class="external" rel="nofollow">
-                                <img src="{{=value.thumb}}" border="0">
+                                <img src="{{#def.proxy:value.thumb}}" border="0">
                             </a>
                             {{~}}
                             {{?}}

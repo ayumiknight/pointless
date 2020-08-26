@@ -65,6 +65,8 @@
 		{{=it.zh ? '酒后表演艺术家酿造' : 'Brewed by ProfessionalDrunker. Open to Freelance Jobs.' }}
 	</div>
 	<div id="instant-message"></div>
+	{{##def.proxy:input:{{=(input || '').replace(/^https:\/\/pics.r18.com(.+)$/, "/static$1")}}#}}
+	{{##def.proxyLg:input:{{=(input || '').replace(/(-\d+\.\w+)$/, 'jp$1').replace(/^https:\/\/pics.r18.com(.+)$/, "/static$1")}}#}}
 </div>
 
 <script>

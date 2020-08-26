@@ -7,7 +7,7 @@
 
 		{{~it.relatedR18s :value:index}}
 			<a class="list-item f" rel="nofollow" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
-				<img class="cover" src="{{=value.cover}}" >	
+				<img class="cover" src="{{#def.proxy:value.cover}}" >	
 				</img>
 				{{?value.Extras}}
 				<img class="rgbtn" src="/static/rgbtn.gif"/>

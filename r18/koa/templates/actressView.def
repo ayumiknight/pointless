@@ -10,7 +10,7 @@
 	<div class="actress-lists">
 		{{~it.actresses :value:index}}
 			<a class="list-item" href="{{=it.zh ? '/zh' : ''}}/cast?cast={{=encodeURIComponent(it.zh ? value.zh : value.en)}}">
-				<img src="{{=value.logo}}"/>
+				<img src="{{#def.proxy:value.logo}}"/>
 				<div class="bottom">
 					<div class="title">
 						{{=it.zh ? value.zh : value.en}}
