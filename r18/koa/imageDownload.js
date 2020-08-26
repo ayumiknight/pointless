@@ -7,7 +7,10 @@ const send = require('koa-send');
 module.exports = async function(ctx, next) {
   if (ctx.path.match(/^\/static/i) && ctx.status === 404 && ctx.path.match(/^.+\.(jpg|png|jpeg)$/) && ctx.method === 'GET') {
     const remotePath = ctx.path.slice(7)
-    const res = await axios.get('https://pics.r18.com' + remotePath)
+    const res = await axios.get('https://pics.r18.com' + remotePath, {
+      responseType: 'arraybuffer'
+    })
+    console.log(remotePath, '=========remotePath==========')
     if (res && res.data) {
       await fse.outputFileSync(__dirname + `/static${remotePath}`, res.data)
       try {
