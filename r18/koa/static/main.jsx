@@ -260,7 +260,7 @@ class Message extends React.PureComponent {
 			{showStamp ? <div className="time-stamp f fc">{dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}</div> : null}
 			<div className={`${ fromId === myId ? 'mine' : ''} message f r`}>
 				<div className="avatar f">
-					<img src={'https://pics.r18.com/mono/actjpgs/' + avatar} />
+					<img src={'https://jvrlibrary.com/static/mono/actjpgs/' + avatar} />
 				</div>
 				<div className="message-content f c">
 					<div className="name">{name}</div>
