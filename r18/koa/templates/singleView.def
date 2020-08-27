@@ -52,7 +52,7 @@
                             {{? it.r18.pixhost}}
                             {{~it.r18.pixhost :value:index}}
                             <a href="{{=value.link}}" class="external" rel="nofollow">
-                                <img src="{{#def.proxy:value.thumb}}" border="0">
+                                <img src="{{=value.thumb}}" border="0">
                             </a>
                             {{~}}
                             {{?}}
