@@ -5,7 +5,8 @@
 	<div class="search">
 		<input id="idSearch" type="text" placeholder="Eg. IPVR OR IPVR-070">
 	</div>
-	<div class="right">{{=it.zh ? '日本VR影片' : 'Japan VR films Only'}}</div> 
+	<div class="right">{{=it.zh ? '日本VR影片' : 'Japan VR films Only'}}</div>
+	<div class="login">{{=it.zh ? '日本VR影片' : 'Japan VR films Only'}}</div>
 </div>
 <script>
 	window.getCookie = function(name) {

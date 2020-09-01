@@ -380,5 +380,3 @@ class EmojiPicker extends React.Component {
 	}
 }
 
-const isBot = (window.navigator && window.navigator.userAgent || '').match(/(googlebot)/i);
-!isBot && render(<Root/>, document.getElementById('instant-message'))

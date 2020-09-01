@@ -109,6 +109,14 @@ module.exports = (sequelize, DataTypes) => {
 			as: 'Extras',
 			foreignKey: 'R18Id'
 		});
+		models.R18.Users = models.R18.belongsToMany(models.User, {
+			as: 'likeUsers',
+			through: {
+				model: models.UserLikeR18
+			},
+			foreignKey: 'r18_id',
+			constraints: false
+		});
 	};
 	return R18;
 };

@@ -6,6 +6,7 @@ const mount = require('koa-mount');
 const Koa = require('koa');
 const router = require('./router/index.js');
 const ImageDownload = require('./imageDownload.js');
+const Auth = require('./auth.js');
 const { 
 	SyncDB,  
 	getActressById,
@@ -39,6 +40,8 @@ function serveStatic() {
 
 
 const app = new Koa();
+// keys used by keygrip for sign the cookie
+app.keys = ['i love jvrlibrary', 'you like jvrlibrary', 'we like jvrlibrary']
 
 if (!process.env.dev && false) {
 	io.attach(app, true, {
@@ -63,11 +66,10 @@ app.use(async (ctx, next) => {
 	}
 })
 app.use(serveStatic());
-app.use(ImageDownload)
+app.use(ImageDownload);
 
 app.use((ctx, next) => {
 	let headers = ctx.request.header,
-		cookies = cookie.parse(ctx.request.headers.cookie || ''),
 		isBot = (headers['user-agent'] || '').match(/(googlebot)/i),
 		zh = ctx.path.match(/\/zh/i),
 		path = ctx.path.replace(/\/zh/i, '') || '/',
@@ -75,11 +77,28 @@ app.use((ctx, next) => {
 	
 	ctx.path = path;
 	ctx.zh = zh;
-	ctx.nonVR = !!cookies.nonVR;
+	ctx.nonVR = !!ctx.cookies.get('nonVR');
+	
 	// if (isBaidu) {
 	// 	ctx.body = "no crawl please";
 	// 	return;
 	// }
+
+	ctx.ok = (data = {}, message = 'success') => {
+		ctx.status = 200;
+		ctx.body = JSON.stringify({
+			status: 200,
+			message,
+			data
+		})
+	}
+	ctx.error = (message = 'fail') => {
+		ctx.status = 200;
+		ctx.body = JSON.stringify({
+			status: 500,
+			message
+		})
+	}
 	ctx.dots = {
 		index: (args) => {
 			return dots.index({
@@ -104,6 +123,7 @@ app.use((ctx, next) => {
 	}
 	return next();
 })
+app.use(Auth);
 
 app.use(router.routes());
 
@@ -111,6 +131,7 @@ app.use(router.routes());
 
 
 app._io.engine.generateId =  async function (req) {
+	debugger
     let cookies = cookie.parse(req.headers.cookie || '');
     if (cookies.key) {
     	return cookies.key;

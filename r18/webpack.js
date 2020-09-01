@@ -2,12 +2,11 @@ let path = require('path');
 let webpack = require('webpack');
 // let BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
 const configs = {
 	entry: {
 		bundle: [
 			"babel-polyfill",
-			"./koa/static/main.jsx",
+			"./koa/static/interact/root.jsx",
 		],
 	},
 	resolve: {

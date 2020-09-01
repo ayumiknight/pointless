@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
-          },
+        },
         r18Id: {
             type: DataTypes.INTEGER,
             unique: 'r18ActressUnique',
