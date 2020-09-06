@@ -1,6 +1,9 @@
 const db = require('../index.js');
-const { User, R18, UserLikeR18 } = db;
+const { User, Subscription, UserLikeR18 } = db;
 const Sequelize = require('sequelize');
+const { CITEXT } = require('sequelize');
+const { useMediaQuery } = require('@material-ui/core');
+
 const Op = Sequelize.Op;
 
 async function login({
@@ -27,6 +30,12 @@ async function register({
     }
   })
   if (alreadyExist) throw new Error(1)
+  const nickName = await User.findOne({
+    where: {
+      nick_name
+    }
+  })
+  if (nickName) throw new Error(2)
   const user = await User.create({
     key,
     secret,
@@ -51,8 +60,60 @@ async function userLikeTag({
   })
 }
 
+async function updateUserEndpoint(sub, user, regOrUnReg) {
+  if (regOrUnReg) {
+    const subscription = await Subscription.findOrCreate({
+      where: {
+        endpoint: sub.endpoint
+      },
+      defaults: {
+        endpoint: sub.endpoint,
+        keys: sub.keys.p256dh + '|' + sub.keys.auth
+      }
+    })
+    if (user && user.user_id) {
+      const _user = await User.findOne({
+        where: {
+          id: user.user_id
+        }
+      })
+      await _user.addSubscription(subscription)
+    }
+  } else {
+    await Subscription.destroy({
+      where: {
+        endpoint: sub.endpoint
+      }
+    })
+  }
+}
+
+async function checkSubscription(endpoint) {
+  return Subscription.findOne({
+    where: {
+      endpoint
+    }
+  })
+} 
+
+async function getSubscriptionWithUser({
+  pagesize = 20,
+  page = 1
+}) {
+  return Subscription.findAndCountAll({
+    offset: (page - 1) * pagesize,
+    limit: pagesize,
+    include: [{
+      model: User
+    }]
+  })
+}
+
 module.exports = {
   login,
   register,
-	userLikeTag
+  userLikeTag,
+  updateUserEndpoint,
+  getSubscriptionWithUser,
+  checkSubscription
 }

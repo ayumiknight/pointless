@@ -8,10 +8,6 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.STRING,
           comment: "avatar"
       },
-      end_point: {
-          type: DataTypes.STRING,
-          comment: "end_point for web notification subscription"
-      },
       key: {
         type: DataTypes.STRING,
       },
@@ -28,6 +24,9 @@ module.exports = (sequelize, DataTypes) => {
           },
           foreignKey: 'user_id',
           constraints: false
+      });
+      models.User.hasMany(models.Subscription, {
+        constraints: false
       });
   };
   return User;

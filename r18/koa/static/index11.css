@@ -1,7 +1,7 @@
 body {
   background: white;
   margin: 0;
-  min-width: 1324px;
+  min-width: 1485px;
 }
 body img {
   border: none !important;
@@ -28,17 +28,17 @@ body #root {
   position: relative;
 }
 body #root .main.jvr {
-  width: 1000px;
+  width: 1160px;
   margin: auto;
 }
 body #root .main.normal {
-  width: 1000px;
+  width: 1160px;
   background: white;
   margin: auto;
   padding: 10px;
 }
 body #root .main.normal.jvrList {
-  width: 1000px;
+  width: 1160px;
   background: transparent;
   padding: 0px;
 }
@@ -98,6 +98,17 @@ body .mycanvas {
   pointer-events: none;
   z-index: 100000;
 }
+body .vultr-banner {
+  width: 160px;
+  height: 600px;
+  display: inline-block;
+  background-image: url('https://www.vultr.com/media/banners/banner_160x600.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: 15px;
+  vertical-align: top;
+}
 @media only screen and (max-width: 480px) {
   body {
     min-width: 100vw;
@@ -123,6 +134,16 @@ body .mycanvas {
     position: static !important;
     width: 100vw;
   }
+  body .footer {
+    font-size: 13px;
+  }
+  body .vultr-banner {
+    display: block;
+    background-image: url('https://www.vultr.com/media/banners/banner_468x60.png');
+    width: 100%;
+    height: 12.82vw;
+    margin-top: 0px;
+  }
 }
 @font-face {
   font-family: 'HemiHead';
@@ -143,17 +164,25 @@ body .mycanvas {
 }
 .side-menu .site-name {
   font-size: 25px;
-  padding-left: 100px;
-  line-height: 50px;
+  padding-left: 50px;
+  margin-top: 12px;
   left: 0;
   top: 0;
   display: inline-block;
   position: absolute;
   color: white;
+  text-align: left;
+}
+.side-menu .site-name .sub-name {
+  font-size: 20px;
+  color: white;
+  font-style: italic;
+  display: inline-block;
+  margin-left: 20px;
 }
 .side-menu .search {
   padding-right: 20px;
-  padding-top: 14px;
+  padding-top: 20px;
   display: inline-block;
 }
 .side-menu .search input {
@@ -164,19 +193,20 @@ body .mycanvas {
   -webkit-appearance: none;
   border: none;
 }
-.side-menu .right {
+.side-menu #login {
   position: absolute;
-  right: 0;
-  top: 0;
-  padding-right: 30px;
-  font-size: 20px;
-  line-height: 50px;
+  top: 15px;
+  right: 5px;
+}
+.side-menu #login .login-or-register-root {
   color: white;
-  font-style: italic;
-  display: inline-block;
+}
+.side-menu #login .login-or-register-root * {
+  color: white;
+  border-color: white;
 }
 .real-side-menu {
-  width: 1000px;
+  width: 1160px;
   padding: 10px;
   margin: 0 auto;
   border-radius: 3px;
@@ -234,14 +264,24 @@ body .mycanvas {
   .side-menu .site-name {
     font-size: 18px;
     padding-left: 20px;
+    margin-top: 3px;
+  }
+  .side-menu .site-name .sub-name {
+    font-size: 15px;
+    display: block;
+    margin-left: 0;
+  }
+  .side-menu .search {
+    padding-right: 5px;
+    padding-top: 13px;
   }
   .side-menu .search input {
     font-size: 15px;
     width: 180px;
   }
-  .side-menu .right {
-    display: none;
-    font-size: 15px;
+  .side-menu #login {
+    bottom: 5px !important;
+    top: auto;
   }
   .real-side-menu {
     width: 100%;
@@ -821,7 +861,7 @@ body .mycanvas {
     -webkit-box-orient: vertical;
   }
 }
-.instant-message {
+.side-menu #login .login-or-register-root .instant-message {
   transform: translateX(300px);
   -ms-transform: translateX(300px);
   transition: all 0.3s ease-in-out;
@@ -835,76 +875,89 @@ body .mycanvas {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
-.instant-message.booted {
+.side-menu #login .login-or-register-root .instant-message.booted {
   transform: translateX(0px);
   -ms-transform: translateX(0px);
 }
-.instant-message .switch {
+.side-menu #login .login-or-register-root .instant-message .switch {
   position: absolute;
   top: calc(50% - 25px);
   left: -40px;
+  color: #333;
 }
-.instant-message .switch i {
+.side-menu #login .login-or-register-root .instant-message .switch i {
   font-size: 30px;
-  color: #f72020;
+  color: #333 !important;
 }
-.instant-message .room-title {
+.side-menu #login .login-or-register-root .instant-message .room-title {
   text-align: left;
   padding-left: 20px;
   line-height: 50px;
   border-bottom: 1px solid #e4e4e4;
+  color: #333;
 }
-.instant-message .room-title .count {
+.side-menu #login .login-or-register-root .instant-message .room-title .count {
   float: right;
   font-size: 13px;
-  color: #aaa;
   line-height: 50px;
   padding-right: 20px;
+  color: #333;
 }
-.instant-message .message-panel {
+.side-menu #login .login-or-register-root .instant-message .message-panel {
   height: calc(100vh - 300px);
   overflow-y: scroll;
   border-bottom: 1px solid #e4e4e4;
 }
-.instant-message .message-panel .message-wrap {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap {
   padding: 10px 0;
 }
-.instant-message .message-panel .message-wrap .time-stamp {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .time-stamp {
   font-size: 11px;
   color: #aaa;
   padding: 0 20px;
 }
-.instant-message .message-panel .message-wrap .message {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message {
   justify-content: flex-start;
   width: 100%;
 }
-.instant-message .message-panel .message-wrap .message.mine {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message.mine {
   flex-direction: row-reverse;
+  text-align: right;
 }
-.instant-message .message-panel .message-wrap .message.mine .message-content {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message.mine .message-content {
   align-items: flex-end;
 }
-.instant-message .message-panel .message-wrap .message.mine .message-content .content {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message.mine .message-content .name {
+  text-align: right;
+}
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message.mine .message-content .content {
   background: #f1f1f1;
   color: #aaa;
 }
-.instant-message .message-panel .message-wrap .message.mine .message-content .content * {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message.mine .message-content .content * {
   color: #aaa;
 }
-.instant-message .message-panel .message-wrap .message .avatar img {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message.mine .message-content .content .jvr .jvr-title {
+  text-align: right;
+}
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message.mine .message-content .content .jvr .jvr-img {
+  text-align: right;
+}
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message .avatar img {
   width: 40px;
   height: 40px;
   border-radius: 60px;
   margin: 0px 8px;
 }
-.instant-message .message-panel .message-wrap .message .message-content {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message .message-content {
   align-items: flex-start;
 }
-.instant-message .message-panel .message-wrap .message .message-content .name {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message .message-content .name {
   font-size: 11px;
   color: #aaa;
+  text-align: left;
 }
-.instant-message .message-panel .message-wrap .message .message-content .content {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message .message-content .content {
   font-size: 13px;
   color: #666;
   max-width: 200px;
@@ -913,12 +966,12 @@ body .mycanvas {
   background: #2977fa;
   color: white;
 }
-.instant-message .message-panel .message-wrap .message .message-content .content a {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message .message-content .content a {
   color: #f56f21;
   font-weight: bold;
   cursor: pointer;
 }
-.instant-message .message-panel .message-wrap .message .message-content .content .jvr .jvr-title {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message .message-content .content .jvr .jvr-title {
   font-size: 12px;
   width: 100%;
   color: white;
@@ -928,99 +981,86 @@ body .mycanvas {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  color: #aaa;
+  margin-bottom: 4px;
+  text-align: left;
 }
-.instant-message .message-panel .message-wrap .message .message-content .content .jvr img {
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message .message-content .content .jvr img {
   width: 60%;
   height: auto;
 }
-.instant-message .message-panel .message-wrap .message .message-content .content .torrent .torrent-title {
-  font-size: 12px;
-  width: 100%;
-  color: white;
-  text-overflow: -o-ellipsis-lastline;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  word-break: break-all;
+.side-menu #login .login-or-register-root .instant-message .message-panel .message-wrap .message .message-content .content .jvr .jvr-img {
+  text-align: left;
 }
-.instant-message .message-panel .message-wrap .message .message-content .content .torrent .torrent-magnet {
-  font-size: 12px;
-  width: 100%;
-  color: #f56f21;
-  font-weight: bold;
-  word-break: break-all;
-}
-.instant-message .message-panel .message-wrap .message .message-content .content .torrent .desc-and-copy {
-  font-size: 12px;
-  width: 100%;
-  color: white;
-}
-.instant-message .message-panel .message-wrap .message .message-content .content .legal-notice {
-  font-size: 12px;
-  width: 100%;
-  color: white;
-}
-.instant-message .emoji-pop {
+.side-menu #login .login-or-register-root .instant-message .emoji-pop {
   position: absolute;
   bottom: 50px;
   right: 0;
   background: white;
 }
-.instant-message .emoji-pop .top {
+.side-menu #login .login-or-register-root .instant-message .emoji-pop .top {
   padding: 10px;
 }
-.instant-message .emoji-pop .top i {
+.side-menu #login .login-or-register-root .instant-message .emoji-pop .top i {
   float: right;
 }
-.instant-message .emoji-pop .emoji-wrap {
+.side-menu #login .login-or-register-root .instant-message .emoji-pop .emoji-wrap {
   width: 300px;
   height: 200px;
   overflow: auto;
   flex-wrap: wrap;
 }
-.instant-message .emoji-pop .emoji-wrap .emoji {
+.side-menu #login .login-or-register-root .instant-message .emoji-pop .emoji-wrap .emoji {
   width: 10%;
   height: 30px;
 }
-.instant-message .user-input {
+.side-menu #login .login-or-register-root .instant-message .user-input {
   height: 50px;
 }
-.instant-message .user-input input {
+.side-menu #login .login-or-register-root .instant-message .user-input input {
   border: none;
   width: 195px;
   padding: 0 15px;
   margin-right: 5px;
   height: 50px;
+  color: #333;
 }
-.instant-message .user-input button {
+.side-menu #login .login-or-register-root .instant-message .user-input button {
   border: none;
   width: 50px;
   font-size: 20px;
   background: white;
   line-height: 50px;
+  color: #333;
 }
-.instant-message .user-input button i {
+.side-menu #login .login-or-register-root .instant-message .user-input button i {
   color: #aaa !important;
   font-size: 20px;
+  color: #333;
+}
+.side-menu #login .login-or-register-root .instant-message .chat-user-login-button {
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  line-height: 50px;
+  color: #333;
 }
 @media only screen and (max-width: 480px) {
-  .instant-message {
+  .side-menu #login .login-or-register-root .instant-message {
     height: calc(100vh - 100px);
   }
-  .instant-message *::-webkit-scrollbar {
+  .side-menu #login .login-or-register-root .instant-message *::-webkit-scrollbar {
     display: none !important;
   }
-  .instant-message .switch {
+  .side-menu #login .login-or-register-root .instant-message .switch {
     top: 83%;
   }
-  .instant-message .message-panel {
+  .side-menu #login .login-or-register-root .instant-message .message-panel {
     touch-action: manipulation;
     -webkit-overflow-scrolling: touch;
     height: calc(100vh - 200px);
   }
-  .instant-message .emoji-pop .emoji-wrap {
+  .side-menu #login .login-or-register-root .instant-message .emoji-pop .emoji-wrap {
     touch-action: manipulation;
     -webkit-overflow-scrolling: touch;
   }

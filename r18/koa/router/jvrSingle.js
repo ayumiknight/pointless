@@ -2,7 +2,8 @@ const {
 	getR18Paged, 
 	getR18Single,
 	recentClickCreate,
-	getR18PreNext
+	getR18PreNext,
+	getNewRapidgator
 } = require('../../sequelize/methods/index.js');
 
 const {
@@ -98,7 +99,11 @@ module.exports = async (ctx, next) => {
 		keywords = r18.code + ',' + parseInt(r18.code.split('-')[1]);
 		OGandJSONLD = generateOGandJSONLD(r18, ctx.zh);
 	}
-
+	let {
+		vr,
+		nonvr
+	} = await getNewRapidgator();
+	
 	ctx.body = ctx.dots.index({
 		type: 'jvr',
 		pageTitle: title.slice(0, 150),
@@ -107,7 +112,9 @@ module.exports = async (ctx, next) => {
 		relatedKeyword,
 		reletedHref,
 		keywords,
-		OGandJSONLD
+		OGandJSONLD,
+		vr,
+		nonvr
 	});
 	return;
 }

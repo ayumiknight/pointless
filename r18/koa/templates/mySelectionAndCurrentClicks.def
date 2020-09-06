@@ -1,5 +1,6 @@
 
 <div class="right-column-wrap">
+	<div id="subscribe"></div>
 	<div class="my-selection panel">
 		<div class="page-title">
 			Top Movies 3 Days

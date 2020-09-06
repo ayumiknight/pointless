@@ -13,18 +13,26 @@
 
 	.site-name {
 		font-size: 25px;
-		padding-left: 100px;
-		line-height: 50px;
+		padding-left: 50px;
+		margin-top: 12px;
 		left: 0;
 		top: 0;
 		display: inline-block;
 		position: absolute;
 		color: white;
+		text-align: left;
+		.sub-name {
+			font-size: 20px;
+			color: white;
+			font-style: italic;
+			display: inline-block;
+			margin-left: 20px;
+		}	
 	}
 
 	.search {
 		padding-right: 20px;
-		padding-top: 14px;
+		padding-top: 20px;
 		display: inline-block;
 		input {
 			font-size: 20px;
@@ -35,23 +43,23 @@
 			border: none;
 		}
 	}
-
-	.right {
+  #login {
 		position: absolute;
-		right: 0;
-		top: 0;
-		padding-right: 30px;
-		font-size: 20px;
-		line-height: 50px;
-		color: white;
-		font-style: italic;
-		display: inline-block;
+		top: 15px;
+		right: 5px;
+		.login-or-register-root {
+			color: white;
+			* {
+				color: white;
+				border-color: white;
+			}
+		}
 	}
-	
+
 }
 
 .real-side-menu {
-	width: 1000px;
+	width: 1160px;
 	padding: 10px;
 	margin: 0 auto;
 	border-radius: 3px;
@@ -117,19 +125,25 @@
 		.site-name {
 			font-size: 18px;
 			padding-left: 20px;
+			margin-top: 3px;
+			.sub-name {
+				font-size: 15px;
+				display: block;
+				margin-left: 0;
+			}
 		}
 
 		.search {
-
+			padding-right: 5px;
+			padding-top: 13px;
 			input {
 				font-size: 15px;
 				width: 180px;
 			}
 		}
-
-		.right {
-			display: none;
-			font-size: 15px;
+		#login {
+			bottom: 5px !important;
+			top: auto;
 		}
 	}
 	.real-side-menu {

@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         	comment: '消息人name'
         },
         avatar: {
-        	type: DataTypes.STRING(50),
+        	type: DataTypes.STRING(100),
         	comment: '消息人avatar'
         }
     }, {

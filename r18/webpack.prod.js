@@ -13,10 +13,10 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.jsx']
 	},
-	mode: 'development',
+	mode: 'production',
 	output: {
 		// filename: 'bundle[hash].js',
-		filename: 'bundleDev.js',
+		filename: 'bundle[hash].js',
 		// the output bundle
 		path: path.resolve(__dirname, './koa/static'),
 		publicPath: '/static/'

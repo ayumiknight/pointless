@@ -1,12 +1,12 @@
 <div class="side-menu" style="background-image: url(/static/nav{{=Math.ceil(Math.random() * 3)}}.jpg)">
 	<div class="site-name">
 		JvrLibrary
+		<div class="sub-name">{{=it.zh ? '日本VR影片' : 'Japan VR Films Only'}}</div>
 	</div>
 	<div class="search">
 		<input id="idSearch" type="text" placeholder="Eg. IPVR OR IPVR-070">
 	</div>
-	<div class="right">{{=it.zh ? '日本VR影片' : 'Japan VR films Only'}}</div>
-	<div class="login">{{=it.zh ? '日本VR影片' : 'Japan VR films Only'}}</div>
+	<div id="login"></div>
 </div>
 <script>
 	window.getCookie = function(name) {

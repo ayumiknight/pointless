@@ -20,7 +20,7 @@
 	<meta name="keywords" content="Rapidgator,Torrent,Virtual Reality,Porn,Japan,Download,Jvrlibrary,{{=it.keywords}}">
 	<meta name="author" content="ProfessionalDrunker">
 	<link rel="canonical" href="http://www.jvrlibrary.com{{=it.currentUrl}}" />
-	<link href="/static/index5.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/index11.css" rel="stylesheet" type="text/css"/>
 	<link href="/static/webfonts/all.min.css" rel="stylesheet" type="text/css"/>
 	<script src="/static/jquery.min.js"></script>
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -45,7 +45,7 @@
 	<div class="main {{=it.type === 'jvr' ? 'jvr' : 'normal'}} {{=it.type === 'jvrList' ? 'jvrList' : ''}}">
 	
 		{{? it.type === 'jvr'}}
-			{{#def.singleView}}
+			{{#def.singleView}}		
 		{{?? it.type === 'actress'}}
 			{{#def.actressView}}
 			{{#def.pagination}}
@@ -57,14 +57,14 @@
 		{{?? it.type === 'ranking'}}
 			{{#def.ranking}}
 		{{??}}
+			<a href="https://www.vultr.com/?ref=8187295" class="vultr-banner"></a>
 			{{#def.listView}}
 			{{#def.mySelectionAndCurrentClicks}}
 		{{?}}
 	</div>
 	<div class="footer">
-		{{=it.zh ? '酒后表演艺术家酿造' : 'Brewed by ProfessionalDrunker. Open to Freelance Jobs.' }}
+		{{=it.zh ? '酒后表演艺术家酿造' : 'Brewed by ProfessionalDrunker. \n Open to Freelance Jobs.' }}
 	</div>
-	<div id="instant-message"></div>
 	{{##def.proxy:input:{{=(input || '').replace(/^https:\/\/pics.r18.com(.+)$/, "/static$1")}}#}}
 	{{##def.proxyLg:input:{{=(input || '').replace(/(-\d+\.\w+)$/, 'jp$1').replace(/^https:\/\/pics.r18.com(.+)$/, "/static$1")}}#}}
 </div>
@@ -85,6 +85,6 @@
 	})
 </script>
 <script src="/static/cursor1.js"></script>
-<script src="/static/bundleb4d0200c6c7cdfc1088b.js"></script>
+<script src="/static/bundlefc02d39584913b3f9949.js"></script>
 </body>
 </html>

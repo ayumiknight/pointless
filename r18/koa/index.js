@@ -5,8 +5,11 @@ const compose = require('koa-compose');
 const mount = require('koa-mount');
 const Koa = require('koa');
 const router = require('./router/index.js');
-const ImageDownload = require('./imageDownload.js');
+const notificationRouter = require('./notification.js');
+const ImageDownloadService = require('./imageDownloadAndService.js');
+const bodyParser = require('koa-bodyparser')
 const Auth = require('./auth.js');
+const Cookies = require('cookies');
 const { 
 	SyncDB,  
 	getActressById,
@@ -28,6 +31,7 @@ const io = new IO();
 const cookie = require('cookie');
 const moment = require('moment');
 const fs = require('fs');
+const isDev = process.env.NODE_ENV === 'dev';
 
 function serveStatic() {
 	const staticServer = new Koa();
@@ -37,7 +41,10 @@ function serveStatic() {
 	return mount('/static', staticServer);
 }
 
-
+const webpack = require('webpack');
+const config = require('../webpack.js');
+const koaWebpack = require('koa-webpack');
+const compiler = webpack(config);
 
 const app = new Koa();
 // keys used by keygrip for sign the cookie
@@ -66,8 +73,8 @@ app.use(async (ctx, next) => {
 	}
 })
 app.use(serveStatic());
-app.use(ImageDownload);
-
+app.use(ImageDownloadService);
+app.use(bodyParser())
 app.use((ctx, next) => {
 	let headers = ctx.request.header,
 		isBot = (headers['user-agent'] || '').match(/(googlebot)/i),
@@ -123,32 +130,24 @@ app.use((ctx, next) => {
 	}
 	return next();
 })
+
 app.use(Auth);
-
-app.use(router.routes());
-
-
+app.use(mount('/api', notificationRouter.routes()))
 
 
 app._io.engine.generateId =  async function (req) {
-	debugger
-    let cookies = cookie.parse(req.headers.cookie || '');
-    if (cookies.key) {
-    	return cookies.key;
-    } else {
-    	let random = Math.round(Math.random() * 5000),
-    		randomActress = await getActressById(random),
-    		timeStampNow = + new Date(),
-    		avatar = randomActress.logo && randomActress.logo.split('/').pop();
-    	
-    	return Buffer.from(`${randomActress.en}|${avatar || ""}|${timeStampNow}`, 'binary').toString('base64');
-    }
+	const auth = new Cookies(req, {}, {
+		keys: ['i love jvrlibrary', 'you like jvrlibrary', 'we like jvrlibrary']
+	}).get('user', {
+		signed: true
+	})
+	return auth;
 }
 
-async function getTorrentByCode(code) {
-	let response = await axios.get(`http://localhost:8001/torrent?code=${code}`);
-	return response.data || {};
-}
+// async function getTorrentByCode(code) {
+// 	let response = await axios.get(`http://localhost:8001/torrent?code=${code}`);
+// 	return response.data || {};
+// }
 
 io.on('connection', async (socket) => {
 	let	roomName = socket.handshake.query.redirectTo;
@@ -158,9 +157,8 @@ io.on('connection', async (socket) => {
 	} else {
 		socket.join('hall');
 	}
+	const [user_id, nick_name, avatar] = Buffer.from(socket.id, 'base64').toString().split('|');
 
-	let authInfo = Buffer.from(socket.id, 'base64').toString().split('|');
-	
 	let messages = await getRecentMessages({
 		mins: 60 * 24
 	});
@@ -168,53 +166,15 @@ io.on('connection', async (socket) => {
 	socket.emit('message', messages.rows || []);
 
 	socket.emit('init', {
-		name: authInfo[0],
-		avatar: authInfo[1],
+		name: nick_name,
+		avatar: avatar,
 		count: socket.adapter.rooms[roomName || 'hall'] ? socket.adapter.rooms[roomName || 'hall'].length : 1
 	})
 	
-	// socket.on('jvr', ({ code }) => {
-	// 	console.log('code===============================got', code)
-	// 	getTorrentByCode(code).then( _torrent => {
-	// 		let torrent = _torrent || {},
-	// 			title = (torrent.title || '').toUpperCase(),
-	// 			date = moment().toDate();
-	// 		console.log('torrent===============================got', torrent)
-	// 		let [letter, number ] = code.split('-');
-
-	// 		if (title && title.match(letter) && title.match(number)) {
-	// 			tagR18sWithTorrent(code).then(res => {}).catch(e => {})
-	// 			socket.emit('torrent', {
-	// 				code,
-	// 				magnet: torrent.magnet,
-	// 				title: torrent.title,
-	// 				createdAt: date,
-	// 				fromId: -1 ,
-	// 				time: torrent.time
-	// 			});
-	// 		}
-	// 	});
-	// })
-
-	socket.on('torrentClicked', async (data) => {
-		await recentClickCreate({
-			type: 'torrent',
-			code: data.code
-		})
-	})
-
-	socket.on('rapidgatorClicked', async (data) => {
-		await recentClickCreate({
-			type: 'rapidgator',
-			code: data.code
-		})
-	})
-
 	socket.on('message', async (data) => {
 		let date = moment().toDate();
 
 		await writeMessages(data);
-
 		data.forEach( message  => {
 			message.createdAt = date;
 		})
@@ -224,7 +184,18 @@ io.on('connection', async (socket) => {
 })
 
 async function bootServer() {
-	await SyncDB();
+	// await SyncDB();
+	if (isDev) {
+		const koaDevServer = await koaWebpack({ 
+			compiler,
+			devMiddleware: {
+				serverSideRender: true
+			}
+		});
+		
+		app.use(koaDevServer)
+	}
+	app.use(router.routes());
 
 	app.listen(8080, () => {
 		console.log('+++++++++++++++r18 koa booted++++++++++++++')

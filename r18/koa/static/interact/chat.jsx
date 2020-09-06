@@ -4,66 +4,47 @@ import dayjs from 'dayjs';
 import { render } from 'react-dom';
 import axios from 'axios';
 
-class Root extends React.Component {
+export default class Chat extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			messages: []
+			messages: [],
+			inited: false
 		};
-		this.torrentGot = {};
 	}
 
-	componentDidMount() {
-		this.setState({
-			room: 'jvr'
-		});
+	componentWillReceiveProps(props) {
+		if (props.isLogin && !this.state.inited) {
+			this.setState({
+				inited: true
+			})
+			this.init()
+		}
+	}
 
+	init() {
 		//to prevent google from crawling this like a relative url;
-		let wsUrl = '//' + location.host + '/?' + 'redirectTo' + '=jvr&' + 'key=' + (document.cookie.key || '');
+		let wsUrl = '//' + location.host + '/?' + 'redirectTo' + '=jvr';
 		this.socket = io(wsUrl);
 		
 		let self = this;
 
 		this.socket.on('connect', function() {
-
-			if (location.pathname.match(/\/jvr/i) && location.search.match(/\?id=(.+)$/)) {
-				let code = location.search.replace(/\?id=(.+)$/, '$1');
-
-				setTimeout(function() {
-					if (!self.torrentGot[code]) {
-						self.socket.emit('jvr', {
-							code
-						})
-					}  
-				}, 500);
-			}
 			window.mySocket = self.socket;
-			window.logRClick = function(code) {
-				self.socket.emit('rapidgatorClicked', {
-					code
-				})
-			}
 		})
 		this.socket.on('message', this.handleMessage.bind(this));
 		this.socket.on('init', this.hanldeInit.bind(this));
-		this.socket.on('torrent', this.handleMessage.bind(this));
-		let blockChat = document.cookie.match('chatPoped');
+		let blockChat = localStorage.chatPoped;
+
 		if (!blockChat) {
 			this.setState({
 				booted: true
 			});
-			this.setCookie('chatPoped', '1', 0.3);
+			localStorage.chatPoped = 1;
 		}
-		
 	}
 
 	handleMessage(data) {
-		if (data.magnet) {
-			this.setState({
-				booted: true
-			});
-			this.torrentGot[data.code] = true;
-		}
 		this.setState({
 			messages: this.state.messages.concat(data)
 		}, this.scrollTo.bind(this));
@@ -135,17 +116,7 @@ class Root extends React.Component {
 				loginMessasge: true
 			}])
 		}, this.scrollTo.bind(this))
-		this.setCookie('key', id, 365);
-
 	}
-
-	setCookie(cname, cvalue, exdays) {
-		var d = new Date();
-		d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-		var expires = "expires=" + d.toUTCString();
-		document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-	}
-
 	async sendMessage() {
 		let { input, name, messages, avatar } = this.state;
 		if (!input) return;
@@ -226,7 +197,7 @@ class Root extends React.Component {
 					});
 				}}
 			/> : null}
-			<div className="user-input">
+			{ this.props.isLogin ? <div className="user-input">
 				<input value={input}
 					placeholder=" : ) Try 'IPVR-048'"
 					onKeyDown={this.listenEnter.bind(this)}
@@ -246,7 +217,7 @@ class Root extends React.Component {
 				<button onClick={this.sendMessage.bind(this)}>{
 					sending ? <i className="fas fa-spinner fa-spin"/>: <i className="fas fa-paper-plane"/>
 				}</button>
-			</div>
+			</div> : <div className="chat-user-login-button">{this.props.isZh ? '去登录或注册' : 'Login Or Register To Chat'}</div>}
 		</div>
 	}
 }
@@ -260,7 +231,7 @@ class Message extends React.PureComponent {
 			{showStamp ? <div className="time-stamp f fc">{dayjs(createdAt).format('YYYY-MM-DD HH:mm:ss')}</div> : null}
 			<div className={`${ fromId === myId ? 'mine' : ''} message f r`}>
 				<div className="avatar f">
-					<img src={'https://jvrlibrary.com/static/mono/actjpgs/' + avatar} />
+					<img src={avatar} />
 				</div>
 				<div className="message-content f c">
 					<div className="name">{name}</div>
@@ -282,10 +253,6 @@ class Message extends React.PureComponent {
 		return <div className="message-wrap f c fc">
 			<div className="time-stamp f fc">{this.props.wrappedMessage.message}</div>
 		</div>
-	}
-
-	logClick(element) {
-		this.props.socket.emit('torrentClicked', this.props.wrappedMessage);
 	}
 
 	renderTorrent() {

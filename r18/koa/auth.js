@@ -8,7 +8,7 @@ const util = require('./util');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './static/r18User/')
+    cb(null, './koa/static/r18User/')
   },
   filename: function (req, file, cb) {
     const {
@@ -50,18 +50,23 @@ const upload = multer({
 const month = 1000 * 60 * 60 * 24 * 30;
 
 module.exports = async function(ctx, next) {
+  
   const user = ctx.cookies.get('user', {
     signed: true
   })
   if (user) {
-    const [user_id, nick_name, avatar, end_point ] = Buffer.from(user, 'base64').toString().split('|');
-    console.log(user_id, nick_name, avatar, end_point, 'in auth============')
+    const [user_id, nick_name, avatar] = Buffer.from(user, 'base64').toString().split('|');
+
     ctx.user = {
       user_id,
       nick_name,
-      avatar,
-      end_point
+      avatar
     }
+  }
+
+  if (ctx.method === 'GET' && ctx.path === '/api/getUser') {
+    ctx.ok(ctx.user || {})
+    return
   }
 
   await new Promise(( resolve, reject) => {
@@ -93,7 +98,7 @@ module.exports = async function(ctx, next) {
         ...user,
         user_id: user.id
       }
-      const cookieFragments = [user.id, user.nick_name, user.avatar, user.end_point];
+      const cookieFragments = [user.id, user.nick_name, user.avatar];
       ctx.cookies.set('user', Buffer.from(cookieFragments.join('|')).toString('base64'), {
         signed: true,
         maxAge: month
@@ -121,7 +126,7 @@ module.exports = async function(ctx, next) {
 
     let avatar = ''
     if (ctx.file && ctx.file.filename) {
-      avatar = '/static/user/' + ctx.file.filename;
+      avatar = '/static/r18User/' + ctx.file.filename;
     }
     
     try {
@@ -136,7 +141,7 @@ module.exports = async function(ctx, next) {
           ...user,
           user_id: user.id
         }
-        const cookieFragments = [user.id, user.nick_name, user.avatar, user.end_point];
+        const cookieFragments = [user.id, user.nick_name, user.avatar];
         ctx.cookies.set('user', Buffer.from(cookieFragments.join('|')).toString('base64'), {
           signed: true,
           maxAge: month
@@ -144,7 +149,11 @@ module.exports = async function(ctx, next) {
         ctx.ok(ctx.zh ? '注册成功' : 'Register Success')
       }
     } catch(e) {
-      ctx.error(ctx.zh ? '该邮箱已注册' : 'Email already registered, try login')
+      if (e.message == 1) {
+        ctx.error(ctx.zh ? '该邮箱已注册' : 'Email already registered, try login')
+      } else {
+        ctx.error(ctx.zh ? '昵称已被占用' : 'NickName already registered, try another one')
+      }
     }
     return
   }
@@ -153,7 +162,7 @@ module.exports = async function(ctx, next) {
       signed: true,
       maxAge: month
     });
-    ctx.ok(ctx.zh ? '登出成功' : 'Logout Success')
+    ctx.ok(ctx.zh ? '登出成功' : 'Logout Success.')
     return
   }
 
