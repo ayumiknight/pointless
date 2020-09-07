@@ -15,7 +15,7 @@ const keys = {
   privateKey: '1Lfu-ho562wkQ0ffSqosOzkn5_dI6ka155mUqdZ99Mg'
 }
 webPush.setVapidDetails(
-  'http://localhost:3000',
+  'https://jvrlibrary.com',
   keys.publicKey,
   keys.privateKey
 )
@@ -27,7 +27,7 @@ const  scheduleCronstyle = ()=>{
     sendNotifications()
   }); 
 }
-scheduleCronstyle()
+// scheduleCronstyle()
 
 router.get('/notificationKey', function(ctx, next) {
   ctx.body = keys.publicKey

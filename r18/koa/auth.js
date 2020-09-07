@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
       mimetype,
       defaults: 'jpg'
     })
-    cb(null, md5(file) + '.' + extension)
+    cb(null, (new Date() * 1) + originalname)
   }
 })
 
@@ -28,7 +28,7 @@ const upload = multer({
   storage,
   limits: {
     files: 1,
-    fileSize: 1000 * 3000
+    fileSize: 1000 * 5000
   },
   fileFilter (req, file, cb) {
     const {
