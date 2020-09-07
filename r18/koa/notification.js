@@ -22,8 +22,7 @@ webPush.setVapidDetails(
 
 const  scheduleCronstyle = ()=>{
   //每分钟的第30秒定时执行一次:
-  schedule.scheduleJob('0 36 0,12 * * *', ()=> {
-    console.log('invoked time scheulde=========')
+  schedule.scheduleJob('0 0 0,12 * * *', ()=> {
     sendNotifications()
   }); 
 }
@@ -81,7 +80,7 @@ async function assemblePayload() {
 async function sendNotifications() {
   const payload = await assemblePayload()
   let hasMore = true,
-    pagesize = 1,
+    pagesize = 10,
     currentPage = 1;
 
   while(hasMore) {
@@ -92,7 +91,7 @@ async function sendNotifications() {
     console.log(rows);
     rows = rows.rows || [];
     
-    hasMore = currentPage <= 4;
+    hasMore = rows.length === pagesize;
     currentPage++;
 
     for(let i of rows) {
