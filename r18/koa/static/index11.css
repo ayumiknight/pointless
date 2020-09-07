@@ -438,6 +438,7 @@ body .vultr-banner {
 }
 .jvr-single-container {
   width: 1000px;
+  display: inline-block;
 }
 .jvr-single-container .jvr-single-wrapper {
   display: inline-block;
