@@ -11,8 +11,8 @@ const {
 const schedule = require('node-schedule');
 
 const keys = {
-  publicKey: 'BMwbDvw4sAFo_C_7IwMI5NyRSNB__KukPqhfW05e-b0Bl3P-XnpvSffDAW2_LBLsKPv2HHfZDpz4M8_HMZdTsZY',
-  privateKey: '1Lfu-ho562wkQ0ffSqosOzkn5_dI6ka155mUqdZ99Mg'
+  publicKey: 'BDiq5Kbu-VbXF9ckNt12Ph5YPGiTqqY-vYEpHBIBR0yA1HbRzgjAdfJsB5nOgYlJT6UWc-hkImeqtF2RUjcPUHY',
+  privateKey: 'c5virQ9v_IFp_CrO81EYBPWkq4IC1KS3_3N_WDaniAo'
 }
 webPush.setVapidDetails(
   'https://jvrlibrary.com',
@@ -27,7 +27,7 @@ const  scheduleCronstyle = ()=>{
     sendNotifications()
   }); 
 }
-// scheduleCronstyle()
+scheduleCronstyle()
 
 router.get('/notificationKey', function(ctx, next) {
   ctx.body = keys.publicKey
@@ -62,16 +62,17 @@ async function assemblePayload() {
   let {
 		vr,
 		nonvr
-	} = await getNewRapidgator();
+  } = await getNewRapidgator();
   let r18s = await getR18Paged({
 		pagesize: 1,
 		rapidgator: true,
 		nonVR: false
   });
   let first = r18s.rows[0];
+  
   return JSON.stringify({
     count: vr,
-    thumb: first.fullCover,
+    thumb: first.fullCover.replace(/^https:\/\/pics.r18.com(.+)$/, "/static$1"),
     code: first.code,
     title: first.title,
     zhTitle: first.zhTitle
@@ -91,7 +92,7 @@ async function sendNotifications() {
     console.log(rows);
     rows = rows.rows || [];
     
-    hasMore = rows.length === pagesize;
+    hasMore = currentPage <= 4;
     currentPage++;
 
     for(let i of rows) {

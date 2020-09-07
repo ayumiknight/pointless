@@ -151,13 +151,18 @@ app._io.engine.generateId =  async function (req) {
 
 io.on('connection', async (socket) => {
 	let	roomName = socket.handshake.query.redirectTo;
-
-	if (roomName) {
-		socket.join(roomName);
-	} else {
-		socket.join('hall');
+	const error = false
+	try {
+		if (roomName) {
+			socket.join(roomName);
+		} else {
+			socket.join('hall');
+		}
+		const [user_id, nick_name, avatar] = Buffer.from(socket.id, 'base64').toString().split('|');
+	} catch(e) {
+		error = true
 	}
-	const [user_id, nick_name, avatar] = Buffer.from(socket.id, 'base64').toString().split('|');
+	if (error) return
 
 	let messages = await getRecentMessages({
 		mins: 60 * 24
