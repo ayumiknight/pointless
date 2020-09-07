@@ -27,7 +27,7 @@ const  scheduleCronstyle = ()=>{
     sendNotifications()
   }); 
 }
-scheduleCronstyle()
+// scheduleCronstyle()
 
 router.get('/notificationKey', function(ctx, next) {
   ctx.body = keys.publicKey
