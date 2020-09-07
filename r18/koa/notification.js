@@ -22,7 +22,7 @@ webPush.setVapidDetails(
 
 const  scheduleCronstyle = ()=>{
   //每分钟的第30秒定时执行一次:
-  schedule.scheduleJob('* 23 0,12 * * *', ()=> {
+  schedule.scheduleJob('0 36 0,12 * * *', ()=> {
     console.log('invoked time scheulde=========')
     sendNotifications()
   }); 
