@@ -22,12 +22,12 @@ webPush.setVapidDetails(
 
 const  scheduleCronstyle = ()=>{
   //每分钟的第30秒定时执行一次:
-  schedule.scheduleJob('30 * * * * *', ()=> {
+  schedule.scheduleJob('* 15 8,20 * * *', ()=> {
     console.log('invoked time scheulde=========')
     sendNotifications()
   }); 
 }
-// scheduleCronstyle()
+scheduleCronstyle()
 
 router.get('/notificationKey', function(ctx, next) {
   ctx.body = keys.publicKey
@@ -103,7 +103,7 @@ async function sendNotifications() {
           auth: keys[1],
           p256dh: keys[0]
         }
-      }).catch(function(e) {
+      }, payload).catch(function(e) {
         console.log(e, i.endpoint, 'not sent')
       })
     }

@@ -151,7 +151,7 @@ app._io.engine.generateId =  async function (req) {
 
 io.on('connection', async (socket) => {
 	let	roomName = socket.handshake.query.redirectTo;
-	const error = false
+	let error = false
 	try {
 		if (roomName) {
 			socket.join(roomName);
