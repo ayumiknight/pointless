@@ -18,6 +18,16 @@ async function login({
   })
 }
 
+async function oneUser({
+  user_id
+}) {
+  return User.findOne({
+    where: {
+      id: user_id
+    }
+  })
+}
+
 async function register({
   key,
   secret,
@@ -115,5 +125,6 @@ module.exports = {
   userLikeTag,
   updateUserEndpoint,
   getSubscriptionWithUser,
-  checkSubscription
+  checkSubscription,
+  oneUser
 }

@@ -1,6 +1,7 @@
 const { 
   login,
-  register
+  register,
+  oneUser
 } = require('../sequelize/methods/index.js');
 const md5 = require('md5');
 const multer = require('@koa/multer');
@@ -61,6 +62,16 @@ module.exports = async function(ctx, next) {
       user_id,
       nick_name,
       avatar
+    }
+    const userVerified = await oneUser({
+      user_id
+    })
+    if (!userVerified || !userVerified.id) {
+      ctx.cookies.set('user', '', {
+        signed: true,
+        maxAge: month
+      });
+      ctx.user = null;
     }
   }
 
