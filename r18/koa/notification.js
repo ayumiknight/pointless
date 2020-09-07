@@ -22,7 +22,7 @@ webPush.setVapidDetails(
 
 const  scheduleCronstyle = ()=>{
   //每分钟的第30秒定时执行一次:
-  schedule.scheduleJob('* 15 8,20 * * *', ()=> {
+  schedule.scheduleJob('* 23 0,12 * * *', ()=> {
     console.log('invoked time scheulde=========')
     sendNotifications()
   }); 
@@ -103,7 +103,9 @@ async function sendNotifications() {
           auth: keys[1],
           p256dh: keys[0]
         }
-      }, payload).catch(function(e) {
+      }, payload, {
+        TTL: 60 * 60 * 24
+      }).catch(function(e) {
         console.log(e, i.endpoint, 'not sent')
       })
     }
