@@ -37,6 +37,8 @@ class Root extends React.Component {
   async componentDidMount() {
     this.getUserInfo()
     this.getSubStatus()
+    window.unSubscribe = this.unSubscribe
+    window.subscribe = this.subscribe
   }
 
   async getUserInfo() {
