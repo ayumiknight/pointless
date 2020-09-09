@@ -122,6 +122,7 @@ class Root extends React.Component {
 
   getSubStatus = async () => {
     const self = this;
+    if (!window.Notification) return;
     navigator.serviceWorker.register('/service.js');
     navigator.serviceWorker.ready.then(function(registration) {
       console.log('register ready---------------')
@@ -132,7 +133,7 @@ class Root extends React.Component {
         self.setState({
           loaded: true,
           sub: false
-        })
+        }, self.silentSub.bind(self))
       } else {
 
         axios({
@@ -147,15 +148,27 @@ class Root extends React.Component {
             loaded: true,
             sub: res.data.status === 200
           })
+          if (res.data.status !== 200) {
+            self.silentSub();
+          }
         }).catch(e => {
           self.setState({
             loaded: true,
             sub: false
-          })
+          }, self.silentSub.bind(self))
         })
       }
     })
   }
+
+  silentSub = async () => {
+    Notification.requestPermission().then(permission => {
+      if (permission !== 'denied') {
+        this.subscribe()
+      }
+    })
+  }
+  
   toggle = async () => {
     const {
       loaded,
@@ -228,6 +241,7 @@ class Root extends React.Component {
           }
           resolve()
         }).catch(e => {
+          console.log(e, 'message===========')
           resolve()
         })
       })
