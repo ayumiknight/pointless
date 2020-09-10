@@ -19,7 +19,7 @@ function track() {
   self.registration.pushManager.getSubscription()
   .then(function(subscription) {
     if (subscription) {
-      fetch('./notificationTrack?endpoint=' + subscription.endpoint).then(data => console.log(data))
+      fetch('/api/notificationTrack?endpoint=' + encodeURIComponent(subscription.endpoint)).then(data => console.log(data))
     }
   });
 }

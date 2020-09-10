@@ -96,7 +96,6 @@ async function sendNotifications() {
       pagesize,
       page: currentPage
     });
-    console.log(rows);
     rows = rows.rows || [];
     
     hasMore = rows.length === pagesize;
