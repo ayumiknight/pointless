@@ -12,3 +12,8 @@ javarchiveTasks/ocrConfig.js
 crawled*.*
 *.txt
 *.rar
+koa/static/digital
+koa/static/mono
+koa/static/p
+koa/static/r18
+koa/static/r18User
