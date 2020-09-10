@@ -23,7 +23,7 @@ webPush.setVapidDetails(
 
 const  scheduleCronstyle = ()=>{
   //每分钟的第30秒定时执行一次:
-  schedule.scheduleJob('0 0 0,12 * * *', ()=> {
+  schedule.scheduleJob('30 * * * * *', ()=> {
     sendNotifications()
   }); 
 }
@@ -68,7 +68,7 @@ async function assemblePayload() {
 		vr,
 		nonvr
   } = await getNewRapidgator();
-  if (vr * 1 < 5) return false
+  if (vr * 1 < 2) return false
   let r18s = await getR18Paged({
 		pagesize: 1,
 		rapidgator: true,
@@ -88,7 +88,7 @@ async function sendNotifications() {
   const payload = await assemblePayload()
   if (!payload) return
   let hasMore = true,
-    pagesize = 10,
+    pagesize = 1,
     currentPage = 1;
 
   while(hasMore) {
