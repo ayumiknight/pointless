@@ -119,6 +119,19 @@ async function getSubscriptionWithUser({
   })
 }
 
+async function trackNotification(endpoint) {
+  const sub = await Subscription.findOne({
+    where: {
+      endpoint
+    }
+  });
+  if (!sub || !sub.endpoint ) return;
+  await sub.update({
+    clickTimes: (sub.clickTimes || 0) + 1,
+    lastClicked: new Date()
+  })
+}
+
 module.exports = {
   login,
   register,
@@ -126,5 +139,6 @@ module.exports = {
   updateUserEndpoint,
   getSubscriptionWithUser,
   checkSubscription,
-  oneUser
+  oneUser,
+  trackNotification
 }

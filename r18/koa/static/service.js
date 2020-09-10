@@ -15,6 +15,16 @@ self.addEventListener('push', function(event) {
   }));
 });
 
+function track() {
+  self.registration.pushManager.getSubscription()
+  .then(function(subscription) {
+    if (subscription) {
+      fetch('./notificationTrack?endpoint=' + subscription.endpoint).then(data => console.log(data))
+    }
+  });
+}
+
 self.addEventListener('notificationclick', function(event) {
+  track()
   event.waitUntil(self.clients.openWindow('./'))
 })

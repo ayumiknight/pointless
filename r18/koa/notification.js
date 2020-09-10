@@ -7,6 +7,7 @@ const {
   getR18Paged,
   getNewRapidgator,
   checkSubscription,
+  trackNotification
 } = require('../sequelize/methods/index.js');
 const schedule = require('node-schedule');
 
@@ -56,7 +57,12 @@ router.post('/notificationUnReg', async function(ctx, next) {
     ctx.error(ctx.zh ? '请稍候再试' : 'Something wrong, try again')
   }
 })
-
+router.get('/notificationTrack', async function(ctx, next) {
+  const {
+    endpoint
+  } = ctx.query;
+  await trackNotification(endpoint);
+})
 async function assemblePayload() {
   let {
 		vr,

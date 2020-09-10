@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       failTimes: {
         type: DataTypes.INTEGER
+      },
+      clickTimes: {
+        type: DataTypes.INTEGER
+      },
+      lastClicked: {
+        type: DataTypes.DATE
       }
   });
 
