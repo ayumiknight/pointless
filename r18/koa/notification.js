@@ -86,6 +86,7 @@ async function assemblePayload() {
 }
 async function sendNotifications() {
   const payload = await assemblePayload()
+  console.log(payload, '===================todays payload======================')
   if (!payload) return
   let hasMore = true,
     pagesize = 10,
