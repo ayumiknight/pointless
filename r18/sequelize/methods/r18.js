@@ -166,6 +166,7 @@ async function getR18Paged(query) {
 		});
 	} else {
 		r18Query.attributes = ['code']
+		r18Query.order = [['createdAt', 'DESC']]
 	}
 	
 
