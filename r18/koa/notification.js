@@ -81,7 +81,8 @@ async function assemblePayload() {
     thumb: first.fullCover.replace(/^https:\/\/pics.r18.com(.+)$/, "/static$1"),
     code: first.code,
     title: first.title,
-    zhTitle: first.zhTitle
+    zhTitle: first.zhTitle,
+    thumbSmall: first.cover.replace(/^https:\/\/pics.r18.com(.+)$/, "/static$1")
   })
 }
 async function sendNotifications() {

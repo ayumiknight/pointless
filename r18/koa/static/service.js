@@ -5,13 +5,15 @@ self.addEventListener('push', function(event) {
     thumb,
     code,
     title,
-    zhTitle
+    zhTitle,
+    thumbSmall
   } = JSON.parse(event.data.text());
   
   event.waitUntil(self.registration.showNotification(`${count} VR videos updated at jvrlibrary!`, {
     body: code + ' ' + title,
     badge: thumb,
-    image: thumb
+    image: thumb,
+    icon: thumbSmall || thumb
   }));
 });
 
