@@ -112,7 +112,7 @@ async function sendNotifications() {
           p256dh: keys[0]
         }
       }, payload, {
-        TTL: 60 * 60 * 24
+        TTL: 60 * 60 * 12
       }).catch(function(e) {
         console.log(e, i.endpoint, 'not sent')
       })
