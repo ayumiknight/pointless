@@ -1,8 +1,8 @@
 
 
 const puppeteer = require('puppeteer');
-const getAgents = require('./userAgents');
-const userAgent = getAgents();
+const devices = require('puppeteer/lib/DeviceDescriptors')
+// const userAgent = getAgents();
 const fs = require('fs');
 const url = require('url');
 const axios = require('axios');
@@ -14,6 +14,7 @@ const {
 } = require('../sequelize/methods/r18.js');
 const crawl = require('../tasks/index.js');
 
+const deviceToEmulate = devices[Math.floor((Math.random() - 0.001 * devices.length))];
 injectLogger();
 
 
@@ -71,7 +72,7 @@ class JavlibraryAutoPost {
 
 		this.page = await this.browser.newPage();
 		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
-		await this.page.setUserAgent(userAgent);
+		await this.page.emulate(deviceToEmulate);
 		
 
 		fs.readdirSync('./captcha').map(f => {
