@@ -43,7 +43,8 @@ class JavlibraryAutoPost {
 	async init() {
 		let self = this;
 		await this.wait(10); //each start should have interval
-		console.log('starting options' , process.argv.find(one => one.match(/^--headful$/)) ? {
+
+		const options = process.argv.find(one => one.match(/^--headful$/)) ? {
 			headless: false,
 			args: [
 				'--no-sandbox'
@@ -55,24 +56,19 @@ class JavlibraryAutoPost {
 				'--disable-gpu',
 				'--single-process'
 			]
-		})
-		this.browser = await puppeteer.launch( process.argv.find(one => one.match(/^--headful$/)) ? {
-			headless: false,
-			args: [
-				'--no-sandbox'
-			]
-		} : {
-			headless: true,
-			args: [
-				'--no-sandbox',
-				'--disable-gpu',
-				'--single-process'
-			]
-		});
+		}
+		if (process.argv.find(one => one.match(/^--firefox$/))) {
+			options.product = 'firefox'
+			// options.executablePath = 'C:\\Program Files\\Firefox Nightly\\firefox.exe' 
+		}
+
+		
+		console.log('starting options' , options)
+		this.browser = await puppeteer.launch(options);
 
 		this.page = await this.browser.newPage();
 		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
-		await this.page.emulate(deviceToEmulate);
+		// await this.page.emulate(deviceToEmulate);
 		
 
 		fs.readdirSync('./captcha').map(f => {
