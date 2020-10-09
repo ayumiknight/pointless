@@ -73,6 +73,10 @@ module.exports = (sequelize, DataTypes) => {
 		vr: {
 			type: DataTypes.BOOLEAN,
 			comment: '是否是vr电影'
+		},
+		lastPost: {
+			type: DataTypes.DATE,
+			comment: '最后一次尝试post'
 		}
 	});
 

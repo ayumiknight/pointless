@@ -3,7 +3,6 @@ const fs = require('fs');
 const Rapidgator = require('../../tasks/syncRapidgator/rapidgatorTask/rapidgator.js');
 const { execSync } = require('child_process');
 const { 
-	getR18Paged, 
 	getR18Single,
 	getR18PreNext
 } = require('../../sequelize/methods/index.js');

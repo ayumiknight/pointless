@@ -19,7 +19,7 @@ injectLogger();
 
 
 let postPageFromArgv = process.argv.find(one => one.match(/^--postPage(\d+)$/))
-let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 20;
+let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 500;
 console.log(postPage, '==========postPage!!!!!!!!!!!!!!\n\n\n', postPageFromArgv, process.argv);
 postPage *= 1;
 
@@ -227,7 +227,7 @@ class JavlibraryAutoPost {
 	async beginTask() {
 		console.log('begin task=====================')
 
-		let pagesize = 50,
+		let pagesize = 1,
 			pageoffset = 1,
 			pagenum = 1;
 
@@ -238,16 +238,19 @@ class JavlibraryAutoPost {
 				javlibrary: true,
 				both: true
 			});
-
-			let rows = R18s.rows.filter( row => !row.javlibrary);
+			rows = R18s.rows || [];
 			if (!rows.length) {
 				console.log(pagenum + ' all entries posted============\n')
 			} else {
-				for(let i = 0; i < rows.length; i++) {
-					await this.checkAndPostSingle(rows[i]);
+				const lastPost = rows[0].lastPost
+				if (!lastPost || (new Date(lastPost) + 3600000 < new Date())) {
+					for(let i = 0; i < rows.length; i++) {
+						await this.checkAndPostSingle(rows[i]);
+					}
+				}	else {
+					console.log(`${rows[0].code} last posted at ${lastPost}`)
 				}
 			}	
-			console.log(pagenum, '= rapidgator complete====================')
 			pagenum++;
 		}	
 

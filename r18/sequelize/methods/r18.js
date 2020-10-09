@@ -209,7 +209,21 @@ async function getR18Paged(query) {
  		[Op.eq]: 1
 	});
 
-	return R18.findAndCountAll(r18Query);
+	
+	const res = await R18.findAndCountAll(r18Query);
+	if (javlibrary) {
+		const first = (res.rows || [])[0]
+		if (first) {
+			await R18.update({
+				lastPost: new Date()
+			}, {
+				where: {
+					id: first.id
+				},
+			})
+		}
+	}
+	return res
 }
 
 async function getR18Single({
