@@ -60,11 +60,17 @@ if (!process.env.dev && false) {
 	io.attach( app );
 }
 
+
+
 app.use(async (ctx, next) => {
-	await compose([
-		conditional(),
-		etag()
-	])(ctx, next);
+	if (ctx.path.match(/^\/static/i)) {
+		return next();
+	} else {
+		await compose([
+			conditional(),
+			etag()
+		])(ctx, next);
+	}
 })
 app.use(serveStatic());
 app.use(ImageDownloadService);
