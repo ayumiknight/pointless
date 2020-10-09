@@ -60,6 +60,7 @@ class JavlibraryAutoPost {
 		if (process.argv.find(one => one.match(/^--firefox$/))) {
 			options.product = 'firefox'
 			options.executablePath = '/usr/firefox/firefox' 
+			options.dumpio = true
 		}
 
 		
@@ -243,7 +244,7 @@ class JavlibraryAutoPost {
 				console.log(pagenum + ' all entries posted============\n')
 			} else {
 				const lastPost = rows[0].lastPost
-				if (!lastPost || (new Date(lastPost) + 3600000 < new Date())) {
+				if (!lastPost || (new Date(lastPost) + 7200000 < new Date())) {
 					for(let i = 0; i < rows.length; i++) {
 						await this.checkAndPostSingle(rows[i]);
 					}
