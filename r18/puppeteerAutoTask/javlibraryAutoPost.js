@@ -60,7 +60,7 @@ class JavlibraryAutoPost {
 		if (process.argv.find(one => one.match(/^--firefox$/))) {
 			options.product = 'firefox'
 			options.executablePath = '/usr/firefox/firefox' 
-			options.dumpio = true
+			// options.dumpio = true
 		}
 
 		
