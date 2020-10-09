@@ -15,8 +15,9 @@ module.exports = async function(ctx, next) {
     if (res && res.data) {
       await fse.outputFileSync(__dirname + `/static${remotePath}`, res.data)
       try {
+        console.log('sending from disk after download==============')
         const done = await send(ctx, `/koa/static${remotePath}`, {
-          maxAge: 1000 * 60 * 60 * 24
+          maxAge: 1000 * 60 * 60 * 1
         })
       } catch(e) {
         if (e.status !== 404) {
@@ -26,7 +27,7 @@ module.exports = async function(ctx, next) {
     }
   } else if (ctx.path === '/service.js' && ctx.method === 'GET') {
     await send(ctx, `/koa/static/service.js`, {
-      maxAge: 1000 * 60 * 60 * 24
+      maxAge: 1000 * 60 * 60 * 1
     })
   } else {
     return next()
