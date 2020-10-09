@@ -59,17 +59,22 @@ class JavlibraryAutoPost {
 		}
 		if (process.argv.find(one => one.match(/^--firefox$/))) {
 			options.product = 'firefox'
-			// options.executablePath = 'C:\\Program Files\\Firefox Nightly\\firefox.exe' 
+			options.executablePath = '/usr/firefox/firefox' 
 		}
 
 		
 		console.log('starting options' , options)
 		this.browser = await puppeteer.launch(options);
-
-		this.page = await this.browser.newPage();
+		let pages = await this.browser.pages();
+		console.log(pages,'=========pages,==');
+		this.page = pages[0];
 		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
 		// await this.page.emulate(deviceToEmulate);
-		
+		await this.page.setViewport({
+			width: 1024,
+			height: 768,
+			deviceScaleFactor: 1
+		});
 
 		fs.readdirSync('./captcha').map(f => {
 			let [name, ext] = f.split('.'),
