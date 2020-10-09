@@ -238,7 +238,7 @@ class JavlibraryAutoPost {
 				javlibrary: true,
 				both: true
 			});
-			rows = R18s.rows || [];
+			const rows = R18s.rows || [];
 			if (!rows.length) {
 				console.log(pagenum + ' all entries posted============\n')
 			} else {
