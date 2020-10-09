@@ -153,8 +153,19 @@ async function getR18Paged(query) {
 			}
 		}];
 	}
-	if (!sitemap) {
+	if (!sitemap && !javlibrary) {
 		r18Query.order = [[Sequelize.literal('`Extras.createdAt`'), 'DESC']];
+		r18Query.include = r18Query.include || [];
+		r18Query.include.push({
+			association:  R18.Extras,
+			where: {
+				id: {
+					[Op.ne]: null
+				}
+			}
+		});
+	} else if (javlibrary) {
+		r18Query.order = [[Sequelize.literal('`Extras.createdAt`'), 'ASC']];
 		r18Query.include = r18Query.include || [];
 		r18Query.include.push({
 			association:  R18.Extras,

@@ -229,14 +229,12 @@ class JavlibraryAutoPost {
 
 		let pagesize = 50,
 			pageoffset = 1,
-			pagenum = postPage;
+			pagenum = 1;
 
-		while(pagenum >= 1) {
+		while(pagenum <= postPage) {
 			let R18s = await getR18Paged({
-				raw: 1,
 				pagesize: pagesize,
 				page: pagenum,
-				rapidgator: true,
 				javlibrary: true,
 				both: true
 			});
@@ -250,7 +248,7 @@ class JavlibraryAutoPost {
 				}
 			}	
 			console.log(pagenum, '= rapidgator complete====================')
-			pagenum--;
+			pagenum++;
 		}	
 
 		await this.browser.close();
