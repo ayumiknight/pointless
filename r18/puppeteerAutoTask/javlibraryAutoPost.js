@@ -20,7 +20,7 @@ injectLogger();
 
 
 let postPageFromArgv = process.argv.find(one => one.match(/^--postPage(\d+)$/))
-let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 500;
+let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 1000;
 console.log(postPage, '==========postPage!!!!!!!!!!!!!!\n\n\n', postPageFromArgv, process.argv);
 postPage *= 1;
 
@@ -193,7 +193,7 @@ class JavlibraryAutoPost {
 		//http://www.javlibrary.com/en/myaccount.php
 		try {
 			await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 300 * 1000 });
-	  		await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 60 * 10 * 1000 });
+			await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 60 * 10 * 1000 });
 		} catch(e) {
 			await this.page.screenshot({
 			    path: '../koa/static/' + (new Date() + 1) + '.png',
@@ -223,7 +223,7 @@ class JavlibraryAutoPost {
 			captcha: captchaSolution
 		});
 		console.log('=============login completing wait 5 secs ===================')
-		await this.wait(5);
+		// await this.wait(5);
 	}
 
 	async beginTask() {
@@ -245,7 +245,7 @@ class JavlibraryAutoPost {
 				console.log(pagenum + ' all entries posted============\n')
 			} else {
 				const lastPost = rows[0].lastPost
-				if (!lastPost || (new Date(lastPost) + 7200000 < new Date())) {
+				if (!lastPost || (new Date(lastPost) + 3600000 < new Date())) {
 					for(let i = 0; i < rows.length; i++) {
 						await this.checkAndPostSingle(rows[i]);
 						await updateR18LastPost(rows[i].id)
@@ -263,7 +263,7 @@ class JavlibraryAutoPost {
 
 
 	async checkAndPostSingle(row) {
-		await this.wait(5);
+		// await this.wait(5);
 
 		let code = row.code,
 			error = false;	
