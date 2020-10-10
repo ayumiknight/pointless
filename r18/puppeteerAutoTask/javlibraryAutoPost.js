@@ -20,7 +20,7 @@ injectLogger();
 
 
 let postPageFromArgv = process.argv.find(one => one.match(/^--postPage(\d+)$/))
-let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 1000;
+let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 200;
 console.log(postPage, '==========postPage!!!!!!!!!!!!!!\n\n\n', postPageFromArgv, process.argv);
 postPage *= 1;
 
