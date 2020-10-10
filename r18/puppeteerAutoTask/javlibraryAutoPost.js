@@ -282,7 +282,8 @@ class JavlibraryAutoPost {
 					timeout: 3000
 				});
 			} catch(e) {
-				return
+				await this.page.close()
+				this.page = await this.browser.newPage()
 			}
 			let searchResult = await this.page.evaluate(function(code) {
 				try {
