@@ -279,9 +279,11 @@ class JavlibraryAutoPost {
 		console.log(`processing ${code}================\n`)
 		try {
 			try {
+				console.log('goto start================')
 				await this.page.goto(`http://www.javlibrary.com/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
-					timeout: 0
+					timeout: 3000
 				});
+				console.log('goto end================')
 			} catch(e) {
 				console.log('stuck in catch ===============')
 			}
