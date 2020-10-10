@@ -279,7 +279,7 @@ class JavlibraryAutoPost {
 		try {
 			try {
 				await this.page.goto(`http://www.javlibrary.com/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
-					timeout: 5000
+					timeout: 30000
 				});
 			} catch(e) {
 				const oldPage = this.page;
@@ -292,7 +292,7 @@ class JavlibraryAutoPost {
 					deviceScaleFactor: 1
 				});
 				await this.login();
-				await oldPage.close()
+				SoldPage.close()
 				await this.wait(10)
 				return
 			}
