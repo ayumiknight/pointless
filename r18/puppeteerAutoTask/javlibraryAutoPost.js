@@ -265,7 +265,9 @@ class JavlibraryAutoPost {
 
 	async checkAndPostSingle(row) {
 		// await this.wait(5);
-
+		const timeout = setTimeout(() => {
+			throw new Error('time out after 120000')
+		},  120000)
 		let code = row.code,
 			error = false;	
 
@@ -281,9 +283,9 @@ class JavlibraryAutoPost {
 					timeout: 60000
 				});
 			} catch(e) {
-				
+				console.log('stuck in catch ===============')
 			}
-
+			console.log('start evalute ===============')
 			let searchResult = await this.page.evaluate(function(code) {
 				try {
 
@@ -330,6 +332,7 @@ class JavlibraryAutoPost {
 					}
 				}
 			}, code);
+			console.log('end evalute ===============')
 			if (searchResult.link) {
 				await this.page.goto(searchResult.link, {
 					timeout: 60000
@@ -390,6 +393,11 @@ class JavlibraryAutoPost {
 			console.log(`${code} successfully posted ==================`)
 			await updateR18Javlibrary(code);
 			await this.wait(40); //each post should have 30s cool down;
+		}
+		try {
+			clearTimeout(timeout)
+		} catch(e) {
+			
 		}
 	}
 
