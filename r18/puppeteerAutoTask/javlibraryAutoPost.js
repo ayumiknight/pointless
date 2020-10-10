@@ -248,12 +248,10 @@ class JavlibraryAutoPost {
 				const lastPost = rows[0].lastPost
 				if (!lastPost || ( + new Date(lastPost) + 7200000 <  + new Date())) {
 					for(let i = 0; i < rows.length; i++) {
-						try {
-							await this.checkAndPostSingle(rows[i]);
-							await updateR18LastPost(rows[i].id)
-						} catch(e) {
-
-						}	
+				
+						await this.checkAndPostSingle(rows[i]);
+						await updateR18LastPost(rows[i].id)
+					
 					}
 				}	else {
 					console.log(`${rows[0].code} last posted at ${lastPost}`)
@@ -269,9 +267,7 @@ class JavlibraryAutoPost {
 
 	async checkAndPostSingle(row) {
 		// await this.wait(5);
-		const timeout = setTimeout(() => {
-			throw new Error('time out after 120000')
-		},  120000)
+
 		let code = row.code,
 			error = false;	
 
@@ -284,7 +280,7 @@ class JavlibraryAutoPost {
 		try {
 			try {
 				await this.page.goto(`http://www.javlibrary.com/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
-					timeout: 60000
+					timeout: 0
 				});
 			} catch(e) {
 				console.log('stuck in catch ===============')
@@ -398,11 +394,7 @@ class JavlibraryAutoPost {
 			await updateR18Javlibrary(code);
 			await this.wait(40); //each post should have 30s cool down;
 		}
-		try {
-			clearTimeout(timeout)
-		} catch(e) {
 
-		}
 	}
 
 	formatEntry(rapidgator, code) {
