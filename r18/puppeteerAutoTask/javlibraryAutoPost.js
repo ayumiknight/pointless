@@ -246,7 +246,7 @@ class JavlibraryAutoPost {
 				break;
 			} else {
 				const lastPost = rows[0].lastPost
-				if (!lastPost || (new Date(lastPost) + 3600000 < new Date())) {
+				if (!lastPost || ( + new Date(lastPost) + 3600000 <  + new Date())) {
 					for(let i = 0; i < rows.length; i++) {
 						await this.checkAndPostSingle(rows[i]);
 						await updateR18LastPost(rows[i].id)
