@@ -225,7 +225,7 @@ class JavlibraryAutoPost {
 			captcha: captchaSolution
 		});
 		console.log('=============login completing wait 5 secs ===================')
-		// await this.wait(5);
+		await this.wait(5);
 	}
 
 	async beginTask() {
