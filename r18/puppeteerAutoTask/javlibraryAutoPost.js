@@ -248,8 +248,12 @@ class JavlibraryAutoPost {
 				const lastPost = rows[0].lastPost
 				if (!lastPost || ( + new Date(lastPost) + 7200000 <  + new Date())) {
 					for(let i = 0; i < rows.length; i++) {
-						await this.checkAndPostSingle(rows[i]);
-						await updateR18LastPost(rows[i].id)
+						try {
+							await this.checkAndPostSingle(rows[i]);
+							await updateR18LastPost(rows[i].id)
+						} catch(e) {
+
+						}	
 					}
 				}	else {
 					console.log(`${rows[0].code} last posted at ${lastPost}`)
@@ -397,7 +401,7 @@ class JavlibraryAutoPost {
 		try {
 			clearTimeout(timeout)
 		} catch(e) {
-			
+
 		}
 	}
 
