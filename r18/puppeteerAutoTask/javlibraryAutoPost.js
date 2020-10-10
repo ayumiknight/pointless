@@ -246,7 +246,7 @@ class JavlibraryAutoPost {
 				break;
 			} else {
 				const lastPost = rows[0].lastPost
-				if (!lastPost || ( + new Date(lastPost) + 3600000 <  + new Date())) {
+				if (!lastPost || ( + new Date(lastPost) + 7200000 <  + new Date())) {
 					for(let i = 0; i < rows.length; i++) {
 						await this.checkAndPostSingle(rows[i]);
 						await updateR18LastPost(rows[i].id)
@@ -389,7 +389,7 @@ class JavlibraryAutoPost {
 			}, captchaSolution);
 			console.log(`${code} successfully posted ==================`)
 			await updateR18Javlibrary(code);
-			await this.wait(30); //each post should have 30s cool down;
+			await this.wait(40); //each post should have 30s cool down;
 		}
 	}
 
