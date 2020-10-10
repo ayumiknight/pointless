@@ -284,7 +284,15 @@ class JavlibraryAutoPost {
 			} catch(e) {
 				const oldPage = this.page;
 				this.page = await this.browser.newPage()
-				oldPage.close()
+				this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
+				// await this.page.emulate(deviceToEmulate);
+				await this.page.setViewport({
+					width: 1024,
+					height: 768,
+					deviceScaleFactor: 1
+				});
+				await this.login();
+				await oldPage.close()
 				await this.wait(10)
 				return
 			}
