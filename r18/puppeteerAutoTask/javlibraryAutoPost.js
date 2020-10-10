@@ -251,6 +251,7 @@ class JavlibraryAutoPost {
 				if (!lastPost || ( + new Date(lastPost) + 7200000 <  + new Date())) {
 					for(let i = 0; i < rows.length; i++) {
 						await this.checkAndPostSingle(rows[i]);
+						await updateR18LastPost(rows[i].id)
 					}
 				}	else {
 					console.log(`${rows[0].code} last posted at ${lastPost}`)
@@ -359,7 +360,7 @@ class JavlibraryAutoPost {
 			// });
 			error = true;
 		}
-
+		
 		if (error) {
 			// await this.wait(5);
 			return;
@@ -403,7 +404,7 @@ class JavlibraryAutoPost {
 			await updateR18Javlibrary(code);
 			await this.wait(40); //each post should have 30s cool down;
 		}
-		await updateR18LastPost(row.id)
+		
 	}
 
 	formatEntry(rapidgator, code) {
