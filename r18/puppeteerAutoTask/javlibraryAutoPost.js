@@ -279,12 +279,13 @@ class JavlibraryAutoPost {
 		try {
 			try {
 				await this.page.goto(`http://www.javlibrary.com/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
-					timeout: 3000
+					timeout: 5000
 				});
 			} catch(e) {
 				const oldPage = this.page;
 				this.page = await this.browser.newPage()
 				oldPage.close()
+				await this.wait(10)
 				return
 			}
 			let searchResult = await this.page.evaluate(function(code) {
