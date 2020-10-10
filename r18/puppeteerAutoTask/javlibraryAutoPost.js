@@ -283,8 +283,9 @@ class JavlibraryAutoPost {
 				});
 			} catch(e) {
 				const oldPage = this.page;
-				this.page = this.browser.newPage()
+				this.page = await this.browser.newPage()
 				oldPage.close()
+				return
 			}
 			let searchResult = await this.page.evaluate(function(code) {
 				try {
