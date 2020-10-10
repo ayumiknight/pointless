@@ -62,6 +62,8 @@ class JavlibraryAutoPost {
 			options.product = 'firefox'
 			options.executablePath = '/usr/firefox/firefox' 
 			// options.dumpio = true
+		} else {
+			options.executablePath = '/usr/chrome-linux/chrome'
 		}
 
 		
@@ -285,7 +287,8 @@ class JavlibraryAutoPost {
 				});
 				console.log('goto end================')
 			} catch(e) {
-				console.log('stuck in catch ===============')
+				console.log('stuck in catch ===============', e.message)
+				return
 			}
 			console.log('start evalute ===============')
 			let searchResult = await this.page.evaluate(function(code) {
