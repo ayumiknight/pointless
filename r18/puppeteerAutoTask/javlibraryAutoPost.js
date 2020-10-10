@@ -10,7 +10,8 @@ const javlibraryConf = require('./javlibraryConf.js');
 const md5 = require('md5');
 const { 
 	getR18Paged,
-	updateR18Javlibrary 
+	updateR18Javlibrary,
+	updateR18LastPost
 } = require('../sequelize/methods/r18.js');
 const crawl = require('../tasks/index.js');
 
@@ -247,6 +248,7 @@ class JavlibraryAutoPost {
 				if (!lastPost || (new Date(lastPost) + 7200000 < new Date())) {
 					for(let i = 0; i < rows.length; i++) {
 						await this.checkAndPostSingle(rows[i]);
+						await updateR18LastPost(rows[i].id)
 					}
 				}	else {
 					console.log(`${rows[0].code} last posted at ${lastPost}`)

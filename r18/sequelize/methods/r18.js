@@ -211,18 +211,6 @@ async function getR18Paged(query) {
 
 	
 	const res = await R18.findAndCountAll(r18Query);
-	if (javlibrary) {
-		const first = (res.rows || [])[0]
-		if (first) {
-			await R18.update({
-				lastPost: new Date()
-			}, {
-				where: {
-					id: first.id
-				},
-			})
-		}
-	}
 	return res
 }
 
@@ -367,7 +355,15 @@ async function updateR18Javlibrary(code) {
 	});
 
 }
-
+async function updateR18LastPost(id) {
+	await R18.update({
+		lastPost: new Date()
+	}, {
+		where: {
+			id
+		}
+	})
+}
 async function getNewRapidgator() {
 	let today = new Date();
 	today.setHours(0);
@@ -430,5 +426,6 @@ module.exports = {
 	getMySelected,
 	tagR18sWithTorrent,
 	updateR18Javlibrary,
-	getNewRapidgator
+	getNewRapidgator,
+	updateR18LastPost
 }
