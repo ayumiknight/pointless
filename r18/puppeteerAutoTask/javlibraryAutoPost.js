@@ -243,6 +243,7 @@ class JavlibraryAutoPost {
 			const rows = R18s.rows || [];
 			if (!rows.length) {
 				console.log(pagenum + ' all entries posted============\n')
+				break;
 			} else {
 				const lastPost = rows[0].lastPost
 				if (!lastPost || (new Date(lastPost) + 3600000 < new Date())) {
@@ -253,7 +254,7 @@ class JavlibraryAutoPost {
 				}	else {
 					console.log(`${rows[0].code} last posted at ${lastPost}`)
 				}
-			}	
+			}
 			pagenum++;
 		}	
 
