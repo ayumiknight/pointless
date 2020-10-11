@@ -8,11 +8,6 @@ const {
 
 
 const path = require('path');
-const {
-	formatSingleEntryForRender,
-	generatePagination,
-	generateLetterPagination
-} = require('./util.js');
 const jvrList = require('./jvrList.js');
 const jvrSingle = require('./jvrSingle.js');
 const actressList = require('./actressList.js');
@@ -25,6 +20,7 @@ const sitemap = require('./sitemap.js');
 const robots = require('./robots.js');
 const vrplayer = require('./vrplayer');
 const downloadTask = require('./downloadTask.js');
+const dash = require('./dash.js')
 
 router.use(async (ctx, next) => {
 	let {  page = 1, code, id, cast, genre, studio, series, search, lcode} = ctx.query;
@@ -89,6 +85,7 @@ router.get('/rapidgator', jvrList);
 router.get('/torrent', jvrList);
 router.get('/ranking', ranking);
 router.get('/downloadTask', downloadTask);
+router.get('/dash', dash);
 router.get(/^\/sitemap(.*)?/, sitemap);
 router.get('/vrplayer', vrplayer);
 router.get(/^\/robots(.*)?/, robots);

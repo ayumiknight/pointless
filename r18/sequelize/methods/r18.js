@@ -267,6 +267,24 @@ async function getR18SingleSimple({
 	});
 }
 
+async function getR18RecentPosted({
+	page = 1,
+	pagesize = 20
+}) {
+	return R18.findAll({
+		offset: (page - 1) * pagesize,
+		limit: pagesize,
+		order: [[
+			'updatedAt', 'DESC'
+		]],
+		where: {
+			javlibrary : {
+				[Op.eq]: 1
+			}
+		}
+	})
+}
+
 async function getR18WithExtraPaged({
 	page = 1,
 	pagesize = 20,
@@ -411,6 +429,7 @@ async function getNewRapidgator() {
 	}
 }
 
+
 module.exports = {
 	R18BulkCreate,
 	R18Create,
@@ -427,5 +446,6 @@ module.exports = {
 	tagR18sWithTorrent,
 	updateR18Javlibrary,
 	getNewRapidgator,
-	updateR18LastPost
+	updateR18LastPost,
+	getR18RecentPosted
 }

@@ -43,8 +43,9 @@
 <div id='root'>
 	{{#def.sideMenu}}
 	<div class="main {{=it.type === 'jvr' ? 'jvr' : 'normal'}} {{=it.type === 'jvrList' ? 'jvrList' : ''}}">
-	
-		{{? it.type === 'jvr'}}
+		{{? it.type === 'dash'}}
+			{{#def.dash}}
+		{{?? it.type === 'jvr'}}
 			<a href="https://www.vultr.com/?ref=8187295" class="vultr-banner"></a>
 			{{#def.singleView}}		
 		{{?? it.type === 'actress'}}

@@ -1,0 +1,13 @@
+<div class="table">
+  {{~it.tables :table}}
+    <table style="border:1px solid; margin-bottom: 20px; font-size: 10px;">
+      {{~table :row}}
+        <tr>
+          {{~row :item}}
+            <td style="padding: 0 5px;">{{=item}}</td>
+          {{~}}
+        </tr>
+      {{~}}
+    </table>
+  {{~}}
+</div>
