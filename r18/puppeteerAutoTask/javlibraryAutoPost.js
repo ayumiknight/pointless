@@ -243,6 +243,7 @@ class JavlibraryAutoPost {
 				both: true
 			});
 			const rows = R18s.rows || [];
+			console.log(pagenum, pagesize, rows, '=====rows===')
 			if (!rows.length) {
 				console.log(pagenum + ' all entries posted============\n')
 				break;
