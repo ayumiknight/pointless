@@ -232,10 +232,10 @@ class JavlibraryAutoPost {
 		console.log('begin task=====================')
 
 		let pagesize = 1,
-			pageoffset = 1,
+			count = 0,
 			pagenum = 1;
 
-		while(pagenum <= postPage) {
+		while(count <= postPage) {
 			let R18s = await getR18Paged({
 				pagesize: pagesize,
 				page: pagenum,
@@ -243,7 +243,7 @@ class JavlibraryAutoPost {
 				both: true
 			});
 			const rows = R18s.rows || [];
-			console.log(pagenum, pagesize, rows.map(el => el.code), '=====rows===')
+
 			if (!rows.length) {
 				console.log(pagenum + ' all entries posted============\n')
 				break;
@@ -251,14 +251,15 @@ class JavlibraryAutoPost {
 				const lastPost = rows[0].lastPost
 				if (!lastPost || ( + new Date(lastPost) + 7200000 <  + new Date())) {
 					for(let i = 0; i < rows.length; i++) {
-						await this.checkAndPostSingle(rows[i]);
+						const success = await this.checkAndPostSingle(rows[i]);
+						!success && (pagenum += 1)
 						await updateR18LastPost(rows[i].id)
 					}
 				}	else {
 					console.log(`${rows[0].code} last posted at ${lastPost}`)
 				}
 			}
-			pagenum++;
+			count++;
 		}	
 
 		await this.browser.close();
@@ -404,6 +405,7 @@ class JavlibraryAutoPost {
 			console.log(`${code} successfully posted ==================`)
 			await updateR18Javlibrary(code);
 			await this.wait(30); //each post should have 30s cool down;
+			return true
 		}
 		
 	}
