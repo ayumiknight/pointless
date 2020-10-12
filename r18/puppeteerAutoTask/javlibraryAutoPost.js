@@ -293,7 +293,7 @@ class JavlibraryAutoPost {
 					deviceScaleFactor: 1
 				});
 				await this.login();
-				SoldPage.close()
+				oldPage.close()
 				await this.wait(10)
 				return
 			}
@@ -402,7 +402,7 @@ class JavlibraryAutoPost {
 			}, captchaSolution);
 			console.log(`${code} successfully posted ==================`)
 			await updateR18Javlibrary(code);
-			await this.wait(40); //each post should have 30s cool down;
+			await this.wait(30); //each post should have 30s cool down;
 		}
 		
 	}
