@@ -256,6 +256,7 @@ class JavlibraryAutoPost {
 						await updateR18LastPost(rows[i].id)
 					}
 				}	else {
+					pagenum += 1
 					console.log(`${rows[0].code} last posted at ${lastPost}`)
 				}
 			}
