@@ -19,9 +19,8 @@ module.exports = async (ctx, next) => {
     'code', 'vr', 'createdAt', 'lastPost'
   ]]
   const table2 = [[
-    'code', 'vr', 'posted'
+    'code', 'vr', 'createdAt', 'posted'
   ]]
-  console.log(recentExtras, recentPosted, '=========')
   recentExtras.rows.forEach(one => {
     table1.push([
       one.code,
@@ -34,6 +33,7 @@ module.exports = async (ctx, next) => {
     table2.push([
       one.code,
       one.vr,
+      moment(one.Extras.createdAt).format('YYYY-MM-DD HH:mm:ss'),
       moment(one.updatedAt).format('YYYY-MM-DD HH:mm:ss')
     ])
   })
