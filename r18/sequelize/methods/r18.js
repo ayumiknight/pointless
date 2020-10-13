@@ -281,7 +281,11 @@ async function getR18RecentPosted({
 			javlibrary : {
 				[Op.eq]: 1
 			}
-		}
+		},
+		include: [{
+			model: Extra,
+			as: 'Extras'
+		}]
 	})
 }
 
