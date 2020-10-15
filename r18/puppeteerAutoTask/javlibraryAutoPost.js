@@ -249,7 +249,7 @@ class JavlibraryAutoPost {
 				break;
 			} else {
 				const lastPost = rows[0].lastPost
-				if (!lastPost || ( + new Date(lastPost) + 7200000 <  + new Date())) {
+				if (!lastPost || ( + new Date(lastPost) + 3600000 <  + new Date())) {
 					for(let i = 0; i < rows.length; i++) {
 						const success = await this.checkAndPostSingle(rows[i]);
 						!success && (pagenum += 1)
