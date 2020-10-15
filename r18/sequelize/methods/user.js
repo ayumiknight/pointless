@@ -6,6 +6,18 @@ const { useMediaQuery } = require('@material-ui/core');
 
 const Op = Sequelize.Op;
 
+async function getUsers({
+  page = 1,
+	pagesize = 20
+}) {
+  return User.findAll({
+    offset: (page - 1) * pagesize,
+		limit: pagesize,
+		order: [[
+			'id', 'DESC'
+		]]
+  })
+}
 async function login({
   key,
   secret
@@ -135,6 +147,27 @@ async function trackNotification(endpoint) {
   })
 }
 
+async function getRecentSubscriptions({
+  page = 1,
+	pagesize = 20
+}) {
+  return Subscription.findAll({
+    offset: (page - 1) * pagesize,
+		limit: pagesize,
+		order: [[
+			'id', 'DESC'
+    ]],
+    where: {
+      lastClicked: {
+        [Op.ne]: null
+      }
+    },
+    include: [{
+      model: User
+    }]
+  })
+}
+
 module.exports = {
   login,
   register,
@@ -143,5 +176,7 @@ module.exports = {
   getSubscriptionWithUser,
   checkSubscription,
   oneUser,
-  trackNotification
+  trackNotification,
+  getUsers,
+  getRecentSubscriptions
 }
