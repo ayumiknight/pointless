@@ -33,12 +33,13 @@ const backgroundTask = async () => {
       task = 'crawl'
       message = 'backgroundTask:crawl default task invoked=================='
     }
-    console.log(message, moment().format('YYYY-MM-DD HH:mm:ss'));
+    console.log(message, moment().format('YYYY-MM-DD HH:mm:ss'), hasFreshExtras);
     
     try {
       if (task === 'crawl') {
         global.currentBackgroundTask = 'crawl'
         var newExtras = await crawl();
+        console.log(newExtras, 'extras crawled================')
         (newExtras > 0) && (hasFreshExtras = true)
       } else {
         global.currentBackgroundTask = 'post'
