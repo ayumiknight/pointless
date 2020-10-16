@@ -12,7 +12,6 @@ const moment = require('moment');
 
 const javlibraryAutoTask = require('../../puppeteerAutoTask/javlibraryAutoPost');
 const crawl = require('../../tasks/index.js');
-const { disable } = require('debug');
 
 global.disablePost = false
 global.currentBackgroundTask = ''
@@ -35,7 +34,7 @@ const backgroundTask = async () => {
       task = 'crawl'
       message = 'backgroundTask:crawl default task invoked=================='
     }
-    console.log(message, momnet().format('YYYY-MM-DD HH:mm:ss'));
+    console.log(message, moment().format('YYYY-MM-DD HH:mm:ss'));
     
     try {
       if (task === 'crawl') {
