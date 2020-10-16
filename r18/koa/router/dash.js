@@ -15,9 +15,8 @@ const crawl = require('../../tasks/index.js');
 
 global.disablePost = false
 global.currentBackgroundTask = ''
-
+global.postLastRun = null
 const backgroundTask = async () => {
-  let postLastRun = null;
   let hasFreshExtras = false;
   let message = '';
   while(true) {
@@ -27,9 +26,9 @@ const backgroundTask = async () => {
     } else if (hasFreshExtras) {
       task = 'post'
       message = 'backgroundTask:post hasFreshExtras true==========='
-    } else if (!postLastRun || ( + postLastRun + 3600000 <  + new Date())) {
+    } else if (!global.postLastRun || ( + global.postLastRun + 3600000 <  + new Date())) {
       task = 'post'
-      message = `backgroundTask:post postLastRun after 1 hour true=========== ${postLastRun} ${new Date()}`
+      message = `backgroundTask:post global.postLastRun after 1 hour true=========== ${global.postLastRun} ${new Date()}`
     } else {
       task = 'crawl'
       message = 'backgroundTask:crawl default task invoked=================='
@@ -44,7 +43,7 @@ const backgroundTask = async () => {
       } else {
         global.currentBackgroundTask = 'post'
         hasFreshExtras = false
-        postLastRun = new Date()
+        global.postLastRun = new Date()
         let Javlibrary = new javlibraryAutoTask({
           // firefox: true
         });
@@ -129,7 +128,8 @@ module.exports = async (ctx, next) => {
     tables: [table1, table2, table3, table4],
     currentBackgroundTask: global.currentBackgroundTask,
     disablePost: global.disablePost,
-    lastLogs
+    lastLogs,
+    postLastRun: moment(+ global.postLastRun).format('YYYY-MM-DD HH:mm:ss')
   });
   return
 
