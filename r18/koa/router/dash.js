@@ -8,7 +8,6 @@ const {
   getRecentSubscriptions
 } = require('../../sequelize/methods/user.js');
 const readLastLines = require('read-last-lines');
-
 const moment = require('moment');
 
 const javlibraryAutoTask = require('../../puppeteerAutoTask/javlibraryAutoPost');
@@ -21,17 +20,23 @@ global.currentBackgroundTask = ''
 const backgroundTask = async () => {
   let postLastRun = null;
   let hasFreshExtras = false;
-  
+  let message = '';
   while(true) {
     if (global.disablePost) {
       task = 'crawl'
+      message = 'backgroundTask:crawl disabledPost true==========='
     } else if (hasFreshExtras) {
       task = 'post'
+      message = 'backgroundTask:post hasFreshExtras true==========='
     } else if (!postLastRun || ( + postLastRun + 3600000 <  + new Date())) {
       task = 'post'
+      message = 'backgroundTask:post postLastRun after 1 hour true==========='
     } else {
       task = 'crawl'
+      message = 'backgroundTask:crawl default task invoked=================='
     }
+    console.log(message, momnet().format('YYYY-MM-DD HH:mm:ss'));
+    
     try {
       if (task === 'crawl') {
         global.currentBackgroundTask = 'crawl'
