@@ -29,7 +29,7 @@ const backgroundTask = async () => {
       message = 'backgroundTask:post hasFreshExtras true==========='
     } else if (!postLastRun || ( + postLastRun + 3600000 <  + new Date())) {
       task = 'post'
-      message = 'backgroundTask:post postLastRun after 1 hour true==========='
+      message = `backgroundTask:post postLastRun after 1 hour true=========== ${postLastRun} ${new Date()}`
     } else {
       task = 'crawl'
       message = 'backgroundTask:crawl default task invoked=================='

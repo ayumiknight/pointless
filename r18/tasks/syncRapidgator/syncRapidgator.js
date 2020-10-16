@@ -6,7 +6,7 @@ const crawlAndSaveSingle = require('./rapidgatorTask/crawlAndSaveSingle.js');
 const Rapidgator = require('./rapidgatorTask/rapidgator.js');
 
 let rapidgatorPageAllFromArgv = process.argv.find(one => one.match(/^--rapidgatorPage(\d+)$/))
-let rapidgatorPageAll = rapidgatorPageAllFromArgv ? rapidgatorPageAllFromArgv.replace(/^--rapidgatorPage(\d+)$/i, '$1') : 5;
+let rapidgatorPageAll = rapidgatorPageAllFromArgv ? rapidgatorPageAllFromArgv.replace(/^--rapidgatorPage(\d+)$/i, '$1') : 10;
 console.log(rapidgatorPageAll, '==========rapidgatorPageAll!!!!!!!!!!!!!!\n\n\n');
 rapidgatorPageAll *= 1;
 
