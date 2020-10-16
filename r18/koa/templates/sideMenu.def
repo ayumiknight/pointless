@@ -21,7 +21,7 @@
 	window.setNonVR = function(on) {
 		let current = !!getCookie('nonVR');
 		console.log('invoked');
-		if (current != on) {
+		if (true || current != on) {
 			setCookie('nonVR', on ? 'true' : '', 60 * 60 * 24 * 30);
 			setTimeout(function() {
 				location.href = location.origin;
