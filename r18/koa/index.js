@@ -60,8 +60,6 @@ if (!process.env.dev && false) {
 	io.attach( app );
 }
 
-
-
 app.use(async (ctx, next) => {
 	if (ctx.path.match(/^\/static/i)) {
 		return next();
@@ -135,7 +133,7 @@ app.use(Auth);
 app.use(mount('/api', notificationRouter.routes()))
 
 
-app._io.engine.generateId =  async function (req) {
+app._io.engine.generateId = function (req) {
 	const auth = new Cookies(req, {}, {
 		keys: ['i love jvrlibrary', 'you like jvrlibrary', 'we like jvrlibrary']
 	}).get('user', {

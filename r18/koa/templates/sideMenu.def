@@ -14,10 +14,10 @@
 		if (match) return match[2];
 	};
 	window.setCookie = function(key, value, times) {
-        var date = new Date();
-        date.setTime(date.getTime() + times * 1000); 
-        document.cookie = key + "=" + encodeURIComponent(value) + ";path=/;expires=" + date.toGMTString();
-    };
+		var date = new Date();
+		date.setTime(date.getTime() + times * 1000); 
+		document.cookie = key + "=" + encodeURIComponent(value) + ";path=/;expires=" + date.toGMTString();
+	};
 	window.setNonVR = function(on) {
 		let current = !!getCookie('nonVR');
 		console.log('invoked');

@@ -1,16 +1,67 @@
 const {
 	getR18Paged,
-	getR18RecentPosted
+  getR18RecentPosted,
+  sequelize
 } = require('../../sequelize/methods/r18.js');
 const {
   getUsers,
   getRecentSubscriptions
 } = require('../../sequelize/methods/user.js');
+const readLastLines = require('read-last-lines');
 
 const moment = require('moment');
-module.exports = async (ctx, next) => {
+
+const javlibraryAutoTask = require('../../puppeteerAutoTask/javlibraryAutoPost');
+const crawl = require('../../tasks/index.js');
+const { disable } = require('debug');
+
+global.disablePost = false
+global.currentBackgroundTask = ''
+
+const backgroundTask = async () => {
+  let postLastRun = null;
+  let hasFreshExtras = false;
   
-  const [ recentExtras, recentPosted, users, subscriptions ] = await Promise.all([
+  while(true) {
+    if (global.disablePost) {
+      task = 'crawl'
+    } else if (hasFreshExtras) {
+      task = 'post'
+    } else if (!postLastRun || ( + postLastRun + 3600000 <  + new Date())) {
+      task = 'post'
+    } else {
+      task = 'crawl'
+    }
+    try {
+      if (task === 'crawl') {
+        global.currentBackgroundTask = 'crawl'
+        var newExtras = await crawl();
+        (newExtras > 0) && (hasFreshExtras = true)
+      } else {
+        global.currentBackgroundTask = 'post'
+        hasFreshExtras = false
+        postLastRun = new Date()
+        let Javlibrary = new javlibraryAutoTask({
+          // firefox: true
+        });
+        await Javlibrary.init();
+      }
+    } catch(e) {
+      console.log(e)
+    }
+  }
+}
+
+backgroundTask()
+module.exports = async (ctx, next) => {
+  const {
+    disablePost
+  } = ctx.query
+
+  if (disablePost) {
+    global.disablePost = !!(disablePost * 1)
+  }
+  const [ recentExtras, recentPosted, users, subscriptions, lastLogs] = await Promise.all([
     getR18Paged({
       pagesize: 20,
       page: 1,
@@ -19,7 +70,8 @@ module.exports = async (ctx, next) => {
     }),
     getR18RecentPosted({}),
     getUsers({}),
-    getRecentSubscriptions({})
+    getRecentSubscriptions({}),
+    readLastLines.read('/root/.pm2/logs/index-out.log', 200).catch(e => { return []})
   ])
 
   const table1 = [[
@@ -59,7 +111,6 @@ module.exports = async (ctx, next) => {
     ])
   })
   subscriptions.forEach(one => {
-    console.log(JSON.stringify(one))
     table4.push([
       one.id,
       one.User && one.User.nick_name || ' ',
@@ -68,9 +119,13 @@ module.exports = async (ctx, next) => {
     ])
   })
   // ctx.body = JSON.stringify([table1, table2])
+  console.log(lastLogs)
   ctx.body = ctx.dots.index({
 		type: 'dash',
-		tables: [table1, table2, table3, table4]
+    tables: [table1, table2, table3, table4],
+    currentBackgroundTask: global.currentBackgroundTask,
+    disablePost: global.disablePost,
+    lastLogs
   });
   return
 

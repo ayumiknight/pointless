@@ -16,36 +16,28 @@ const {
 const crawl = require('../tasks/index.js');
 
 const deviceToEmulate = devices[Math.floor((Math.random() - 0.001 * devices.length))];
-injectLogger();
 
 
 let postPageFromArgv = process.argv.find(one => one.match(/^--postPage(\d+)$/))
 let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 200;
-console.log(postPage, '==========postPage!!!!!!!!!!!!!!\n\n\n', postPageFromArgv, process.argv);
 postPage *= 1;
 
-function injectLogger() {
-	var log_file = fs.createWriteStream(__dirname + `/${+new Date()}debug.log`, {flags : 'w'});
-
-	var fn = process.stdout.write;
-	function write() {
-	  fn.apply(process.stdout, arguments);
-	  log_file.write.apply(log_file, arguments);
-	}
-	process.stdout.write = write;
-}
-
 class JavlibraryAutoPost {
-	constructor() {
+	constructor({
+		headful = false,
+		firefox = false
+	}) {
 		this.browser = null;
 		this.captchaMap = {};
+		this.headful = process.argv.find(one => one.match(/^--headful$/)) || headful;
+		this.firefox = process.argv.find(one => one.match(/^--firefox$/)) || firefox;
 	}
 
 	async init() {
 		let self = this;
 		await this.wait(10); //each start should have interval
 
-		const options = process.argv.find(one => one.match(/^--headful$/)) ? {
+		const options =  this.headful ? {
 			headless: false,
 			args: [
 				'--no-sandbox'
@@ -58,7 +50,7 @@ class JavlibraryAutoPost {
 				'--single-process'
 			]
 		}
-		if (process.argv.find(one => one.match(/^--firefox$/))) {
+		if (this.firefox) {
 			options.product = 'firefox'
 			options.executablePath = '/usr/firefox/firefox' 
 			// options.dumpio = true
@@ -70,7 +62,6 @@ class JavlibraryAutoPost {
 		console.log('starting options' , options)
 		this.browser = await puppeteer.launch(options);
 		let pages = await this.browser.pages();
-		console.log(pages,'=========pages,==');
 		this.page = pages[0];
 		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
 		// await this.page.emulate(deviceToEmulate);
@@ -80,7 +71,7 @@ class JavlibraryAutoPost {
 			deviceScaleFactor: 1
 		});
 
-		fs.readdirSync('./captcha').map(f => {
+		fs.readdirSync(__dirname + '/captcha').map(f => {
 			let [name, ext] = f.split('.'),
 				[hash, value] = name.split('-');
 
@@ -97,7 +88,7 @@ class JavlibraryAutoPost {
 		if (this.captchaMap[hash] && this.captchaMap[hash] !== 'null') {
 			return this.captchaMap[hash];
 		} else {
-			fs.writeFileSync(`./captcha/${hash}.jfif`, captcha);
+			fs.writeFileSync(__dirname + `/captcha/${hash}.jfif`, captcha);
 			return null;
 		}
 		
@@ -147,7 +138,7 @@ class JavlibraryAutoPost {
 				captcha = Buffer.from(captcha,'base64');
 				let hash = md5(captcha);
 				console.log(captcha)
-				fs.writeFileSync(`./captcha/${hash}.jfif`, captcha);
+				fs.writeFileSync(__dirname + `/captcha/${hash}.jfif`, captcha);
 			}
 			await new Promise((res, rej) => {
 				setTimeout(res, 2000)
@@ -198,7 +189,7 @@ class JavlibraryAutoPost {
 			await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 60 * 10 * 1000 });
 		} catch(e) {
 			await this.page.screenshot({
-			    path: '../koa/static/' + (new Date() + 1) + '.png',
+			    path: '/koa/static/' + (new Date() + 1) + '.png',
 			    fullPage: true
 			});
 			throw new Error('login has some issue')
@@ -233,7 +224,8 @@ class JavlibraryAutoPost {
 
 		let pagesize = 1,
 			count = 0,
-			pagenum = 1;
+			pagenum = 1,
+			errored = false
 
 		while(count <= postPage) {
 			let R18s = await getR18Paged({
@@ -250,15 +242,18 @@ class JavlibraryAutoPost {
 			} else {
 				const lastPost = rows[0].lastPost
 				if (!lastPost || ( + new Date(lastPost) + 3600000 <  + new Date())) {
-					for(let i = 0; i < rows.length; i++) {
-						const success = await this.checkAndPostSingle(rows[i]);
-						!success && (pagenum += 1)
-						await updateR18LastPost(rows[i].id)
-					}
+					const success = await this.checkAndPostSingle(rows[0]);
+					!success && (pagenum += 1);
+					(typeof success === 'boolean' && !success) && (errored = true);
+					await updateR18LastPost(rows[0].id)
+					
 				}	else {
 					pagenum += 1
 					console.log(`${rows[0].code} last posted at ${lastPost}`)
 				}
+			}
+			if (errored) {
+				break;
 			}
 			count++;
 		}	
@@ -299,8 +294,7 @@ class JavlibraryAutoPost {
 				// oldPage.close()
 				// await this.wait(10)
 				// return
-				console.log('============== stuck ============')
-				process.exit(0)
+				return false
 			}
 			let searchResult = await this.page.evaluate(function(code) {
 				try {
@@ -348,6 +342,9 @@ class JavlibraryAutoPost {
 					}
 				}
 			}, code);
+
+
+
 			if (searchResult.link) {
 				await this.page.goto(searchResult.link, {
 					timeout: 60000
@@ -426,15 +423,6 @@ class JavlibraryAutoPost {
 			setTimeout(res, sec * 1000)
 		});
 	}
-
 }
 
-// module.exports = JavlibraryAutoPost;
-async function test() {
-
-	let Javlibrary = new JavlibraryAutoPost();
-	await Javlibrary.init();
-	process.exit(0);
-}
-
-test();
+module.exports = JavlibraryAutoPost;

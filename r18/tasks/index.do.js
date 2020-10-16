@@ -20,8 +20,8 @@ process.stdout.write = write;
 async function doIt() {
 	let {
 		needActress,
-        needStudio,
-        needSeries
+		needStudio,
+		needSeries
 	} = await testFirst();
 	if (needActress) {
 		await syncActresses();

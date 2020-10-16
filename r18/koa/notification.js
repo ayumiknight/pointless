@@ -114,7 +114,7 @@ async function sendNotifications() {
       }, payload, {
         TTL: 60 * 60 * 12
       }).catch(function(e) {
-        console.log(e, i.endpoint, 'not sent')
+        console.log(e.statusCode, '===========================not sent')
       })
     }
   }

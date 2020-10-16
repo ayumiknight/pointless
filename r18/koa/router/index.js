@@ -85,7 +85,7 @@ router.get('/rapidgator', jvrList);
 router.get('/torrent', jvrList);
 router.get('/ranking', ranking);
 router.get('/downloadTask', downloadTask);
-router.get('/dash', dash);
+router.get('/jvrDash', dash);
 router.get(/^\/sitemap(.*)?/, sitemap);
 router.get('/vrplayer', vrplayer);
 router.get(/^\/robots(.*)?/, robots);
