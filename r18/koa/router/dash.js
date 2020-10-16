@@ -71,7 +71,7 @@ module.exports = async (ctx, next) => {
     getR18RecentPosted({}),
     getUsers({}),
     getRecentSubscriptions({}),
-    readLastLines.read('/root/.pm2/logs/index-out.log', 200).catch(e => { return []})
+    readLastLines.read('/root/.pm2/logs/index-out.log', 200).catch(e => { return '' })
   ])
 
   const table1 = [[

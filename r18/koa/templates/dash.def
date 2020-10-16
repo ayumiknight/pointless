@@ -1,11 +1,7 @@
 <div class="table">
   <h5>Current Task: {{=it.currentBackgroundTask}}</h5>
   <h5>Disable Post: {{=disablePost}}</h5>
-  <div class="logs">
-    {{~it.lastLogs :log}}
-      <p>{{=log}}</p>
-    {{~}}
-  </div>
+  <p>{{=it.lastLogs}}</p>
   {{~it.tables :table}}
     <table style="border:1px solid; margin-bottom: 20px; font-size: 10px;">
       {{~table :row}}
