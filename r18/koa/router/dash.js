@@ -16,33 +16,53 @@ const crawl = require('../../tasks/index.js');
 global.disablePost = false
 global.currentBackgroundTask = ''
 global.postLastRun = null
-const backgroundTask = async () => {
-  let hasFreshExtras = false;
-  let message = '';
-  while(true) {
-    if (global.disablePost) {
-      task = 'crawl'
-      message = 'backgroundTask:crawl disabledPost true==========='
-    } else if (hasFreshExtras) {
-      task = 'post'
-      message = 'backgroundTask:post hasFreshExtras true==========='
-    } else if (!global.postLastRun || ( + global.postLastRun + 3600000 <  + new Date())) {
-      task = 'post'
-      message = `backgroundTask:post global.postLastRun after 1 hour true=========== ${global.postLastRun} ${new Date()}`
-    } else {
-      task = 'crawl'
-      message = 'backgroundTask:crawl default task invoked=================='
-    }
-    console.log(message, moment().format('YYYY-MM-DD HH:mm:ss'), hasFreshExtras);
+// const backgroundTask = async () => {
+//   let hasFreshExtras = false;
+//   let message = '';
+//   while(true) {
+//     if (global.disablePost) {
+//       task = 'crawl'
+//       message = 'backgroundTask:crawl disabledPost true==========='
+//     } else if (hasFreshExtras) {
+//       task = 'post'
+//       message = 'backgroundTask:post hasFreshExtras true==========='
+//     } else if (!global.postLastRun || ( + global.postLastRun + 3600000 <  + new Date())) {
+//       task = 'post'
+//       message = `backgroundTask:post global.postLastRun after 1 hour true=========== ${global.postLastRun} ${new Date()}`
+//     } else {
+//       task = 'crawl'
+//       message = 'backgroundTask:crawl default task invoked=================='
+//     }
+//     console.log(message, moment().format('YYYY-MM-DD HH:mm:ss'), hasFreshExtras);
     
+//     try {
+//       if (task === 'crawl') {
+//         global.currentBackgroundTask = 'crawl'
+//         var newExtras = await crawl();
+//         (newExtras > 0) && (hasFreshExtras = true)
+//       } else {
+//         global.currentBackgroundTask = 'post'
+//         hasFreshExtras = false
+//         global.postLastRun = new Date()
+//         let Javlibrary = new javlibraryAutoTask({
+//           // firefox: true
+//         });
+//         await Javlibrary.init();
+//       }
+//     } catch(e) {
+//       console.log(e)
+//     }
+//   }
+// }
+
+const backgroundTask = async () => {
+  global.currentBackgroundTask = 'crawl'
+  while(true) {
+    global.currentBackgroundTask = global.currentBackgroundTask === 'crawl' ? 'post' : 'crawl';
     try {
-      if (task === 'crawl') {
-        global.currentBackgroundTask = 'crawl'
-        var newExtras = await crawl();
-        (newExtras > 0) && (hasFreshExtras = true)
+      if (global.currentBackgroundTask === 'crawl') {
+        await crawl();
       } else {
-        global.currentBackgroundTask = 'post'
-        hasFreshExtras = false
         global.postLastRun = new Date()
         let Javlibrary = new javlibraryAutoTask({
           // firefox: true

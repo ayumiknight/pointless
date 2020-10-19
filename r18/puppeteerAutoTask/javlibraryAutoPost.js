@@ -14,7 +14,12 @@ const {
 	updateR18LastPost
 } = require('../sequelize/methods/r18.js');
 const crawl = require('../tasks/index.js');
-
+const javlibraryDomain = [
+	'http://javlibrary.com',
+	'http://m45e.com',
+	'http://b47w.com',
+	'http://j41g.com'
+]
 const deviceToEmulate = devices[Math.floor((Math.random() - 0.001 * devices.length))];
 
 
@@ -31,9 +36,11 @@ class JavlibraryAutoPost {
 		this.captchaMap = {};
 		this.headful = process.argv.find(one => one.match(/^--headful$/)) || headful;
 		this.firefox = process.argv.find(one => one.match(/^--firefox$/)) || firefox;
+		this.domainToUse = jvrlibraryDomain[Math.floor((Math.random() - 0.001) * 4)];
 	}
 
 	async init() {
+		console.log('=========domainToUse===========', domainToUse)
 		let self = this;
 		await this.wait(10); //each start should have interval
 
@@ -96,7 +103,7 @@ class JavlibraryAutoPost {
 	async syncCaptcha() {
 		//http://www.javlibrary.com/en/myaccount.php
 
-		await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 0});
+		await this.page.goto(this.domainToUse + '/en/login.php', {timeout : 0});
 	  	await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
 
 		let res = await this.page.evaluate(async function() {
@@ -185,7 +192,7 @@ class JavlibraryAutoPost {
 	async login() {
 		//http://www.javlibrary.com/en/myaccount.php
 		try {
-			await this.page.goto('http://www.javlibrary.com/en/login.php', {timeout : 300 * 1000 });
+			await this.page.goto(this.domainToUse + '/en/login.php', {timeout : 300 * 1000 });
 			await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 60 * 10 * 1000 });
 		} catch(e) {
 			await this.page.screenshot({
@@ -241,7 +248,7 @@ class JavlibraryAutoPost {
 				break;
 			} else {
 				const lastPost = rows[0].lastPost
-				if (!lastPost || ( + new Date(lastPost) + 3600000 <  + new Date())) {
+				if (true) {
 					const success = await this.checkAndPostSingle(rows[0]);
 					!success && (pagenum += 1);
 					(typeof success === 'boolean' && !success) && (errored = true);
@@ -277,7 +284,7 @@ class JavlibraryAutoPost {
 		console.log(`processing ${code}================\n`)
 		try {
 			try {
-				await this.page.goto(`http://www.javlibrary.com/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
+				await this.page.goto( this.domainToUse + `/en/vl_searchbyid.php?keyword=${code.replace('3DSVR', 'DSVR').replace('-', '+')}`, {
 					timeout: 30000
 				});
 			} catch(e) {
