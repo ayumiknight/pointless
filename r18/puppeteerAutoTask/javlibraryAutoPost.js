@@ -17,8 +17,8 @@ const crawl = require('../tasks/index.js');
 const javlibraryDomain = [
 	'http://javlibrary.com',
 	'http://m45e.com',
-	'http://b47w.com',
-	'http://j41g.com'
+	'http://b47w.com'
+	// 'http://j41g.com' redirects to b47w.com
 ]
 const deviceToEmulate = devices[Math.floor((Math.random() - 0.001 * devices.length))];
 
