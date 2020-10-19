@@ -40,7 +40,7 @@ class JavlibraryAutoPost {
 	}
 
 	async init() {
-		console.log('=========domainToUse===========', domainToUse)
+		console.log('=========domainToUse===========', this.domainToUse)
 		let self = this;
 		await this.wait(10); //each start should have interval
 
