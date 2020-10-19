@@ -17,8 +17,8 @@ const {
 axiosRretry(axios, { retries: 3 });
 
 
-let totalPage = 1,
-	currentPage = 1;
+let actressTotalPage = 11,
+actressCurrentPage = 1;
 
 function getPageUrl(pageindex) {
 	return `https://www.r18.com/videos/vod/movies/actress/letter=a/sort=popular/page=${pageindex}/`
@@ -44,7 +44,7 @@ async function loadPage(pageindex) {
 
 		paginations.each(function(i, entry) {
 			let pageNum = $(this).find('a').text().trimStart().trimEnd() * 1;
-			pageNum > totalPage ? totalPage = pageNum : null;
+			pageNum > actressTotalPage ? actressTotalPage = pageNum : null;
 		})
 
 	}
@@ -86,10 +86,10 @@ async function loadPage(pageindex) {
 async function index() {
 	let before = await measureActresses();
 	console.log(+ new Date() + ': actresses started' + JSON.stringify(before) + '\n')
-	while (currentPage <= totalPage) { 
-		await loadPage(currentPage);
-		console.log(+ new Date() + ': crawling page ' + currentPage +  '\n')
-		currentPage++;
+	while (actressCurrentPage <= actressTotalPage) { 
+		await loadPage(actressCurrentPage);
+		console.log(+ new Date() + ': crawling page ' + actressCurrentPage +  '\n')
+		actressCurrentPage++;
 	}
 	await new Promise((resolve, reject) => {
 		setTimeout(resolve, 1 * 60 * 1000);
