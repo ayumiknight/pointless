@@ -36,7 +36,7 @@ class JavlibraryAutoPost {
 		this.captchaMap = {};
 		this.headful = process.argv.find(one => one.match(/^--headful$/)) || headful;
 		this.firefox = process.argv.find(one => one.match(/^--firefox$/)) || firefox;
-		this.domainToUse = javlibraryDomain[Math.floor((Math.random() - 0.001) * 4)];
+		this.domainToUse = javlibraryDomain[Math.floor((Math.random() - 0.001) * javlibraryDomain.length)];
 	}
 
 	async init() {
