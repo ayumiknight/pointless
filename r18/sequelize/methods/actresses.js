@@ -10,13 +10,16 @@ async function ActressesBulkCreate(actresses) {
 }
 
 async function ActressCreate(actress) {
-
-	return Actress.findOrCreate({
+	const _actress = await Actress.findOne({
 		where: {
 			actress_id: actress.actress_id
-		},
-		defaults: actress
+		}
 	})
+	if (_actress) {
+		await _actress.update(actress)
+	} else {
+		await Actress.create(actress)
+	}
 }
 
 async function getActressesPagedByFirstLetter({
