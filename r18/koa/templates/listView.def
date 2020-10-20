@@ -4,7 +4,7 @@
 
 		{{~it.r18s :value:index}}
 			<a class="list-item f" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
-				<img class="cover" src="{{#def.proxy:value.cover}}"/>
+				<img alt="{{=value.code}} small cover image" class="cover" src="{{#def.proxy:value.cover}}"/>
 				{{?value.newTag}}
 				<span class="new-tag">NEW TODAY</span>
 				{{?}}
