@@ -50,8 +50,7 @@ const util = {
 			"description": "${desc}",
 			"image": "${entry.fullCover}",
 			"name": "${entry.code} Download at Jvrlibrary.com",
-			"url": "https://jvrlibrary.com/jvr?id=${encodeURIComponent(entry.code)}",
-		`,
+			"url": "https://jvrlibrary.com/jvr?id=${encodeURIComponent(entry.code)}",`,
 		OG = `
 			<meta property="og:title" content="${entry.code} Download at Jvrlibrary.com" />
 			<meta property="og:type" content="video.movie" />
