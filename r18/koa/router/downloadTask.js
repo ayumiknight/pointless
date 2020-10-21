@@ -35,7 +35,7 @@ function downloadOneTimeLink(url) {
 					headers = res.headers;
 
 				let fileName = headers['content-disposition'].replace(/^(.*)\"(.+)\"(.*)$/, "$2");
-				let writeStream = fs.createWriteStream(`./static/${fileName}`);
+				let writeStream = fs.createWriteStream(`./koa/static/${fileName}`);
 				stream.pipe(writeStream);
 				stream.on('end', resolve)
 			})
@@ -50,7 +50,7 @@ async function downloadFromRapidgator(code, episode) {
 	// try {
 		try {
 			execSync('rm *.mp4', {
-				cwd: '../static'
+				cwd: './koa/static'
 			})
 		} catch(e) {
 
