@@ -46,7 +46,6 @@ async function loadPage(pageindex) {
 			let pageNum = $(this).find('a').text().trimStart().trimEnd() * 1;
 			pageNum > actressTotalPage ? actressTotalPage = pageNum : null;
 		})
-
 	}
 
 	actresses.each(function(i, entry) {
@@ -87,8 +86,8 @@ async function index() {
 	let before = await measureActresses();
 	console.log(+ new Date() + ': actresses started' + JSON.stringify(before) + '\n')
 	while (actressCurrentPage <= actressTotalPage) { 
+		console.log(+ new Date() + ': crawling page ' + actressCurrentPage +  '\n', actressTotalPage)
 		await loadPage(actressCurrentPage);
-		console.log(+ new Date() + ': crawling page ' + actressCurrentPage +  '\n')
 		actressCurrentPage++;
 	}
 	await new Promise((resolve, reject) => {
