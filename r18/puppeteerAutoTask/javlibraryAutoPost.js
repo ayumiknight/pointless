@@ -181,11 +181,12 @@ class JavlibraryAutoPost {
 				}
 				xhr.open('GET',  document.getElementById('confirmobj').src);
 				xhr.responseType = 'blob';
-				xhr.send();   
+				xhr.send();
+				setTimeout(resolve, 5000)
 			});
 			return content;
 		});
-		console.log('======= raw captcha got ===========')
+		console.log('======= raw captcha got ===========', captcha)
 		return captcha;
 	}
 
@@ -203,8 +204,9 @@ class JavlibraryAutoPost {
 		}
 		console.log('before extracting confirm obj======')
 		
-	  	let captcha = await this.getAndDownloadConfirmObj();
-	  	
+		let captcha = await this.getAndDownloadConfirmObj();
+		
+		if (!captcha) throw new Error('can not get captcha==================');
 		let captchaSolution = this.checkOrSaveCaptcha(captcha);
 		console.log(captchaSolution, '==========captchaSolution for login')
 		if (!captchaSolution) throw new Error('captcha no match================');
