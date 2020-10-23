@@ -83,6 +83,7 @@ async function loadPage(pageindex) {
 
 
 async function index() {
+	actressCurrentPage = 1
 	let before = await measureActresses();
 	console.log(+ new Date() + ': actresses started' + JSON.stringify(before) + '\n', actressCurrentPage, actressTotalPage)
 	while (actressCurrentPage <= actressTotalPage) { 
