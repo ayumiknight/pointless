@@ -11,7 +11,7 @@ const {
 	measureActresses,
 	sequelize
 } = require('../../sequelize/methods/index.js');
-const { DATE } = require('sequelize/types');
+
 //https://www.r18.com/videos/vod/movies/actress/letter=a/sort=popular/page=330/
 //https://www.r18.com/videos/vod/movies/studio/letter=a/sort=popular/page=1/?lg=zh
 
