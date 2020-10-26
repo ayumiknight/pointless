@@ -51,7 +51,7 @@ async function loadPage(pageindex) {
 	}
 
 	actresses.each(function(i, entry) {
-		let logo = $(this).find('a img').attr('src'),
+		let logo = $(this).find('a img').attr('src') || `https://pics.r18.com/mono/actjpgs/nowprinting.gif`,
 			id = getIdFromUrl($(this).find('a').attr('href') || "", 'id'),
 			nameDivs = $(this).find('a .txt01 div'),
 			formattedName = "";
