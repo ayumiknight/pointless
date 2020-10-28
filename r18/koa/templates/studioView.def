@@ -1,5 +1,4 @@
 <div class="actress-view">
-	<div class="page-title">{{=it.zh ? '发行商' : 'Studios'}}</div>
 	<div class="actress-pagination">
 		{{~ it.letterPagination :value:index}}
 			<div class="pagination f fc {{=value.className}}">

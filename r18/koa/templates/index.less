@@ -1,10 +1,16 @@
-@primary: #f72020;
+
 @hemi: "HemiHead", "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
 @normal: Helvetica Neue, "微软雅黑", "黑体", "宋体", Helvetica, Arial, Utkal, sans-serif;
 @activeColor: #ffffff;
 @unactiveColor: #eeeeee;
 @unactiveHoverColor: #dddddd;
 @linkColor: #e4530b;
+@whiteBg: rgba(255, 255, 255, 0.85);
+@primary: #f9edc9;
+@primaryDark: #E9AFA3;
+@secondary: #f9edc9;
+@footer: rgba(104, 80, 68, 0.85);
+
 body {      
     img {
         border: none !important;
@@ -35,9 +41,10 @@ body {
     }
 
     #root {
-        background: white;
-        padding-bottom: 50px;
+        background: transparent;
+        padding-bottom: 100px;
         position: relative;
+        min-height: calc(100vh + 100px);
 
         .main.jvr {
             width: 1160px;
@@ -46,10 +53,10 @@ body {
 
         .main.normal {
             width: 1160px;
-            background: white;
+            background: @whiteBg;
             margin: auto;
             padding: 10px;
-
+            border-radius: 3px;
             &.jvrList {
                 width: 1160px;
                 background: transparent;
@@ -99,15 +106,19 @@ body {
         width: 100%;
         text-align: center;
         font-size: 15px;
-        color: #999;
+        color: white;
         line-height: 50px;
+        background: @footer;
+        position: absolute;
+        bottom: 0;
+        left: 0;
     }
 
     .panel {
         margin-bottom: 10px;
         padding: 10px;
         border-radius: 3px;
-        background: white;
+        background: @whiteBg;
 
         &.panel-m-r {
             margin-right: 10px;
@@ -135,6 +146,17 @@ body {
         margin-top: 15px;
         vertical-align: top;
     }
+    .page-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        z-index: -1;
+    }
 }
 
 @media only screen and (max-width: 480px) {
@@ -149,6 +171,8 @@ body {
         min-width: 100vw;
 
         #root {
+            min-height: calc(100vh + 50px);
+            padding-bottom: 50px;
             .main.normal {
                 position: static !important;
                 width: 100vw;

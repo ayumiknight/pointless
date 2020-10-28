@@ -1,16 +1,16 @@
 
 .jvr-list {
-    width: 690px;
-    padding: 10px;
+    width: 850px;
+    padding: 10px 0;
     margin-right: 10px;
-    background: white;
+    background: @whiteBg;
     display: inline-block;
+    border-radius: 3px;
     .list-view {
         justify-content: space-around;
 
         .list-item {
             width: 147px;
-            background: white;
             margin: 10px;
             display: inline-block;
             text-decoration: none;
@@ -155,5 +155,10 @@
     }
     .my-selection {
         display: none !important;
+    }
+    .jvrList {
+        .right-column-wrap {
+            display: none;
+        }
     }
 }

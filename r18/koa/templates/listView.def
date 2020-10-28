@@ -1,7 +1,5 @@
 <div class="jvr-list">
-	<div class="page-title">{{=it.pageTitle}}</div>
 	<div class="list-view f r fc">
-
 		{{~it.r18s :value:index}}
 			<a class="list-item f" href="{{=it.zh ? '/zh' : ''}}/jvr?id={{=encodeURIComponent(value.code)}}">
 				<img alt="{{=value.code}} small cover image" class="cover" src="{{#def.proxy:value.cover}}"/>

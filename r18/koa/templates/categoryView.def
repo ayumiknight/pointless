@@ -1,5 +1,4 @@
 <div class="category-view">
-	<div class="page-title">{{=it.zh ? '类别' : 'Genre'}}</div>
 	{{ for(var prop in it.categories) { }}
 		<div class="category-block">
 			<div class="category-title">

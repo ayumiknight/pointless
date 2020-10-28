@@ -1,4 +1,3 @@
-<div class="page-title">{{=it.zh ? '排行' : 'Ranking'}}</div>
 <div class="days-select f r fs">
 	{{~ [1, 7, 30] :days:index}}
 		<a class="days-select-button {{= it.days === days ? 'current' : ''}}" href="{{=it.zh ? '/zh' : ''}}/ranking?days={{=days}}">

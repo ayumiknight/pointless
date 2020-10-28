@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
     var Extra = sequelize.define('Extra', {
         extra: {
-            type: DataTypes.STRING(5000),
+            type: DataTypes.STRING(10000),
             comment: "pixhost与rapidgator",
         },
         syncFrom: {

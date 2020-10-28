@@ -8,6 +8,7 @@ sequelize/dbConfig.js
 puppeteerAutoTask/javlibraryConf.js
 javarchiveTasks/rapidgatorConfig.js
 javarchiveTasks/ocrConfig.js
+javarchiveTasks/k2Config.js
 *.log
 crawled*.*
 *.txt

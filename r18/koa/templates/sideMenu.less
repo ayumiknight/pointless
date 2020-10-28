@@ -1,160 +1,244 @@
-.side-menu {
+.top-menu {
 	width: 100%;
-	position: relative;
-	height: 200px;
-	background-size: cover;
-	background-position: center;
-	text-align: center;
+	position: static;
+	z-index: 100;
+	top: -65px;
+	left: 0;
+	background: rgba(153 ,178, 221, 0.35);
 	* {
 		text-align: center;
 		font-family: @hemi;
-		text-shadow: 0 0 3px rgba(155,155,155, 0.5);
+		text-shadow: 0 0 3px rgba(155,155,155, 0.65);
 	}
 
-	.site-name {
-		font-size: 25px;
-		padding-left: 50px;
-		margin-top: 12px;
-		left: 0;
-		top: 0;
-		display: inline-block;
-		position: absolute;
-		color: white;
-		text-align: left;
-		.sub-name {
-			font-size: 20px;
-			color: white;
-			font-style: italic;
-			display: inline-block;
-			margin-left: 20px;
-		}	
-	}
-
-	.search {
-		padding-right: 20px;
-		padding-top: 20px;
-		display: inline-block;
-		input {
-			font-size: 20px;
-			width: 300px;
-			font-style: italic;
-			background: white;
-			-webkit-appearance: none;
-			border: none;
-		}
-	}
-  #login {
-		position: absolute;
-		top: 15px;
-		right: 5px;
-		.login-or-register-root {
-			color: white;
-			* {
+	.main-menu {
+		position: relative;
+		width: 1160px;
+		height: 70px;
+		align-items: center;
+		justify-content: space-between;
+		display: flex;
+		margin: 0 auto;
+		
+		.site-logo {
+			padding-left: 50px;
+			display: flex;
+			flex: none;
+			flex-direction: column;
+			text-decoration: none;
+			.site-name {
+				font-size: 30px;
 				color: white;
-				border-color: white;
+				text-align: left;
 			}
-		}
-	}
-
-}
-
-.real-side-menu {
-	width: 1160px;
-	padding: 10px;
-	margin: 0 auto;
-	border-radius: 3px;
-	border-bottom: 1px solid #e4e4e4;
-	justify-content: center;
-	a {
-		font-size: 20px;
-		text-decoration: none;
-		font-family: @hemi;
-		display: inline-block;
-		width: 100px;
-		line-height: 40px;
-		text-align: center;
-		&:hover {
-			background: @primary;
-			color: white !important;
-			&.half {
-				span {
-					color: white !important;
-				}
-			}
-		}
-		&:hover {
-			i {
-				color: white !important;
-			}
-		}
-		&.current {
-			color: @primary;
-			&.half {
-				span {
-					color:  @primary;
-				}
-			}
-		}
-		i {
-			line-height: 40px;
-		}
-		&.rapidgator {
-			width: 100%;
-			text-align: center;
-		}
-		&.half {
-			width: 50%;
-			text-align: center;
-			span {
-				font-family: @hemi;
-				position: relative;
-				top: -5px;
-				left: 10px;
-				font-size: 14px;
-			}
-		}
- 	}
-}
-
-
-
-@media only screen and (max-width: 480px) {
-	.side-menu {
-		text-align: right;
-		height: 100px;
-		.site-name {
-			font-size: 18px;
-			padding-left: 20px;
-			margin-top: 3px;
 			.sub-name {
 				font-size: 15px;
-				display: block;
-				margin-left: 0;
-			}
+				color: white;
+				font-style: italic;
+			}	
 		}
 
 		.search {
-			padding-right: 5px;
-			padding-top: 13px;
+			display: flex;
+			flex: none;
+			justify-content: flex-end;
+			align-items: center;
 			input {
-				font-size: 15px;
-				width: 180px;
+				font-size: 20px;
+				width: 250px;
+				color: white;
+				font-style: italic;
+				background: transparent;
+				-webkit-appearance: none;
+				border: none;
+				outline: none;
+				border: 1px solid white;
+				border-radius: 30px;
+				margin-right: 30px;
+			}
+			input::-webkit-input-placeholder {
+				color: white;
+			}
+
+			#login {
+				.login-or-register-root {
+					color: white !important;
+					* {
+						color: white !important;
+						border-color: white !important;
+					}
+				}
 			}
 		}
-		#login {
-			bottom: 5px !important;
-			top: auto;
+		
+	}
+	.sub-menu {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-bottom: 5px;
+		width: 1160px;
+		margin: 0 auto;
+
+		.menu-items {
+			display: flex;
+			flex: none;
+			align-items: center;
+			a {
+				padding: 5px 40px 5px 0px;
+			}
+		}
+		.switch {
+			border-radius: 3px;
+			border: 1px solid white;
+			a {
+				display: inline-block;
+				color: white;
+				cursor: pointer;
+				svg {
+					path {
+						fill: white;
+					}
+				}
+				span {
+					color: white;
+				}
+			}
+			a:first-child {
+				border-right: 1px solid white;
+			}
+		}
+		a {
+			color: @secondary;
+			display: flex;
+			flex: none;
+			align-items: center;
+			text-decoration: none;
+			font-size: 20px;
+			padding: 5px 10px;
+			transition: all .3s ease-in-out;
+			span {
+				color: @secondary;
+			}
+			svg {
+				width: 25px;
+				height: 25px;
+				margin-right: 8px;
+				vertical-align: bottom;
+				path {
+					fill: @secondary;
+				}
+			}
+			&.current, :hover {
+				color: @primaryDark;
+				svg {
+					path {
+						fill: @primaryDark;
+					}
+				}
+			}
+		}	
+	}
+}
+
+.top-menu-offset {
+	height: 115px;
+	content: ' ';
+	width: 100%;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 480px) {
+	.top-menu {
+		width: 100%;
+		position: static;
+		top: -65px;
+
+	
+		.main-menu {
+			width: 100vw;
+			height: 70px;
+			padding-left: 2vw;
+			padding-right: 2vw;
+			.site-logo {
+				padding-left: 0;
+				.site-name {
+					font-size: 20px;
+				}
+				.sub-name {
+					font-size: 10px;
+				}
+			}
+	
+			.search {
+				flex-direction: column;
+				align-items: flex-end;
+				input {
+					font-size: 15px;
+					width: 180px;
+					margin-right: 0;
+					margin-bottom: 5px;
+					
+				}
+
+				#login {
+					.login-or-register-root {
+						color: white !important;
+						* {
+							color: white !important;
+							border-color: white !important;
+						}
+					}
+				}
+			}
+			
+		}
+		.sub-menu {
+			padding-left: 2vw;
+			padding-right: 2vw;
+			width: 100vw;
+	
+			.menu-items {
+				display: flex;
+				flex: none;
+				align-items: center;
+				a {
+					padding: 2px 10px 2px 0px;
+				}
+			}
+			.switch {
+				border-radius: 3px;
+				border: 1px solid white;
+				display: flex;
+				flex-wrap: nowrap;
+				align-items: center;
+				flex: none;
+				a {
+					display: flex;
+					align-items: center;
+					flex-wrap: nowrap;
+					span {
+						display: none;
+					}
+				}
+			}
+			a {
+				font-size: 13px;
+				padding: 2px 5px;
+				transition: all .3s ease-in-out;
+				svg {
+					width: 12px;
+					height: 12px;
+					margin-right: 2px;
+					vertical-align: bottom;
+				}
+			}	
 		}
 	}
-	.real-side-menu {
-		width: 100%;
-		a {	
-			font-size: 14px;
-			line-height: 30px;
-			width: 14%;
-			i {
-				line-height: 30px;
-			}
-		}
+	
+	.top-menu-offset {
+		height: 97px;
+		margin-bottom: 0px;
 	}
 }

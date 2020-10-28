@@ -324,12 +324,12 @@ class Root extends React.Component {
       
       { isLogin ? <div className="logined">
         <Avatar src={avatar} />
-        <ButtonGroup  size={screenWidth <= 480 ? 'small' : 'large'} color="primary">
+        <ButtonGroup  size="small" color="primary">
           <Button onClick={this.logout}>Logout</Button>
           {/* <Button onClick={this.edit}>My</Button> */}
           {supportPush && <Button startIcon={isSubscribing ? <HourglassEmptyIcon/> : null } onClick={this.toggle}>{!isZh ? (sub ? 'UnSubscribe' : 'Subscribe'): (sub ? '取消订阅': '订阅')}</Button>}
         </ButtonGroup>
-      </div> : <ButtonGroup size={screenWidth <= 480 ? 'small' : 'large'} color="primary">
+      </div> : <ButtonGroup size="small" color="primary">
         <Button onClick={this.login}>Login</Button>
         <Button onClick={this.reg}>Register</Button>
         {supportPush && <Button startIcon={isSubscribing ? <HourglassEmptyIcon/> : null } onClick={this.toggle}>{!isZh ? (sub ? 'UnSubscribe' : 'Subscribe'): (sub ? '取消订阅': '订阅')}</Button>}
