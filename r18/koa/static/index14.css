@@ -666,7 +666,7 @@ body .page-bg {
   padding: 20px;
   width: 100%;
   border: 1px solid #ddd;
-  background: #fff;
+  background: transparent;
   line-height: 1.5em;
   letter-spacing: 0.3px;
   color: #444;
@@ -727,6 +727,7 @@ body .page-bg {
   }
   .single-view {
     width: 100%;
+    margin-bottom: 0px;
   }
   .single-view .title {
     font-size: 14px;
@@ -922,7 +923,7 @@ body .page-bg {
 }
 @media only screen and (max-width: 480px) {
   .jvr-list.recommend {
-    margin: 10px 0;
+    margin: 0;
     width: 100vw;
   }
   .jvr-list.recommend .page-title {
