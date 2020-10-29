@@ -6,9 +6,9 @@ npm-debug.log
 logs/
 sequelize/dbConfig.js
 puppeteerAutoTask/javlibraryConf.js
-javarchiveTasks/rapidgatorConfig.js
-javarchiveTasks/ocrConfig.js
-javarchiveTasks/k2Config.js
+tasks/syncRapidgator/rapidgatorTask/rapidgatorConfig.js
+tasks/syncRapidgator/rapidgatorTask/ocrConfig.js
+tasks/syncRapidgator/rapidgatorTask/k2sConfig.js
 *.log
 crawled*.*
 *.txt

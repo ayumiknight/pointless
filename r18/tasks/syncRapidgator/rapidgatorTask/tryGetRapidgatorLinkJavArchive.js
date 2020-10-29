@@ -77,6 +77,7 @@ async function tryGetRapidgatorLink({
 
 		javInfo.pixhost = [];
 		javInfo.rapidgator = [];
+		javInfo.k2s = [];
 
 		articleContent.find('a').each(function(i, elem) {
 
@@ -90,6 +91,8 @@ async function tryGetRapidgatorLink({
 
 			} else if (link && link.match('rapidgator')) {
 				javInfo.rapidgator.push(link);
+			} else if (link && link.match('"https://k2s.cc/file/')) {
+				javInfo.k2s.push(link)
 			}
 		})
 	}
