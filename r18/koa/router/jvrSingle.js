@@ -75,10 +75,10 @@ module.exports = async (ctx, next) => {
 			})
 		]);
 		if (pre && pre[0] && pre[0].code) {
-			r18.previous = pre[0].code;
+			r18._previous = pre[0].code;
 		}
 		if (next && next[0] && next[0].code) {
-			r18.next = next[0].code;
+			r18._next = next[0].code;
 		}
 	}
 
@@ -103,7 +103,6 @@ module.exports = async (ctx, next) => {
 		vr,
 		nonvr
 	} = await getNewRapidgator();
-	
 	ctx.body = ctx.dots.index({
 		type: 'jvr',
 		pageTitle: title.slice(0, 150),
