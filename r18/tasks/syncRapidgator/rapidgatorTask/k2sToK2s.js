@@ -2,13 +2,12 @@ const axios = require('axios');
 const { _66, tezP } = require('./k2sConfig');
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-async function tezToK2sRp({
+async function k2sToK2s({
   javInfo,
-  R,
   code
 }) {
   const {
-    tezFiles = []
+    k2s = []
   } = javInfo;
 
   const k2sTargetFolder = await axios({
@@ -22,22 +21,18 @@ async function tezToK2sRp({
     })
   })
   const k2sTargetFolderId = k2sTargetFolder.data.id;
-
-  const rpTargetFolderId = await R.createFolder(code);
-
   const myK2ss = []
-  const myRps = []
 
   let index = 0;
-  while(index < tezFiles.length) {
-    const link = tezFiles[index]
+  while(index < k2s.length) {
+    const link = k2s[index]
     try {
       const tempUrl = await axios({
-        url: 'https://tezfiles.com/api/v2/getUrl',
+        url: 'https://keep2share.cc/api/v2/getUrl',
         method: 'POST',
         data: JSON.stringify({
           access_token: tezP,
-          file_id: link.replace(/^https\:\/\/tezfiles.com\/file\/([a-z0-9]+)\/.+$/, "$1")
+          file_id: link.replace(/^https\:\/\/k2s.cc\/file\/([a-z0-9]+)\/.+$/, "$1")
         })
       });
       const headRes = await axios({
@@ -64,21 +59,16 @@ async function tezToK2sRp({
           access: "premium"
         })
       })
-      console.log(k2sSaveResult.data, '======================k2s saveresult==========')
-      const rpLink = await R.tezToRpSingle({
-        newName: detail.newName,
-        detail,
-        folderId: rpTargetFolderId
-      })
+      
       myK2ss.push(k2sSaveResult.data.link + '/' + detail.newName);
-      myRps.push(rpLink)
-      console.log('========one file success=========', myK2ss, myRps)
+      console.log('========one file success=========', myK2ss)
     } catch(e) {
       console.log(e.message, '===========tez to k2s rp single====', link)
     }
     index++;
   }
+  console.log('before k2s copy========', javInfo.k2s.length)
   javInfo.k2s = myK2ss;
-  javInfo.rapidgator = myRps;
+  console.log('after k2s copy========', javInfo.k2s.length)
 }
-module.exports = tezToK2sRp;
+module.exports = k2sToK2s;
