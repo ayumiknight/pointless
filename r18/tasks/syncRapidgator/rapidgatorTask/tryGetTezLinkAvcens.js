@@ -99,7 +99,4 @@ async function tryGetTexLinkAvcens({
 	return javInfo;
 }
 
-tryGetTexLinkAvcens({
-  code: 'SIVR 096'
-})
 module.exports = tryGetTexLinkAvcens;

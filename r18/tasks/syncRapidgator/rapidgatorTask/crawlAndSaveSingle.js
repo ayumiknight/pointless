@@ -69,4 +69,5 @@ async function test() {
         R
     })
 }
+test()
 module.exports = crawlAndSaveSingle;
