@@ -162,7 +162,7 @@ async function tezToK2sRp({
         detail,
         folderId: rpTargetFolderId
       })
-      myK2ss.push(k2sSaveResult.link + '/' + k2sSaveResult.name);
+      myK2ss.push(k2sSaveResult.data.link + '/' + detail.newName);
       myRps.push(rpLink)
       console.log('========one file success=========', myK2ss, myRps)
     } catch(e) {
