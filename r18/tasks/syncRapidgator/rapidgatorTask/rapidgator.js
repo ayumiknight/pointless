@@ -73,14 +73,14 @@ class Rapidgator {
 					name,
 					url
 				} = r.data.response.file;
-				const name = `${code}${copied.length > 1 ? `.part${index + 1}` : ''}.jvrlibrary.${name.split('.').pop()}`
+				const newName = `${code}${copied.length > 1 ? `.part${index + 1}` : ''}.jvrlibrary.${name.split('.').pop()}`
 				const res = await axios({
-					url: this.b + `/file/rename?name=${name}&file_id=${file_id}&token=${this.token}`
+					url: this.b + `/file/rename?name=${newName}&file_id=${file_id}&token=${this.token}`
 				})
 				if (res.data.status === 200) {
 					let urlFrag = url.split('/')
 					urlFrag.pop()
-					urlFrag.push(name + '.html');
+					urlFrag.push(newName + '.html');
 					resolve(urlFrag.join('/'))
 				} else {
 					resolve(url)
