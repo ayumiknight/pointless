@@ -137,7 +137,7 @@ class Rapidgator {
 		const uploadRes = upload.data.response.upload
 		// already exist
 		if (uploadRes.file && uploadRes.file.url) {
-			return upload.file.url
+			return uploadRes.file.url
 		} else if (uploadRes.url) {
 			await new Promise((resolve, reject) => {
 				const form = new formData()
