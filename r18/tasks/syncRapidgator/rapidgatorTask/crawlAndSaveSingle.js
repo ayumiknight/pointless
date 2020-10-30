@@ -23,7 +23,6 @@ async function crawlAndSaveSingle({
             javInfo
         })
     } catch(e) {
-        console.log(e.message, code, '=============javarchive not found=========')
         if (vr) {
             javInfo = await tryGetTezLinkAvcens({
                 code
@@ -34,14 +33,13 @@ async function crawlAndSaveSingle({
                 R,
                 code
             })
+        } else {
+            throw e
         }
     }
-    
-    console.log({
-        k2s: javInfo.k2s,
-        rapidgator: javInfo.rapidgator,
-        href: javInfo.href
-    }, 'final crawl data============')
+    if (!javInfo || !javInfo.k2s) {
+        throw new Error(code + 'not found at crawl single========')
+    }
     return {
         k2s: javInfo.k2s,
         rapidgator: javInfo.rapidgator,
