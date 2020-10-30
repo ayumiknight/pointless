@@ -625,6 +625,8 @@ body .page-bg {
 .single-view .content .section a {
   font-size: 13px;
   color: #E9AFA3;
+  display: block;
+  line-height: 2;
 }
 .single-view .content .section .line {
   margin: 5px 0;
