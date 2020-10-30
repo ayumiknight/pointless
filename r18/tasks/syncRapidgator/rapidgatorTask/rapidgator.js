@@ -161,7 +161,7 @@ class Rapidgator {
 		folderId
 	}) {
 		console.log("====================tez to rp single==============", newName, detail)
-		const upload = await axios.get(this.b + `/file/upload?token=${this.token}&name=${newName}&hash=${detail.md5}&size=${detail.contentLength}`)		
+		const upload = await axios.get(this.b + `/file/upload?token=${this.token}&name=${newName}&hash=${detail.md5}&size=${detail.contentLength}&folder_id=${folderId}`)		
 		console.log(upload.data, '==========creating upload session====')
 		const uploadRes = upload.data.response.upload
 		// already exist
