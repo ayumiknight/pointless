@@ -33,7 +33,7 @@ async function getJavInfo(href) {
 	const k2s = [];
 
 	articleContent.find('a').each(function(i, elem) {
-		let link = $(this).attr('href');
+		let link = $d(this).attr('href');
 		if (link && link.match('rapidgator')) {
 			rapidgator.push(link);
 		} else if (link && link.match('https://k2s.cc/file/')) {
