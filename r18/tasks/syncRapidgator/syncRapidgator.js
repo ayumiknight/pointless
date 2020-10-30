@@ -57,7 +57,7 @@ async function syncRapidgator({
 
 			try {
 				let extras = await crawlAndSaveSingle({
-					code: code.replace('-', ' '),
+					code,
 					R,
 					vr
 				});

@@ -26,7 +26,7 @@ async function tryGetTexLinkAvcens({
 	code
 }) {
 
-	let [ series, id ] = code.split(' '),
+	let [ series, id ] = code.split('-'),
 		javInfo;
 
 	// https://avcens.xyz/?s=sivr+096

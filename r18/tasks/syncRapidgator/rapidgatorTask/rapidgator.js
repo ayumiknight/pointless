@@ -127,35 +127,10 @@ class Rapidgator {
 		return data.response.link.url;
 	}
 
-	async tezToRp({
-		code,
-		javInfo
-	}) {
-		const {
-			tezFileDetails = [] 
-		} = javInfo;
-		const rapidgator = [];
-
-		let index = 0;
-		while(index < tezFileDetails.length) {
-			const one = tezFileDetails[index];
-			const {
-				extension
-			} = one;
-			const newName = code + (tezFileDetails.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension;
-			const rpLink = await this.tezToRpSingle({
-				detail: one,
-				newName
-			});
-			rapidgator.push(rpLink)
-			index++;
-		}
-		javInfo.rapidgator = rapidgator;
-	}
-
 	async tezToRpSingle({
 		newName,
-		detail
+		detail,
+		folderId
 	}) {
 		console.log("====================tez to rp single==============", newName, detail)
 		const upload = await axios.get(this.b + `/file/upload?token=${this.token}&name=${newName}&hash=${detail.md5}&size=${detail.contentLength}`)		
@@ -185,7 +160,7 @@ class Rapidgator {
 				await new Promise(res => {
 					setTimeout(res, 1000)
 				})
-				const check = await axios.get(this.b + `/file/upload?token=${this.token}&name=${newName}&hash=${detail.md5}&size=${detail.contentLength}`)
+				const check = await axios.get(this.b + `/file/upload?token=${this.token}&name=${newName}&hash=${detail.md5}&size=${detail.contentLength}&folder_id=${folderId}`)
 				if (check.data.response.upload.file && check.data.response.upload.file.url) {
 					finalUrl = check.data.response.upload.file.url
 				}

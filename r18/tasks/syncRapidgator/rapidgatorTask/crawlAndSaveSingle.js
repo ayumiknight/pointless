@@ -1,11 +1,8 @@
 const tryGetRapidgatorLinkJavArchive = require('./tryGetRapidgatorLinkJavArchive.js');
 const tryGetTezLinkAvcens = require('./tryGetTezLinkAvcens.js');
 const rapidgator = require('./rapidgator');
-const {
-    tezToK2s,
-    k2sToK2s,
-    populateTezData
-} = require('./k2sTez');
+const tezToK2sRp = require('./tezToK2sRp');
+const { _66, tezP } = require('./k2sConfig');
 async function crawlAndSaveSingle({
     code,
     R,
@@ -17,21 +14,13 @@ async function crawlAndSaveSingle({
         javInfo = await tryGetTezLinkAvcens({
             code
         })
-        console.log('======javinfo= got======', javInfo)
-        await populateTezData({
-            javInfo
-        });
-        console.log('======populateTezData= got======', javInfo)
-        await tezToK2s({
-            code,
-            javInfo
+
+        await tezToK2sRp({
+            javInfo,
+            R,
+            code
         })
-        console.log('======tezToK2s= got======', javInfo)
-        await R.tezToRp({
-            code,
-            javInfo
-        })
-        console.log('======tezToRp= got======', javInfo)
+
        
     } else {
      
@@ -64,7 +53,7 @@ async function test() {
     const R = new rapidgator()
     await R.login();
     await crawlAndSaveSingle({
-        code: 'SIVR 096',
+        code: 'SIVR-096',
         vr: 1,
         R
     })
