@@ -156,7 +156,7 @@ async function tezToK2sRp({
           access: "premium"
         })
       })
-
+      console.log(k2sSaveResult.data, '======================k2s saveresult==========')
       const rpLink = await R.tezToRpSingle({
         newName: detail.newName,
         detail,
