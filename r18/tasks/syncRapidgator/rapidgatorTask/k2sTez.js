@@ -54,17 +54,26 @@ async function k2sToK2s({
       access: 'premium'
     })
   })
-  const files = await Promise.all(k2s.map((one, index) => {
-    const extension = one.split('.').pop();
-    return k2sToK2sSingle({
-      link: one,
-      newName: code + (k2s.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension,
-      folder: folder.data.id
-    })
-  }).catch(e => {
-    return null
-  }))
-  javInfo.k2s = files.filter(el => !!el).map(el => {
+  
+  let myK2ss = []
+  let index = 0;
+
+  while(index < k2s.length) {
+    try {
+      const one = k2s[index];
+      const extension = one.split('.').pop();
+      const myK2s = await k2sToK2sSingle({
+        link: one,
+        newName: code + (k2s.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension,
+        folder: folder.data.id
+      })
+      myK2ss.push(myK2s)
+    } catch(e) {
+      console.log('==============error at k22ToK2sSingle ==============', e.message)
+    }
+    index++;
+  }
+  javInfo.k2s = myK2ss.map(el => {
     return el.link + '/' + el.name
   })
 }
@@ -111,19 +120,27 @@ async function tezToK2s({
       access: 'premium'
     })
   })
-  const files = await Promise.all(tezFileDetails.map((one, index) => {
-    const {
-      extension
-    } = one;
-    return tezToK2sSingle({
-      detail: one,
-      newName: code + (tezFiles.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension,
-      folder: folder.data.id
-    })
-  }).catch(e => {
-    return null
-  }))
-  javInfo.k2s = files.filter(el => !!el).map(el => {
+  
+  const myK2ss = []
+  let index = 0;
+  while(index < tezFileDetails.length) {
+    try {
+      const one = tezFileDetails[index];
+      const {
+        extension
+      } = one;
+      const myK2s = tezToK2sSingle({
+        detail: one,
+        newName: code + (tezFileDetails.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension,
+        folder: folder.data.id
+      })
+      myK2ss.push(myK2s)
+    } catch(e) {
+      console.log(e.message, '===========error at tezToK2sSingle====', link)
+    }
+    index++
+  }
+  javInfo.k2s = myK2ss.map(el => {
     return el.link + '/' + el.name
   })
 }
@@ -133,34 +150,35 @@ async function populateTezData({
   const {
     tezFiles = []
   } = javInfo;
-  const tezFileDetails = await Promise.all(tezFiles.map(link => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const tempUrl = await axios({
-          url: 'https://tezfiles.com/api/v2/getUrl',
-          method: 'POST',
-          data: JSON.stringify({
-            access_token: tezP,
-            file_id: link.replace(/^https\:\/\/tezfiles.com\/file\/([a-z0-9]+)\/.+$/, "$1")
-          })
-        });
-        const headRes = await axios({
-          method: 'HEAD',
-          url: tempUrl.data.url
-        });
-        resolve({
-          extension: link.split('.').pop(),
-          tempUrl: tempUrl.data.url,
-          md5: headRes.headers.etag,
-          contentLength: headRes.headers['content-length']
+
+  const details  = []
+  let index = 0;
+  while(index < tezFiles.length) {
+    try {
+      const tempUrl = await axios({
+        url: 'https://tezfiles.com/api/v2/getUrl',
+        method: 'POST',
+        data: JSON.stringify({
+          access_token: tezP,
+          file_id: link.replace(/^https\:\/\/tezfiles.com\/file\/([a-z0-9]+)\/.+$/, "$1")
         })
-      } catch(e) {
-        console.log(e.message, '===========error at populateTezData====', link)
-        resolve(null)
-      }
-    })
-  }))
-  javInfo.tezFileDetails = tezFileDetails.filter(el => !!el);
+      });
+      const headRes = await axios({
+        method: 'HEAD',
+        url: tempUrl.data.url
+      });
+      details.push({
+        extension: link.split('.').pop(),
+        tempUrl: tempUrl.data.url,
+        md5: headRes.headers.etag,
+        contentLength: headRes.headers['content-length']
+      })
+    } catch(e) {
+      console.log(e.message, '===========error at populateTezData====', link)
+    }
+    index++;
+  }
+  javInfo.tezFileDetails = details;
 }
 module.exports = {
   k2sToK2s,
