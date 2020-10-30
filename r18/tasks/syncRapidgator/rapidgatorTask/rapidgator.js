@@ -139,7 +139,8 @@ class Rapidgator {
 		let folderId = await this.createFolder(name);
 		let myLinks= await this.xCopyLinks({
 			fileLinks,
-			folderId
+			folderId,
+			code: name
 		});
 		return myLinks;
 	}

@@ -1,6 +1,5 @@
 const tryGetRapidgatorLinkJavArchive = require('./tryGetRapidgatorLinkJavArchive.js');
 const tryGetTezLinkAvcens = require('./tryGetTezLinkAvcens.js');
-const rapidgator = require('./rapidgator');
 const tezToK2sRp = require('./tezToK2sRp');
 const k2sToK2s = require('./k2sToK2s');
 async function crawlAndSaveSingle({
@@ -47,14 +46,4 @@ async function crawlAndSaveSingle({
     }
 }
 
-async function test() {
-    const R = new rapidgator()
-    await R.login();
-    await crawlAndSaveSingle({
-        code: 'BGN-061',
-        vr: 0,
-        R
-    })
-}
-test()
 module.exports = crawlAndSaveSingle;
