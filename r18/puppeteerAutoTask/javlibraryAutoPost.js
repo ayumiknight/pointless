@@ -245,11 +245,18 @@ class JavlibraryAutoPost {
 			});
 			const rows = R18s.rows || [];
 
+			let extras = JSON.parse(rows[0].Extras.extra);
+			let rapidgator = extras.rapidgator || [];
+			let k2s = extras.k2s || [];
+
 			if (!rows.length) {
 				console.log(pagenum + ' all entries posted============\n')
 				break;
+			} else if (!rapidgator.length && !k2s.length){
+				// noop
 			} else {
 				const lastPost = rows[0].lastPost
+				
 				if (true) {
 					const success = await this.checkAndPostSingle(rows[0]);
 					!success && (pagenum += 1);
@@ -388,10 +395,10 @@ class JavlibraryAutoPost {
 		}
 
 
-		let extras = row.Extras;
-		let rapidgator = JSON.parse(extras.extra).rapidgator;
+		let extras = JSON.parse(row.Extras.extra);
 
-		let formatEntry = this.formatEntry(rapidgator, code);
+
+		let formatEntry = this.formatEntry(extras, code);
 		let openCommentAndFillEntry = await this.page.evaluate(function(formatEntry) {
 			document.getElementById('video_icn_comment_edit').getElementsByTagName('input')[0].click();
 			setTimeout(function() {
@@ -419,12 +426,22 @@ class JavlibraryAutoPost {
 		
 	}
 
-	formatEntry(rapidgator, code) {
+	formatEntry(extras, code) {
+		const {
+			rapidgator = [],
+			k2s = []
+		} = extras;
 		let rapidgatorFormatted = rapidgator.map(link => {
 			return `[url=${link}]${link}[/url]\n`;
 		}).join('');
-
-		return `[url=https://jvrlibrary.com/rapidgator?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/jvrslogan-sm.jpg[/img][/url]\n\n\n[url=https://jvrlibrary.com/rapidgator?from=javlibrary-${encodeURIComponent(code)}][b]Visit jvrlibrary.com for More Japan VR videos !! Have FUUUNNNN !![/b][/url]\n\n\n` + rapidgatorFormatted + `\n[url=https://jvrlibrary.com/rapidgator?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/coffin_dance.jpg[/img][/url]`;
+		let k2sFormatted = k2s.map(link => {
+			return `[url=${link}]${link}[/url]\n`;
+		}).join('');
+		let urls = [k2sFormatted, rapidgatorFormatted].join('\n');
+		if (k2sFormatted) {
+			urls = `Try out online streaming option with K2S now !\n` + urls;
+		}
+		return `[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/jvrslogan-sm.jpg[/img][/url]\n\n\n[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][b]Visit jvrlibrary.com for More Japan VR videos !! Go FUUUNNNNKKKKYYYY !![/b][/url]\n` + urls + `\n[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/coffin_dance.jpg[/img][/url]`;
 	}
 
 	wait(sec) {

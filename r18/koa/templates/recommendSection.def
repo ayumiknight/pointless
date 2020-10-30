@@ -10,7 +10,6 @@
 				<img alt="{{=value.code}} small cover image" class="cover" src="{{#def.proxy:value.cover}}" >	
 				</img>
 				{{?value.Extras}}
-				<img class="rgbtn" src="/static/rgbtn.gif"/>
 				{{?}}
 				<div class="bottom">
 					<div class="code">

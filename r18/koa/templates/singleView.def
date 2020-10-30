@@ -18,63 +18,38 @@
                     </div>
                     {{?}}
                 </div>
-                <div class="my-tab">
-                    <input {{=it.r18.rapidgator ? "" : 'checked'}} id="tab1" type="radio" name="pct" />
-                    <input id="tab3" type="radio" name="pct" />
-                    <input {{=it.r18.rapidgator ? "checked" : ""}} id="tab4" type="radio" name="pct" />
-                    <nav>
-                        <ul>
-                            <li class="tab1">
-                                <label for="tab1">{{=it.zh ? '详情' : 'Details'}}</label>
-                            </li>
-                            <li class="tab3">
-                                <label for="tab3">{{=it.zh ? '截屏' : 'ScreenShots'}}</label>
-                            </li>
-                            <li class="tab4">
-                                <label for="tab4">Rapidgator</label>
-                            </li>
-                        </ul>
-                    </nav>
-                    <section>
-                        <div class="tab1">
-                            {{ for(var prop in it.r18.details) { }}
-                            <div class="line">
-                                <div class="label">
-                                    {{=prop}}:
-                                </div>
-                                <div class="value">
-                                    {{=it.r18.details[prop]}}
-                                </div>
+                <div class="content">
+                    <div class="label">{{=it.zh ? '详情' : 'Details'}}</div>
+                    <div class="section">
+                        {{ for(var prop in it.r18.details) { }}
+                        <div class="line">
+                            <div class="label">
+                                {{=prop}}:
                             </div>
-                            {{ } }}
+                            <div class="value">
+                                {{=it.r18.details[prop]}}
+                            </div>
                         </div>
-                        <div class="tab3">
-                            {{? it.r18.pixhost}}
-                            {{~it.r18.pixhost :value:index}}
-                            <a href="{{=value.link}}" class="external" rel="nofollow">
-                                <img src="{{=value.thumb}}" border="0">
-                            </a>
+                        {{ } }}
+                    </div>
+                    {{? it.r18.k2s.length}}
+                        <div class="label">Keep2Share</div>
+                        <div class="info">Keep2Share allows video preview and online streaming. Just try.</div>
+                        <div class="section">
+                            {{~it.r18.k2s :value:index}}
+                                <a href="{{=value}}" rel="nofollow">{{=value}}</a>
+                                <script data-url="{{=value}}" data-width="500px" data-height="56.25%" src="https://k2s.cc/js/preview.js"></script>
                             {{~}}
-                            {{?}}
                         </div>
-                        <div class="tab4">
-                            {{? it.r18.rapidgator}}
-                                <div class="rg-ads">
-                                    <a href="{{=it.r18.rapidgator[0]}}" target="_blank">
-                                        <img src="/static/rgPremium.gif" border="0" width="300" height="55" alt="Rapidgator.net"/>
-                                        <div>
-                                            Join us now !!<br/>
-                                            Enjoy your hundreds of JVR videos!! <br/>
-                                            FYI: You need to have all part*.rar(s) to extract a video clip. <br/>
-                                        </div>
-                                    </a>
-                                </div>
+                    {{?}}
+                    {{? it.r18.rapidgator.length}}
+                        <div class="label">Rapidgator</div>
+                        <div class="section">
                             {{~it.r18.rapidgator :value:index}}
-                            <a href="{{=value}}" rel="nofollow" onclick="window.logRClick && window.logRClick('{{=it.r18.code}}')">{{=value}}</a>
+                                <a href="{{=value}}" rel="nofollow">{{=value}}</a>
                             {{~}}
-                            {{?}}
                         </div>
-                    </section>
+                    {{?}}
                 </div>
             </div>
             {{??}}
