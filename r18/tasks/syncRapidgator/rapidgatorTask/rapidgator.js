@@ -50,7 +50,8 @@ class Rapidgator {
 
 	async xCopyLinks({
 		folderId,
-		fileLinks
+		fileLinks,
+		code
 	}) {
 		let res = await Promise.all(fileLinks.map(link => {
 			return axios({
@@ -58,9 +59,35 @@ class Rapidgator {
 				method: 'GET'
 			});
 		}))
-		let myLinks = res.map(r => {
-			return r.data && r.data.response && r.data.response.file && r.data.response.file.url || ''
-		}).filter( r => !!r);
+		const copied = res.filter(r => {
+			if (r.data && r.data.response && r.data.response.file && r.data.response.file.file_id) {
+				return true
+			} else {
+				return false
+			}
+		})
+		let myLinks = await Promise.all(copied.map((r, index) => {
+			return new Promise(async (resolve, reject) => {
+				const {
+					file_id,
+					name,
+					url
+				} = r.data.response.file;
+				const name = `${code}${copied.length > 1 ? `.part${index + 1}` : ''}.jvrlibrary.${name.split('.').pop()}`
+				const res = await axios({
+					url: this.b + `/file/rename?name=${name}&file_id=${file_id}&token=${this.token}`
+				})
+				if (res.data.status === 200) {
+					let urlFrag = url.split('/')
+					urlFrag.pop()
+					urlFrag.push(name + '.html');
+					resolve(urlFrag.join('/'))
+				} else {
+					resolve(url)
+				}
+			})
+		}))
+	
 		if (!myLinks.length) {
 			await this.deleteFolder({ folderId });
 			throw new Error('xcopy process having issues');
