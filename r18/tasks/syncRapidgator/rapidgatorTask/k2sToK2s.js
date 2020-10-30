@@ -31,7 +31,7 @@ async function k2sToK2s({
         url: 'https://keep2share.cc/api/v2/getUrl',
         method: 'POST',
         data: JSON.stringify({
-          access_token: tezP,
+          access_token: _66,
           file_id: link.replace(/^https\:\/\/k2s.cc\/file\/([a-z0-9]+)\/.+$/, "$1")
         })
       });
@@ -45,9 +45,9 @@ async function k2sToK2s({
         tempUrl: tempUrl.data.url,
         md5: headRes.headers.etag,
         contentLength: headRes.headers['content-length'],
-        newName: code + (tezFiles.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension
+        newName: code + (k2s.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension
       }
-      
+
       const k2sSaveResult = await axios({
         url: 'https://keep2share.cc/api/v2/createFileByHash',
         method: 'POST',
@@ -71,4 +71,5 @@ async function k2sToK2s({
   javInfo.k2s = myK2ss;
   console.log('after k2s copy========', javInfo.k2s.length)
 }
+
 module.exports = k2sToK2s;

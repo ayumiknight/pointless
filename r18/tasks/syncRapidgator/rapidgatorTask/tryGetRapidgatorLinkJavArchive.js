@@ -23,12 +23,50 @@ function matchTitle({
 	return false;
 }
 
+async function getJavInfo(href) {
+	let detail = await axios.get(href);
+
+	let $d = cheerio.load(detail.data),
+		articleContent = $d('#post-entry .post-meta-single .post-content');
+
+	const rapidgator = [];
+	const k2s = [];
+
+	articleContent.find('a').each(function(i, elem) {
+		let link = $(this).attr('href');
+		if (link && link.match('rapidgator')) {
+			rapidgator.push(link);
+		} else if (link && link.match('https://k2s.cc/file/')) {
+			k2s.push(link)
+		}
+	})
+	const rpMp4 = rapidgator.filter(el => {
+		return el.match(/^.+\.mp4.html$/i)
+	})
+	const k2sMp4 = k2s.filter(el => {
+		return el.match(/^.+\.mp4$/i)
+	})
+	if (rpMp4.length) {
+		rapidgator = rpMp4
+	}
+	if (k2sMp4.length) {
+		k2s = k2sMp4
+	}
+	return {
+		href,
+		rapidgator,
+		k2s,
+		hasMp4: rpMp4.length || k2sMp4.length
+	}
+}
 async function tryGetRapidgatorLink({
 	code
 }) {
 
 	let [ series, id ] = code.split('-'),
-		javInfo;
+		javInfo1,
+		javInfo2,
+		javInfo
 
 	//http://javarchive.com/?s=3dsvr+0551
 	let searchResult = await axios.get(`http://javarchive.com/?s=${series}+${id}`);
@@ -46,60 +84,27 @@ async function tryGetRapidgatorLink({
 			series,
 			id
 		})) {
-			javInfo = {
-				href
-			};
+			javInfo1 = await getJavInfo(href);
 		}
 	}
 
-	if (!javInfo) {
-		if (secondArticle[0] && secondArticle.find('a')) {
-			let a = secondArticle.find('a'),
-				href = a.attr('href'),
-				title = a.attr('title') || '';
-			if (matchTitle({
-				title,
-				series,
-				id
-			})) {
-				javInfo = {
-					href
-				};
-			}
+	if (secondArticle[0] && secondArticle.find('a')) {
+		let a = secondArticle.find('a'),
+			href = a.attr('href'),
+			title = a.attr('title') || '';
+		if (matchTitle({
+			title,
+			series,
+			id
+		})) {
+			javInfo2 = await getJavInfo(href);
 		}
 	}
 
-	if (javInfo) {
-		let detail = await axios.get(javInfo.href);
-
-		let $d = cheerio.load(detail.data),
-			articleContent = $d('#post-entry .post-meta-single .post-content');
-
-		javInfo.pixhost = [];
-		javInfo.rapidgator = [];
-		javInfo.k2s = [];
-
-		articleContent.find('a').each(function(i, elem) {
-
-			let link = $(this).attr('href');
-			if (link && link.match('rapidgator')) {
-				javInfo.rapidgator.push(link);
-			} else if (link && link.match('https://k2s.cc/file/')) {
-				javInfo.k2s.push(link)
-			}
-		})
-		const rpMp4 = javInfo.rapidgator.filter(el => {
-			return el.match(/^.+\.mp4$/i)
-		})
-		const k2sMp4 = javInfo.k2s.filter(el => {
-			return el.match(/^.+\.mp4$/i)
-		})
-		if (rpMp4.length) {
-			javInfo.rapidgator = rpMp4
-		}
-		if (k2sMp4.length) {
-			javInfo.k2s = k2sMp4
-		}
+	if (javInfo1 && javInfo2) {
+		javInfo = javInfo1.hasMp4 ? javInfo1 : javInfo2
+	} else {
+		javInfo = javInfo1 || javInfo2
 	}
 	if (!javInfo) {
 		throw new Error(`${code} not found javarchive\n`);
