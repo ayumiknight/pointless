@@ -27,7 +27,7 @@ async function tryGetRapidgatorLink({
 	code
 }) {
 
-	let [ series, id ] = code.split(' '),
+	let [ series, id ] = code.split('-'),
 		javInfo;
 
 	//http://javarchive.com/?s=3dsvr+0551
@@ -84,7 +84,7 @@ async function tryGetRapidgatorLink({
 			let link = $(this).attr('href');
 			if (link && link.match('rapidgator')) {
 				javInfo.rapidgator.push(link);
-			} else if (link && link.match('"https://k2s.cc/file/')) {
+			} else if (link && link.match('https://k2s.cc/file/')) {
 				javInfo.k2s.push(link)
 			}
 		})

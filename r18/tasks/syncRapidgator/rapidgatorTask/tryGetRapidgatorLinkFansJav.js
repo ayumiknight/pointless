@@ -12,7 +12,7 @@ async function tryGetRapidgatorLink({
 	code
 }) {
 
-	let [ series, id ] = code.split(' '),
+	let [ series, id ] = code.split('-'),
 		javInfo;
 
 	let searchResult = await axios({
