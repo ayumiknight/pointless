@@ -36,9 +36,7 @@ async function crawlAndSaveSingle({
             })
         }
     }
-     
-        
-    }
+    
     console.log({
         k2s: javInfo.k2s,
         rapidgator: javInfo.rapidgator,
