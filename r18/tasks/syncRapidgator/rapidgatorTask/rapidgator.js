@@ -157,7 +157,7 @@ class Rapidgator {
 		newName,
 		detail
 	}) {
-	
+		console.log("====================tez to rp single==============", newName, detail)
 		const upload = await axios.get(this.b + `/file/upload?token=${this.token}&name=${newName}&hash=${detail.md5}&size=${detail.contentLength}`)		
 		const uploadRes = upload.data.response.upload
 		// already exist

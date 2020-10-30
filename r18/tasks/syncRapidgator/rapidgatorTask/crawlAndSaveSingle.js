@@ -1,6 +1,6 @@
 const tryGetRapidgatorLinkJavArchive = require('./tryGetRapidgatorLinkJavArchive.js');
-const tryGetRapidgatorLinkBlogJav = require('./tryGetRapidgatorLinkBlogJav.js');
 const tryGetTezLinkAvcens = require('./tryGetTezLinkAvcens.js');
+const rapidgator = require('rapidgator');
 const {
     tezToK2s,
     k2sToK2s,
@@ -17,17 +17,21 @@ async function crawlAndSaveSingle({
         javInfo = await tryGetTezLinkAvcens({
             code
         })
+        console.log('======javinfo= got======', javInfo)
         await populateTezData({
             javInfo
         });
+        console.log('======populateTezData= got======', javInfo)
         await tezToK2s({
             code,
             javInfo
         })
+        console.log('======tezToK2s= got======', javInfo)
         await R.tezToRp({
             code,
             javInfo
         })
+        console.log('======tezToRp= got======', javInfo)
        
     } else {
      
@@ -44,6 +48,11 @@ async function crawlAndSaveSingle({
             javInfo
         })
     }
+    console.log({
+        k2s: javInfo.k2s,
+        rapidgator: javInfo.rapidgator,
+        href: javInfo.href
+    }, 'final crawl data============')
     return {
         k2s: javInfo.k2s,
         rapidgator: javInfo.rapidgator,
@@ -51,4 +60,11 @@ async function crawlAndSaveSingle({
     }
 }
 
+async function test() {
+    const R = new rapidgator()
+    await R.login();
+    await crawlAndSaveSingle({
+
+    })
+}
 module.exports = crawlAndSaveSingle;
