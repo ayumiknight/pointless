@@ -148,19 +148,17 @@ async function populateTezData({
           method: 'HEAD',
           url: tempUrl.data.url
         });
-        return {
+        resolve({
           extension: link.split('.').pop(),
           tempUrl: tempUrl.data.url,
           md5: headRes.headers.etag,
           contentLength: headRes.headers['content-length']
-        }
+        })
       } catch(e) {
         console.log(e.message, '===========error at populateTezData====', link)
-        reject(e)
+        resolve(null)
       }
     })
-  }).catch(e => {
-    return null;
   }))
   javInfo.tezFileDetails = tezFileDetails.filter(el => !!el);
 }
