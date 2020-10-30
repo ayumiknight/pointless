@@ -29,8 +29,8 @@ async function getJavInfo(href) {
 	let $d = cheerio.load(detail.data),
 		articleContent = $d('#post-entry .post-meta-single .post-content');
 
-	const rapidgator = [];
-	const k2s = [];
+	let rapidgator = [];
+	let k2s = [];
 
 	articleContent.find('a').each(function(i, elem) {
 		let link = $d(this).attr('href');
