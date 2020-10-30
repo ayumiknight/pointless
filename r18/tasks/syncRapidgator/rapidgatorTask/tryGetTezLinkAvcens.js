@@ -30,10 +30,10 @@ async function tryGetTexLinkAvcens({
 		javInfo;
 
 	// https://avcens.xyz/?s=sivr+096
-	// let searchResult = await axios.get(`https://avcens.xyz/?s=${series}+${id}`);
-  const searchResult = {
-    data: fs.readFileSync(__dirname + '\\sampleSearchResult.html')
-  }
+	let searchResult = await axios.get(`https://avcens.xyz/?s=${series}+${id}`);
+  // const searchResult = {
+  //   data: fs.readFileSync(__dirname + '\\sampleSearchResult.html')
+  // }
 	let $ = cheerio.load(searchResult.data),
 		articles = $('#content article');
 
@@ -72,10 +72,10 @@ async function tryGetTexLinkAvcens({
 	}
 
 	if (javInfo) {
-		//let detail = await axios.get(javInfo.href);
-    const detail = {
-      data: fs.readFileSync(__dirname + '\\sampleSIVR-096.html')
-    }
+		let detail = await axios.get(javInfo.href);
+    // const detail = {
+    //   data: fs.readFileSync(__dirname + '\\sampleSIVR-096.html')
+    // }
 		let $d = cheerio.load(detail.data),
 			articleContent = $d('#content .entry-content');
 
