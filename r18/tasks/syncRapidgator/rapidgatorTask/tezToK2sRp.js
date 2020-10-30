@@ -15,7 +15,7 @@ async function tezToK2sRp({
     url: 'https://keep2share.cc/api/v2/createFolder',
     method: 'POST',
     data: JSON.stringify({
-      parent: "a231c1cabe577",
+      parent: "24be4a42f28cc",
       access_token: tezP,
       name: code,
       access: 'premium'
