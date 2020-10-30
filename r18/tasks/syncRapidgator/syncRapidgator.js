@@ -58,7 +58,8 @@ async function syncRapidgator({
 			try {
 				let extras = await crawlAndSaveSingle({
 					code: code.replace('-', ' '),
-					R
+					R,
+					vr
 				});
 				console.log(extras, `=================extras retrieved ${code}  ${id}\n`)
 				let saveExtras = await Extra.findOrCreate({
@@ -74,7 +75,7 @@ async function syncRapidgator({
 				console.log(`!!!!!!!!!!!!! ${code} ${id}==${e.message}\n`);
 			}	
 		}))
-		console.log(`!!!!!!!!!!!!! page ${page} rapidgator complete`)
+		console.log(`!!!!!!!!!!!!! page ${page} download links complete`)
 		page++;
 	}
 }

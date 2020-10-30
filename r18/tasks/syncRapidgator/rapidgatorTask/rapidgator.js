@@ -2,7 +2,10 @@ const fs = require('fs');
 const axios = require('axios');
 const axiosRretry = require('axios-retry');
 const RConfig = require('./rapidgatorConfig.js');
-
+const formData = require('form-data');
+const {
+	tezP
+} = require('./k2sConfig')
 axiosRretry(axios, { retries: 3 });
 
 class Rapidgator {
@@ -124,6 +127,72 @@ class Rapidgator {
 		return data.response.link.url;
 	}
 
+	async tezToRp({
+		code,
+		javInfo
+	}) {
+		const {
+			tezFileDetails = [] 
+		} = javInfo;
+		const rapidgator = [];
+
+		let index = 0;
+		while(index < tezFileDetails.length) {
+			const one = tezFileDetails[index];
+			const {
+				extension
+			} = one;
+			const newName = code + (tezFileDetails.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension;
+			const rpLink = await this.tezToRpSingle({
+				detail: one,
+				newName
+			});
+			rapidgator.push(rpLink)
+			index++;
+		}
+		javInfo.rapidgator = rapidgator;
+	}
+
+	async tezToRpSingle({
+		newName,
+		detail
+	}) {
+	
+		const upload = await axios.get(this.b + `/file/upload?token=${this.token}&name=${newName}&hash=${detail.md5}&size=${detail.contentLength}`)		
+		const uploadRes = upload.data.response.upload
+		// already exist
+		if (uploadRes.file && uploadRes.file.url) {
+			return upload.file.url
+		} else if (uploadRes.url) {
+			await new Promise((resolve, reject) => {
+				const form = new formData()
+				axios({
+					url: detail.tempUrl,
+					method: 'get',
+					responseType: 'stream'
+				}).then( res => {
+					form.append('file', res.data);
+					form.submit(uploadRes.url, function(err, res) {
+						if (err) reject(e);
+						resolve(res);
+					});
+				}).catch(e => {
+					reject(e)
+				})
+			})
+			let finalUrl;
+			while(!finalUrl) {
+				await new Promise(res => {
+					setTimeout(res, 1000)
+				})
+				const check = await axios.get(this.b + `/file/upload?token=${this.token}&name=${newName}&hash=${detail.md5}&size=${detail.contentLength}`)
+				if (check.data.response.upload.file && check.data.response.upload.file.url) {
+					finalUrl = check.data.response.upload.file.url
+				}
+			}
+			return finalUrl
+		}
+	}
 }
 
 module.exports = Rapidgator;

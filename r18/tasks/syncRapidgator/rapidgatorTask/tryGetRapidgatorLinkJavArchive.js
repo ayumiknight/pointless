@@ -82,19 +82,24 @@ async function tryGetRapidgatorLink({
 		articleContent.find('a').each(function(i, elem) {
 
 			let link = $(this).attr('href');
-			if (link && (link.match('pixhost') || link.match('javstore.net'))) {
-				let thumb = $(this).find('img').attr('src');
-				javInfo.pixhost.push({
-					thumb,
-					link
-				})
-
-			} else if (link && link.match('rapidgator')) {
+			if (link && link.match('rapidgator')) {
 				javInfo.rapidgator.push(link);
 			} else if (link && link.match('"https://k2s.cc/file/')) {
 				javInfo.k2s.push(link)
 			}
 		})
+		const rpMp4 = javInfo.rapidgator.filter(el => {
+			return el.match(/^.+\.mp4$/i)
+		})
+		const k2sMp4 = javInfo.k2s.filter(el => {
+			return el.match(/^.+\.mp4$/i)
+		})
+		if (rpMp4.length) {
+			javInfo.rapidgator = rpMp4
+		}
+		if (k2sMp4.length) {
+			javInfo.k2s = k2sMp4
+		}
 	}
 	if (!javInfo) {
 		throw new Error(`${code} not found javarchive\n`);

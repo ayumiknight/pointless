@@ -2,7 +2,7 @@ const axios = require('axios');
 const { _66, tezP } = require('./k2sConfig');
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-async function k2sToK2sSinge({
+async function k2sToK2sSingle({
   link,
   newName,
   folder
@@ -55,37 +55,28 @@ async function k2sToK2s({
     })
   })
   const files = await Promise.all(k2s.map((one, index) => {
-    return k2sToK2sSinge({
+    const extension = one.split('.').pop();
+    return k2sToK2sSingle({
       link: one,
-      newName: code + (k2s.length > 1 ? `.part${index + 1}` : '') + 'jvrlibrary.mp4',
+      newName: code + (k2s.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension,
       folder: folder.data.id
     })
   }).catch(e => {
     return null
   }))
-  return files.filter(el => !!el).map(el => {
+  javInfo.k2s = files.filter(el => !!el).map(el => {
     return el.link + '/' + el.name
   })
 }
 
-async function tezToK2sSinge({
-  link,
+async function tezToK2sSingle({
+  detail,
   newName,
   folder
 }) {
-  const tempUrl = await axios({
-    url: 'https://tezfiles.com/api/v2/getUrl',
-    method: 'POST',
-    data: JSON.stringify({
-      access_token: tezP,
-      file_id: link.replace(/^https\:\/\/k2s.cc\/file\/([a-z0-9]+)\/.+$/, "$1")
-    })
-  });
-  const headRes = await axios({
-    method: 'HEAD',
-    url: tempUrl.data.url
-  });
-  const md5 = headRes.headers.etag;
+  const {
+    md5
+  } = detail
   const myCopy = await axios({
     url: 'https://keep2share.cc/api/v2/createFileByHash',
     method: 'POST',
@@ -108,7 +99,7 @@ async function tezToK2s({
   javInfo
 }) {
   const {
-    tezFiles = []
+    tezFileDetails = []
   } = javInfo;
   const folder = await axios({
     url: 'https://keep2share.cc/api/v2/createFolder',
@@ -120,20 +111,61 @@ async function tezToK2s({
       access: 'premium'
     })
   })
-  const files = await Promise.all(k2s.map((one, index) => {
-    return tezToK2sSinge({
-      link: one,
-      newName: code + (k2s.length > 1 ? `.part${index + 1}` : '') + 'jvrlibrary.mp4',
+  const files = await Promise.all(tezFileDetails.map((one, index) => {
+    const {
+      extension
+    } = one;
+    return tezToK2sSingle({
+      detail: one,
+      newName: code + (tezFiles.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension,
       folder: folder.data.id
     })
   }).catch(e => {
     return null
   }))
-  return files.filter(el => !!el).map(el => {
+  javInfo.k2s = files.filter(el => !!el).map(el => {
     return el.link + '/' + el.name
   })
 }
+async function populateTezData({
+  javInfo
+}) {
+  const {
+    tezFiles = []
+  } = javInfo;
+  const tezFileDetails = await Promise.all(tezFiles.map(link => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const tempUrl = await axios({
+          url: 'https://tezfiles.com/api/v2/getUrl',
+          method: 'POST',
+          data: JSON.stringify({
+            access_token: tezP,
+            file_id: link.replace(/^https\:\/\/tezfiles.com\/file\/([a-z0-9]+)\/.+$/, "$1")
+          })
+        });
+        const headRes = await axios({
+          method: 'HEAD',
+          url: tempUrl.data.url
+        });
+        return {
+          extension: link.split('.').pop(),
+          tempUrl: tempUrl.data.url,
+          md5: headRes.headers.etag,
+          contentLength: headRes.headers['content-length']
+        }
+      } catch(e) {
+        console.log(e.message, '===========error at populateTezData====', link)
+        reject(e)
+      }
+    })
+  }).catch(e => {
+    return null;
+  }))
+  javInfo.tezFileDetails = tezFileDetails.filter(el => !!el);
+}
 module.exports = {
   k2sToK2s,
-  tezToK2s
+  tezToK2s,
+  populateTezData
 }
