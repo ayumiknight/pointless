@@ -11,14 +11,17 @@ function matchTitle({
 	id,
 	title
 }) {
-	if (title.toUpperCase().match(series + '-' + id)) {
+	const fullReg = new RegExp('^' + series + '-' + id)
+	if (fullReg.exec(title.toUpperCase())) {
 		return true
-	};
+	}
 	if (id * 1 >= 100) {
-		if (title.toUpperCase().match(series) && title.toUpperCase().match(id)) {
+		const codeReg = new RegExp('^' + series)
+		if (codeReg.exec(title.toUpperCase()) && title.toUpperCase().match(id)) {
 			return true;
 		}
 	}
+	
 	return false;
 }
 

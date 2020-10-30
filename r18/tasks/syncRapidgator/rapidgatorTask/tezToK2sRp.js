@@ -40,6 +40,7 @@ async function tezToK2sRp({
           file_id: link.replace(/^https\:\/\/tezfiles.com\/file\/([a-z0-9]+)\/.+$/, "$1")
         })
       });
+
       const headRes = await axios({
         method: 'HEAD',
         url: tempUrl.data.url
@@ -64,21 +65,21 @@ async function tezToK2sRp({
           access: "premium"
         })
       })
-      console.log(k2sSaveResult.data, '======================k2s saveresult==========')
-      const rpLink = await R.tezToRpSingle({
-        newName: detail.newName,
-        detail,
-        folderId: rpTargetFolderId
-      })
+      // console.log(k2sSaveResult.data, '======================k2s saveresult==========')
+      // const rpLink = await R.tezToRpSingle({
+      //   newName: detail.newName,
+      //   detail,
+      //   folderId: rpTargetFolderId
+      // })
       myK2ss.push(k2sSaveResult.data.link + '/' + detail.newName);
-      myRps.push(rpLink)
-      console.log('========one file success=========', myK2ss, myRps)
+      // myRps.push(rpLink)
     } catch(e) {
       console.log(e.message, '===========tez to k2s rp single====', link)
     }
     index++;
   }
+  console.log(myK2ss, '=========myk2ss====')
   javInfo.k2s = myK2ss;
-  javInfo.rapidgator = myRps;
+  // javInfo.rapidgator = myRps;
 }
 module.exports = tezToK2sRp;

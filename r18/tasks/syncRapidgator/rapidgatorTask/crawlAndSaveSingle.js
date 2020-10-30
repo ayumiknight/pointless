@@ -8,19 +8,8 @@ async function crawlAndSaveSingle({
     vr
 }) {
     let javInfo;
-    if (vr) {
         
-        javInfo = await tryGetTezLinkAvcens({
-            code
-        })
-
-        await tezToK2sRp({
-            javInfo,
-            R,
-            code
-        })
-    } else {
-     
+    try {
         javInfo = await tryGetRapidgatorLinkJavArchive({
             code
         });
@@ -33,6 +22,22 @@ async function crawlAndSaveSingle({
             code,
             javInfo
         })
+    } catch(e) {
+        console.log(e.message, code, '=============javarchive not found=========')
+        if (vr) {
+            javInfo = await tryGetTezLinkAvcens({
+                code
+            })
+    
+            await tezToK2sRp({
+                javInfo,
+                R,
+                code
+            })
+        }
+    }
+     
+        
     }
     console.log({
         k2s: javInfo.k2s,
