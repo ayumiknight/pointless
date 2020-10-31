@@ -4,10 +4,20 @@
     display: inline-block;
     vertical-align: top;
     .page-title {
-        font-size: 25px;
+        font-size: 20px;
         text-decoration: none;
         width: 100%;
         padding-left: 0;
+        position: relative;
+        &::after {
+            content: '';
+            background: @primaryDark;
+            position: absolute;
+            bottom: -5px;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+        }
     }
     .list-view {
         width: 100%;
