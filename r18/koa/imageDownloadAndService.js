@@ -12,17 +12,22 @@ module.exports = async function(ctx, next) {
       responseType: 'arraybuffer'
     })
     if (res && res.data) {
-      await fse.outputFileSync(__dirname + `/static${remotePath}`, res.data)
-      try {
-        const done = await send(ctx, `/koa/static${remotePath}`, {
-          maxAge: 1000 * 60 * 60 * 1,
-          gzip: true
-        })
-      } catch(e) {
-        if (e.status !== 404) {
-          throw e
+      if (res.data.length === 2732 && remotePath.match(/jp(-\d+\.\w+)$/)) {
+        ctx.redirect('/static' + remotePath.replace(/jp(-\d+\.\w+)$/, '$1'));
+        return
+      } else {
+        await fse.outputFileSync(__dirname + `/static${remotePath}`, res.data)
+        try {
+          const done = await send(ctx, `/koa/static${remotePath}`, {
+            maxAge: 1000 * 60 * 60 * 1,
+            gzip: true
+          })
+        } catch(e) {
+          if (e.status !== 404) {
+            throw e
+          }
         }
-      }       
+      }
     }
   } else if (ctx.path === '/service.js' && ctx.method === 'GET') {
     await send(ctx, `/koa/static/service.js`, {
