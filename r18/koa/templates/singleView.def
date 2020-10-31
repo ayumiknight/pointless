@@ -13,7 +13,11 @@
                     {{? it.r18.Galleries}}
                     <div class="gallery">
                         {{~ it.r18.Galleries :value:index}}
-                        <img alt="{{=it.r18.code}} detail image {{=index}}" src="{{#def.proxyLg:value.url}}" alt="">
+                        <img 
+                            alt="{{=it.r18.code}} thumb image {{=index}}" 
+                            src="{{#def.proxyLg:value.url}}"
+                            onerror="this.onerror=null;this.src='{{#def.proxy:value.url}}';"
+                        >
                         {{~}}
                     </div>
                     {{?}}
