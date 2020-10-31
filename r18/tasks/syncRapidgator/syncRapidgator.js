@@ -43,7 +43,7 @@ async function syncRapidgator({
 		});
 		rows = rows || [];
 
-		await Promise.all(rows.map(row => {
+		const taskRows = rows.map(row => {
 			if (row.Extras) {
 				row.extra = JSON.parse(row.Extras.extra)
 			}
@@ -64,55 +64,62 @@ async function syncRapidgator({
 				return true
 			}
 			return false;
-		}).map(async row => {
-			let {
-				id,
-				code,
-				needK2s,
-				needRp
-			} = row;
-
-			try {
-				let extras = await crawlAndSaveSingle({
-					code,
-					R,
-					vr,
-					needK2s,
-					needRp
-				});
-				if (!row.extra) {
-					await Extra.findOrCreate({
-						where: {
-							R18Id: id
-						},
-						defaults: {
-							extra: JSON.stringify(extras)
-						}
-					});
-				} else {
-					const patch = {
-						javarchiveHref: extras.javarchiveHref,
-						avcensHref: extras.avcensHref
-					}
-					needK2s && extras.k2s.length && (patch.k2s = extras.k2s)
-					needRp && extras.rapidgator.length && (patch.rapidgator = extras.rapidgator)
-					await Extra.update(patch, {
-						where: {
-							R18Id: id
-						}
-					})
-				}
-				
-				console.log(`${code} ${id} ${saveExtras} crawled and saved\n`);
-			} catch(e) {
-				console.log(`!!!!!!!!!!!!! ${code} ${id}==${e.message}\n`);
-			}	
-		}))
+		})
+			
+		let index = 0;
+		while(index < taskRows.length) {
+			await syncRapidgatorSingle(taskRows[index])
+			index++;
+		}
 		console.log(`!!!!!!!!!!!!! page ${page} download links complete`)
 		page++;
 	}
 }
 
+async function syncRapidgatorSingle(row) {
+	let {
+		id,
+		code,
+		needK2s,
+		needRp
+	} = row;
+
+	try {
+		let extras = await crawlAndSaveSingle({
+			code,
+			R,
+			vr,
+			needK2s,
+			needRp
+		});
+		if (!row.extra) {
+			await Extra.findOrCreate({
+				where: {
+					R18Id: id
+				},
+				defaults: {
+					extra: JSON.stringify(extras)
+				}
+			});
+		} else {
+			const patch = {
+				javarchiveHref: extras.javarchiveHref,
+				avcensHref: extras.avcensHref
+			}
+			needK2s && extras.k2s.length && (patch.k2s = extras.k2s)
+			needRp && extras.rapidgator.length && (patch.rapidgator = extras.rapidgator)
+			await Extra.update(patch, {
+				where: {
+					R18Id: id
+				}
+			})
+		}
+		
+		console.log(`${code} ${id} crawled and saved\n`);
+	} catch(e) {
+		console.log(`!!!!!!!!!!!!! ${code} ${id}==${e.message}\n`, e);
+	}	
+}
 async function syncRapidgatorTask() {
 	await syncRapidgator({
 		rapidgatorPageAll: 5,

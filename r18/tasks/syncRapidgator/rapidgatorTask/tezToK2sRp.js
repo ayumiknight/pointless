@@ -76,7 +76,7 @@ async function tezToK2sRp({
       myK2ss.push(k2sSaveResult.data.link + '/' + detail.newName);
       // myRps.push(rpLink)
     } catch(e) {
-      console.log(e.message, '===========tez to k2s rp single====', link)
+      console.log(e.message, e.stack, '===========tez to k2s rp single====', link)
     }
     index++;
   }
