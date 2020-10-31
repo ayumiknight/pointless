@@ -1,6 +1,6 @@
 
 
-const { getR18WithExtraPaged } = require('../../sequelize/methods/index.js');
+const { getR18WithExtraPaged } = require('../../sequelize/methods/r18.js');
 const { sequelize, Sequelize, Extra } = require('../../sequelize/index.js');
 const crawlAndSaveSingle = require('./rapidgatorTask/crawlAndSaveSingle.js');
 const Rapidgator = require('./rapidgatorTask/rapidgator.js');
@@ -25,13 +25,12 @@ async function syncRapidgator({
 	rapidgatorPageAll,
 	rapidgatorPageSize,
 	rapidgatorCode,
-	vr
+	vr,
+	R
 }) {
 	let page = 1;
 	let pageNum = rapidgatorPageAll;
 
-	let R = new Rapidgator();
-	await R.login();
 
 
 	while (page <= pageNum) {
@@ -137,17 +136,22 @@ async function syncRapidgatorSingle({
 	}	
 }
 async function syncRapidgatorTask() {
+	let R = new Rapidgator();
+	await R.login();
+
 	await syncRapidgator({
 		rapidgatorPageAll: 5,
 		rapidgatorPageSize,
 		rapidgatorCode,
-		vr: 1
+		vr: 1,
+		R
 	});
 	await syncRapidgator({
 		rapidgatorPageAll,
 		rapidgatorPageSize,
 		rapidgatorCode,
-		vr: 0
+		vr: 0,
+		R
 	});
 }
 
