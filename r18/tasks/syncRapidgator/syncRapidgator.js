@@ -43,33 +43,66 @@ async function syncRapidgator({
 		});
 		rows = rows || [];
 
-		await Promise.all(rows.filter( row => {
+		await Promise.all(rows.map(row => {
+			if (row.Extras) {
+				row.extra = JSON.parse(row.Extras.extra)
+			}
+			return row;
+		}).filter( row => {
 			let {
 				id,
-				Extras
+				extra
 			} = row;
-			return row && id && !Extras;
+			if (!extra) {
+				row.needK2s = true;
+				row.needRp = true;
+				return true;
+			}
+			row.needK2s = !extra.k2s || !extra.k2s.length;
+			row.needRp = !extra.rapidgator || !extra.rapidgator.length;
+			if (row.needK2s || row.needRp) {
+				return true
+			}
+			return false;
 		}).map(async row => {
 			let {
 				id,
-				code
+				code,
+				needK2s,
+				needRp
 			} = row;
 
 			try {
 				let extras = await crawlAndSaveSingle({
 					code,
 					R,
-					vr
+					vr,
+					needK2s,
+					needRp
 				});
-				console.log(extras, `=================extras retrieved ${code}  ${id}\n`)
-				let saveExtras = await Extra.findOrCreate({
-					where: {
-						R18Id: id
-					},
-					defaults: {
-						extra: JSON.stringify(extras)
+				if (!row.extra) {
+					await Extra.findOrCreate({
+						where: {
+							R18Id: id
+						},
+						defaults: {
+							extra: JSON.stringify(extras)
+						}
+					});
+				} else {
+					const patch = {
+						javarchiveHref: extras.javarchiveHref,
+						avcensHref: extras.avcensHref
 					}
-				});
+					needK2s && extras.k2s.length && (patch.k2s = extras.k2s)
+					needRp && extras.rapidgator.length && (patch.rapidgator = extras.rapidgator)
+					await Extra.update(patch, {
+						where: {
+							R18Id: id
+						}
+					})
+				}
+				
 				console.log(`${code} ${id} ${saveExtras} crawled and saved\n`);
 			} catch(e) {
 				console.log(`!!!!!!!!!!!!! ${code} ${id}==${e.message}\n`);

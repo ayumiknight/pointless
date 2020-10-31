@@ -5,7 +5,9 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 async function tezToK2sRp({
   javInfo,
   R,
-  code
+  code,
+  needK2s,
+  needRp
 }) {
   const {
     tezFiles = []

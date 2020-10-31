@@ -5,45 +5,55 @@ const k2sToK2s = require('./k2sToK2s');
 async function crawlAndSaveSingle({
     code,
     R,
-    vr
+    vr,
+    needK2s,
+    needRp
 }) {
-    let javInfo;
-        
+    let javInfo1,
+        javInfo2,
+        rapidgator = [],
+        k2s = [];
+
     try {
-        javInfo = await tryGetRapidgatorLinkJavArchive({
+        javInfo1 = await tryGetRapidgatorLinkJavArchive({
             code
         });
-        let myLinks = await R.saveLinksToFolder({
-            name: code,
-            fileLinks: javInfo.rapidgator
-        });
-        javInfo.rapidgator = myLinks;
-        await k2sToK2s({
-            code,
-            javInfo
-        })
+        if (needRp) {
+            let myLinks = await R.saveLinksToFolder({
+                name: code,
+                fileLinks: javInfo1.rapidgator
+            });
+            rapidgator = myLinks || [];
+        }
+        if (needK2s) {
+            await k2sToK2s({
+                code,
+                javInfo1
+            })
+            k2s = javInfo1.k2s || []
+        }  
     } catch(e) {
-        if (vr) {
-            javInfo = await tryGetTezLinkAvcens({
+        if (needK2s && !k2s.length) {
+            javInfo2 = await tryGetTezLinkAvcens({
                 code
             })
     
             await tezToK2sRp({
-                javInfo,
+                javInfo2,
                 R,
                 code
             })
+            k2s = javInfo2.k2s || []
         } else {
             throw e
         }
     }
-    if (!javInfo || !javInfo.k2s) {
-        throw new Error(code + 'not found at crawl single========')
-    }
+
     return {
-        k2s: javInfo.k2s,
-        rapidgator: javInfo.rapidgator,
-        href: javInfo.href
+        k2s: k2s,
+        rapidgator: rapidgator,
+        javarchiveHref: javInfo1 && javInfo1.href,
+        avcensHref: javInfo2 && javInfo2.href
     }
 }
 
