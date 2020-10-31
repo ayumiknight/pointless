@@ -28,7 +28,7 @@ async function crawlAndSaveSingle({
         if (needK2s) {
             await k2sToK2s({
                 code,
-                javInfo1
+                javInfo: javInfo1
             })
             k2s = javInfo1.k2s || []
         }  
@@ -39,7 +39,7 @@ async function crawlAndSaveSingle({
             })
     
             await tezToK2sRp({
-                javInfo2,
+                javInfo: javInfo2,
                 R,
                 code
             })
@@ -56,5 +56,4 @@ async function crawlAndSaveSingle({
         avcensHref: javInfo2 && javInfo2.href
     }
 }
-
 module.exports = crawlAndSaveSingle;
