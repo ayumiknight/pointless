@@ -66,14 +66,16 @@ async function syncRapidgator({
 			return false;
 		})
 			
-		let index = 0;
-		while(index < taskRows.length) {
-			await syncRapidgatorSingle({
-				row: taskRows[index],
-				R,
-				vr
-			})
-			index++;
+		while(taskRows.length) {
+			let first = taskRows.pop();
+			let second = taskRows.pop();
+			await Promise.all([first, second].filter(el => !!el).map(el => {
+				return syncRapidgatorSingle({
+					row: el,
+					R,
+					vr
+				})
+			}))
 		}
 		console.log(`!!!!!!!!!!!!! page ${page} download links complete`)
 		page++;
