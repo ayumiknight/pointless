@@ -68,7 +68,11 @@ async function syncRapidgator({
 			
 		let index = 0;
 		while(index < taskRows.length) {
-			await syncRapidgatorSingle(taskRows[index])
+			await syncRapidgatorSingle({
+				row: taskRows[index],
+				R,
+				vr
+			})
 			index++;
 		}
 		console.log(`!!!!!!!!!!!!! page ${page} download links complete`)
@@ -76,7 +80,11 @@ async function syncRapidgator({
 	}
 }
 
-async function syncRapidgatorSingle(row) {
+async function syncRapidgatorSingle({
+	row,
+	R,
+	vr
+}) {
 	let {
 		id,
 		code,
