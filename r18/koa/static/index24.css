@@ -484,6 +484,10 @@ body .page-bg {
   width: 50px;
   padding: 0 5px;
   display: inline-block;
+  transition: all 0.1s linear;
+}
+.right-column-wrap .my-selection .selection-wrap .list-item img:hover {
+  transform: scaleX(4) scaleY(4);
 }
 .right-column-wrap .my-selection .selection-wrap .list-item .item-index {
   padding: 5px;
