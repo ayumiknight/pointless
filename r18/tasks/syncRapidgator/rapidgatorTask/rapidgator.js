@@ -132,6 +132,25 @@ class Rapidgator {
 		});
 	}
 
+	getFileInfoByLinks(links = []) {
+		const result = [];
+		let index = 0;
+		while(index <　links.length) {
+			const frag = links[index].split('/');
+			const fid = frag[frag.length - 2];
+			const res = await this.getFileInfo(fid);
+			if (res && res.data && res.data.status == 200) {
+				result.push(res.data.response.file)
+			}
+			index++;
+		}
+		if (links.length  && !result.length) {
+			throw new Error('error getFileInfo by links')
+		}
+		return result
+
+	}
+
 	async saveLinksToFolder({
 		fileLinks,
 		name

@@ -2,12 +2,14 @@ const tryGetRapidgatorLinkJavArchive = require('./tryGetRapidgatorLinkJavArchive
 const tryGetTezLinkAvcens = require('./tryGetTezLinkAvcens.js');
 const tezToK2sRp = require('./tezToK2sRp');
 const k2sToK2s = require('./k2sToK2s');
+const md5ToK2s = require('./md5ToK2s');
 async function crawlAndSaveSingle({
     code,
     R,
     vr,
     needK2s,
-    needRp
+    needRp,
+    extra // extra crawled last time
 }) {
     let javInfo1,
         javInfo2,
@@ -25,25 +27,34 @@ async function crawlAndSaveSingle({
             });
             rapidgator = myLinks || [];
         }
-        if (needK2s) {
-            await k2sToK2s({
+        if (needK2s && javInfo1.k2s.length) {
+            const reference = (extra.rapidgator || []).length ? extra.rapidgator : rapidgator;
+            const filesInfo = R.getFileInfoByLinks(reference);
+            k2s = await md5ToK2s({
                 code,
-                javInfo: javInfo1
+                filesInfo
             })
-            k2s = javInfo1.k2s || []
         }  
     } catch(e) {
-        if (needK2s && !k2s.length) {
+        if (needK2s && !javInfo1 && vr) {
             javInfo2 = await tryGetTezLinkAvcens({
                 code
             })
-    
-            await tezToK2sRp({
-                javInfo: javInfo2,
-                R,
-                code
-            })
-            k2s = javInfo2.k2s || []
+            if (javInfo2.tezFiles.length) {
+                k2s = await tezToK2sRp({
+                    javInfo: javInfo2,
+                    R,
+                    code
+                })
+            }
+            if (javInfo2.k2s.length && (!k2s || !k2s.length)) {
+                k2s = await k2sToK2s({
+                    javInfo: javInfo2,
+                    R,
+                    code
+                })
+            }
+            k2s = k2s || []
         } else {
             throw e
         }

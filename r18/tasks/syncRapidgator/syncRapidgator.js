@@ -57,6 +57,9 @@ async function syncRapidgator({
 				row.needRp = true;
 				return true;
 			}
+			if (extra.noSync) {
+				return false;
+			}
 			row.needK2s = !extra.k2s || !extra.k2s.length;
 			row.needRp = !extra.rapidgator || !extra.rapidgator.length;
 			if (row.needK2s || row.needRp) {
@@ -90,7 +93,8 @@ async function syncRapidgatorSingle({
 		id,
 		code,
 		needK2s,
-		needRp
+		needRp,
+		extra
 	} = row;
 
 	try {
@@ -99,7 +103,8 @@ async function syncRapidgatorSingle({
 			R,
 			vr,
 			needK2s,
-			needRp
+			needRp,
+			extra
 		});
 		if (!row.extra) {
 			await Extra.findOrCreate({

@@ -21,7 +21,8 @@ async function k2sToK2s({
     })
   })
   const k2sTargetFolderId = k2sTargetFolder.data.id;
-  const myK2ss = []
+  const myK2ss = [];
+  const noData406;
 
   let index = 0;
   while(index < k2s.length) {
@@ -63,13 +64,19 @@ async function k2sToK2s({
       myK2ss.push(k2sSaveResult.data.link + '/' + detail.newName);
       console.log('========one file success=========', myK2ss)
     } catch(e) {
-      console.log(e.message, e.stack, '===========k2s to k2s rp single====', link)
+      console.log(e.message, e.stack, '===========k2s to k2s rp single====', link);
+      if (e.message.match('Request failed with status code 406')) {
+        noData406 = true;
+        break;
+      }
     }
     index++;
   }
-  console.log('before k2s copy========', javInfo.k2s.length)
-  javInfo.k2s = myK2ss;
-  console.log('after k2s copy========', javInfo.k2s.length)
+  if (noData406) {
+    return false;
+  }
+  console.log(`k2s to k2s ${k2s.length} filecount ${myK2ss.length} success count===================`)
+  return myK2ss;
 }
 
 module.exports = k2sToK2s;

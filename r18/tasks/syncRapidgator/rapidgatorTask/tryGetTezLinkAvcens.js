@@ -11,17 +11,14 @@ function matchTitle({
 	id,
 	title
 }) {
-	const fullReg = new RegExp('^' + series + '-' + id)
-	if (fullReg.exec(title.toUpperCase())) {
+	if (title.toUpperCase().match(series + '-' + id)) {
 		return true
-	}
+	};
 	if (id * 1 >= 100) {
-		const codeReg = new RegExp('^' + series)
-		if (codeReg.exec(title.toUpperCase()) && title.toUpperCase().match(id)) {
+		if (title.toUpperCase().match(series) && title.toUpperCase().match(id)) {
 			return true;
 		}
 	}
-	
 	return false;
 }
 
@@ -83,12 +80,16 @@ async function tryGetTexLinkAvcens({
 			articleContent = $d('#content .entry-content');
 
 		javInfo.tezFiles = [];
+		javInfo.k2s = [];
 
 		articleContent.find('a').each(function(i, elem) {
 
 			let link = $(this).attr('href');
 			if (link && link.match('https://tezfiles.com/file/')) {
 				javInfo.tezFiles.push(link);
+			}
+			if (link && link.match('https://k2s.cc/file/')) {
+				javInfo.k2s.push(link)
 			}
 		})
 	}

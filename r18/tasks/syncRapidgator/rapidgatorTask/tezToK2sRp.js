@@ -25,10 +25,11 @@ async function tezToK2sRp({
   })
   const k2sTargetFolderId = k2sTargetFolder.data.id;
 
-  const rpTargetFolderId = await R.createFolder(code);
+  // const rpTargetFolderId = await R.createFolder(code);
 
-  const myK2ss = []
-  const myRps = []
+  const myK2ss = [];
+  const myRps = [];
+  const noData406;
 
   let index = 0;
   while(index < tezFiles.length) {
@@ -77,11 +78,18 @@ async function tezToK2sRp({
       // myRps.push(rpLink)
     } catch(e) {
       console.log(e.message, e.stack, '===========tez to k2s rp single====', link)
+      if (e.message.match('Request failed with status code 406')) {
+        noData406 = true;
+        break;
+      }  
     }
     index++;
   }
-  console.log(myK2ss, '=========myk2ss====')
-  javInfo.k2s = myK2ss;
-  // javInfo.rapidgator = myRps;
+  if (noData406) {
+    return false;
+  }
+  console.log(`tez to k2s ${tezFiles.length} filecount ${myK2ss.length} success count===================`)
+  return myK2ss;
+  
 }
 module.exports = tezToK2sRp;
