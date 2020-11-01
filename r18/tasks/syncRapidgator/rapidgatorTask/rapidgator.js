@@ -73,7 +73,11 @@ class Rapidgator {
 					name,
 					url
 				} = r.data.response.file;
-				const newName = `${code}${copied.length > 1 ? `.part${index + 1}` : ''}.jvrlibrary.${name.split('.').pop()}`
+				const nameFrag = name.split('.');
+				const extension = nameFrag.pop();
+				nameFrag.push('jvrlibrary');
+				nameFrag.push(extension);
+				const newName = nameFrag.join('.');
 				const res = await axios({
 					url: this.b + `/file/rename?name=${newName}&file_id=${file_id}&token=${this.token}`
 				})

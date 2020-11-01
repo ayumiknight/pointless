@@ -13,7 +13,7 @@ async function md5ToK2s({
   while(index < filesInfo.length) {
     const file = filesInfo[index];
     try {
-      const newName = code + (filesInfo.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + file.name.split('.').pop()
+      const newName = file.name;
       const k2sSaveResult = await axios({
         url: 'https://keep2share.cc/api/v2/createFileByHash',
         method: 'POST',

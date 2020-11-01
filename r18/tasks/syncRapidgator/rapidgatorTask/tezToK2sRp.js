@@ -52,7 +52,7 @@ async function tezToK2sRp({
         tempUrl: tempUrl.data.url,
         md5: headRes.headers.etag,
         contentLength: headRes.headers['content-length'],
-        newName: code + (tezFiles.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension
+        newName: link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
       }
       
       const k2sSaveResult = await axios({

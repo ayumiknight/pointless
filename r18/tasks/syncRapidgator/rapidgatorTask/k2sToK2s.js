@@ -36,7 +36,7 @@ async function k2sToK2s({
         tempUrl: tempUrl.data.url,
         md5: headRes.headers.etag,
         contentLength: headRes.headers['content-length'],
-        newName: code + (k2s.length > 1 ? `.part${index + 1}` : '') + '.jvrlibrary.' + extension
+        newName: link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
       }
 
       const k2sSaveResult = await axios({
