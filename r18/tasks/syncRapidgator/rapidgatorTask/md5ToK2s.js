@@ -1,22 +1,13 @@
 const axios = require('axios');
-const { _66, tezP } = require('./k2sConfig');
+const { _66, tezP, k2sVR, k2sNormal } = require('./k2sConfig');
 
 async function md5ToK2s({
   code,
-  filesInfo
+  filesInfo,
+  vr
 }) {
-  const k2sTargetFolder = await axios({
-    url: 'https://keep2share.cc/api/v2/createFolder',
-    method: 'POST',
-    data: JSON.stringify({
-      parent: "a231c1cabe577",
-      access_token: tezP,
-      name: code,
-      access: 'premium'
-    })
-  })
-  const k2sTargetFolderId = k2sTargetFolder.data.id;
   const myK2ss = []
+  const myK2sIds = [];
 
   let index = 0;
   while(index < filesInfo.length) {
@@ -30,17 +21,40 @@ async function md5ToK2s({
           access_token: tezP,
           hash: file.hash,
           name: newName,
-          parent: k2sTargetFolderId,
+          // parent: k2sTargetFolderId,
           access: "premium"
         })
       })
       
       myK2ss.push(k2sSaveResult.data.link + '/' + newName);
+      myK2sIds.push(k2sSaveResult.data.id)
       console.log('========one file success=========', myK2ss)
     } catch(e) {
       console.log(e, '===========md5 to k2s rp single====', file.url, file.hash)
     }
     index++;
+  }
+  if (myK2ss.length) {
+    const k2sTargetFolder = await axios({
+      url: 'https://keep2share.cc/api/v2/createFolder',
+      method: 'POST',
+      data: JSON.stringify({
+        parent: vr ? k2sVR : k2sNormal,
+        access_token: tezP,
+        name: code,
+        access: 'premium'
+      })
+    })
+    const k2sTargetFolderId = k2sTargetFolder.data.id;
+    const moveToNewFoler = await axios({
+      url: 'https://keep2share.cc/api/v2/updateFiles',
+      method: 'POST',
+      data: JSON.stringify({
+        ids: myK2sIds,
+        access_token: tezP,
+        new_parent: k2sTargetFolderId
+      })
+    })
   }
   console.log(`md5 to k2s ${filesInfo.length} filecount ${myK2ss.length} success count===================`)
   return myK2ss;

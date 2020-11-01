@@ -1,13 +1,11 @@
 const axios = require('axios');
-const { _66, tezP } = require('./k2sConfig');
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+const { _66, tezP, k2sVR, k2sNormal } = require('./k2sConfig');
 
 async function tezToK2sRp({
   javInfo,
   R,
   code,
-  needK2s,
-  needRp
+  vr
 }) {
   const {
     tezFiles = []
@@ -28,7 +26,7 @@ async function tezToK2sRp({
   // const rpTargetFolderId = await R.createFolder(code);
 
   const myK2ss = [];
-  const myRps = [];
+  const myK2sIds = [];
   let noData406;
 
   let index = 0;
@@ -64,7 +62,7 @@ async function tezToK2sRp({
           access_token: tezP,
           hash: detail.md5,
           name: detail.newName,
-          parent: k2sTargetFolderId,
+          // parent: k2sTargetFolderId,
           access: "premium"
         })
       })
@@ -75,6 +73,7 @@ async function tezToK2sRp({
       //   folderId: rpTargetFolderId
       // })
       myK2ss.push(k2sSaveResult.data.link + '/' + detail.newName);
+      myK2sIds.push(k2sSaveResult.data.id);
       // myRps.push(rpLink)
     } catch(e) {
       console.log(e.message, e.stack, code, '===========tez to k2s rp single====', link)
@@ -87,6 +86,28 @@ async function tezToK2sRp({
   }
   if (noData406) {
     return false;
+  }
+  if (myK2ss.length) {
+    const k2sTargetFolder = await axios({
+      url: 'https://keep2share.cc/api/v2/createFolder',
+      method: 'POST',
+      data: JSON.stringify({
+        parent: vr ? k2sVR : k2sNormal,
+        access_token: tezP,
+        name: code,
+        access: 'premium'
+      })
+    })
+    const k2sTargetFolderId = k2sTargetFolder.data.id;
+    const moveToNewFoler = await axios({
+      url: 'https://keep2share.cc/api/v2/updateFiles',
+      method: 'POST',
+      data: JSON.stringify({
+        ids: myK2sIds,
+        access_token: tezP,
+        new_parent: k2sTargetFolderId
+      })
+    })
   }
   console.log(`tez to k2s ${tezFiles.length} filecount ${myK2ss.length} success count===================`)
   return myK2ss;

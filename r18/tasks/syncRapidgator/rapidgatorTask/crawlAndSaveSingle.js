@@ -32,7 +32,8 @@ async function crawlAndSaveSingle({
             const filesInfo = await R.getFileInfoByLinks(reference);
             k2s = await md5ToK2s({
                 code,
-                filesInfo
+                filesInfo,
+                vr
             })
         }  
     } catch(e) {
@@ -44,14 +45,16 @@ async function crawlAndSaveSingle({
                 k2s = await tezToK2sRp({
                     javInfo: javInfo2,
                     R,
-                    code
+                    code,
+                    vr
                 })
             }
             if (javInfo2.k2s.length && (!k2s || !k2s.length)) {
                 k2s = await k2sToK2s({
                     javInfo: javInfo2,
                     R,
-                    code
+                    code,
+                    vr
                 })
             }
             k2s = k2s || []
