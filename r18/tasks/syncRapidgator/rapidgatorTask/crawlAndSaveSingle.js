@@ -59,7 +59,7 @@ async function crawlAndSaveSingle({
             throw e
         }
     }
-
+    if (!k2s.length && !rapidgator.length) throw new Error('something wrong , no link crawled===', code)
     return {
         k2s: k2s,
         rapidgator: rapidgator,
