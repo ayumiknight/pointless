@@ -30,7 +30,7 @@ async function md5ToK2s({
       myK2sIds.push(k2sSaveResult.data.id)
       console.log('========one file success=========', myK2ss)
     } catch(e) {
-      console.log(e.message, e.response, '===========md5 to k2s rp single====', file.url, file.hash)
+      console.log(e.message, e.response && e.response.data, '===========md5 to k2s rp single====', file.url, file.hash)
     }
     index++;
   }
