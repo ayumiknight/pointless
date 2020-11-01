@@ -99,7 +99,6 @@ async function tryGetTexLinkAvcens({
 	if (!javInfo.tezFiles.length) {
 		throw new Error(`${code} tezFiles links not found avcens\n`);
   }
-  console.log(javInfo)
 	return javInfo;
 }
 
