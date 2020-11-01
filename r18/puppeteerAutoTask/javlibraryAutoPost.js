@@ -253,7 +253,7 @@ class JavlibraryAutoPost {
 				console.log(pagenum + ' all entries posted============\n')
 				break;
 			} else if (!rapidgator.length && !k2s.length){
-				console.log(row[0].code, '==========no data to post===========')
+				console.log(rows[0].code, '==========no data to post===========')
 				pagenum += 1
 				// noop
 			} else {
