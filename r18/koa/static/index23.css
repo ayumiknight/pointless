@@ -603,9 +603,6 @@ body .page-bg {
   width: auto;
   margin-left: 10px;
 }
-.single-view .content {
-  padding: 15px;
-}
 .single-view .content > .label {
   margin: 15px;
   font-size: 20px;

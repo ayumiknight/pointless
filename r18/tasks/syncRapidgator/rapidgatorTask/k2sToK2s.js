@@ -64,7 +64,7 @@ async function k2sToK2s({
       myK2ss.push(k2sSaveResult.data.link + '/' + detail.newName);
       console.log('========one file success=========', myK2ss)
     } catch(e) {
-      console.log(e.message, e.stack, '===========k2s to k2s rp single====', link);
+      console.log(e.message, e.stack, code, '===========k2s to k2s rp single====', link);
       if (e.message.match('Request failed with status code 406')) {
         noData406 = true;
         break;
