@@ -11,18 +11,6 @@ async function tezToK2sRp({
     tezFiles = []
   } = javInfo;
 
-  const k2sTargetFolder = await axios({
-    url: 'https://keep2share.cc/api/v2/createFolder',
-    method: 'POST',
-    data: JSON.stringify({
-      parent: "24be4a42f28cc",
-      access_token: tezP,
-      name: code,
-      access: 'premium'
-    })
-  })
-  const k2sTargetFolderId = k2sTargetFolder.data.id;
-
   // const rpTargetFolderId = await R.createFolder(code);
 
   const myK2ss = [];
