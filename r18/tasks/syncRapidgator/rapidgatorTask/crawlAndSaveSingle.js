@@ -28,7 +28,7 @@ async function crawlAndSaveSingle({
             rapidgator = myLinks || [];
         }
         if (needK2s && javInfo1.k2s.length) {
-            const reference = (extra.rapidgator || []).length ? extra.rapidgator : rapidgator;
+            const reference = (extra && extra.rapidgator || []).length ? extra.rapidgator : rapidgator;
             const filesInfo = await R.getFileInfoByLinks(reference);
             k2s = await md5ToK2s({
                 code,
