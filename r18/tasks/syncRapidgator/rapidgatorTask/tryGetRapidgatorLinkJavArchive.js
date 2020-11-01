@@ -46,12 +46,6 @@ async function getJavInfo(href) {
 	const k2sMp4 = k2s.filter(el => {
 		return el.match(/^.+\.mp4$/i)
 	})
-	if (rpMp4.length) {
-		rapidgator = rpMp4
-	}
-	if (k2sMp4.length) {
-		k2s = k2sMp4
-	}
 	return {
 		href,
 		rapidgator,
