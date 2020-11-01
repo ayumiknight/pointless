@@ -29,7 +29,7 @@ async function tezToK2sRp({
 
   const myK2ss = [];
   const myRps = [];
-  const noData406;
+  let noData406;
 
   let index = 0;
   while(index < tezFiles.length) {

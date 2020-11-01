@@ -132,7 +132,7 @@ class Rapidgator {
 		});
 	}
 
-	getFileInfoByLinks(links = []) {
+	async getFileInfoByLinks(links = []) {
 		const result = [];
 		let index = 0;
 		while(index <　links.length) {

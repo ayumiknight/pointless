@@ -22,7 +22,7 @@ async function k2sToK2s({
   })
   const k2sTargetFolderId = k2sTargetFolder.data.id;
   const myK2ss = [];
-  const noData406;
+  let noData406;
 
   let index = 0;
   while(index < k2s.length) {
