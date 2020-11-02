@@ -33,7 +33,8 @@ async function crawlAndSaveSingle({
             k2s = await md5ToK2s({
                 code,
                 filesInfo,
-                vr
+                vr,
+                javInfo
             })
         }  
     } catch(e) {

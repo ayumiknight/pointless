@@ -4,7 +4,9 @@ const { _66, tezP, k2sVR, k2sNormal } = require('./k2sConfig');
 async function k2sToK2s({
   javInfo,
   code,
-  vr
+  vr,
+  idOnly,
+  newName
 }) {
   const {
     k2s = []
@@ -36,7 +38,7 @@ async function k2sToK2s({
         tempUrl: tempUrl.data.url,
         md5: headRes.headers.etag,
         contentLength: headRes.headers['content-length'],
-        newName: link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
+        newName: newName || link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
       }
 
       const k2sSaveResult = await axios({
@@ -65,6 +67,12 @@ async function k2sToK2s({
   }
   if (noData406) {
     return false;
+  }
+  if (idOnly) {
+    return {
+      id: myK2sIds[0],
+      link: myK2ss[0]
+    };
   }
   if (myK2ss.length) {
     const k2sTargetFolder = await axios({

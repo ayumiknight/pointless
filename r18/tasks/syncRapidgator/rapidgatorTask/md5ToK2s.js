@@ -1,10 +1,12 @@
 const axios = require('axios');
 const { _66, tezP, k2sVR, k2sNormal } = require('./k2sConfig');
+const k2sToK2s = require('./k2sToK2s');
 
 async function md5ToK2s({
   code,
   filesInfo,
-  vr
+  vr,
+  javInfo
 }) {
   const myK2ss = []
   const myK2sIds = [];
@@ -31,6 +33,36 @@ async function md5ToK2s({
       console.log('========one file success=========', myK2ss)
     } catch(e) {
       console.log(e.message, e.response && e.response.data, '===========md5 to k2s rp single====', file.url, file.hash)
+      try {
+        if (file.name.split('.').pop() === 'mp4') {
+          const {
+            k2s = []
+          } = javInfo;
+          const thisFileOriginalName = file.name.replace('.jvrlibrary', '');
+          const match = k2s.find(one => {
+            return one.split('/').pop() === thisFileOriginalName;
+          })
+          console.log(this.thisFileOriginalName, this.match, '=======fill with k2s to k2s,=============== ')
+          if (match) {
+            const res = await k2sToK2s({
+              javInfo: {
+                k2s: [match]
+              },
+              vr,
+              code,
+              newName: file.name,
+              idOnly: true
+            })
+            if (res && res.id) {
+              myK2ss.push(res.link)
+              myK2sIds.psuh(res.id)
+              console.log(res.link, '=======fill with k2s to k2s success=============== ')
+            }
+          }
+        }
+      } catch(e) {
+        console.log(e, `attempt to fill with k2s to k2s failed, ${file.name}, ${match}========================`)
+      }
     }
     index++;
   }
