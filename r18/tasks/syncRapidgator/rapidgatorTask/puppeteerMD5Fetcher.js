@@ -100,6 +100,9 @@ class PuppeteerMD5Fetcher {
     }
     console.log('getMD5Link', link, '===========', rawString);
     return rawString;
-  } 
+  }
+  async destory() {
+    await this.browser.close();
+  }
 }
 

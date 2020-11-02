@@ -166,6 +166,7 @@ async function syncRapidgatorTask() {
 		R,
 		P
 	});
+	await P.destory()
 }
 
 module.exports = syncRapidgatorTask;
