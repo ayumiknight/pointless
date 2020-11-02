@@ -34,7 +34,7 @@ async function crawlAndSaveSingle({
                 code,
                 filesInfo,
                 vr,
-                javInfo
+                javInfo: javInfo1
             })
         }  
     } catch(e) {
