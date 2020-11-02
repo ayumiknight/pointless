@@ -39,14 +39,14 @@ async function md5ToK2s({
             k2s = []
           } = javInfo;
           const thisFileOriginalName = file.name.replace('.jvrlibrary', '');
-          const match = k2s.find(one => {
+          const fileMatch = k2s.find(one => {
             return one.split('/').pop() === thisFileOriginalName;
           })
-          console.log(this.thisFileOriginalName, this.match, '=======fill with k2s to k2s,=============== ')
-          if (match) {
+          console.log(thisFileOriginalName, fileMatch, '=======fill with k2s to k2s,=============== ')
+          if (fileMatch) {
             const res = await k2sToK2s({
               javInfo: {
-                k2s: [match]
+                k2s: [fileMatch]
               },
               vr,
               code,
@@ -61,7 +61,7 @@ async function md5ToK2s({
           }
         }
       } catch(e) {
-        console.log(e, `attempt to fill with k2s to k2s failed, ${file.name}, ${match}========================`)
+        console.log(e, `attempt to fill with k2s to k2s failed, ${file.name}========================`)
       }
     }
     index++;

@@ -63,6 +63,7 @@ class Rapidgator {
 			if (r.data && r.data.response && r.data.response.file && r.data.response.file.file_id) {
 				return true
 			} else {
+				console.log(r.data.response, '===========some thing wrong with xcopy====', link)
 				return false
 			}
 		})
