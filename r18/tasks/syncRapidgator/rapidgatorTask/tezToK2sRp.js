@@ -97,7 +97,7 @@ async function tezToK2sRp({
       })
     })
   }
-  console.log(`tez to k2s ${tezFiles.length} filecount ${myK2ss.length} success count===================`)
+  console.log(new Date(),`tez to k2s ${tezFiles.length} filecount ${myK2ss.length} success count===================`)
   return myK2ss;
   
 }

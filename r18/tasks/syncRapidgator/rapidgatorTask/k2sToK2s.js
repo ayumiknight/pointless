@@ -88,7 +88,7 @@ async function k2sToK2s({
       })
     })
   }
-  console.log(`k2s to k2s ${k2s.length} filecount ${myK2ss.length} success count===================`)
+  console.log(new Date(), `k2s to k2s ${k2s.length} filecount ${myK2ss.length} success count===================`)
   return myK2ss;
 }
 

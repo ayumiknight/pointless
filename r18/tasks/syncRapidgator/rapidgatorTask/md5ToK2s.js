@@ -56,7 +56,7 @@ async function md5ToK2s({
       })
     })
   }
-  console.log(`md5 to k2s ${filesInfo.length} filecount ${myK2ss.length} success count===================`)
+  console.log(new Date(),`md5 to k2s ${filesInfo.length} filecount ${myK2ss.length} success count===================`)
   return myK2ss;
 }
 
