@@ -3,13 +3,15 @@ const tryGetTezLinkAvcens = require('./tryGetTezLinkAvcens.js');
 const tezToK2sRp = require('./tezToK2sRp');
 const k2sToK2s = require('./k2sToK2s');
 const md5ToK2s = require('./md5ToK2s');
+const tezToK2sUsingP = require('./tezToK2sUsingP')
 async function crawlAndSaveSingle({
     code,
     R,
     vr,
     needK2s,
     needRp,
-    extra // extra crawled last time
+    extra, // extra crawled last time
+    P
 }) {
     let javInfo1,
         javInfo2,
@@ -34,7 +36,8 @@ async function crawlAndSaveSingle({
                 code,
                 filesInfo,
                 vr,
-                javInfo: javInfo1
+                javInfo: javInfo1,
+                P
             })
         }  
     } catch(e) {
@@ -42,23 +45,12 @@ async function crawlAndSaveSingle({
             javInfo2 = await tryGetTezLinkAvcens({
                 code
             })
-            if (javInfo2.tezFiles.length) {
-                k2s = await tezToK2sRp({
-                    javInfo: javInfo2,
-                    R,
-                    code,
-                    vr
-                })
-            }
-            if (javInfo2.k2s.length && (!k2s || !k2s.length)) {
-                k2s = await k2sToK2s({
-                    javInfo: javInfo2,
-                    R,
-                    code,
-                    vr
-                })
-            }
-            k2s = k2s || []
+            k2s = await tezToK2sUsingP({
+                javInfo: javInfo2,
+                code,
+                vr,
+                P
+            })
         } else {
             throw e
         }

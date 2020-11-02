@@ -56,6 +56,7 @@ class PuppeteerMD5Fetcher {
       this[fileId] = async (response) => {
         const url = response.url()
         if (url === interceptUrl) {
+          this.page.off('response', this[fileId])
           resolve(response.text())
         }
       }
@@ -63,7 +64,6 @@ class PuppeteerMD5Fetcher {
       this.page.on('response', this[fileId])
       try {
         this.page.goto(link, {timeout : 100 * 1000 })
-        this.page.off('response', this[fileId])
       } catch(e) {
         try {
           this.page.off('response', this[fileId])
@@ -76,36 +76,30 @@ class PuppeteerMD5Fetcher {
   }
 
 
-  async getMD5For({
+  async getMD5LinkFor({
     link,
     type //k2s or tez
   }) {
+    let rawString
     try {
-      const rawString = await this.getRawDataFor({
+      rawString = await this.getRawDataFor({
         link,
         type //k2s or tez
       })
-      console.log(rawString, '============rawString got')
       return JSON.parse(rawString).videoPreview.video
     } catch(e) {
-      return ''
+      try {
+        rawString = await this.getRawDataFor({
+          link,
+          type //k2s or tez
+        })
+        return JSON.parse(rawString).videoPreview.video
+      } catch(e) {
+        rawString = ''
+      }
     }
-  }
-}
-async function test() {
-  const P = new PuppeteerMD5Fetcher({});
-  await P.init();
-  let res
-   res = await P.getMD5For({
-    link: 'https://k2s.cc/file/2188425728d87/FC2-PPV-1551460.mp4',
-    type: 'k2s'
-  })
-  console.log(res);
-  res = await P.getMD5For({
-    link: 'https://tezfiles.com/file/a9ef0a0156f37/SOAV-070.jvrlibrary.mp4',
-    type: 'tez'
-  })
-  console.log(res);
+    console.log('getMD5Link', link, '===========', rawString);
+    return rawString;
+  } 
 }
 
-test()

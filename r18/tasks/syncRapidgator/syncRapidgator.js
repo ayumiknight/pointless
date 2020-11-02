@@ -4,7 +4,7 @@ const { getR18WithExtraPaged } = require('../../sequelize/methods/r18.js');
 const { sequelize, Sequelize, Extra } = require('../../sequelize/index.js');
 const crawlAndSaveSingle = require('./rapidgatorTask/crawlAndSaveSingle.js');
 const Rapidgator = require('./rapidgatorTask/rapidgator.js');
-
+const PuppeteerMD5Fetcher = require('./rapidgatorTask/puppeteerMD5Fetcher');
 let rapidgatorPageAllFromArgv = process.argv.find(one => one.match(/^--rapidgatorPage(\d+)$/))
 let rapidgatorPageAll = rapidgatorPageAllFromArgv ? rapidgatorPageAllFromArgv.replace(/^--rapidgatorPage(\d+)$/i, '$1') : 10;
 console.log(rapidgatorPageAll, '==========rapidgatorPageAll!!!!!!!!!!!!!!\n\n\n');
@@ -26,7 +26,8 @@ async function syncRapidgator({
 	rapidgatorPageSize,
 	rapidgatorCode,
 	vr,
-	R
+	R,
+	P
 }) {
 	let page = 1;
 	let pageNum = rapidgatorPageAll;
@@ -75,7 +76,8 @@ async function syncRapidgator({
 				return syncRapidgatorSingle({
 					row: el,
 					R,
-					vr
+					vr,
+					P
 				})
 			}))
 		}
@@ -87,7 +89,8 @@ async function syncRapidgator({
 async function syncRapidgatorSingle({
 	row,
 	R,
-	vr
+	vr,
+	P
 }) {
 	let {
 		id,
@@ -104,7 +107,8 @@ async function syncRapidgatorSingle({
 			vr,
 			needK2s,
 			needRp,
-			extra
+			extra,
+			P
 		});
 		if (!row.extra) {
 			await Extra.findOrCreate({
@@ -143,20 +147,24 @@ async function syncRapidgatorSingle({
 async function syncRapidgatorTask() {
 	let R = new Rapidgator();
 	await R.login();
+	let P = new PuppeteerMD5Fetcher({});
+	await P.init();
 
 	await syncRapidgator({
 		rapidgatorPageAll: 5,
 		rapidgatorPageSize,
 		rapidgatorCode,
 		vr: 1,
-		R
+		R,
+		P
 	});
 	await syncRapidgator({
 		rapidgatorPageAll,
 		rapidgatorPageSize,
 		rapidgatorCode,
 		vr: 0,
-		R
+		R,
+		P
 	});
 }
 

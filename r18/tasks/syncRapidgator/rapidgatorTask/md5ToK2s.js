@@ -6,7 +6,8 @@ async function md5ToK2s({
   code,
   filesInfo,
   vr,
-  javInfo
+  javInfo,
+  P
 }) {
   const myK2ss = []
   const myK2sIds = [];
@@ -51,7 +52,8 @@ async function md5ToK2s({
               vr,
               code,
               newName: file.name,
-              idOnly: true
+              idOnly: true,
+              P
             })
             if (res && res.id) {
               myK2ss.push(res.link)
