@@ -106,3 +106,4 @@ class PuppeteerMD5Fetcher {
   }
 }
 
+module.exports = PuppeteerMD5Fetcher;
