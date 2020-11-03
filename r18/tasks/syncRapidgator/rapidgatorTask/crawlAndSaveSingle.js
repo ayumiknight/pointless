@@ -56,11 +56,29 @@ async function crawlAndSaveSingle({
         }
     }
     if (!k2s.length && !rapidgator.length) throw new Error('something wrong , no link crawled===', code)
+    
+    let partialOk
+
+    try {
+        if (!extra) {
+            if (javInfo1 && javInfo1.rapidgator.length !== rapidgator.length) partialOk = 1;
+            if (javInfo1 && k2s.length && (k2s.length !== javInfo1.k2s.length)) partialOk = 1;
+            if (javInfo2 && k2s.length != javInfo2.tezFiles.length) partialOk = 1;
+        } else {
+    
+        }
+    } catch(e) {
+        console.log(e, '==========detect partioal ok wrong=========')
+    }
+    
+    
+
     return {
         k2s: k2s,
         rapidgator: rapidgator,
         javarchiveHref: javInfo1 && javInfo1.href,
-        avcensHref: javInfo2 && javInfo2.href
+        avcensHref: javInfo2 && javInfo2.href,
+        partialOk
     }
 }
 module.exports = crawlAndSaveSingle;
