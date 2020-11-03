@@ -34,7 +34,7 @@ async function k2sToK2s({
       const detail = {
         extension,
         tempUrl,
-        md5: headRes.headers.etag,
+        md5: headRes.headers.etag.replace(/"/g, ''),
         contentLength: headRes.headers['content-length'],
         newName: newName || link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
       }

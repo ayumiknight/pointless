@@ -38,7 +38,7 @@ async function tezToK2sRp({
       const detail = {
         extension,
         tempUrl: tempUrl.data.url,
-        md5: headRes.headers.etag,
+        md5: headRes.headers.etag.replace(/"/g, ''),
         contentLength: headRes.headers['content-length'],
         newName: link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
       }
