@@ -58,14 +58,14 @@ async function k2sToK2s({
       console.log(e.message, e.response && e.response.data, '===========k2s to k2s rp single====', link);
       if (e.message.match('Request failed with status code 406')) {
         noData406 = true;
-        break;
+        // break;
       }
     }
     index++;
   }
-  if (noData406) {
-    return false;
-  }
+  // if (noData406) {
+  //   return false;
+  // }
   if (idOnly) {
     return {
       id: myK2sIds[0],
