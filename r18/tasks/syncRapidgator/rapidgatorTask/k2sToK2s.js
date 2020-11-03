@@ -7,7 +7,8 @@ async function k2sToK2s({
   vr,
   idOnly,
   newName,
-  P
+  P,
+  RpHash
 }) {
   const {
     k2s = []
@@ -37,7 +38,7 @@ async function k2sToK2s({
         contentLength: headRes.headers['content-length'],
         newName: newName || link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
       }
-
+      console.log(detail.md5, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hash compara!!!!!!! Rp', RpHash)
       const k2sSaveResult = await axios({
         url: 'https://keep2share.cc/api/v2/createFileByHash',
         method: 'POST',

@@ -53,11 +53,12 @@ async function md5ToK2s({
               code,
               newName: file.name,
               idOnly: true,
-              P
+              P,
+              RpHash: file.hash
             })
             if (res && res.id) {
               myK2ss.push(res.link)
-              myK2sIds.psuh(res.id)
+              myK2sIds.push(res.id)
               console.log(res.link, '=======fill with k2s to k2s success=============== ')
             }
           }
