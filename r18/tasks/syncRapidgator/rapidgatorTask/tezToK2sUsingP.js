@@ -40,6 +40,7 @@ async function tezToK2sRp({
         newName: link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
       }
       
+      console.log(detail, '========tez to k2s using p file detail============', detail)
       const k2sSaveResult = await axios({
         url: 'https://keep2share.cc/api/v2/createFileByHash',
         method: 'POST',
@@ -61,7 +62,7 @@ async function tezToK2sRp({
       myK2sIds.push(k2sSaveResult.data.id);
       // myRps.push(rpLink)
     } catch(e) {
-      console.log(e.message, e.url, e.response && e.response.data, '===========tez to k2s rp single====', link)
+      console.log(e.message, e.url, e.response && e.response.data, '===========tez to k2s using p single====', link)
       if (e.message.match('Request failed with status code 406')) {
         noData406 = true;
         break;
@@ -94,7 +95,7 @@ async function tezToK2sRp({
       })
     })
   }
-  console.log(new Date(),`tez to k2s ${tezFiles.length} filecount ${myK2ss.length} success count===================`)
+  console.log(new Date(),`tez to k2s using p ${tezFiles.length} filecount ${myK2ss.length} success count===================`)
   return myK2ss;
   
 }
