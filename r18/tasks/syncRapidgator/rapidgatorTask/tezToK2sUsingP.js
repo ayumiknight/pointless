@@ -40,7 +40,7 @@ async function tezToK2sRp({
         newName: link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
       }
       
-      console.log(detail, '========tez to k2s using p file detail============', detail)
+      console.log(detail, '========tez to k2s using p file detail============')
       const k2sSaveResult = await axios({
         url: 'https://keep2share.cc/api/v2/createFileByHash',
         method: 'POST',
