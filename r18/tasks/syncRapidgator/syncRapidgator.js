@@ -111,18 +111,18 @@ async function syncRapidgatorSingle({
 			P
 		});
 		if (!row.extra) {
-			const Extra = {}
+			const ExtraInfo = {}
 			if (extras.partialOk) {
-				Extra.partialOk = 1
+				ExtraInfo.partialOk = 1
 			}
 			delete(extras.partialOk);
-			Extra.extra = JSON.stringify(extras);
+			ExtraInfo.extra = JSON.stringify(extras);
 
 			await Extra.findOrCreate({
 				where: {
 					R18Id: id
 				},
-				defaults: Extra
+				defaults: ExtraInfo
 			});
 		} else {
 			const patch = {
