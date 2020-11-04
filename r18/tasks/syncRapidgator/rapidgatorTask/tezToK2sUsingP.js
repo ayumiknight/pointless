@@ -64,17 +64,17 @@ async function tezToK2sRp({
     } catch(e) {
       console.log(e.message, e.url, e.response && e.response.data, '===========tez to k2s using p single====', link)
       if (e.message.match('Request failed with status code 406')) {
-        noData406 = true;
-        break;
+        // noData406 = true;
+        // break;
       }
     }
     index++;
   }
-  if (noData406) {
-    return false;
-  }
+  // if (noData406) {
+  //   return false;
+  // }
   if (myK2ss.length) {
-    const k2sTargetFolder = await axios({
+    const k2sTargetFolder = await axios({ 
       url: 'https://keep2share.cc/api/v2/createFolder',
       method: 'POST',
       data: JSON.stringify({
