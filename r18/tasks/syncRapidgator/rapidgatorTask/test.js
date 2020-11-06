@@ -16,9 +16,9 @@ axios({
   axios({
     url: res.data.url,
     method: 'get',
-    repsonseType: 'stream'
+    responseType: 'stream'
   }).then(response => {
-    console.log(response.headers)
-    response.data.pipe(fs.createWriteStream("a.mp4"));  
+    const fileName = response.headers['content-disposition'].replace(/^.+filename=\"(.+)\";.+$/, "$1")
+    response.data.pipe(fs.createWriteStream(fileName));  
   })
 })
