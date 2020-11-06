@@ -129,7 +129,7 @@ async function syncRapidgatorSingle({
 				javarchiveHref: extras.javarchiveHref,
 				avcensHref: extras.avcensHref
 			}
-			needK2s && extras.k2s.length && (patch.k2s = extras.k2s)
+			extras.k2s.length && (patch.k2s = extras.k2s)
 			needRp && extras.rapidgator.length && (patch.rapidgator = extras.rapidgator)
 			
 			await Extra.update({
