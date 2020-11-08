@@ -38,7 +38,7 @@
                     </div>
                     {{? it.r18.k2s && it.r18.k2s.length}}
                         <div class="label">Keep2Share</div>
-                        <div class="info">Keep2Share allows video online streaming for mp4 files. Just try. 😜</div>
+                        <div class="info">Keep2Share offers video streaming for mp4 files with a cheaper premium. Just try. 😜</div>
                         <div class="section">
                             {{~it.r18.k2s :value:index}}
                                 <a href="{{=value}}" rel="nofollow">{{=value}}</a>
@@ -46,14 +46,17 @@
                             {{~}}
                         </div>
                     {{?}}
-                    {{? it.r18.rapidgator && it.r18.rapidgator.length}}
-                        <div class="label">Rapidgator</div>
-                        <div class="section">
+                    
+                    <div class="label">Rapidgator</div>
+                    <div class="section">
+                        {{? it.r18.rapidgator && it.r18.rapidgator.length}}
                             {{~it.r18.rapidgator :value:index}}
                                 <a href="{{=value}}" rel="nofollow">{{=value}}</a>
                             {{~}}
-                        </div>
-                    {{?}}
+                        {{??}}
+                            Uploading. Check later.
+                        {{?}}
+                    </div>
                 </div>
             </div>
             {{??}}
