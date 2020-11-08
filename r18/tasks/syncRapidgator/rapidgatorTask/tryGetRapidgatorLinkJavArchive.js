@@ -58,48 +58,43 @@ async function tryGetRapidgatorLink({
 }) {
 
 	let [ series, id ] = code.split('-'),
-		javInfo1,
-		javInfo2,
 		javInfo
 
 	//http://javarchive.com/?s=3dsvr+0551
 	let searchResult = await axios.get(`http://javarchive.com/?s=${series}+${id}`);
 
-	let $ = cheerio.load(searchResult.data),
-		firstArticle = $('#content .post-meta:first-child'),
-		secondArticle = $('#content .post-meta:nth-child(2)');
-
-	if (firstArticle[0] && firstArticle.find('a')) {
-		let a = firstArticle.find('a'),
-			href = a.attr('href'),
-			title = a.attr('title') || '';
-		if (matchTitle({
-			title,
-			series,
-			id
-		})) {
-			javInfo1 = await getJavInfo(href);
+	let $ = cheerio.load(searchResult.data);
+	
+	let javInfoCandidate = {},
+		index = 1;
+	while(index < 6) {
+		let article = $(`#content .post-meta:nth-child(${index})`);
+		if (article[0] && article.find('a')) {
+			let a = article.find('a'),
+				href = a.attr('href'),
+				title = a.attr('title') || '';
+			if (matchTitle({
+				title,
+				series,
+				id
+			})) {
+				javInfoCandidate[index] = await getJavInfo(href);
+			}
 		}
+		index++;
+	}
+	const javInfoKeys = Object.keys(javInfoCandidate);
+	if (javInfoKeys.length) {
+		let hasMp4 = javInfoKeys.find(one => {
+			return javInfoCandidate[one].hasMp4;
+		});
+		if (hasMp4) {
+			javInfo = javInfoCandidate[hasMp4];
+		} else {
+			javInfo = javInfoCandidate[javInfoKeys[0]]
+		}	
 	}
 
-	if (secondArticle[0] && secondArticle.find('a')) {
-		let a = secondArticle.find('a'),
-			href = a.attr('href'),
-			title = a.attr('title') || '';
-		if (matchTitle({
-			title,
-			series,
-			id
-		})) {
-			javInfo2 = await getJavInfo(href);
-		}
-	}
-
-	if (javInfo1 && javInfo2) {
-		javInfo = javInfo1.hasMp4 ? javInfo1 : javInfo2
-	} else {
-		javInfo = javInfo1 || javInfo2
-	}
 	if (!javInfo) {
 		throw new Error(`${code} not found javarchive\n`);
 	}
