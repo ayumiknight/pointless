@@ -139,7 +139,7 @@ async function consumerTezTask() {
     } catch(e) {
       console.log(e, '==============tez Schedule error===========', first)
       if (e.message.match('Request failed with status code 406'))  {
-        await Promise(resolve => {
+        await new Promise(resolve => {
           setTimeout(resolve, 1000 * 60 * 60 * 3 );
         })
       }
