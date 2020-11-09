@@ -2,15 +2,14 @@ const axios = require('axios');
 const { _66, tezP, k2sVR, k2sNormal } = require('./k2sConfig');
 const fs = require('fs');
 const { exec } = require('child_process');
-const { Extra } = require('../../../sequelize/index.js');
 
-async function download(tezId) {
+async function download(k2sId) {
   const res = await axios({
-    url: 'https://tezfiles.com/api/v2/getUrl',
+    url: 'https://keep2share.cc/api/v2/getUrl',
     method: 'POST',
     data: JSON.stringify({
-      access_token: tezP,
-      file_id: tezId
+      access_token: _66,
+      file_id: k2sId
     })
   });
   if (res && res.data && res.data.url) {
@@ -45,6 +44,7 @@ async function getMD5(fileName) {
     } else {
       exec(`openssl md5 ${fileName}`, function(error, stdout) {
         const md5 = stdout.slice(stdout.length - 33, stdout.length - 1)
+        console.log(stdout, '=============raw==stdout================')
         resolve(md5.trim())
       })
     }
@@ -60,8 +60,7 @@ function strcmp(a, b) {
 
 async function uploadAndSave({
   fileName,
-  md5,
-  r18Id
+  md5
 }) {
   const newName = fileName.replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary');
   const k2sSaveResult = await axios({
@@ -76,40 +75,42 @@ async function uploadAndSave({
     })
   })
   const link = k2sSaveResult.data.link + '/' + newName
-  const Extras = await Extra.findOne({
-    where: {
-      R18Id: r18Id
-    }
-  });
-  const extra = JSON.parse(Extras.extra);
-  !extra.k2s && (extra.k2s = []);
-  extra.k2s.push(link);
-  extra.k2s.sort((a, b) => {
-    return strcmp(b.split('/').pop(),a.split('/').pop());
-  });
-  await Extras.update({
-    extra: JSON.stringify(extra)
-  })
+  console.log(link, '===============final link=================')
   await new Promise(resolve => {
     exec(`rm ${fileName}`, function(error, stdout) {
       resolve(stdout)
     })
   })
 }
-async function appendOneTez({
-  tezId,
-  r18Id
-}) {
-  const fileName = await download(tezId);
+async function appendOneTez(k2sId) {
+  const fileName = await download(k2sId);
   await new Promise((resolve) => {
     setTimeout(resolve, 200)
   })
   const md5 = await getMD5(fileName)
   const save = await uploadAndSave({
     fileName,
-    md5,
-    r18Id
+    md5
   });
 }
 
-module.exports = appendOneTez;
+
+const tasks = [
+  '8a790cc10bd3c',
+  '819563b1a1cb0',
+  '4f54c76722e51',
+  'd014a0dedc8e9',
+  '290d80eb651eb',
+  'bbe8534376709'
+]
+async function main() {
+  while(tasks.length) {
+    const first = tasks.pop()
+    try {
+      await appendOneTez(first)
+    } catch(e) {
+      console.log(e)
+    }
+  }
+}
+main()
