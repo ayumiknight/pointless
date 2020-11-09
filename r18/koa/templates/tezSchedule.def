@@ -1,5 +1,5 @@
 <div class="tez-table">
-  <div>Available Traffic {{=it.trafficLeft}}</div>
+  <div>Available Traffic {{=it.trafficLeft}}Gb</div>
   <div>Tez Tasks {{=JSON.stringify(it.tezTasks)}}</div>
   <table style="border:1px solid; margin-bottom: 20px; font-size: 10px;">
     <tr>
