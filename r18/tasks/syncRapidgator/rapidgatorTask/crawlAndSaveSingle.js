@@ -75,6 +75,7 @@ async function crawlAndSaveSingle({
 
     return {
         k2s: k2s,
+        tez: javInfo2.tezFiles || [],
         rapidgator: rapidgator,
         javarchiveHref: javInfo1 && javInfo1.href,
         avcensHref: javInfo2 && javInfo2.href,

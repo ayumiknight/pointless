@@ -1,0 +1,65 @@
+<div class="tez-table">
+  <div>Available Traffic {{=it.trafficLeft}}</div>
+  <div>Tez Tasks {{=JSON.stringify(it.tezTasks)}}</div>
+  <table style="border:1px solid; margin-bottom: 20px; font-size: 10px;">
+    <tr>
+      <th>cover</th>
+      <th>id</th>
+      <th>code</th>
+      <th>createdAt</th>
+      <th>status</th>
+      <th>tez</th>
+      <th>k2s</th>
+    </tr>
+    {{~it.tezScheduleTable :row}}
+    <tr>
+      {{~row :td}}
+        {{? td.click}}
+          <td><a id="{{=td.click}}" style="{{=td.disabled ? 'color:gray;':''}}" {{=!td.disabled ? `onclick="tezCheckThis('${td.click}', ${td.id})"` : ''}}>{{=td.click}}</a></td>
+        {{?? td.cover}}
+          <td rowSpan="{{=td.rowSpan}}"><img style="width: 50px;height100px;" src="{{#def.proxy:td.cover}}" /></td>
+        {{?? td.rowSpan}}
+          <td rowSpan="{{=td.rowSpan}}">{{=td.value}}</td>
+        {{??}}
+          <td><a href="{{=td.value}}">{{=td.value}}</a></td>
+        {{?}}
+      {{~}}
+    </tr>
+    {{~}}
+  </table>
+  <button onclick="submitTezSchedule()">submit</button>
+  <script>
+    window.tempTez = [];
+    function tezCheckThis(tezId, r18Id) {
+      const currentIndex = window.tempTez.findIndex(one => {
+        return one.tezId === tezId
+      });
+      if (currentIndex !== -1) {
+        window.tempTez.splice(currentIndex, 1);
+        $(`#${tezId}`).css({
+          color: 'black'
+        });
+      } else {
+        window.tempTez.push({
+          tezId,
+          r18Id
+        });
+        $(`#${tezId}`).css({
+          color: 'red'
+        });
+      }
+    }
+    function submitTezSchedule() {
+      console.log(window.tempTez, '++++');
+      if (!window.tempTez.length) return;
+      const queue = window.tempTez.map(el => {
+        return el.tezId + '_' + el.r18Id
+      }).join('|');
+      $.get('/tezSchedule', {
+        queue
+      }).then(data => {
+        location.reload();
+      });
+    }
+  </script>
+</div>

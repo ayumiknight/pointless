@@ -105,7 +105,6 @@ module.exports = async (ctx, next) => {
     ])
   })
   // ctx.body = JSON.stringify([table1, table2])
-  console.log(lastLogs)
   ctx.body = ctx.dots.index({
 		type: 'dash',
     tables: [table1, table2, table3, table4],

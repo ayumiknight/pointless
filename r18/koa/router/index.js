@@ -21,7 +21,7 @@ const robots = require('./robots.js');
 const vrplayer = require('./vrplayer');
 const downloadTask = require('./downloadTask.js');
 const dash = require('./dash.js')
-
+const tezSchedule = require('./tezSchedule.js')
 router.use(async (ctx, next) => {
 	let {  page = 1, code, id, cast, genre, studio, series, search, lcode} = ctx.query;
 
@@ -86,6 +86,7 @@ router.get('/torrent', jvrList);
 router.get('/ranking', ranking);
 router.get('/downloadTask', downloadTask);
 router.get('/jvrDash', dash);
+router.get('/tezSchedule', tezSchedule);
 router.get(/^\/sitemap(.*)?/, sitemap);
 router.get('/vrplayer', vrplayer);
 router.get(/^\/robots(.*)?/, robots);

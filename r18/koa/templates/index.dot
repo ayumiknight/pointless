@@ -40,7 +40,7 @@
 	</style><![endif]-->
 </head>
 <body>
-{{? it.type !== 'dash'}}
+{{? (it.type !== 'dash' && it.type !== 'tezSchedule')}}
 	<div class="page-bg" style="background-image: url('/static/bg/bg{{= Math.ceil(Math.random() * 9) + 1}}.jpg')"></div>
 {{?}}
 <div id='root'>
@@ -48,6 +48,8 @@
 	<div class="main {{=it.type === 'jvr' ? 'jvr' : 'normal'}} {{=it.type === 'jvrList' ? 'jvrList' : ''}}">
 		{{? it.type === 'dash'}}
 			{{#def.dash}}
+		{{?? it.type === 'tezSchedule'}}
+			{{#def.tezSchedule}}		
 		{{?? it.type === 'jvr'}}
 			{{#def.singleView}}		
 		{{?? it.type === 'actress'}}
