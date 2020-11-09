@@ -41,7 +41,7 @@ async function crawlAndSaveSingle({
             })
         }  
     } catch(e) {
-        if (false && needK2s && !javInfo1 && vr) {
+        if (needK2s && !javInfo1 && vr) {
             javInfo2 = await tryGetTezLinkAvcens({
                 code
             })
