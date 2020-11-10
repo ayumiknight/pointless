@@ -77,7 +77,7 @@ async function uploadAndSave({
   const link = k2sSaveResult.data.link + '/' + newName
   console.log(link, '===============final link=================')
   await new Promise(resolve => {
-    exec(`rm ${fileName}`, function(error, stdout) {
+    exec(`rm '${fileName}'`, function(error, stdout) {
       resolve(stdout)
     })
   })
@@ -96,10 +96,6 @@ async function appendOneTez(k2sId) {
 
 
 const tasks = [
-  '8a790cc10bd3c',
-  '819563b1a1cb0',
-  '4f54c76722e51',
-  'd014a0dedc8e9',
   '290d80eb651eb',
   'bbe8534376709'
 ]
