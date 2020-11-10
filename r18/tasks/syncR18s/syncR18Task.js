@@ -20,6 +20,7 @@ async function crawlAndCreate(allR18s, vr) {
 	let before = await measureR18s();
 	console.log(+ new Date() + ': r18s started' + JSON.stringify(before) + '\n')
 	global.r18Counter = 0;
+	pageindex = 1;
 	try {
 		while( pageindex <= pageAll) {	
 			let result = await savePage(pageindex, allR18s, vr);
