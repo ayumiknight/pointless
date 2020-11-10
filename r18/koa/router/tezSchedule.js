@@ -35,14 +35,25 @@ async function tezSchedule(ctx, next) {
       let rows = r18s.rows;
       const rowsFormatted = [];
       rows = rows.map(el => {
-        return {
+        const temp = {
           code: el.code,
           cover: el.cover,
           createdAt: el.createdAt,
-          extras: JSON.parse(el.Extras.extra),
           extraCreatedAt: (el.Extras.createdAt + '').slice(0, 24),
           id: el.id
-        };
+        }
+        if (el.Extras.extra) {
+          temp.extras = JSON.parse(el.Extras.extra)
+        } else {
+          temp.extras = {}
+        }
+        if (el.Extras.source) {
+          temp.extras = {
+            ...temp.extras,
+            ...JSON.parse(el.Extras.source)
+          }
+        }
+        return temp;
       }).filter(el => {
         const {
           tez = [],
