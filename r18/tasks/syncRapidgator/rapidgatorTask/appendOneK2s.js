@@ -96,12 +96,12 @@ async function appendOneTez(k2sId) {
 
 
 const tasks = [
-  '290d80eb651eb',
-  'bbe8534376709'
+  '8a790cc10bd3c',
+  '819563b1a1cb0'
 ]
 async function main() {
   while(tasks.length) {
-    const first = tasks.pop()
+    const first = tasks.shift()
     try {
       await appendOneTez(first)
     } catch(e) {
