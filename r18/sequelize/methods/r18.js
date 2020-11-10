@@ -159,7 +159,7 @@ async function getR18Paged(query) {
 		r18Query.include.push({
 			association:  R18.Extras,
 			where: {
-				id: {
+				extra: {
 					[Op.ne]: null
 				}
 			}
@@ -170,7 +170,7 @@ async function getR18Paged(query) {
 		r18Query.include.push({
 			association:  R18.Extras,
 			where: {
-				id: {
+				extra: {
 					[Op.ne]: null
 				}
 			}
@@ -433,6 +433,128 @@ async function getNewRapidgator() {
 	}
 }
 
+async function getR18PagedAllowEmptyExtra(query) {
+	let { 
+		actress_id, 
+		category_id, 
+		series_id, 
+		studio_id, 
+		page = 1,
+		pagesize,
+		lcode,
+		javlibrary,
+		nonVR,
+		both,
+		sitemap
+	} = query;
+
+	let r18Query = {
+		offset: (page - 1) * pagesize,
+		limit: pagesize
+	}
+
+	if (javlibrary) {
+		r18Query.where = {
+			javlibrary: {
+				[Op.or]: [null, 0]
+			}
+		}
+	}
+
+	
+	if (actress_id) {
+		r18Query.include = [{
+			association:  R18.Actresses,
+			as: 'Actresses',
+			where: {
+				actress_id
+			}
+		}]
+	}
+	if (category_id) {
+		r18Query.include = [{
+			association:  R18.Categories,
+			where: {
+				category_id
+			}
+		}];
+	}
+	if (studio_id) {
+		r18Query.include = [{
+			association:  R18.Studio,
+			where: {
+				studio_id
+			}
+		}];
+	}
+	if (series_id) {
+		r18Query.include = [{
+			association:  R18.Series,
+			where: {
+				series_id
+			}
+		}];
+	}
+	if (!sitemap && !javlibrary) {
+		r18Query.order = [[Sequelize.literal('`Extras.createdAt`'), 'DESC']];
+		r18Query.include = r18Query.include || [];
+		r18Query.include.push({
+			association:  R18.Extras,
+			where: {
+				id: {
+					[Op.ne]: null
+				}
+			}
+		});
+	} else if (javlibrary) {
+		r18Query.order = [[Sequelize.literal('`Extras.createdAt`'), 'DESC']];
+		r18Query.include = r18Query.include || [];
+		r18Query.include.push({
+			association:  R18.Extras,
+			where: {
+				id: {
+					[Op.ne]: null
+				}
+			}
+		});
+	} else {
+		r18Query.attributes = ['code']
+		r18Query.order = [['createdAt', 'DESC']]
+	}
+	
+
+	if (lcode) {
+		r18Query.where = {
+			code: {
+				[Op.like]: `${lcode}%`
+			}
+		}
+		r18Query.order = [[
+			'coden', 'DESC'
+		]]
+	}
+	
+	// if (torrent) {
+	// 	r18Query.where = {
+	// 		torrent: {
+	// 			[Op.eq]: 1
+	// 		}
+	// 	}
+	// }
+
+	if (!r18Query.where) {
+		r18Query.where = {};
+	}
+	!both && (r18Query.where.vr = nonVR ? {
+		[Op.eq]: 0
+	} : {
+ 		[Op.eq]: 1
+	});
+
+	
+	const res = await R18.findAndCountAll(r18Query);
+	return res
+}
 
 module.exports = {
 	R18BulkCreate,
@@ -451,5 +573,6 @@ module.exports = {
 	updateR18Javlibrary,
 	getNewRapidgator,
 	updateR18LastPost,
-	getR18RecentPosted
+	getR18RecentPosted,
+	getR18PagedAllowEmptyExtra
 }

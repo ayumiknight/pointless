@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
         partialOK: {
             type: DataTypes.TINYINT(1),
             comment: "部分文件已失效",
+        },
+        source: {
+            type: DataTypes.STRING(2500),
+            comment: "备选链接"
         }
     });
 

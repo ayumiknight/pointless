@@ -1,10 +1,6 @@
 const {
-	getR18Paged,
-  getR18RecentPosted,
-  sequelize,
-  getR18Single
+	getR18PagedAllowEmptyExtra
 } = require('../../sequelize/methods/r18.js');
-const crawlAndSaveSingle = require('../../tasks/syncRapidgator/rapidgatorTask/crawlAndSaveSingle.js');
 const appendOneTez = require('../../tasks/syncRapidgator/rapidgatorTask/appendOneTez');
 const axios = require('axios');
 
@@ -32,8 +28,8 @@ async function tezSchedule(ctx, next) {
         })
       })
       const trafficLeft = (accountInfo.data.available_traffic / 1024 / 1024 / 1024).toFixed(2);
-      const r18s = await getR18Paged({
-        pagesize: 50,
+      const r18s = await getR18PagedAllowEmptyExtra({
+        pagesize: 100,
         page: 1
       });
       let rows = r18s.rows;

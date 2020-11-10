@@ -44,7 +44,7 @@ async function syncRapidgator({
 		rows = rows || [];
 
 		const taskRows = rows.map(row => {
-			if (row.Extras) {
+			if (row.Extras && row.Extras.extra) {
 				row.extra = JSON.parse(row.Extras.extra)
 			}
 			return row;
@@ -115,9 +115,18 @@ async function syncRapidgatorSingle({
 			if (extras.partialOk) {
 				ExtraInfo.partialOk = 1
 			}
+			if (extras.tez && extras.tez.length) {
+				ExtraInfo.source = JSON.stringify({
+					tez: extras.tez
+				})
+			}
 			delete(extras.partialOk);
-			ExtraInfo.extra = JSON.stringify(extras);
-
+			delete(extras.tez)
+			
+			if (extras.k2s.length || extras.rapidgator.length) {
+				ExtraInfo.extra = JSON.stringify(extras);
+			}
+			
 			await Extra.findOrCreate({
 				where: {
 					R18Id: id
