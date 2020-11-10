@@ -19,7 +19,7 @@ global.postLastRun = null
 global.allAxLastRun = null
 
 const backgroundTask = async () => {
-  global.currentBackgroundTask = 'crawl'
+  global.currentBackgroundTask = 'post'
   while(true) {
     global.currentBackgroundTask = global.currentBackgroundTask === 'crawl' ? 'post' : 'crawl';
     try {
@@ -28,7 +28,7 @@ const backgroundTask = async () => {
         if (global.allAxLastRun && (global.allAxLastRun * 1 + 60 * 60 * 1000 * 24 > new Date() * 1)) {
           allAx = false
         } else {
-          allAx = true
+          allAx = global.allAxLastRun ? true : false
           global.allAxLastRun = new Date();
         }
         await crawl(false, allAx);

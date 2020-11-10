@@ -55,7 +55,7 @@ async function crawlAndSaveSingle({
             throw e
         }
     }
-    if (!k2s.length && !rapidgator.length && (!javInfo2 || !javInfo2.tezFiles)) throw new Error('something wrong , no link crawled===', code)
+    if (!javInfo1 && !javInfo2) throw new Error('something wrong , nothing found========', code)
     
     let partialOk
 
@@ -75,7 +75,7 @@ async function crawlAndSaveSingle({
 
     return {
         k2s: k2s,
-        tez: javInfo2.tezFiles || [],
+        tez: (javInfo2 && javInfo2.tezFiles) || [],
         rapidgator: rapidgator,
         javarchiveHref: javInfo1 && javInfo1.href,
         avcensHref: javInfo2 && javInfo2.href,
