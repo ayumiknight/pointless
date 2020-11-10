@@ -16,7 +16,7 @@ function matchTitle({
 		return true
 	};
 	if (id * 1 >= 100) {
-		if (title.toUpperCase().match(series) && title.toUpperCase().match(id)) {
+		if (title.toUpperCase().match(series) && title.slice(0,30).toUpperCase().match(id)) {
 			return true;
 		}
 	}
