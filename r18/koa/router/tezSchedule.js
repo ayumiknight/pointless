@@ -68,8 +68,8 @@ async function tezSchedule(ctx, next) {
       })
       rows.forEach(el => {
         const {
-          tez,
-          k2s
+          tez = [],
+          k2s = []
         } = el.extras;
         const tezLength = tez.length;
         let index = 0;
