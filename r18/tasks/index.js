@@ -4,25 +4,16 @@ var syncStudios = require('./syncStudios/syncStudios.js');
 var syncActresses = require('./syncActresses/syncActresses.js');
 var reorderR18s = require('./reorderR18s/reorderR18s.js');
 var syncRapidgator = require('./syncRapidgator/syncRapidgator.js');
-var testFirst = require('./syncR18s/testFirst.js');
 var { sequelize } = require('../sequelize/index.js');
 //--allR18s --page1000 --rapidgatorPage1500 --postPage30000
-module.exports = async function crawl(allR18s) {
-	let {
-		needActress,
-		needStudio,
-		needSeries
-	} = await testFirst();
-	if (needActress) {
+module.exports = async function crawl(allR18s, crawlAccessory) {
+	if (crawlAccessory) {
 		await syncActresses();
-	}
-	if (needStudio) {
 		await syncStudios();
-	}
-	if (needSeries) {
 		await syncSeries();
 	}
-	await syncR18s(allR18s);
+	await syncR18s(allR18s, true);
+	await syncR18s(allR18s, false);
 	await reorderR18s();
 	const before = await sequelize.query("SELECT COUNT(id) FROM Extras;");
 	await syncRapidgator();

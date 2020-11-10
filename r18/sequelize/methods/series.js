@@ -10,13 +10,16 @@ async function SeriesBulkCreate(serieses) {
 }
 
 async function SeriesCreate(series) {
-
-	return Series.findOrCreate({
+	const _series = await Series.findOne({
 		where: {
 			series_id: series.series_id
-		},
-		defaults: series
+		}
 	})
+	if (_series) {
+		await _series.update(series)
+	} else {
+		await Series.create(series)
+	}
 }
 
 

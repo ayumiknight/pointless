@@ -21,7 +21,6 @@ axiosRretry(axios, { retries: 3 });
 let actressTotalPage = 11,
 actressCurrentPage = 1;
 
-let syncActressLastRun = null
 function getPageUrl(pageindex) {
 	return `https://www.r18.com/videos/vod/movies/actress/letter=a/sort=popular/page=${pageindex}/`
 }
@@ -85,8 +84,6 @@ async function loadPage(pageindex) {
 
 
 async function index() {
-	if (syncActressLastRun && (syncActressLastRun * 1 + 60 * 60 * 1000 * 12 > new Date() * 1)) return
-	syncActressLastRun = new Date() 
 	actressCurrentPage = 1
 	let before = await measureActresses();
 	console.log(+ new Date() + ': actresses started' + JSON.stringify(before) + '\n', actressCurrentPage, actressTotalPage)

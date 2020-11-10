@@ -10,13 +10,16 @@ async function StudiosBulkCreate(studios) {
 }
 
 async function StudiosCreate(studio) {
-
-	return Studio.findOrCreate({
+	const _studio = await Studio.findOne({
 		where: {
 			studio_id: studio.studio_id
-		},
-		defaults: studio
+		}
 	})
+	if (_studio) {
+		await _studio.update(studio)
+	} else {
+		await Studio.create(studio)
+	}
 }
 
 async function getStudiosPagedByFirstLetter({

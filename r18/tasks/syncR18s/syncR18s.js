@@ -14,21 +14,21 @@ const { getCode } = require('../util.js');
 //axios包一层retry
 axiosRretry(axios, { retries: 3 });
 
-global.r18Counter = 0;
-
 let counterFromArgv = process.argv.find(one => one.match(/^--counter(\d+)$/))
-let counterValue = counterFromArgv ? counterFromArgv.replace(/^--counter(\d+)$/i, '$1') : 5;
+let counterValue = counterFromArgv ? counterFromArgv.replace(/^--counter(\d+)$/i, '$1') : 100;
 console.log(counterValue, '==========counterValue!!!!!!!!!!!!!!\n\n\n');
 counterValue *= 1;
 
-function getPageUrl(pageindex) {
-    //return `https://www.r18.com/videos/vod/movies/list/id=6793/pagesize=30/price=all/sort=new/type=category/page=${pageindex}/`;
+function getPageUrl(pageindex, vr) {
+    if (vr) {
+        return `https://www.r18.com/videos/vod/movies/list/id=6793/pagesize=30/price=all/sort=new/type=category/page=${pageindex}/`;
+    }
     return `https://www.r18.com/videos/vod/movies/list/pagesize=30/price=all/sort=new/type=all/page=${pageindex}/?dmmref=pc_header`
 }
 
-async function loadPage(pageindex) {
+async function loadPage(pageindex, vr) {
 
-    let pageUrl = getPageUrl(pageindex),
+    let pageUrl = getPageUrl(pageindex, vr),
         res;
     try {
         res = await axios.get(pageUrl); 
@@ -104,8 +104,8 @@ async function loadAndSave(entries, allR18s) {
     }
 }
 
-async function savePage(pageIndex, allR18s) {
-    let formattedEntryUrls = await loadPage(pageIndex);
+async function savePage(pageIndex, allR18s, vr) {
+    let formattedEntryUrls = await loadPage(pageIndex, vr);
     let result = await loadAndSave(formattedEntryUrls, allR18s);
     return result;
 }

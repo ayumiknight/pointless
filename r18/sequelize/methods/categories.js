@@ -10,22 +10,20 @@ async function CategoriesBulkCreate(categories) {
 }
 
 async function CategoryCreate(category) {
-
-	let _category = await Category.findOrCreate({
+	const _category = await Category.findOne({
 		where: {
 			category_id: category.category_id
-		},
-		default: category
-	});
-
-	if (!_category[1]) {
-		await category[0].update({
-			en: category[0].en || category.en,
-			zh: category[0].zh || category.zh,
-			logo: category[0].logo || category.logo
+		}
+	})
+	if (_category) {
+		await _category.update({
+			en: _category.en || category.en,
+			zh: _category.zh || category.zh,
+			logo: _category.logo || category.logo
 		})
+	} else {
+		await Category.create(category)
 	}
-	return category;
 }
 
 async function getCategoryPaged({

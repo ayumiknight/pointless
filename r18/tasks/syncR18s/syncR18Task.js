@@ -6,7 +6,7 @@ var fs = require('fs');
 var util = require('util');
 
 let pageAllFromArgv = process.argv.find(one => one.match(/^--page(\d+)$/))
-let pageAll = pageAllFromArgv ? pageAllFromArgv.replace(/^--page(\d+)$/i, '$1') : 3;
+let pageAll = pageAllFromArgv ? pageAllFromArgv.replace(/^--page(\d+)$/i, '$1') : 10;
 console.log(pageAll, '==========pageAll!!!!!!!!!!!!!!\n\n\n');
 pageAll *= 1;
 
@@ -16,13 +16,13 @@ let pageindex = pageIndexFromArgv ? pageIndexFromArgv.replace(/^--pageOffset(\d+
 console.log(pageindex, '==========pageindex!!!!!!!!!!!!!!\n\n\n');
 pageindex *= 1;
 
-async function crawlAndCreate(allR18s) {
+async function crawlAndCreate(allR18s, vr) {
 	let before = await measureR18s();
 	console.log(+ new Date() + ': r18s started' + JSON.stringify(before) + '\n')
-	
+	global.r18Counter = 0;
 	try {
 		while( pageindex <= pageAll) {	
-			let result = await savePage(pageindex, allR18s);
+			let result = await savePage(pageindex, allR18s, vr);
 			console.log(`${+ new Date()} : page ${pageindex} crawled \n`, { flag : 'a'})
 			pageindex += 1;
 		}

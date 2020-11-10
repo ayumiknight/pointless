@@ -16,7 +16,7 @@ const crawl = require('../../tasks/index.js');
 global.disablePost = false
 global.currentBackgroundTask = ''
 global.postLastRun = null
-
+global.allAxLastRun = null
 
 const backgroundTask = async () => {
   global.currentBackgroundTask = 'crawl'
@@ -24,7 +24,14 @@ const backgroundTask = async () => {
     global.currentBackgroundTask = global.currentBackgroundTask === 'crawl' ? 'post' : 'crawl';
     try {
       if (global.currentBackgroundTask === 'crawl') {
-        await crawl();
+        let allAx
+        if (global.allAxLastRun && (global.allAxLastRun * 1 + 60 * 60 * 1000 * 24 > new Date() * 1)) {
+          allAx = false
+        } else {
+          allAx = true
+          global.allAxLastRun = new Date();
+        }
+        await crawl(false, allAx);
       } else {
         global.postLastRun = new Date()
         let Javlibrary = new javlibraryAutoTask({
