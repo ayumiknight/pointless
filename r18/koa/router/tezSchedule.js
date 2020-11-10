@@ -101,7 +101,7 @@ async function tezSchedule(ctx, next) {
           })
           if (thisK2s) {
             formatted.push({
-              value: thisTez
+              value: thisK2s
             })
           } else {
             const tezId = thisTez.replace(/^https\:\/\/tezfiles.com\/file\/([a-z0-9]+)\/.+$/, "$1");
