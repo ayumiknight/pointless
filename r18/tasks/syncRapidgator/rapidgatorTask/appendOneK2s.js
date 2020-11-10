@@ -93,11 +93,12 @@ async function appendOneTez(k2sId) {
     md5
   });
 }
-
-
 const tasks = [
-  '8a790cc10bd3c',
-  '819563b1a1cb0'
+  '3a9fe11bcbc93',
+  '5ba4abab31b47',
+  '1958ac523ae2d',
+  '70a4a35012ef4',
+  'e3aad58acf90a'
 ]
 async function main() {
   while(tasks.length) {
