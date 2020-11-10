@@ -43,7 +43,7 @@ async function getMD5(fileName) {
         resolve(md5.trim())
       })
     } else {
-      exec(`openssl md5 ${fileName}`, function(error, stdout) {
+      exec(`openssl md5 '${fileName}'`, function(error, stdout) {
         const md5 = stdout.slice(stdout.length - 33, stdout.length - 1)
         resolve(md5.trim())
       })
@@ -91,7 +91,7 @@ async function uploadAndSave({
     extra: JSON.stringify(extra)
   })
   await new Promise(resolve => {
-    exec(`rm ${fileName}`, function(error, stdout) {
+    exec(`rm '${fileName}'`, function(error, stdout) {
       resolve(stdout)
     })
   })
