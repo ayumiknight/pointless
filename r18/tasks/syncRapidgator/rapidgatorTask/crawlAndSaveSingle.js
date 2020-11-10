@@ -55,7 +55,7 @@ async function crawlAndSaveSingle({
             throw e
         }
     }
-    if (!k2s.length && !rapidgator.length) throw new Error('something wrong , no link crawled===', code)
+    if (!k2s.length && !rapidgator.length && (!javInfo || !javInfo2.tezFiles)) throw new Error('something wrong , no link crawled===', code)
     
     let partialOk
 
