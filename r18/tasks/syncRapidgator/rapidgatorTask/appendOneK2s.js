@@ -42,7 +42,7 @@ async function getMD5(fileName) {
         resolve(md5.trim())
       })
     } else {
-      exec(`openssl md5 ${fileName}`, function(error, stdout) {
+      exec(`openssl md5 '${fileName}'`, function(error, stdout) {
         const md5 = stdout.slice(stdout.length - 33, stdout.length - 1)
         console.log(stdout, '=============raw==stdout================')
         resolve(md5.trim())
