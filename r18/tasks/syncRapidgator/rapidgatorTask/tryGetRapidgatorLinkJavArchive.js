@@ -94,9 +94,16 @@ async function tryGetRapidgatorLink({
 			javInfo = javInfoCandidate[javInfoKeys[0]]
 		}	
 	}
-
+	const maybeWithZero = (id + '').length  === 3 && (id / 100 > 1);
 	if (!javInfo) {
-		throw new Error(`${code} not found javarchive\n`);
+		if (maybeWithZero) {
+			const _javInfo = await tryGetRapidgatorLink({
+				code: series + '-0' + id 
+			});
+			return _javInfo;
+		} else {
+			throw new Error(`${code} not found javarchive\n`);
+		}
 	}
 	if (!javInfo.rapidgator.length) {
 		throw new Error(`${code} rapidgator links not found javarchive\n`);
