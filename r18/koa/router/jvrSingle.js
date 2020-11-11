@@ -55,7 +55,7 @@ module.exports = async (ctx, next) => {
 			relatedR18s = relatedR18s.rows;
 		}
 
-		if (r18.Extras) {
+		if (r18.Extras && r18.Extras.extra) {
 			let extras = JSON.parse(r18.Extras.extra);
 			r18.rapidgator = extras.rapidgator || [];
 			r18.k2s = extras.k2s || [];
