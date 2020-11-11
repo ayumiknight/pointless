@@ -403,6 +403,9 @@ async function getNewRapidgator() {
 			where: {
 				createdAt: {
 					[Op.gt]: today
+				},
+				extra: {
+					[Op.ne]: null
 				}
 			}
 		}]
@@ -418,10 +421,6 @@ async function getNewRapidgator() {
 			} else {
 				nonvr++;
 			}
-		})
-		console.log({
-			vr,
-			nonvr
 		})
 		return {
 			vr,

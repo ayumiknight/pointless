@@ -1,7 +1,7 @@
 <div class="tez-table">
   <div>Available Traffic {{=it.trafficLeft}}Gb</div>
   <div>Tez Tasks {{=JSON.stringify(it.tezTasks)}}</div>
-  <table style="border:1px solid; margin-bottom: 20px; font-size: 10px;">
+  <table style="border:1px solid; margin-bottom: 20px; font-size: 10px; border-collapse: collapse;">
     <tr>
       <th>cover</th>
       <th>id</th>
@@ -12,7 +12,7 @@
       <th>k2s</th>
     </tr>
     {{~it.tezScheduleTable :row}}
-    <tr>
+    <tr style="border-top: 1px solid black;">
       {{~row :td}}
         {{? td.click}}
           <td><a id="{{=td.click}}" style="{{=td.disabled ? 'color:gray;':''}}" {{=!td.disabled ? `onclick="tezCheckThis('${td.click}', ${td.id})"` : ''}}>{{=td.click}}</a></td>
