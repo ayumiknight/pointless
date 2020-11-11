@@ -81,7 +81,7 @@ async function uploadAndSave({
       R18Id: r18Id
     }
   });
-  const extra = JSON.parse(Extras.extra);
+  const extra = Extras.extra ? JSON.parse(Extras.extra) : {};
   !extra.k2s && (extra.k2s = []);
   extra.k2s.push(link);
   extra.k2s.sort((a, b) => {
