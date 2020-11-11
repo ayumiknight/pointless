@@ -54,7 +54,7 @@
                                 <a href="{{=value}}" rel="nofollow">{{=value}}</a>
                             {{~}}
                         {{??}}
-                            Uploading. Check later.
+                            <div class="info">Uploading. Check later.</div>
                         {{?}}
                     </div>
                 </div>
