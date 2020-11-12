@@ -126,6 +126,7 @@ async function appendOneTez({
   })
   const md5 = await getMD5(fileName)
   const save = await uploadAndSave({
+    fileName,
     newName,
     md5,
     r18Id
