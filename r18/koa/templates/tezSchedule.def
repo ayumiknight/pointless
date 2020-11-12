@@ -59,18 +59,18 @@
           color: 'red'
         });
       }
-    }
+    };
     function submitTezSchedule() {
       if (!window.tempTezK2s.length) return;
-      const queue = window.tempTezK2s.map(el => {
+      const queue = JSON.stringify(window.tempTezK2s.map(el => {
         let newName = el.type === 'k2s' ? $(`#${el.tezK2sId}input`).val() : el.newName;
-        return encodeURIComponent([
-          el.tezK2sId,
-          el.r18Id,
-          el.type,
+        return {
+          tezK2sId: el.tezK2sId,
+          r18Id: el.r18Id,
+          type: el.type,
           newName
-        ].join('_'))
-      }).join('|');
+        }
+      }));
       if (window.confirm(queue)) { 
         $.get('/tezSchedule', {
           queue

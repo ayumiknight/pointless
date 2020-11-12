@@ -10,15 +10,7 @@ global.tezTasks = [];
 async function tezSchedule(ctx, next) {
   if (ctx.method === 'GET') {
     if (ctx.query.queue) {
-      const queue = ctx.query.queue.split('|').map(el => {
-        const [tezK2sId, r18Id, type, newName] = el.split('_');
-        return {
-          tezK2sId,
-          r18Id,
-          type,
-          newName
-        };
-      })
+      const queue = JSON.parse(ctx.query.queue);
       global.tezTasks = global.tezTasks.concat(queue);
       consumerTezTask()
       ctx.body = 'ok';
