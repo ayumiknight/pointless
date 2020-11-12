@@ -2,12 +2,10 @@ const fs = require('fs');
 const axios = require('axios');
 const axiosRretry = require('axios-retry');
 const cheerio = require('cheerio');
-const { get } = require('https');
-const { Console } = require('console');
 
-async function getJpOrgRecent () {
-
-  const list = await axios.get('https://jp-porn.org/vr/');
+async function getJpOrgRecentPage (page) {
+  const url = page !== 1 ? `https://jp-porn.org/vr/page/${page}` : 'https://jp-porn.org/vr/';
+  const list = await axios.get(url);
   const dom = cheerio.load(list.data);
   const atags = dom('a.img-wide');
   const links = [];
@@ -37,4 +35,19 @@ async function getJpOrgRecent () {
   console.log(k2sLinks)
   return k2sLinks;
 }
-getJpOrgRecent()
+
+async function getJpOrgRecent() {
+  if (global.lastJpOrgRecent) {
+    return global.lastJpOrgRecent;
+  }
+  const page1 = await getJpOrgRecentPage(1);
+  const page2 = await getJpOrgRecentPage(2);
+  const page3 = await getJpOrgRecentPage(3);
+  global.lastJpOrgRecent = page1.concat(page2).concat(page3);
+  setTimeout(() => {
+    global.lastJpOrgRecent = null;
+  }, 1000 * 60 * 5)
+  return global.lastJpOrgRecent;
+}
+
+module.exports = getJpOrgRecent;

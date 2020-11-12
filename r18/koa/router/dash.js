@@ -44,8 +44,10 @@ const backgroundTask = async () => {
     }
   }
 }
+if (!process.platform.match('win')) {
+  backgroundTask()
+}
 
-backgroundTask()
 module.exports = async (ctx, next) => {
   const {
     disablePost

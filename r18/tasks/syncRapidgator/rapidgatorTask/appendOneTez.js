@@ -4,15 +4,30 @@ const fs = require('fs');
 const { exec } = require('child_process');
 const { Extra } = require('../../../sequelize/index.js');
 
-async function download(tezId) {
-  const res = await axios({
-    url: 'https://tezfiles.com/api/v2/getUrl',
-    method: 'POST',
-    data: JSON.stringify({
-      access_token: tezP,
-      file_id: tezId
-    })
-  });
+async function download({
+  tezK2sId,
+  type
+}) {
+  let res
+  if (type === 'k2s') {
+    res = await axios({
+      url: 'https://k2s.cc/api/v2/getUrl',
+      method: 'POST',
+      data: JSON.stringify({
+        access_token: _66,
+        file_id: tezK2sId
+      })
+    });
+  } else {
+    res = await axios({
+      url: 'https://tezfiles.com/api/v2/getUrl',
+      method: 'POST',
+      data: JSON.stringify({
+        access_token: tezP,
+        file_id: tezK2sId
+      })
+    });
+  }
   if (res && res.data && res.data.url) {
     console.log(res.data.url);
     return new Promise(async (resolve, reject) => {
@@ -61,9 +76,9 @@ function strcmp(a, b) {
 async function uploadAndSave({
   fileName,
   md5,
-  r18Id
+  r18Id,
+  newName
 }) {
-  const newName = fileName.replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary');
   const k2sSaveResult = await axios({
     url: 'https://keep2share.cc/api/v2/createFileByHash',
     method: 'POST',
@@ -97,16 +112,21 @@ async function uploadAndSave({
   })
 }
 async function appendOneTez({
-  tezId,
-  r18Id
+  tezK2sId,
+  r18Id,
+  type,
+  newName
 }) {
-  const fileName = await download(tezId);
+  const fileName = await download({
+    tezK2sId,
+    type
+  });
   await new Promise((resolve) => {
     setTimeout(resolve, 200)
   })
   const md5 = await getMD5(fileName)
   const save = await uploadAndSave({
-    fileName,
+    newName,
     md5,
     r18Id
   });

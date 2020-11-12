@@ -1,21 +1,25 @@
 <div class="tez-table">
-  <div>Available Traffic {{=it.trafficLeft}}Gb</div>
-  <div>Tez Tasks {{=JSON.stringify(it.tezTasks)}}</div>
+  <div>Tez Available Traffic {{=it.trafficLeftTez}}Gb</div>
+  <div>K2s Available Traffic {{=it.trafficLeftK2s}}Gb</div>
+  <div>Current Tasks {{=JSON.stringify(it.tezTasks)}}</div>
   <table style="border:1px solid; margin-bottom: 20px; font-size: 10px; border-collapse: collapse;">
     <tr>
-      <th>cover</th>
       <th>id</th>
       <th>code</th>
       <th>createdAt</th>
       <th>status</th>
       <th>tez</th>
       <th>k2s</th>
+      <th>mine</th>
     </tr>
     {{~it.tezScheduleTable :row}}
     <tr style="border-top: 1px solid black;">
       {{~row :td}}
-        {{? td.click}}
-          <td><a id="{{=td.click}}" style="{{=td.disabled ? 'color:gray;':''}}" {{=!td.disabled ? `onclick="tezCheckThis('${td.click}', ${td.id})"` : ''}}>{{=td.click}}</a></td>
+        {{? td.tezK2sId}}
+          <td><span id="{{=td.tezK2sId}}" style="{{=td.disabled ? 'color:gray;':''}}" {{=!td.disabled ? `onclick='tezCheckThis(${JSON.stringify(td)})'` : ''}}>
+            {{=td.value}}
+            {{=td.type=== 'k2s' ? `<input type="text" value='${td.newName}' style="width: 200px;" id="${td.tezK2sId}input" />`: ""}}
+          </span></td>
         {{?? td.cover}}
           <td rowSpan="{{=td.rowSpan}}"><img style="width: 50px;height100px;" src="{{#def.proxy:td.cover}}" /></td>
         {{?? td.rowSpan}}
@@ -29,37 +33,51 @@
   </table>
   <button onclick="submitTezSchedule()">submit</button>
   <script>
-    window.tempTez = [];
-    function tezCheckThis(tezId, r18Id) {
-      const currentIndex = window.tempTez.findIndex(one => {
-        return one.tezId === tezId
+    window.tempTezK2s = [];
+    function tezCheckThis({
+      tezK2sId, 
+      r18Id, 
+      type,
+      newName
+    }) {
+      const currentIndex = window.tempTezK2s.findIndex(one => {
+        return one.tezK2sId === tezK2sId
       });
       if (currentIndex !== -1) {
-        window.tempTez.splice(currentIndex, 1);
-        $(`#${tezId}`).css({
+        window.tempTezK2s.splice(currentIndex, 1);
+        $(`#${tezK2sId}`).css({
           color: 'black'
         });
       } else {
-        window.tempTez.push({
-          tezId,
-          r18Id
+        window.tempTezK2s.push({
+          tezK2sId,
+          r18Id,
+          type,
+          newName
         });
-        $(`#${tezId}`).css({
+        $(`#${tezK2sId}`).css({
           color: 'red'
         });
       }
     }
     function submitTezSchedule() {
-      console.log(window.tempTez, '++++');
-      if (!window.tempTez.length) return;
-      const queue = window.tempTez.map(el => {
-        return el.tezId + '_' + el.r18Id
+      if (!window.tempTezK2s.length) return;
+      const queue = window.tempTezK2s.map(el => {
+        let newName = el.type === 'k2s' ? $(`#${el.tezK2sId}input`).val() : el.newName;
+        return encodeURIComponent([
+          el.tezK2sId,
+          el.r18Id,
+          el.type,
+          newName
+        ].join('_'))
       }).join('|');
-      $.get('/tezSchedule', {
-        queue
-      }).then(data => {
-        location.reload();
-      });
+      if (window.confirm(queue)) { 
+        $.get('/tezSchedule', {
+          queue
+        }).then(data => {
+          location.reload();
+        });
+      }
     }
   </script>
 </div>

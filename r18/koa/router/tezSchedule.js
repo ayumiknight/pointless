@@ -3,16 +3,20 @@ const {
 } = require('../../sequelize/methods/r18.js');
 const appendOneTez = require('../../tasks/syncRapidgator/rapidgatorTask/appendOneTez');
 const axios = require('axios');
+const { _66, tezP } = require('../../tasks/syncRapidgator/rapidgatorTask/k2sConfig');
+const getJpOrgRecent = require('../../tasks/syncRapidgator/rapidgatorTask/getJpOrgRecent');
 
 global.tezTasks = [];
 async function tezSchedule(ctx, next) {
   if (ctx.method === 'GET') {
     if (ctx.query.queue) {
       const queue = ctx.query.queue.split('|').map(el => {
-        const [tezId, r18Id] = el.split('_');
+        const [tezK2sId, r18Id, type, newName] = el.split('_');
         return {
-          tezId,
-          r18Id
+          tezK2sId,
+          r18Id,
+          type,
+          newName
         };
       })
       global.tezTasks = global.tezTasks.concat(queue);
@@ -20,14 +24,28 @@ async function tezSchedule(ctx, next) {
       ctx.body = 'ok';
       return
     } else {
-      const accountInfo = await axios({
-        url: 'https://tezfiles.com/api/v2/accountInfo',
-        method: 'POST',
-        data: JSON.stringify({
-          "access_token": "842b30ea18349291d719facfbeb411f60ad48b91"
-        })
-      })
-      const trafficLeft = (accountInfo.data.available_traffic / 1024 / 1024 / 1024).toFixed(2);
+      const accountInfo = await Promise.all([
+        axios({
+          url: 'https://tezfiles.com/api/v2/accountInfo',
+          method: 'POST',
+          data: JSON.stringify({
+            "access_token": tezP
+          })
+        }),
+        axios({
+          url: 'https://k2s.cc/api/v2/accountInfo',
+          method: 'POST',
+          data: JSON.stringify({
+            "access_token": _66
+          })
+        }),
+        getJpOrgRecent()
+      ]);
+
+      const trafficLeftTez = (accountInfo[0].data.available_traffic / 1024 / 1024 / 1024).toFixed(2);
+      const trafficLeftK2s = (accountInfo[1].data.available_traffic / 1024 / 1024 / 1024).toFixed(2);
+      const jpOrgRecent = accountInfo[2];
+
       const r18s = await getR18PagedAllowEmptyExtra({
         pagesize: 100,
         page: 1
@@ -71,15 +89,16 @@ async function tezSchedule(ctx, next) {
           tez = [],
           k2s = []
         } = el.extras;
+        const jpOrgRecentMatch = jpOrgRecent.filter(recent => {
+          const upperCase = recent.toUpperCase();
+          const [series, id] = el.code.split('-');
+          return upperCase.match(series) && upperCase.match(id);
+        })
         const tezLength = tez.length;
         let index = 0;
         while(index < tezLength) {
           let formatted = [];
           if (!index) {
-            formatted.push({
-              cover: el.cover,
-              rowSpan: tezLength
-            })
             formatted.push({
               value: el.id,
               rowSpan: tezLength
@@ -98,27 +117,60 @@ async function tezSchedule(ctx, next) {
             })     
           }
           const thisTez = tez[index];
+          const tezFileName = thisTez.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary');
           const thisK2s = k2s.find(one => {
             const k2sFileName = one.split('/').pop();
-            const tezFileName = thisTez.split('/').pop();
-            return tezFileName.replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary') === k2sFileName
+            return tezFileName === k2sFileName
           });
-          formatted.push({
-            value: thisTez
-          })
+          const thisJpOrgK2s = jpOrgRecentMatch.pop();
+
+
+          if (thisK2s) {
+            formatted.push({
+              value: thisTez
+            })
+          } else {
+            const tezId = thisTez.replace(/^https\:\/\/tezfiles.com\/file\/([a-z0-9]+)\/.+$/, "$1");
+            const isUnderGoing = global.tezTasks.find(one => {
+              return one.tezK2sId === tezId
+            })
+            
+            formatted.push({
+              tezK2sId: tezId,
+              r18Id: el.id,
+              value: thisTez,
+              disabled: !!isUnderGoing,
+              type: 'tez',
+              newName: tezFileName
+            })
+          }
+         
+          if (thisJpOrgK2s) {
+            const k2sId = thisJpOrgK2s.replace(/^https\:\/\/k2s.cc\/file\/([a-z0-9]+)\/.+$/, "$1");
+            const isUnderGoing = global.tezTasks.find(one => {
+              return one.tezK2sId === k2sId
+            })
+            formatted.push({
+              tezK2sId: k2sId,
+              r18Id: el.id,
+              value: thisJpOrgK2s,
+              disabled: !!isUnderGoing,
+              type: 'k2s',
+              newName: tezFileName
+            })
+          } else {
+            formatted.push({
+              value: 'none'
+            })
+          }
+
           if (thisK2s) {
             formatted.push({
               value: thisK2s
             })
           } else {
-            const tezId = thisTez.replace(/^https\:\/\/tezfiles.com\/file\/([a-z0-9]+)\/.+$/, "$1");
-            const isUnderGoing = global.tezTasks.find(one => {
-              return one.tezId === tezId
-            })
             formatted.push({
-              click: tezId,
-              id: el.id,
-              disabled: !!isUnderGoing
+              value: 'none'
             })
           }
           rowsFormatted.push(formatted);
@@ -131,7 +183,8 @@ async function tezSchedule(ctx, next) {
         type: 'tezSchedule',
         tezScheduleTable: rowsFormatted,
         tezTasks,
-        trafficLeft
+        trafficLeftTez,
+        trafficLeftK2s
       });
       return
     }
