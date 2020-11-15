@@ -252,7 +252,7 @@ body .page-bg {
   align-items: center;
 }
 .top-menu .sub-menu .menu-items a {
-  padding: 5px 40px 5px 0px;
+  padding: 5px 30px 5px 0px;
 }
 .top-menu .sub-menu .switch {
   border-radius: 3px;
@@ -387,9 +387,6 @@ body .page-bg {
     align-items: center;
     flex-wrap: nowrap;
   }
-  .top-menu .sub-menu .switch a span {
-    display: none;
-  }
   .top-menu .sub-menu a {
     font-size: 13px;
     padding: 2px 5px;
@@ -402,7 +399,7 @@ body .page-bg {
     vertical-align: bottom;
   }
   .top-menu-offset {
-    height: 97px;
+    height: 99px;
     margin-bottom: 0px;
   }
 }
