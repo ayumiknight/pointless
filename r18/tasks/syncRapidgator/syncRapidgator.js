@@ -47,19 +47,23 @@ async function syncRapidgator({
 			if (row.Extras && row.Extras.extra) {
 				row.extra = JSON.parse(row.Extras.extra)
 			}
+			if (row.Extras && row.Extras.source) {
+				row.source = JSON.parse(row.Extras.source)
+			}
 			return row;
 		}).filter( row => {
 			let {
 				id,
-				extra
+				extra,
+				source = {}
 			} = row;
+			if (source.noSync) {
+				return false;
+			}
 			if (!extra) {
 				row.needK2s = true;
 				row.needRp = true;
 				return true;
-			}
-			if (extra.noSync) {
-				return false;
 			}
 			row.needK2s = !extra.k2s || !extra.k2s.length;
 			row.needRp = !extra.rapidgator || !extra.rapidgator.length;
