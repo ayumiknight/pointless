@@ -7,6 +7,7 @@ const { _66, tezP } = require('../../tasks/syncRapidgator/rapidgatorTask/k2sConf
 const getJpOrgRecent = require('../../tasks/syncRapidgator/rapidgatorTask/getJpOrgRecent');
 
 global.tezTasks = [];
+global.tezTaskRunning = false;
 async function tezSchedule(ctx, next) {
   if (ctx.method === 'GET') {
     if (ctx.query.queue) {
@@ -184,6 +185,9 @@ async function tezSchedule(ctx, next) {
 }
 
 async function consumerTezTask() {
+  if (global.tezTaskRunning === true) return;
+  
+  global.tezTaskRunning = true;
   while(global.tezTasks.length) {
     const first = global.tezTasks.shift();
     try {
@@ -197,6 +201,7 @@ async function consumerTezTask() {
       }
     }
   }
+  global.tezTaskRunning = false;
 }
 
 
