@@ -154,7 +154,7 @@ async function getR18Paged(query) {
 		}];
 	}
 	if (!sitemap && !javlibrary) {
-		r18Query.order = [[Sequelize.literal('`Extras.createdAt`'), 'DESC']];
+		r18Query.order = [[Sequelize.literal('`Extras.updatedAt`'), 'DESC']];
 		r18Query.include = r18Query.include || [];
 		r18Query.include.push({
 			association:  R18.Extras,
@@ -165,7 +165,7 @@ async function getR18Paged(query) {
 			}
 		});
 	} else if (javlibrary) {
-		r18Query.order = [[Sequelize.literal('`Extras.createdAt`'), 'DESC']];
+    r18Query.order = [[Sequelize.literal('`Extras.updatedAt`'), 'DESC']];
 		r18Query.include = r18Query.include || [];
 		r18Query.include.push({
 			association:  R18.Extras,
