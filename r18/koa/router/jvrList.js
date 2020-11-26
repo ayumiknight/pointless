@@ -118,7 +118,7 @@ module.exports = async (ctx, next) => {
 
 	(r18s.rows || []).forEach(row => {		
 		if (row.Extras && row.Extras.createdAt) {
-			if (new Date(row.Extras.createdAt) - today > 0) {
+			if (new Date(row.Extras.updatedAt) - today > 0) {
 				row.newTag = true;
 			}
 		}

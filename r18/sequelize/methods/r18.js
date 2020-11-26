@@ -401,7 +401,7 @@ async function getNewRapidgator() {
 			model: Extra,
 			as: 'Extras',
 			where: {
-				createdAt: {
+				updatedAt: {
 					[Op.gt]: today
 				},
 				extra: {
