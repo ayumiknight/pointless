@@ -443,7 +443,7 @@ class JavlibraryAutoPost {
 		if (k2sFormatted) {
 			urls = `Try out online streaming option with K2S now !\n` + urls;
 		}
-		return `[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/jvrslogan-sm.jpg[/img][/url]\n\n\n[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][b]Visit jvrlibrary.com for More Japan VR videos !! Go FUUUNNNNKKKKYYYY !![/b][/url]\n\n` + urls + `\n[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/coffin_dance.jpg[/img][/url]`;
+		return `[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/buro.gif[/img][/url]\n\n\n[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][b]Visit jvrlibrary.com for More Japan VR videos !! Go FUUUNNNNKKKKYYYY !![/b][/url]\n\n` + urls;
 	}
 
 	wait(sec) {
