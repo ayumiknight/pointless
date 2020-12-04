@@ -169,7 +169,7 @@ async function syncRapidgatorTask() {
 	await P.init();
 
 	await syncRapidgator({
-		rapidgatorPageAll: 5,
+		rapidgatorPageAll: 8,
 		rapidgatorPageSize,
 		rapidgatorCode,
 		vr: 1,
