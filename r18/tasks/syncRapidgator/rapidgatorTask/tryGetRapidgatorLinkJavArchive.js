@@ -24,10 +24,10 @@ function matchTitle({
 }
 
 async function getJavInfo(href) {
-	let detail = await axios.get(href);
+	let detail = await axios.get(`http://javstore.net/${encodeURIComponent(href.slice(3))}`);
 
 	let $d = cheerio.load(detail.data),
-		articleContent = $d('#post-entry .post-meta-single .post-content');
+		articleContent = $d('.news');
 
 	let rapidgator = [];
 	let k2s = [];
@@ -61,14 +61,13 @@ async function tryGetRapidgatorLink({
 		javInfo
 
 	//http://javarchive.com/?s=3dsvr+0551
-	let searchResult = await axios.get(`http://javarchive.com/?s=${series}+${id}`);
-
+	let searchResult = await axios.get(`http://javstore.net/search/${series}-${id}.html`);
 	let $ = cheerio.load(searchResult.data);
 	
 	let javInfoCandidate = {},
 		index = 1;
 	while(index < 6) {
-		let article = $(`#content .post-meta:nth-child(${index})`);
+		let article = $(`#content_news li:nth-child(${index})`);
 		if (article[0] && article.find('a')) {
 			let a = article.find('a'),
 				href = a.attr('href'),
