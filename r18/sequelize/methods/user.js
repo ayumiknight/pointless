@@ -155,7 +155,7 @@ async function getRecentSubscriptions({
     offset: (page - 1) * pagesize,
 		limit: pagesize,
 		order: [[
-			'id', 'DESC'
+      'lastClicked', 'DESC'
     ]],
     where: {
       lastClicked: {
