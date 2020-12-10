@@ -126,7 +126,7 @@ async function getSubscriptionWithUser({
     offset: (page - 1) * pagesize,
     limit: pagesize,
     order: [[
-			'id', 'ASC'
+			'lastClicked', 'DESC'
 		]],
     include: [{
       model: User
