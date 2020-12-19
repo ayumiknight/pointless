@@ -441,9 +441,9 @@ class JavlibraryAutoPost {
 		}).join('');
 		let urls = [k2sFormatted, rapidgatorFormatted].join('\n');
 		if (k2sFormatted) {
-			urls = `Try out online streaming option with K2S now !\n` + urls;
+			urls = `Try out online streaming option with K2S now !\nK2S支持在線播放啦，快來試壹試吧 !\n` + urls;
 		}
-		return `[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/buro.gif[/img][/url]\n\n\n[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][b]Visit jvrlibrary.com for More Japan VR videos !! Go FUUUNNNNKKKKYYYY !![/b][/url]\n\n` + urls;
+		return `[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][img]https://jvrlibrary.com/static/buro.gif[/img][/url]\n\n\n[url=https://jvrlibrary.com/?from=javlibrary-${encodeURIComponent(code)}][b]Visit jvrlibrary.com for More Japan VR videos !! Go FUUUNNNNKKKKYYYY !![/b]\n[b]更多日本VR影片請訂閱jvrlibrary.com ！！[/b][/url]\n\n` + urls;
 	}
 
 	wait(sec) {
