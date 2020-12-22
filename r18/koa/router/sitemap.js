@@ -1,12 +1,12 @@
 const {
-	getR18Paged,
+	getR18PagedAllowEmptyExtra,
 	getMySelected
 } = require('../../sequelize/methods/index.js');
 
 module.exports = async (ctx, next) => {
 	
 	if (ctx.path === '/sitemap') {
-		let all = 30,
+		let all = 6,
 		i = 1,
 		content = [];
 
@@ -24,15 +24,14 @@ module.exports = async (ctx, next) => {
 		return;
 	} else {
 		let currentPage = ctx.path.replace(/^.*sitemappage(\d*)\..*$/, '$1');
-		if (!currentPage || !currentPage * 1 || currentPage * 1 > 30 || currentPage * 1 <= 0) {
+		if (!currentPage || !currentPage * 1 || currentPage * 1 > 6 || currentPage * 1 <= 0) {
 			ctx.body = 'You gotta be kidding me!'
 			return;
 		}
 
-		let res = await getR18Paged({
+		let res = await getR18PagedAllowEmptyExtra({
 			page: currentPage,
 			pagesize: 1000,
-			both: true,
 			sitemap: true
 		});
 		ctx.body = (res.rows || []).map( elem => {
