@@ -15,9 +15,11 @@ const {
 } = require('../sequelize/methods/r18.js');
 const crawl = require('../tasks/index.js');
 const javlibraryDomain = [
-	'http://www.javlibrary.com',
+	// 'http://www.javlibrary.com',
 	'http://www.m45e.com',
-	'http://www.b47w.com'
+	'http://www.b47w.com',
+	'http://www.a48u.com',
+	'http://www.b49t.com'
 	// 'http://j41g.com' redirects to b47w.com
 ]
 const deviceToEmulate = devices[Math.floor((Math.random() - 0.001 * devices.length))];
@@ -62,7 +64,7 @@ class JavlibraryAutoPost {
 			options.executablePath = '/usr/firefox/firefox' 
 			// options.dumpio = true
 		} else {
-			options.executablePath = '/usr/chrome-linux/chrome'
+			// options.executablePath = '/usr/chrome-linux/chrome'
 		}
 
 		try {
