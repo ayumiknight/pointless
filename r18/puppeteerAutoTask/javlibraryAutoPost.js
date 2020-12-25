@@ -65,27 +65,32 @@ class JavlibraryAutoPost {
 			options.executablePath = '/usr/chrome-linux/chrome'
 		}
 
-		
-		console.log('starting options' , options)
-		this.browser = await puppeteer.launch(options);
-		let pages = await this.browser.pages();
-		this.page = pages[0];
-		this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
-		// await this.page.emulate(deviceToEmulate);
-		await this.page.setViewport({
-			width: 1024,
-			height: 768,
-			deviceScaleFactor: 1
-		});
+		try {
+			console.log('starting options', options)
+			this.browser = await puppeteer.launch(options);
+			let pages = await this.browser.pages();
+			this.page = pages[0];
+			this.page.setDefaultNavigationTimeout(5 * 60 * 1000);
+			// await this.page.emulate(deviceToEmulate);
+			await this.page.setViewport({
+				width: 1024,
+				height: 768,
+				deviceScaleFactor: 1
+			});
 
-		fs.readdirSync(__dirname + '/captcha').map(f => {
-			let [name, ext] = f.split('.'),
-				[hash, value] = name.split('-');
+			fs.readdirSync(__dirname + '/captcha').map(f => {
+				let [name, ext] = f.split('.'),
+					[hash, value] = name.split('-');
 
-			self.captchaMap[hash] = value || 'null';
-		});
-		await this.login();
-		await this.beginTask();
+				self.captchaMap[hash] = value || 'null';
+			});
+			await this.login();
+			await this.beginTask();
+		} catch(e) {
+			try {
+				await this.browser.close();
+			} catch(e) {}
+		}
 	}
 
 	checkOrSaveCaptcha(captchaBase64) {

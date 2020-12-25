@@ -165,26 +165,32 @@ async function syncRapidgatorSingle({
 async function syncRapidgatorTask() {
 	let R = new Rapidgator();
 	await R.login();
-	let P = new PuppeteerMD5Fetcher({});
-	await P.init();
+	try {
+		let P = new PuppeteerMD5Fetcher({});
+		await P.init();
 
-	await syncRapidgator({
-		rapidgatorPageAll: 8,
-		rapidgatorPageSize,
-		rapidgatorCode,
-		vr: 1,
-		R,
-		P
-	});
-	await syncRapidgator({
-		rapidgatorPageAll,
-		rapidgatorPageSize,
-		rapidgatorCode,
-		vr: 0,
-		R,
-		P
-	});
-	await P.destory()
+		await syncRapidgator({
+			rapidgatorPageAll: 8,
+			rapidgatorPageSize,
+			rapidgatorCode,
+			vr: 1,
+			R,
+			P
+		});
+		await syncRapidgator({
+			rapidgatorPageAll,
+			rapidgatorPageSize,
+			rapidgatorCode,
+			vr: 0,
+			R,
+			P
+		});
+		await P.destory()
+	} catch(e) {
+		try {
+			await P.destory()
+		} catch(e) {}
+	}
 }
 
 module.exports = syncRapidgatorTask;
