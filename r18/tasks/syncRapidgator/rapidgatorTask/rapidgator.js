@@ -238,7 +238,9 @@ class Rapidgator {
 		while(index < length) {
 			const currentFolder = folderList[index];
 			if (currentFolder.nb_files === 0 && currentFolder.nb_folders === 0) {
-				await this.deleteFolder(currentFolder.folder_id)
+				await this.deleteFolder({
+					folderId: currentFolder.folder_id
+				})
 				console.log('deleting', currentFolder)
 			}
 			index++;
