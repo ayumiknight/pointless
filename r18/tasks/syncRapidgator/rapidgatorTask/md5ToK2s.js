@@ -69,28 +69,28 @@ async function md5ToK2s({
     }
     index++;
   }
-  if (myK2ss.length) {
-    const k2sTargetFolder = await axios({
-      url: 'https://keep2share.cc/api/v2/createFolder',
-      method: 'POST',
-      data: JSON.stringify({
-        parent: vr ? k2sVR : k2sNormal,
-        access_token: tezP,
-        name: code,
-        access: 'premium'
-      })
-    })
-    const k2sTargetFolderId = k2sTargetFolder.data.id;
-    const moveToNewFoler = await axios({
-      url: 'https://keep2share.cc/api/v2/updateFiles',
-      method: 'POST',
-      data: JSON.stringify({
-        ids: myK2sIds,
-        access_token: tezP,
-        new_parent: k2sTargetFolderId
-      })
-    })
-  }
+  // if (myK2ss.length) {
+  //   const k2sTargetFolder = await axios({
+  //     url: 'https://keep2share.cc/api/v2/createFolder',
+  //     method: 'POST',
+  //     data: JSON.stringify({
+  //       parent: vr ? k2sVR : k2sNormal,
+  //       access_token: tezP,
+  //       name: code,
+  //       access: 'premium'
+  //     })
+  //   })
+  //   const k2sTargetFolderId = k2sTargetFolder.data.id;
+  //   const moveToNewFoler = await axios({
+  //     url: 'https://keep2share.cc/api/v2/updateFiles',
+  //     method: 'POST',
+  //     data: JSON.stringify({
+  //       ids: myK2sIds,
+  //       access_token: tezP,
+  //       new_parent: k2sTargetFolderId
+  //     })
+  //   })
+  // }
   console.log(new Date(),`md5 to k2s ${filesInfo.length} filecount ${myK2ss.length} success count===================`)
   return myK2ss;
 }
