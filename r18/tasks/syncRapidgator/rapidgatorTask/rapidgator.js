@@ -96,10 +96,10 @@ class Rapidgator {
 			}))
 		} catch(e) { console.log(e) }
 
-		if (!myLinks.length) {
-			await this.deleteFolder({ folderId });
-			throw new Error('xcopy process having issues');
-		}
+		// if (!myLinks.length) {
+		// 	await this.deleteFolder({ folderId });
+		// 	throw new Error('xcopy process having issues');
+		// }
 		return myLinks;
 	}
 
@@ -163,10 +163,10 @@ class Rapidgator {
 		fileLinks,
 		name
 	}) {
-		let folderId = await this.createFolder(name);
+		// let folderId = await this.createFolder(name);
 		let myLinks= await this.xCopyLinks({
 			fileLinks,
-			folderId,
+			folderId: RConfig.root,
 			code: name
 		});
 		return myLinks;
