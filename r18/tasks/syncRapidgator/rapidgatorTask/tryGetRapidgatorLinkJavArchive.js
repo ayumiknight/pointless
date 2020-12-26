@@ -110,11 +110,4 @@ async function tryGetRapidgatorLink({
 	return javInfo;
 }
 
-async function test() {
-	const res = await tryGetRapidgatorLink({
-		code: "WAAA-026"
-	})
-	console.log(res)
-}
-test()
 module.exports = tryGetRapidgatorLink;
