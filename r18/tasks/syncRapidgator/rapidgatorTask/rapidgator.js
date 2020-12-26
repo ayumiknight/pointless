@@ -53,46 +53,49 @@ class Rapidgator {
 		fileLinks,
 		code
 	}) {
-		let res = await Promise.all(fileLinks.map(link => {
-			return axios({
-				url: this.b + `/file/xcopy?url=${encodeURIComponent(link)}&folder_id_dest=${folderId}&token=${this.token}`,
-				method: 'GET'
-			});
-		}))
-		const copied = res.filter(r => {
-			if (r.data && r.data.response && r.data.response.file && r.data.response.file.file_id) {
-				return true
-			} else {
-				console.log(r.data && r.data.response, '===========some thing wrong with xcopy====')
-				return false
-			}
-		})
-		let myLinks = await Promise.all(copied.map((r, index) => {
-			return new Promise(async (resolve, reject) => {
-				const {
-					file_id,
-					name,
-					url
-				} = r.data.response.file;
-				const nameFrag = name.split('.');
-				const extension = nameFrag.pop();
-				nameFrag.push('jvrlibrary');
-				nameFrag.push(extension);
-				const newName = nameFrag.join('.');
-				const res = await axios({
-					url: this.b + `/file/rename?name=${newName}&file_id=${file_id}&token=${this.token}`
-				})
-				if (res.data.status === 200) {
-					let urlFrag = url.split('/')
-					urlFrag.pop()
-					urlFrag.push(newName + '.html');
-					resolve(urlFrag.join('/'))
+		let myLinks = []
+		try {
+			let res = await Promise.all(fileLinks.map(link => {
+				return axios({
+					url: this.b + `/file/xcopy?url=${encodeURIComponent(link)}&folder_id_dest=${folderId}&token=${this.token}`,
+					method: 'GET'
+				});
+			}))
+			const copied = res.filter(r => {
+				if (r.data && r.data.response && r.data.response.file && r.data.response.file.file_id) {
+					return true
 				} else {
-					resolve(url)
+					console.log(r.data && r.data.response, '===========some thing wrong with xcopy====')
+					return false
 				}
 			})
-		}))
-	
+			myLinks = await Promise.all(copied.map((r, index) => {
+				return new Promise(async (resolve, reject) => {
+					const {
+						file_id,
+						name,
+						url
+					} = r.data.response.file;
+					const nameFrag = name.split('.');
+					const extension = nameFrag.pop();
+					nameFrag.push('jvrlibrary');
+					nameFrag.push(extension);
+					const newName = nameFrag.join('.');
+					const res = await axios({
+						url: this.b + `/file/rename?name=${newName}&file_id=${file_id}&token=${this.token}`
+					})
+					if (res.data.status === 200) {
+						let urlFrag = url.split('/')
+						urlFrag.pop()
+						urlFrag.push(newName + '.html');
+						resolve(urlFrag.join('/'))
+					} else {
+						resolve(url)
+					}
+				})
+			}))
+		} catch(e) { console.log(e) }
+
 		if (!myLinks.length) {
 			await this.deleteFolder({ folderId });
 			throw new Error('xcopy process having issues');
@@ -184,9 +187,7 @@ class Rapidgator {
 		detail,
 		folderId
 	}) {
-		console.log("====================tez to rp single==============", newName, detail)
 		const upload = await axios.get(this.b + `/file/upload?token=${this.token}&name=${newName}&hash=${detail.md5}&size=${detail.contentLength}&folder_id=${folderId}`)		
-		console.log(upload.data, '==========creating upload session====')
 		const uploadRes = upload.data.response.upload
 		// already exist
 		if (uploadRes.file && uploadRes.file.url) {
@@ -219,6 +220,28 @@ class Rapidgator {
 				}
 			}
 			return finalUrl
+		}
+	}
+	
+	async cleanEmptyFolder() {
+		let folderList = []
+		const res = await axios({
+			url: this.b + `/folder/content?token=${this.token}&folder_id=${RConfig.root}`,
+			method: 'GET'
+		});
+		if (res.data && res.data.response && res.data.response.folder && res.data.response.folder.folders) {
+			folderList = folderList.concat(res.data.response.folder.folders)
+		}
+		const length = folderList.length
+		console.log(folderList.length, '=====total folder count=========');
+		let index = 0;
+		while(index < length) {
+			const currectFolder = folderList[index];
+			if (currentFolder.no_files === 0 && currentFolder.no_folders === 0) {
+				await this.deleteFolder(currentFolder.folder_id)
+				console.log('deleting', currentFolder)
+			}
+			index++;
 		}
 	}
 }
