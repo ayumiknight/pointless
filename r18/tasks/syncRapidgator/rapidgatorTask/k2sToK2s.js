@@ -26,6 +26,7 @@ async function k2sToK2s({
         link,
         type: 'k2s'
       })
+      if (!tempUrl) throw new Error(link, '======file deleted======');
       const headRes = await axios({
         method: 'HEAD',
         url: tempUrl
