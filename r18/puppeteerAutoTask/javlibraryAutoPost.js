@@ -110,8 +110,8 @@ class JavlibraryAutoPost {
 	async syncCaptcha() {
 		//http://www.javlibrary.com/en/myaccount.php
 
-		await this.page.goto(this.domainToUse + '/en/login.php', {timeout : 0});
-	  	await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
+		await this.page.goto(this.domainToUse + '/en/login.php', {timeout : 10000});
+		await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 0 });
 
 		let res = await this.page.evaluate(async function() {
 
