@@ -168,6 +168,14 @@ async function getRecentSubscriptions({
   })
 }
 
+async function deleteSubscription(endpoint) {
+  return Subscription.destroy({
+    where: {
+      endpoint
+    }
+  })
+}
+
 module.exports = {
   login,
   register,
@@ -178,5 +186,6 @@ module.exports = {
   oneUser,
   trackNotification,
   getUsers,
-  getRecentSubscriptions
+  getRecentSubscriptions,
+  deleteSubscription
 }

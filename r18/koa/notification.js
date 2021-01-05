@@ -4,11 +4,14 @@ const {
   updateUserEndpoint,
   sendNotification,
   getSubscriptionWithUser,
+  checkSubscription,
+  trackNotification,
+  deleteSubscription
+} = require('../sequelize/methods/index.js');
+const {
   getR18Paged,
   getNewRapidgator,
-  checkSubscription,
-  trackNotification
-} = require('../sequelize/methods/index.js');
+} = require('../sequelize/methods/r18.js');
 const schedule = require('node-schedule');
 
 const keys = {
@@ -68,7 +71,7 @@ async function assemblePayload() {
 		vr,
 		nonvr
   } = await getNewRapidgator();
-  if (vr * 1 < 2) return false
+  if (vr && (vr * 1 < 2)) return false
   let r18s = await getR18Paged({
 		pagesize: 1,
 		rapidgator: true,
@@ -114,7 +117,13 @@ async function sendNotifications() {
       }, payload, {
         TTL: 60 * 60 * 12
       }).catch(function(e) {
-        console.log(e.statusCode, '===========================not sent')
+        if (e.statusCode == 410) {
+          deleteSubscription(i.endpoint).then(res => {
+            console.log(e.statusCode, '===========================subscription deleted')
+          })
+        } else {
+          console.log(e.statusCode, '===========================not sent')
+        }
       })
     }
   }
