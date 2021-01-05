@@ -71,7 +71,7 @@ async function assemblePayload() {
 		vr,
 		nonvr
   } = await getNewRapidgator();
-  if (vr && (vr * 1 < 2)) return false
+  if (!vr || (vr * 1 < 2)) return false
   let r18s = await getR18Paged({
 		pagesize: 1,
 		rapidgator: true,
