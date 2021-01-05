@@ -112,13 +112,10 @@ module.exports = async (ctx, next) => {
 
 
 	let today = new Date();
-	today.setHours(0);
-	today.setMinutes(0);
-	today.setSeconds(0);
-
+	const dayMilliSecs = 24 * 60 * 60 * 1000;
 	(r18s.rows || []).forEach(row => {		
 		if (row.Extras && row.Extras.createdAt) {
-			if (new Date(row.Extras.updatedAt) - today > 0) {
+			if (today - new Date(row.Extras.updatedAt) < dayMilliSecs) {
 				row.newTag = true;
 			}
 		}

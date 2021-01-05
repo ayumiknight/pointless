@@ -387,11 +387,8 @@ async function updateR18LastPost(id) {
 	})
 }
 async function getNewRapidgator() {
-	let today = new Date();
-	today.setHours(0);
-	today.setMinutes(0);
-	today.setSeconds(0);
-	today = today.toJSON();
+	let todayStart = new Date(new Date() - 24 * 60 * 60 * 1000);
+	todayStart = todayStart.toJSON();
 
 	let query = {
 		order: [[
@@ -402,7 +399,7 @@ async function getNewRapidgator() {
 			as: 'Extras',
 			where: {
 				updatedAt: {
-					[Op.gt]: today
+					[Op.gt]: todayStart
 				},
 				extra: {
 					[Op.ne]: null
