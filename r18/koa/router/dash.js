@@ -35,7 +35,7 @@ const backgroundTask = async () => {
   while(true) {
     if (global.needSendNotifications = 1) {
       try {
-        notification.sendNotifications()
+        await notification.sendNotifications()
       } catch(e) {}
       global.needSendNotifications = null
     } else {
