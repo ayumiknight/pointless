@@ -33,7 +33,7 @@ global.allAxLastRun = null
 const backgroundTask = async () => {
   global.currentBackgroundTask = 'post'
   while(true) {
-    if (global.needSendNotifications = 1) {
+    if (global.needSendNotifications) {
       try {
         await notification.sendNotifications()
       } catch(e) {}
