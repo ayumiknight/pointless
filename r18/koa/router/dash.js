@@ -12,6 +12,18 @@ const moment = require('moment');
 
 const javlibraryAutoTask = require('../../puppeteerAutoTask/javlibraryAutoPost');
 const crawl = require('../../tasks/index.js');
+const schedule = require('node-schedule');
+const notification = require('../notification.js');
+
+const  scheduleCronstyle = ()=>{
+  //每分钟的第30秒定时执行一次:
+  schedule.scheduleJob('0 0 0,12 * * *', ()=> {
+    console.log('schedule fired at', new Date())
+    global.needSendNotifications = 1
+  });
+}
+scheduleCronstyle()
+
 
 global.disablePost = false
 global.currentBackgroundTask = ''
@@ -21,26 +33,33 @@ global.allAxLastRun = null
 const backgroundTask = async () => {
   global.currentBackgroundTask = 'post'
   while(true) {
-    global.currentBackgroundTask = global.currentBackgroundTask === 'crawl' ? 'post' : 'crawl';
-    try {
-      if (global.currentBackgroundTask === 'crawl') {
-        let allAx
-        if (global.allAxLastRun && (global.allAxLastRun * 1 + 60 * 60 * 1000 * 24 > new Date() * 1)) {
-          allAx = false
+    if (global.needSendNotifications = 1) {
+      try {
+        notification.sendNotifications()
+      } catch(e) {}
+      global.needSendNotifications = null
+    } else {
+      global.currentBackgroundTask = global.currentBackgroundTask === 'crawl' ? 'post' : 'crawl';
+      try {
+        if (global.currentBackgroundTask === 'crawl') {
+          let allAx
+          if (global.allAxLastRun && (global.allAxLastRun * 1 + 60 * 60 * 1000 * 24 > new Date() * 1)) {
+            allAx = false
+          } else {
+            allAx = global.allAxLastRun ? true : false
+            global.allAxLastRun = new Date();
+          }
+          await crawl(false, allAx);
         } else {
-          allAx = global.allAxLastRun ? true : false
-          global.allAxLastRun = new Date();
+          global.postLastRun = new Date()
+          let Javlibrary = new javlibraryAutoTask({
+            // firefox: true
+          });
+          await Javlibrary.init();
         }
-        await crawl(false, allAx);
-      } else {
-        global.postLastRun = new Date()
-        let Javlibrary = new javlibraryAutoTask({
-          // firefox: true
-        });
-        await Javlibrary.init();
+      } catch(e) {
+        console.log(e)
       }
-    } catch(e) {
-      console.log(e)
     }
   }
 }

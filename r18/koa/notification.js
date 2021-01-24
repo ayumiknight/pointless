@@ -12,7 +12,6 @@ const {
   getR18Paged,
   getNewRapidgator,
 } = require('../sequelize/methods/r18.js');
-const schedule = require('node-schedule');
 
 const keys = {
   publicKey: 'BDiq5Kbu-VbXF9ckNt12Ph5YPGiTqqY-vYEpHBIBR0yA1HbRzgjAdfJsB5nOgYlJT6UWc-hkImeqtF2RUjcPUHY',
@@ -23,14 +22,6 @@ webPush.setVapidDetails(
   keys.publicKey,
   keys.privateKey
 )
-
-const  scheduleCronstyle = ()=>{
-  //每分钟的第30秒定时执行一次:
-  schedule.scheduleJob('0 0 0,12 * * *', ()=> {
-    sendNotifications()
-  }); 
-}
-scheduleCronstyle()
 
 router.get('/notificationKey', function(ctx, next) {
   ctx.body = keys.publicKey
@@ -128,4 +119,6 @@ async function sendNotifications() {
     }
   }
 }
+
+router.sendNotifications = sendNotifications
 module.exports = router
