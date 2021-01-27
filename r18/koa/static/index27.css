@@ -171,11 +171,12 @@ body .page-bg {
     position: static !important;
     width: 100vw;
   }
-  body .footer {
-    font-size: 14px;
+  body .footer div {
+    font-size: 13px;
+    margin-bottom: 5px;
   }
   body .footer a {
-    font-size: 13px;
+    font-size: 12px;
   }
   body .vultr-banner {
     display: block;
