@@ -1,5 +1,5 @@
 import React from 'react';
-import Chat from './chat';
+// import Chat from './chat';
 import LoginRegister from './loginRegister';
 import GlobalToast from './GlobalToast';
 import axios from 'axios';
@@ -350,10 +350,10 @@ class Root extends React.Component {
         />
       </Dialog>
       <GlobalToast/>
-      <Chat
+      {/* <Chat
         isLogin={isLogin}
         isZh={isZh}
-      />
+      /> */}
     </div>
   }
 }

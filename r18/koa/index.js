@@ -25,8 +25,8 @@ const axios = require('axios');
 const dots = require("dot").process({
 	path: path.join(__dirname, "/templates")
 });
-const IO = require( 'koa-socket-2');
-const io = new IO();
+// const IO = require( 'koa-socket-2');
+// const io = new IO();
 
 const cookie = require('cookie');
 const moment = require('moment');
@@ -58,7 +58,7 @@ if (!process.env.dev && false) {
 	  ca: fs.readFileSync('../certs/Jvrlibrary_com.ca-bundle')
 	});
 } else {
-	io.attach( app );
+	// io.attach( app );
 }
 
 app.use(async (ctx, next) => {
@@ -130,61 +130,61 @@ app.use(Auth);
 app.use(mount('/api', notificationRouter.routes()))
 
 
-app._io.engine.generateId = function (req) {
-	const auth = new Cookies(req, {}, {
-		keys: ['i love jvrlibrary', 'you like jvrlibrary', 'we like jvrlibrary']
-	}).get('user', {
-		signed: true
-	})
-	return auth;
-}
+// app._io.engine.generateId = function (req) {
+// 	const auth = new Cookies(req, {}, {
+// 		keys: ['i love jvrlibrary', 'you like jvrlibrary', 'we like jvrlibrary']
+// 	}).get('user', {
+// 		signed: true
+// 	})
+// 	return auth;
+// }
 
 // async function getTorrentByCode(code) {
 // 	let response = await axios.get(`http://localhost:8001/torrent?code=${code}`);
 // 	return response.data || {};
 // }
 
-io.on('connection', async (socket) => {
-	let	roomName = socket.handshake.query.redirectTo;
-	let error = false
-	let user_id,
-		nick_name,
-		avatar;
-	try {
-		if (roomName) {
-			socket.join(roomName);
-		} else {
-			socket.join('hall');
-		}
-		[user_id, nick_name, avatar] = Buffer.from(socket.id, 'base64').toString().split('|');
-	} catch(e) {
-		error = true
-	}
-	if (error) return
+// io.on('connection', async (socket) => {
+// 	let	roomName = socket.handshake.query.redirectTo;
+// 	let error = false
+// 	let user_id,
+// 		nick_name,
+// 		avatar;
+// 	try {
+// 		if (roomName) {
+// 			socket.join(roomName);
+// 		} else {
+// 			socket.join('hall');
+// 		}
+// 		[user_id, nick_name, avatar] = Buffer.from(socket.id, 'base64').toString().split('|');
+// 	} catch(e) {
+// 		error = true
+// 	}
+// 	if (error) return
 
-	let messages = await getRecentMessages({
-		mins: 60 * 24
-	});
+// 	let messages = await getRecentMessages({
+// 		mins: 60 * 24
+// 	});
 
-	socket.emit('message', messages.rows || []);
+// 	socket.emit('message', messages.rows || []);
 
-	socket.emit('init', {
-		name: nick_name,
-		avatar: avatar,
-		count: socket.adapter.rooms[roomName || 'hall'] ? socket.adapter.rooms[roomName || 'hall'].length : 1
-	})
+// 	socket.emit('init', {
+// 		name: nick_name,
+// 		avatar: avatar,
+// 		count: socket.adapter.rooms[roomName || 'hall'] ? socket.adapter.rooms[roomName || 'hall'].length : 1
+// 	})
 	
-	socket.on('message', async (data) => {
-		let date = moment().toDate();
+// 	socket.on('message', async (data) => {
+// 		let date = moment().toDate();
 
-		await writeMessages(data);
-		data.forEach( message  => {
-			message.createdAt = date;
-		})
-		socket.broadcast.to(roomName).emit('message', data);
-	});
+// 		await writeMessages(data);
+// 		data.forEach( message  => {
+// 			message.createdAt = date;
+// 		})
+// 		socket.broadcast.to(roomName).emit('message', data);
+// 	});
 
-})
+// })
 
 async function bootServer() {
 	// await SyncDB();
