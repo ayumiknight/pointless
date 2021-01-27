@@ -152,10 +152,6 @@ body .page-bg {
     width: 100%;
     padding-left: 0;
   }
-  body #root {
-    min-height: calc(100vh + 50px);
-    padding-bottom: 50px;
-  }
   body #root .main.normal {
     position: static !important;
     width: 100vw;
