@@ -68,7 +68,8 @@
 		{{?}}
 	</div>
 	<div class="footer">
-		{{=it.zh ? 'Copyright © 酒后表演艺术家' : 'Copyright © ProfessionalDrunker All spirit welcomed' }}
+		<div>{{=it.zh ? 'Copyright © 酒后表演艺术家' : 'Copyright © ProfessionalDrunker All spirit welcomed' }}</div>
+		<a href="https://t.me/jvrlibrary"><img src="/static/telegram.png" />FOLLOW US ON TELEGRAM</a>
 	</div>
 	{{##def.proxy:input:{{=(input || '').replace(/^https:\/\/pics.r18.com(.+)$/, "/static$1")}}#}}
 	{{##def.proxyLg:input:{{=(input || '').replace(/(-\d+\.\w+)$/, 'jp$1').replace(/^https:\/\/pics.r18.com(.+)$/, "/static$1")}}#}}
