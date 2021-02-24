@@ -142,19 +142,22 @@ async function syncRapidgatorSingle({
 				javarchiveHref: extras.javarchiveHref,
 				avcensHref: extras.avcensHref
 			}
-			needK2s && extras.k2s.length && (patch.k2s = extras.k2s)
-			needRp && extras.rapidgator.length && (patch.rapidgator = extras.rapidgator)
+			let dirty = false
+			needK2s && extras.k2s.length && (patch.k2s = extras.k2s) && (dirty = true)
+			needRp && extras.rapidgator.length && (patch.rapidgator = extras.rapidgator) && (dirty = true)
 			
-			await Extra.update({
-				extra: JSON.stringify({
-					...row.extra,
-					...patch
+			if (dirty) {
+				await Extra.update({
+					extra: JSON.stringify({
+						...row.extra,
+						...patch
+					})
+				}, {
+					where: {
+						R18Id: id
+					}
 				})
-			}, {
-				where: {
-					R18Id: id
-				}
-			})
+			}
 		}
 		
 		console.log(`${code} ${id} crawled and saved\n`);

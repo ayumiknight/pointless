@@ -12,13 +12,12 @@ function matchTitle({
 	id,
 	title
 }) {
-	if (title.toUpperCase().match(series + '-' + id)) {
-		return true
-	};
-	if (id * 1 >= 100) {
-		if (title.toUpperCase().match(series) && title.slice(0,30).toUpperCase().match(id)) {
-			return true;
-		}
+	const pattern = new RegExp(`${series}-?${id}`, 'i')
+	if (pattern.test(title)) return true
+
+	if (id * 1 > 100 && id.length === 3) {
+		const patternPaddingZero = new RegExp(`${series}-?0${id}`, 'i')
+		if (patternPaddingZero.test(title)) return true
 	}
 	return false;
 }
