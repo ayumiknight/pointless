@@ -41,19 +41,19 @@ async function crawlAndSaveSingle({
             })
         }  
     } catch(e) {
-        // if (needK2s && !javInfo1 && vr) {
-        //     javInfo2 = await tryGetTezLinkAvcens({
-        //         code
-        //     })
-        //     k2s = await tezToK2sUsingP({
-        //         javInfo: javInfo2,
-        //         code,
-        //         vr,
-        //         P
-        //     })
-        // } else {
-        //     throw e
-        // }
+        if (needK2s && !javInfo1 && vr) {
+            javInfo2 = await tryGetTezLinkAvcens({
+                code
+            })
+            k2s = await tezToK2sUsingP({
+                javInfo: javInfo2,
+                code,
+                vr,
+                P
+            })
+        } else {
+            throw e
+        }
 
 
         // no long use avcens source
