@@ -80,13 +80,10 @@ async function tezSchedule(ctx, next) {
       rows.forEach(el => {
         const {
           tez = [],
-          k2s = []
+          k2s = [],
+          jpOrgK2s = []
         } = el.extras;
-        const jpOrgRecentMatch = jpOrgRecent.filter(recent => {
-          const upperCase = recent.toUpperCase();
-          const [series, id] = el.code.split('-');
-          return upperCase.match(series) && upperCase.match(id);
-        })
+        const jpOrgRecentMatch = jpOrgK2s
         const tezLength = tez.length;
         let index = 0;
         while(index < tezLength) {

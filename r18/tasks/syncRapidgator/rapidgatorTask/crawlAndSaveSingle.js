@@ -8,75 +8,63 @@ async function crawlAndSaveSingle({
     code,
     R,
     vr,
-    needK2s,
-    needRp,
+    source = {},
     extra, // extra crawled last time
     P
 }) {
     let javInfo1,
         javInfo2,
         rapidgator = [],
-        k2s = [];
+        k2s = [],
+        _jpOrgK2s = [];
 
     if (!vr) {
         javInfo1 = await tryGetRapidgatorLinkJavArchive({
             code
         });
-        if (needRp) {
-            let myLinks = await R.saveLinksToFolder({
-                name: code,
-                fileLinks: javInfo1.rapidgator
-            });
-            rapidgator = myLinks || [];
-        }
-        if (needK2s && javInfo1.k2s.length) {
-            const reference = (extra && extra.rapidgator || []).length ? extra.rapidgator : rapidgator;
-            const filesInfo = await R.getFileInfoByLinks(reference);
-            k2s = await md5ToK2s({
-                code,
-                filesInfo,
-                vr,
-                javInfo: javInfo1,
-                P
-            })
-        } 
-    } else {
-        javInfo2 = await tryGetTezLinkAvcens({
-            code
-        })
-        k2s = await tezToK2sUsingP({
-            javInfo: javInfo2,
+        let myLinks = await R.saveLinksToFolder({
+            name: code,
+            fileLinks: javInfo1.rapidgator
+        });
+        rapidgator = myLinks || [];
+
+        const reference = (extra && extra.rapidgator || []).length ? extra.rapidgator : rapidgator;
+        const filesInfo = await R.getFileInfoByLinks(reference);
+        k2s = await md5ToK2s({
             code,
+            filesInfo,
             vr,
+            javInfo: javInfo1,
             P
         })
-    }
+    } else {
+        const {
+            jpOrgK2s = [],
+            tez = []
+        } = source
 
-    if (!javInfo1 && !javInfo2) throw new Error('something wrong , nothing found========', code)
-    
-    let partialOk
-
-    try {
-        if (!extra) {
-            if (javInfo1 && javInfo1.rapidgator.length !== rapidgator.length) partialOk = 1;
-            if (javInfo1 && k2s.length && (k2s.length !== javInfo1.k2s.length)) partialOk = 1;
-            if (javInfo2 && k2s.length != javInfo2.tezFiles.length) partialOk = 1;
-        } else {
-    
+        if (!tez || !tez.length) {
+            javInfo2 = await tryGetTezLinkAvcens({
+                code
+            })
         }
-    } catch(e) {
-        console.log(e, '==========detect partioal ok wrong=========')
+        if (!jpOrgK2s.length || Math.max(tez.length, ((javInfo2 && javInfo2.tezFiles) || []).length) > jpOrgK2s.length) {
+            _jpOrgK2s = await tezToK2sUsingP({
+                javInfo: javInfo2,
+                code,
+                vr,
+                P
+            })
+        }
     }
-    
-    
 
     return {
         k2s: k2s,
         tez: (javInfo2 && javInfo2.tezFiles) || [],
+        jpOrgK2s: _jpOrgK2s || [],
         rapidgator: rapidgator,
         javarchiveHref: javInfo1 && javInfo1.href,
-        avcensHref: javInfo2 && javInfo2.href,
-        partialOk
+        avcensHref: javInfo2 && javInfo2.href
     }
 }
 module.exports = crawlAndSaveSingle;

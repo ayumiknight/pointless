@@ -60,15 +60,19 @@ async function syncRapidgator({
 			if (source.noSync) {
 				return false;
 			}
-			if (!extra) {
-				row.needK2s = true;
-				row.needRp = true;
-				return true;
-			}
-			row.needK2s = !extra.k2s || !extra.k2s.length;
-			row.needRp = !extra.rapidgator || !extra.rapidgator.length;
-			if (row.needK2s || row.needRp) {
-				return true
+			if (!vr ) {
+				if (!extra) return true
+				if (!extra.rapidgator || !extra.rapidgator.length) {
+					return true
+				}
+			} else {
+				if (!row.source) return true
+				if (!row.source.tez || !row.source.tez.length) {
+					return true
+				}
+				if ((row.source.tez || []).length > (row.source.jpOrgK2s || []).length) {
+					return true
+				}
 			}
 			return false;
 		})
@@ -99,8 +103,8 @@ async function syncRapidgatorSingle({
 	let {
 		id,
 		code,
-		needK2s,
-		needRp,
+		source,
+		Extras,
 		extra
 	} = row;
 
@@ -109,28 +113,21 @@ async function syncRapidgatorSingle({
 			code,
 			R,
 			vr,
-			needK2s,
-			needRp,
+			source,
 			extra,
 			P
 		});
-		if (!row.extra) {
-			const ExtraInfo = {}
-			if (extras.partialOk) {
-				ExtraInfo.partialOk = 1
+		if (!vr) {
+			if (!extras.rapidgator.length) {
+				console.log(`nonvr ${code} not found++++++++++++`)
+				return
 			}
-			if (extras.tez && extras.tez.length) {
-				ExtraInfo.source = JSON.stringify({
-					tez: extras.tez
+			const ExtraInfo = {
+				extra: JSON.stringify({
+					rapidgator: extras.rapidgator,
+					k2s: extras.k2s || []
 				})
 			}
-			delete(extras.partialOk);
-			delete(extras.tez)
-			
-			if (extras.k2s.length || extras.rapidgator.length) {
-				ExtraInfo.extra = JSON.stringify(extras);
-			}
-			
 			await Extra.findOrCreate({
 				where: {
 					R18Id: id
@@ -138,28 +135,38 @@ async function syncRapidgatorSingle({
 				defaults: ExtraInfo
 			});
 		} else {
-			const patch = {
-				javarchiveHref: extras.javarchiveHref,
-				avcensHref: extras.avcensHref
-			}
 			let dirty = false
-			needK2s && extras.k2s.length && (patch.k2s = extras.k2s) && (dirty = true)
-			needRp && extras.rapidgator.length && (patch.rapidgator = extras.rapidgator) && (dirty = true)
-			
-			if (dirty) {
+			extras.tez.length && (source.tez = extras.tez) && (dirty = true)
+			extras.jpOrgK2s.length && (source.jpOrgK2s = extras.jpOrgK2s) && (dirty = true)
+			if (!dirty) {
+				if (!source.tez.length) {
+					console.log(`vr ${code} not found++++++++++++`)
+				} else {
+					console.log(`vr ${code} not updated++++++++++++`)
+				}
+				return
+			}
+			if (!Extras) {
+				await Extra.findOrCreate({
+					where: {
+						R18Id: id
+					},
+					defaults: {
+						source: JSON.stringify(source)
+					}
+				});
+			} else {
 				await Extra.update({
-					extra: JSON.stringify({
-						...row.extra,
-						...patch
-					})
+					source: JSON.stringify(source)
 				}, {
 					where: {
 						R18Id: id
-					}
-				})
-			}
+					},
+					silent: true
+				});
+			}			
 		}
-		
+
 		console.log(`${code} ${id} crawled and saved\n`);
 	} catch(e) {
 		console.log(`!!!!!!!!!!!!! ${code} ${id}==${e.message}\n`, e);

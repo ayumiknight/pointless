@@ -37,7 +37,7 @@ async function tryGetK2sLinkJpPorn({
     },
     data: `do=search&subaction=search&search_start=0&full_search=0&result_from=1&story=${series}+${id}`
   })
-  let $ = cheerio.load(searchResult),
+  let $ = cheerio.load(searchResult.data),
 		articles = $('#dle-content a');
 	
 	const k2s = []
