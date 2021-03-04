@@ -40,8 +40,8 @@ async function tryGetTexLinkAvcens({
 	if (articles[0] && $(articles[0]).find('.entry-title a')) {
     let a = $(articles[0]).find('.entry-title a'),
 			href = a.attr('href'),
-      title = a.attr('title') || '';
-		console.log(href, title, '=========for test===========')
+      title = a.text();
+
 		if (matchTitle({
 			title,
 			series,
@@ -57,8 +57,8 @@ async function tryGetTexLinkAvcens({
     if (articles[1] && $(articles[1]).find('.entry-title a')) {
       let a = $(articles[1]).find('.entry-title a'),
         href = a.attr('href'),
-        title = a.attr('title') || '';
-				console.log(href, title, '=========for test===========')
+        title = a.text();
+
       if (matchTitle({
         title,
         series,

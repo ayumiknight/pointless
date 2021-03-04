@@ -73,12 +73,5 @@ async function tryGetK2sLinkJpPorn({
 	}
 	return k2s;
 }
-async function test() {
-	const res = await tryGetK2sLinkJpPorn({
-		code: 'MDVR-138'
-	})
-	console.log(res)
-}
-test()
 
 module.exports = tryGetK2sLinkJpPorn;
