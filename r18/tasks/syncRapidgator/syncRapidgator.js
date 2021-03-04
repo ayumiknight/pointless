@@ -105,7 +105,7 @@ async function syncRapidgatorSingle({
 		code,
 		source = {},
 		Extras,
-		extra
+		extra = {}
 	} = row;
 
 	try {
@@ -138,6 +138,7 @@ async function syncRapidgatorSingle({
 			let dirty = false
 			extras.tez.length && (source.tez = extras.tez) && (dirty = true)
 			extras.jpOrgK2s.length && (source.jpOrgK2s = extras.jpOrgK2s) && (dirty = true)
+
 			if (!dirty) {
 				if (!source.tez.length) {
 					console.log(`vr ${code} not found++++++++++++`)
@@ -152,7 +153,10 @@ async function syncRapidgatorSingle({
 						R18Id: id
 					},
 					defaults: {
-						source: JSON.stringify(source)
+						source: JSON.stringify(source),
+						extra: JSON.stringify({
+							k2s: extras.k2s
+						})
 					}
 				});
 			} else {

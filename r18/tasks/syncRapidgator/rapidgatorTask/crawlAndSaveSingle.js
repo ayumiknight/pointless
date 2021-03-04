@@ -1,5 +1,6 @@
 const tryGetRapidgatorLinkJavArchive = require('./tryGetRapidgatorLinkJavArchive.js');
 const tryGetTezLinkAvcens = require('./tryGetTezLinkAvcens.js');
+const tryGetK2sLinkJpPorn = require('./tryGetK2sLinkJpPorn.js');
 const tezToK2sRp = require('./tezToK2sRp');
 const k2sToK2s = require('./k2sToK2s');
 const md5ToK2s = require('./md5ToK2s');
@@ -47,14 +48,18 @@ async function crawlAndSaveSingle({
             javInfo2 = await tryGetTezLinkAvcens({
                 code
             })
-        }
-        if (!jpOrgK2s.length || Math.max(tez.length, ((javInfo2 && javInfo2.tezFiles) || []).length) > jpOrgK2s.length) {
-            _jpOrgK2s = await tezToK2sUsingP({
+            k2s = await tezToK2sUsingP({
                 javInfo: javInfo2,
                 code,
                 vr,
                 P
             })
+        }
+        if (!jpOrgK2s.length || Math.max(tez.length, ((javInfo2 && javInfo2.tezFiles) || []).length) > jpOrgK2s.length) {
+            _jpOrgK2s = await tryGetK2sLinkJpPorn({
+                code
+            })
+            
         }
     }
 
