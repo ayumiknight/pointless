@@ -2,7 +2,7 @@ const { tezP } = require('./k2sConfig');
 const axios = require('axios');
 const axiosRretry = require('axios-retry');
 const cheerio = require('cheerio');
-const fs = require('fs')
+const fs = require('fs');
 
 axiosRretry(axios, { retries: 3 });
 
@@ -26,8 +26,7 @@ async function tryGetK2sLinkJpPorn({
 	code
 }) {
 
-	let [ series, id ] = code.split('-'),
-		javInfo;
+	let [ series, id ] = code.split('-');
 
 	// https://avcens.xyz/?s=sivr+096
 	let searchResult = await axios({
@@ -38,81 +37,47 @@ async function tryGetK2sLinkJpPorn({
     },
     data: `do=search&subaction=search&search_start=0&full_search=0&result_from=1&story=${series}+${id}`
   })
-  // const searchResult = {
-  //   data: fs.readFileSync(__dirname + '\\sampleSearchResult.html')
-  // }
-	let $ = cheerio.load(searchResult.data),
-		articles = $('#content article');
+  let $ = cheerio.load(searchResult),
+		articles = $('#dle-content a');
+	
+	const k2s = []
+	let i = 1;
+	while(i <= articles.length) {
+		const curArticle = articles[i - 1]
+		if (curArticle && $(curArticle).find('h2')) {
+			let h2 = $(curArticle).find('h2'),
+				href = $(curArticle).attr('href'),
+				title = h2.text();
 
-	if (articles[0] && $(articles[0]).find('.entry-title a')) {
-    let a = $(articles[0]).find('.entry-title a'),
-			href = a.attr('href'),
-      title = a.attr('title') || '';
+			if (matchTitle({
+				title,
+				series,
+				id
+			})) {
+				const curRes = await axios.get(href)
+				const $curRes = cheerio.load(curRes.data)
+				$curRes('#dle-content .full-text a').each(function(i, elem) {
 
-		if (matchTitle({
-			title,
-			series,
-			id
-		})) {
-			javInfo = {
-				href
-			};
+					let link = $(this).attr('href');
+					if (link && link.match('https://k2s.cc/file/')) {
+						k2s.push(link)
+					}
+				})
+			}
 		}
-	}
- 
-	if (!javInfo) {
-    if (articles[1] && $(articles[1]).find('.entry-title a')) {
-      let a = $(articles[1]).find('.entry-title a'),
-        href = a.attr('href'),
-        title = a.attr('title') || '';
-
-      if (matchTitle({
-        title,
-        series,
-        id
-      })) {
-        javInfo = {
-          href
-        };
-      }
-    }
+		i++
 	}
 
-	if (javInfo) {
-		let detail = await axios.get(javInfo.href);
-    // const detail = {
-    //   data: fs.readFileSync(__dirname + '\\sampleSIVR-096.html')
-    // }
-		let $d = cheerio.load(detail.data),
-			articleContent = $d('#content .entry-content');
-
-		javInfo.tezFiles = [];
-		javInfo.k2s = [];
-
-		articleContent.find('a').each(function(i, elem) {
-
-			let link = $(this).attr('href');
-			if (link && link.match('https://tezfiles.com/file/')) {
-				javInfo.tezFiles.push(link);
-			}
-			if (link && link.match('https://k2s.cc/file/')) {
-				javInfo.k2s.push(link)
-			}
-		})
-	}
-	if (!javInfo) {
+	if (!k2s.length) {
 		throw new Error(`${code} not found jpporn\n`);
 	}
-	if (!javInfo.tezFiles.length) {
-		throw new Error(`${code} tezFiles links not found jpporn\n`);
-  }
-	return javInfo;
+	return k2s;
 }
 async function test() {
-  let searchResult = await tryGetK2sLinkJpPorn({
-		code: 'MDVR-118'
+	const res = await tryGetK2sLinkJpPorn({
+		code: 'MDVR-138'
 	})
-  console.log(searchResult)
+	console.log(res)
 }
 test()
 
