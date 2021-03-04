@@ -102,11 +102,4 @@ async function tryGetTexLinkAvcens({
 	return javInfo;
 }
 
-async function test() {
-	const res = await tryGetTexLinkAvcens({
-		code: 'CRVR-222'
-	})
-	console.log(res)
-}
-test()
 module.exports = tryGetTexLinkAvcens;
