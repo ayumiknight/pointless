@@ -41,7 +41,7 @@ async function tryGetTexLinkAvcens({
     let a = $(articles[0]).find('.entry-title a'),
 			href = a.attr('href'),
       title = a.attr('title') || '';
-
+		console.log(href, title, '=========for test===========')
 		if (matchTitle({
 			title,
 			series,
@@ -58,7 +58,7 @@ async function tryGetTexLinkAvcens({
       let a = $(articles[1]).find('.entry-title a'),
         href = a.attr('href'),
         title = a.attr('title') || '';
-
+				console.log(href, title, '=========for test===========')
       if (matchTitle({
         title,
         series,
