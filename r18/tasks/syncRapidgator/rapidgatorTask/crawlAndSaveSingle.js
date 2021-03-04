@@ -18,7 +18,7 @@ async function crawlAndSaveSingle({
         rapidgator = [],
         k2s = [];
 
-    try {
+    if (!vr) {
         javInfo1 = await tryGetRapidgatorLinkJavArchive({
             code
         });
@@ -39,26 +39,19 @@ async function crawlAndSaveSingle({
                 javInfo: javInfo1,
                 P
             })
-        }  
-    } catch(e) {
-        if (needK2s && !javInfo1 && vr) {
-            javInfo2 = await tryGetTezLinkAvcens({
-                code
-            })
-            k2s = await tezToK2sUsingP({
-                javInfo: javInfo2,
-                code,
-                vr,
-                P
-            })
-        } else {
-            throw e
-        }
-
-
-        // no long use avcens source
-        throw e
+        } 
+    } else {
+        javInfo2 = await tryGetTezLinkAvcens({
+            code
+        })
+        k2s = await tezToK2sUsingP({
+            javInfo: javInfo2,
+            code,
+            vr,
+            P
+        })
     }
+
     if (!javInfo1 && !javInfo2) throw new Error('something wrong , nothing found========', code)
     
     let partialOk

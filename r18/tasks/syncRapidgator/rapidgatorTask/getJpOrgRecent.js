@@ -40,10 +40,15 @@ async function getJpOrgRecent() {
   if (global.lastJpOrgRecent) {
     return global.lastJpOrgRecent;
   }
-  const page1 = await getJpOrgRecentPage(1);
-  const page2 = await getJpOrgRecentPage(2);
-  const page3 = await getJpOrgRecentPage(3);
-  global.lastJpOrgRecent = page1.concat(page2).concat(page3);
+  const allPages = 10;
+  let entries = [];
+  let i = 1;
+  while(i <= allPages) {
+    _entries = await getJpOrgRecentPage(i);
+    entries = entries.concat(_entries);
+    i++;
+  }
+  global.lastJpOrgRecent = entries;
   setTimeout(() => {
     global.lastJpOrgRecent = null;
   }, 1000 * 60 * 5)

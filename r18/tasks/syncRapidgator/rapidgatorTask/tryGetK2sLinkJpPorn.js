@@ -32,11 +32,11 @@ async function tryGetK2sLinkJpPorn({
 	// https://avcens.xyz/?s=sivr+096
 	let searchResult = await axios({
     method: 'POST',
-    url: 'https://jp-porn.org/',
+    url: 'https://jp-porn.org/index.php?do=search',
     headers: {
       contentType: 'application/x-www-form-urlencoded'
     },
-    data: `do=search&subaction=search&story=${series}+${id}`
+    data: `do=search&subaction=search&search_start=0&full_search=0&result_from=1&story=${series}+${id}`
   })
   // const searchResult = {
   //   data: fs.readFileSync(__dirname + '\\sampleSearchResult.html')
@@ -101,23 +101,18 @@ async function tryGetK2sLinkJpPorn({
 		})
 	}
 	if (!javInfo) {
-		throw new Error(`${code} not found avcens\n`);
+		throw new Error(`${code} not found jpporn\n`);
 	}
 	if (!javInfo.tezFiles.length) {
-		throw new Error(`${code} tezFiles links not found avcens\n`);
+		throw new Error(`${code} tezFiles links not found jpporn\n`);
   }
 	return javInfo;
 }
 async function test() {
-  let searchResult = await axios({
-    method: 'POST',
-    url: 'https://jp-porn.org/',
-    headers: {
-      contentType: 'application/x-www-form-urlencoded'
-    },
-    data: `do=search&subaction=search&story=MDVR+118`
-  })
-  console.log(searchResult.data,'==')
+  let searchResult = await tryGetK2sLinkJpPorn({
+		code: 'MDVR-118'
+	})
+  console.log(searchResult)
 }
 test()
 
