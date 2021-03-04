@@ -4,7 +4,6 @@ const {
 const appendOneTez = require('../../tasks/syncRapidgator/rapidgatorTask/appendOneTez');
 const axios = require('axios');
 const { _66, tezP } = require('../../tasks/syncRapidgator/rapidgatorTask/k2sConfig');
-const getJpOrgRecent = require('../../tasks/syncRapidgator/rapidgatorTask/getJpOrgRecent');
 
 global.tezTasks = [];
 global.tezTaskRunning = false;
@@ -31,13 +30,11 @@ async function tezSchedule(ctx, next) {
           data: JSON.stringify({
             "access_token": _66
           })
-        }),
-        getJpOrgRecent()
+        })
       ]);
 
       const trafficLeftTez = (accountInfo[0].data.available_traffic / 1024 / 1024 / 1024).toFixed(2);
       const trafficLeftK2s = (accountInfo[1].data.available_traffic / 1024 / 1024 / 1024).toFixed(2);
-      const jpOrgRecent = accountInfo[2];
 
       const r18s = await getR18PagedAllowEmptyExtra({
         pagesize: 100,
