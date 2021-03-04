@@ -103,7 +103,7 @@ async function syncRapidgatorSingle({
 	let {
 		id,
 		code,
-		source,
+		source = {},
 		Extras,
 		extra
 	} = row;
