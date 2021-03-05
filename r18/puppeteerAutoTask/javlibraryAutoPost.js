@@ -16,7 +16,7 @@ const {
 const crawl = require('../tasks/index.js');
 const javlibraryDomain = [
 	// 'http://www.javlibrary.com',
-	'http://www.m45e.com',
+//	'http://www.m45e.com',
 	'http://www.b47w.com',
 	'http://www.a48u.com',
 	'http://www.b49t.com'
@@ -253,13 +253,26 @@ class JavlibraryAutoPost {
 			const rows = R18s.rows || [];
 
 			let extras = JSON.parse(rows[0].Extras.extra);
+			let source = JSON.parse(rows[0].Extras.source || '{}');
 			let rapidgator = extras.rapidgator || [];
-			let k2s = extras.k2s || [];
+			
+			let valid = true
+			if (rows[0].vr) {
+				if (!extras.k2s || !extras.k2s.length) {
+					valid = false
+				} else if (extras.k2s.length < (source.tez || []).length) {
+					valid = false
+				}
+			} else {
+				if (!rapidgator.length) {
+					valid = false
+				}
+			}
 
 			if (!rows.length) {
 				console.log(pagenum + ' all entries posted============\n')
 				break;
-			} else if (!rapidgator.length){
+			} else if (!valid){
 				console.log(rows[0].code, '==========no data to post===========')
 				pagenum += 1
 				// noop
