@@ -16,7 +16,7 @@ const {
 const crawl = require('../tasks/index.js');
 const javlibraryDomain = [
 	// 'http://www.javlibrary.com',
-	'http://www.m45e.com',
+//	'http://www.m45e.com',
 	'http://www.b47w.com',
 	'http://www.a48u.com',
 	'http://www.b49t.com'
