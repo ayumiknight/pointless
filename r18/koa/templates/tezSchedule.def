@@ -1,6 +1,7 @@
 <div class="tez-table">
   <div>Tez Available Traffic {{=it.trafficLeftTez}}Gb</div>
   <div>K2s Available Traffic {{=it.trafficLeftK2s}}Gb</div>
+  <div>K2s Available Traffic {{=it.trafficLeftFreeK2s}}Gb</div>
   <div>Current Tasks {{=JSON.stringify(it.tezTasks)}}</div>
   <table style="border:1px solid; margin-bottom: 20px; font-size: 10px; border-collapse: collapse;">
     <tr>
