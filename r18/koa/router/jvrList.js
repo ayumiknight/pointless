@@ -85,7 +85,7 @@ module.exports = async (ctx, next) => {
 	} else if (lcode) { 
 		pageTitle = lcode;
 	} else {
-		pageTitle = 'Rapidgator!';
+		pageTitle = '';
 	}
 	// } else if (torrent) {
 	// 	pageTitle = 'Torrent!';
