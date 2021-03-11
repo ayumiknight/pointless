@@ -84,7 +84,7 @@ async function sendNotifications() {
   console.log(payload, '===================todays payload======================')
   if (!payload) return
   let hasMore = true,
-    pagesize = 10,
+    pagesize = 1,
     currentPage = 1;
 
   while(hasMore) {
@@ -112,12 +112,14 @@ async function sendNotifications() {
           deleteSubscription(i.endpoint).then(res => {
             console.log(e.statusCode, '===========================subscription deleted')
           })
+          currentPage--;
         } else {
           console.log(e.statusCode, '===========================not sent')
         }
       })
     }
   }
+  console.log(`==========================notification push complete: ${currentPage} pushed=====================`)
 }
 
 router.sendNotifications = sendNotifications

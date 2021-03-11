@@ -69,7 +69,7 @@ async function tryGetK2sLinkJpPorn({
 	}
 
 	if (!k2s.length) {
-		throw new Error(`${code} not found jpporn\n`);
+		console.log(`${code} not found jpporn\n`);
 	}
 	return k2s;
 }

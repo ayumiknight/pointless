@@ -35,11 +35,16 @@ async function tezToK2sRp({
       const detail = {
         extension,
         tempUrl: tempUrl,
-        md5: headRes.headers.etag.replace(/"/g, ''),
+        md5: (headRes.headers.etag || '').replace(/"/g, ''),
         contentLength: headRes.headers['content-length'],
-        newName: link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
+        newName: (link.split('/').pop() || '').replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
       }
-      
+      if (!headRes.headers.etag) {
+        console.log(`=====wrong etag: ${headRes.headers.etag}==============`)
+      }
+      if (!link.split('/').pop()) {
+        console.log(`=====wrong segment: ${link.split('/').pop()}==============`)
+      }
       console.log(detail, '========tez to k2s using p file detail============')
       const k2sSaveResult = await axios({
         url: 'https://keep2share.cc/api/v2/createFileByHash',

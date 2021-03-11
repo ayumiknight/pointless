@@ -46,17 +46,18 @@
                             {{~}}
                         </div>
                     {{?}}
-                    
-                    <div class="label">Rapidgator</div>
-                    <div class="section">
-                        {{? it.r18.rapidgator && it.r18.rapidgator.length}}
-                            {{~it.r18.rapidgator :value:index}}
-                                <a href="{{=value}}" rel="nofollow">{{=value}}</a>
-                            {{~}}
-                        {{??}}
-                            <div class="info">Uploading. Check later.</div>
-                        {{?}}
-                    </div>
+                    {{? !it.r18.vr}}
+                        <div class="label">Rapidgator</div>
+                        <div class="section">
+                            {{? it.r18.rapidgator && it.r18.rapidgator.length}}
+                                {{~it.r18.rapidgator :value:index}}
+                                    <a href="{{=value}}" rel="nofollow">{{=value}}</a>
+                                {{~}}
+                            {{??}}
+                                <div class="info">Uploading. Check later.</div>
+                            {{?}}
+                        </div>
+                    {{?}}
                 </div>
             </div>
             {{??}}

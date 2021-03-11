@@ -30,11 +30,19 @@ async function tezSchedule(ctx, next) {
           data: JSON.stringify({
             "access_token": _66
           })
+        }),
+        axios({
+          url: 'https://k2s.cc/api/v2/accountInfo',
+          method: 'POST',
+          data: JSON.stringify({
+            "access_token": tezP
+          })
         })
       ]);
 
       const trafficLeftTez = (accountInfo[0].data.available_traffic / 1024 / 1024 / 1024).toFixed(2);
       const trafficLeftK2s = (accountInfo[1].data.available_traffic / 1024 / 1024 / 1024).toFixed(2);
+      const trafficLeftFreeK2s = (accountInfo[2].data.available_traffic / 1024 / 1024 / 1024).toFixed(2);
 
       const r18s = await getR18PagedAllowEmptyExtra({
         pagesize: 100,
@@ -171,7 +179,8 @@ async function tezSchedule(ctx, next) {
         tezScheduleTable: rowsFormatted,
         tezTasks,
         trafficLeftTez,
-        trafficLeftK2s
+        trafficLeftK2s,
+        trafficLeftFreeK2s
       });
       return
     }
@@ -189,9 +198,9 @@ async function consumerTezTask() {
     } catch(e) {
       console.log(e, '==============tez Schedule error===========', first)
       if (e.message.match('Request failed with status code 406'))  {
-        await new Promise(resolve => {
-          setTimeout(resolve, 1000 * 60 * 60 * 3 );
-        })
+        // await new Promise(resolve => {
+        //   setTimeout(resolve, 1000 * 60 * 60 * 3 );
+        // })
       }
     }
   }
