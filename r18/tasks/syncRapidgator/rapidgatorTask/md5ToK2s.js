@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { _66, tezP, k2sVR, k2sNormal, host, VR, Normal, host } = require('./k2sConfig');
+const { _66, tezP, k2sVR, k2sNormal, host, VR, Normal } = require('./k2sConfig');
 const k2sToK2s = require('./k2sToK2s');
 
 async function md5ToK2s({
