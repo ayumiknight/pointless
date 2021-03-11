@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { _66, tezP, k2sVR, k2sNormal } = require('./k2sConfig');
+const { _66, tezP, k2sVR, k2sNormal, host, VR, Normal } = require('./k2sConfig');
 
 async function tezToK2sRp({
   javInfo,
@@ -45,7 +45,7 @@ async function tezToK2sRp({
         url: 'https://keep2share.cc/api/v2/createFileByHash',
         method: 'POST',
         data: JSON.stringify({
-          access_token: tezP,
+          access_token: host,
           hash: detail.md5,
           name: detail.newName,
           // parent: k2sTargetFolderId,
@@ -78,8 +78,8 @@ async function tezToK2sRp({
       url: 'https://keep2share.cc/api/v2/createFolder',
       method: 'POST',
       data: JSON.stringify({
-        parent: vr ? k2sVR : k2sNormal,
-        access_token: tezP,
+        parent: vr ? VR : Normal,
+        access_token: host,
         name: code,
         access: 'premium'
       })
@@ -90,7 +90,7 @@ async function tezToK2sRp({
       method: 'POST',
       data: JSON.stringify({
         ids: myK2sIds,
-        access_token: tezP,
+        access_token: host,
         new_parent: k2sTargetFolderId
       })
     })

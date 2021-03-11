@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { _66, tezP, k2sVR, k2sNormal } = require('./k2sConfig');
+const { _66, tezP, k2sVR, k2sNormal, host, VR, Normal } = require('./k2sConfig');
 const fs = require('fs');
 const { exec } = require('child_process');
 const { Extra } = require('../../../sequelize/index.js');
@@ -83,7 +83,7 @@ async function uploadAndSave({
     url: 'https://keep2share.cc/api/v2/createFileByHash',
     method: 'POST',
     data: JSON.stringify({
-      access_token: tezP,
+      access_token: host,
       hash: md5,
       name: newName,
       // parent: k2sTargetFolderId,

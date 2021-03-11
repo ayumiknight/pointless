@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { _66, tezP, k2sVR, k2sNormal } = require('./k2sConfig');
+const { _66, tezP, k2sVR, k2sNormal, host, VR, Normal, host } = require('./k2sConfig');
 const k2sToK2s = require('./k2sToK2s');
 
 async function md5ToK2s({
@@ -21,7 +21,7 @@ async function md5ToK2s({
         url: 'https://keep2share.cc/api/v2/createFileByHash',
         method: 'POST',
         data: JSON.stringify({
-          access_token: tezP,
+          access_token: host,
           hash: file.hash,
           name: newName,
           // parent: k2sTargetFolderId,

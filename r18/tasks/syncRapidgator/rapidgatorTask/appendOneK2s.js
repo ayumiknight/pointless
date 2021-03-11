@@ -67,7 +67,7 @@ async function uploadAndSave({
     url: 'https://keep2share.cc/api/v2/createFileByHash',
     method: 'POST',
     data: JSON.stringify({
-      access_token: tezP,
+      access_token: _66,
       hash: md5,
       name: newName,
       // parent: k2sTargetFolderId,
