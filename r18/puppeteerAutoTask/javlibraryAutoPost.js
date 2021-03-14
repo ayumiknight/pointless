@@ -15,12 +15,12 @@ const {
 } = require('../sequelize/methods/r18.js');
 const crawl = require('../tasks/index.js');
 const javlibraryDomain = [
-	// 'http://www.javlibrary.com',
+	'http://www.javlibrary.com',
 //	'http://www.m45e.com', redirect to http://www.f50q.com/
 	// 'http://www.b47w.com', redirect to http://www.f50q.com/
-	'http://a48u.com', // no cloudflare
-	'http://b49t.com', // no cloudflare
-	'http://f50q.com' // no cloudflare
+	// 'http://a48u.com', // no cloudflare
+	// 'http://b49t.com', // no cloudflare
+	// 'http://f50q.com' // no cloudflare
 	// 'http://j41g.com' redirects to b47w.com
 ]
 const deviceToEmulate = devices[Math.floor((Math.random() - 0.001 * devices.length))];
