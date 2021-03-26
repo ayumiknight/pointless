@@ -44,17 +44,21 @@ async function crawlAndSaveSingle({
             tez = []
         } = source
 
-        if (!tez || !tez.length) {
-            javInfo2 = await tryGetTezLinkAvcens({
-                code
-            })
+        
+        javInfo2 = await tryGetTezLinkAvcens({
+            code
+        })
+        if ((javInfo2.tezFiles || []).length > tez.length) {
             k2s = await tezToK2sUsingP({
                 javInfo: javInfo2,
+                exclude: tez,
                 code,
                 vr,
                 P
             })
         }
+        
+    
         if (!jpOrgK2s.length || Math.max(tez.length, ((javInfo2 && javInfo2.tezFiles) || []).length) > jpOrgK2s.length) {
             _jpOrgK2s = await tryGetK2sLinkJpPorn({
                 code

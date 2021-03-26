@@ -66,13 +66,14 @@ async function syncRapidgator({
 					return true
 				}
 			} else {
-				if (!row.source) return true
-				if (!row.source.tez || !row.source.tez.length) {
-					return true
-				}
-				if ((row.source.tez || []).length > (row.source.jpOrgK2s || []).length) {
-					return true
-				}
+				return true
+				// if (!row.source) return true
+				// if (!row.source.tez || !row.source.tez.length) {
+					
+				// }
+				// if ((row.source.tez || []).length > (row.source.jpOrgK2s || []).length) {
+				// 	return true
+				// }
 			}
 			return false;
 		})
