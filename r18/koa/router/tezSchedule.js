@@ -45,7 +45,7 @@ async function tezSchedule(ctx, next) {
       const trafficLeftFreeK2s = (accountInfo[2].data.available_traffic / 1024 / 1024 / 1024).toFixed(2);
 
       const r18s = await getR18PagedAllowEmptyExtra({
-        pagesize: 100,
+        pagesize: 200,
         page: 1
       });
       let rows = r18s.rows;
