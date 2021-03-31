@@ -149,16 +149,19 @@ async function syncRapidgatorSingle({
 				return
 			}
 			if (!Extras) {
+				const defaults =  {
+					source: JSON.stringify(source)
+				}
+				if (extras.k2s && extras.k2s.length) {
+					defaults.extra = JSON.stringify({
+						k2s: extras.k2s
+					})
+				}
 				await Extra.findOrCreate({
 					where: {
 						R18Id: id
 					},
-					defaults: {
-						source: JSON.stringify(source),
-						extra: JSON.stringify({
-							k2s: extras.k2s
-						})
-					}
+					defaults
 				});
 			} else {
 				await Extra.update({
