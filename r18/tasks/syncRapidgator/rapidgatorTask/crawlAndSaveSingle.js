@@ -48,7 +48,6 @@ async function crawlAndSaveSingle({
         javInfo2 = await tryGetTezLinkAvcens({
             code
         })
-        console.log(javInfo.tezFiles, tez, 'before tezToK2sUsingP')
         if ((javInfo2.tezFiles || []).length > tez.length) {
             k2s = await tezToK2sUsingP({
                 javInfo: javInfo2,

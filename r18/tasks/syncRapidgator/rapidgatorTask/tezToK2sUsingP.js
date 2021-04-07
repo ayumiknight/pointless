@@ -8,7 +8,6 @@ async function tezToK2sRp({
   code,
   vr
 }) {
-  console.log('inside tezToK2sUsingP')
   const {
     tezFiles = []
   } = javInfo;
@@ -22,7 +21,7 @@ async function tezToK2sRp({
   let index = 0;
   while(index < tezFiles.length) {
     const link = tezFiles[index]
-    if (exclude.indexOf(link) !== -1) {
+    if (exclude.indexOf(link) === -1) {
       try {
         const tempUrl = await P.getMD5LinkFor({
           link,
