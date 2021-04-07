@@ -8,6 +8,7 @@ async function tezToK2sRp({
   code,
   vr
 }) {
+  console.log('inside tezToK2sUsingP')
   const {
     tezFiles = []
   } = javInfo;

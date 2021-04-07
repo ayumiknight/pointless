@@ -12,6 +12,7 @@ console.log(rapidgatorCode, '==========rapidgatorCode!!!!!!!!!!!!!!\n\n\n');
 
 
 async function syncRapidgator() {
+  const vr = 1;
   let R = new Rapidgator();
   await R.login();
   let P = new PuppeteerMD5Fetcher({});
