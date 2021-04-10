@@ -21,7 +21,7 @@ async function tezToK2sRp({
   let index = 0;
   while(index < tezFiles.length) {
     const link = tezFiles[index]
-    if (exclude.indexOf(link) !== -1) {
+    if (exclude.indexOf(link) === -1) {
       try {
         const tempUrl = await P.getMD5LinkFor({
           link,
