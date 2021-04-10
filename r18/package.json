@@ -47,7 +47,7 @@
     "nodemon": "^1.19.1",
     "puppeteer": "^2.1.1",
     "read-last-lines": "^1.7.2",
-    "sequelize": "^5.8.10",
+    "sequelize": "^5.15.1",
     "torrent-search-api": "^2.0.9",
     "web-push": "^3.4.4",
     "webpack-dev-server": "^3.11.0"
