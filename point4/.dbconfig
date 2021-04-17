@@ -1,6 +1,0 @@
-module.exports = {
-	user: 'point',
-	password: '1414914fdysg',
-	host: '202.182.117.178',
-	db: 'point'
-}
