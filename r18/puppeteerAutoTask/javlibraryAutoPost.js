@@ -27,7 +27,7 @@ const deviceToEmulate = devices[Math.floor((Math.random() - 0.001 * devices.leng
 
 
 let postPageFromArgv = process.argv.find(one => one.match(/^--postPage(\d+)$/))
-let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 200;
+let postPage = postPageFromArgv ? postPageFromArgv.replace(/^--postPage(\d+)$/i, '$1') : 400;
 postPage *= 1;
 
 class JavlibraryAutoPost {
