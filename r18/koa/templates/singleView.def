@@ -46,7 +46,7 @@
                             {{~}}
                         </div>
                     {{?}}
-                    {{? !it.r18.vr}}
+                    {{? it.r18.rapidgator && it.r18.rapidgator.length}}
                         <div class="label">Rapidgator</div>
                         <div class="section">
                             {{? it.r18.rapidgator && it.r18.rapidgator.length}}
