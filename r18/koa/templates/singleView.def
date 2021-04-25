@@ -6,7 +6,7 @@
                 <div class="title">
                     <span class='hidden'>Rapidgator and Torrent</span>
                     <span class="code">{{=it.r18.code}}</span>
-                    {{=it.zh ? it.r18.zhTitle : it.r18.title}}
+                    {{=(it.zh ? it.r18.zhTitle : it.r18.title) || it.r18.title}}
                 </div>
                 <div class="detail">
                     <img alt="{{=it.r18.code}} full cover image" src="{{#def.proxy:it.r18.fullCover}}" />

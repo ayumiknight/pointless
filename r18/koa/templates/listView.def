@@ -15,7 +15,7 @@
 					</div>
 
 					<div class="title">
-						{{=it.zh ? value.zhTitle : value.title}}
+						{{=(it.zh ? value.zhTitle : value.title) || it.title}}
 					</div>	
 				</div>
 			</a>
