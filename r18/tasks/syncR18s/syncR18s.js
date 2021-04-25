@@ -81,7 +81,9 @@ async function loadAndSave(entries, allR18s) {
         
         let raw = await Promise.all([
             axios.get(url),
-            axios.get(url + '&lg=zh')
+            axios.get(url + '&lg=zh').catch(e => {
+                return null
+            })
         ]).catch((e) => {
             console.warn(`${+new Date()} : load jvr failed at ${url} !!!!!!!!!!!!!!1`)
             return [null , null]
@@ -90,7 +92,7 @@ async function loadAndSave(entries, allR18s) {
         if (r18Parsed && r18Parsed.code) {
             r18Parsed.vr = entries[i].vr;
             r18Parsed.codeBackUp = r18Parsed.code;
-
+            console.log(r18Parsed, '====tobe saved=====')
             try {
                 let res = await R18Create({
                     entry: r18Parsed

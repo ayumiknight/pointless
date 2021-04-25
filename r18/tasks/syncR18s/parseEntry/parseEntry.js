@@ -4,7 +4,7 @@ const { getIdFromUrl, getDuration, getText, getTextWithId, getActress, getTitle,
 
 function parseEntry(entry) {
 	let [ enEntry, zhEntry ] = entry;
-	if (!enEntry || !zhEntry) return null;
+	if (!enEntry) return null;
 	
 	var $ = cheerio.load(enEntry.data, {
 	    xml: {
@@ -12,12 +12,15 @@ function parseEntry(entry) {
 	        decodeEntities: true
 	    }
 	});
-	let zh$ = cheerio.load(zhEntry.data, {
-	    xml: {
-	        normalizeWhitespace: true,
-	        decodeEntities: true
-	    }
-	});
+	let zh$
+	if (zhEntry) {
+		zh$ = cheerio.load(zhEntry.data, {
+			xml: {
+				normalizeWhitespace: true,
+				decodeEntities: true
+			}
+		});
+	}
 
 	let cover = $('.product-area .product-image img').attr('src'),
 		fullCover = $('.detail-view.detail-single-picture img').attr('src'),
@@ -35,7 +38,7 @@ function parseEntry(entry) {
 	    Actresses = [],
 	    Categories = [],
 	    title = getTitle($('.product-details-page h1'));
-	    zhTitle = getTitle(zh$('.product-details-page h1'));
+	    zhTitle = zh$ && getTitle(zh$('.product-details-page h1')) || '';
 
 	details.find('dl').each(function( i, dl ) {
 		$(this).find('dd').each(function(j, dd) {
