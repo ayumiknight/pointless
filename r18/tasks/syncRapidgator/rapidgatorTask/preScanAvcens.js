@@ -15,14 +15,20 @@ class PreScanAvcens {
   }
   async checkAndSave(elem) {
     const { link, code } = elem;
-    const r18 = await getR18Single({ code })
-    if (r18 && r18.vr) {
+    const row = await getR18Single({ code })
+    if (row && row.vr) {
       console.log(`preScan caught ============${code}=====\n` )
+      if (row.Extras && row.Extras.extra) {
+        row.extra = JSON.parse(row.Extras.extra)
+      }
+      if (row.Extras && row.Extras.source) {
+        row.source = JSON.parse(row.Extras.source)
+      }
       try {
         await syncRapidgatorSingle({
-          row: r18,
+          row,
           R: this.R,
-          vr,
+          vr: 1,
           P: this.P
         })
       } catch(e) {
