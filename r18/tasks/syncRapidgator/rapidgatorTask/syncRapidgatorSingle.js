@@ -1,7 +1,7 @@
 
-const { getR18WithExtraPaged, getR18Single } = require('../../sequelize/methods/r18.js');
-const { sequelize, Sequelize, Extra } = require('../../sequelize/index.js');
-const crawlAndSaveSingle = require('./rapidgatorTask/crawlAndSaveSingle.js');
+const { getR18WithExtraPaged, getR18Single } = require('../../../sequelize/methods/r18.js');
+const { sequelize, Sequelize, Extra } = require('../../../sequelize/index.js');
+const crawlAndSaveSingle = require('./crawlAndSaveSingle.js');
 
 async function syncRapidgatorSingle({
   row,
