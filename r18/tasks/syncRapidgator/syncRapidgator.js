@@ -106,7 +106,7 @@ async function syncRapidgatorTask() {
 			R,
 			P
 		})
-		await preScan.scanPage(3);
+		await preScan.scan(3);
 
 		await syncRapidgator({
 			rapidgatorPageAll: 8,
