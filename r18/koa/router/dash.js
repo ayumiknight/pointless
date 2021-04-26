@@ -61,6 +61,9 @@ const backgroundTask = async () => {
         console.log(e)
       }
     }
+    await new Promise((resolve) => {
+      setTimeout(resolve, 1000 * 60 * 30)
+    })
   }
 }
 if (!process.platform.match('win')) {
