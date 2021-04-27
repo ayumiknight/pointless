@@ -42,7 +42,7 @@ const backgroundTask = async () => {
         await notification.sendNotifications()
       } catch(e) {}
       global.needSendNotifications = null
-    } else if (global.tezTasks.length) {
+    } else if (global.tezTasks && global.tezTasks.length) {
       global.otherTask = 'tezing'
       while(global.tezTasks.length) {
         const first = global.tezTasks.shift();
@@ -81,7 +81,7 @@ const backgroundTask = async () => {
       }
     }
     await new Promise((resolve) => {
-      setTimeout(resolve, 1000 * 60 * 30)
+      setTimeout(resolve, 1000 * 60 * 10)
     })
   }
 }
