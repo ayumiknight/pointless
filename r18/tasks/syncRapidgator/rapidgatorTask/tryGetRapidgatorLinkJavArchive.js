@@ -23,7 +23,7 @@ function matchTitle({
 }
 
 async function getJavInfo(href) {
-	let detail = await axios.get(`http://javstore.net/${encodeURIComponent(href.slice(3))}`);
+	let detail = await axios.get(encodeURI(href));
 
 	let $d = cheerio.load(detail.data),
 		articleContent = $d('.news');
@@ -62,7 +62,6 @@ async function tryGetRapidgatorLink({
 	//http://javarchive.com/?s=3dsvr+0551
 	let searchResult = await axios.get(`http://javstore.net/search/${series}-${id}.html`);
 	let $ = cheerio.load(searchResult.data);
-	
 	let javInfoCandidate = {},
 		index = 1;
 	while(index < 6) {

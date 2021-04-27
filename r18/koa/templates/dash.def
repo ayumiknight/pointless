@@ -1,5 +1,6 @@
 <div class="table">
   <h5>Current Task: {{=it.currentBackgroundTask}}</h5>
+  <h5>Other Task: {{=it.otherTask}}</h5>
   <h5>Disable Post: {{=it.disablePost}}</h5>
   <h5>Post Last Run: {{=it.postLastRun}}</h5>
   <p style="font-size: 12px; white-space: pre-line;">{{=it.lastLogs}}</p>

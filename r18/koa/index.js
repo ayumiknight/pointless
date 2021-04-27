@@ -20,6 +20,8 @@ const {
 	tagR18sWithTorrent
 } = require('../sequelize/methods/index.js');
 
+global.tezTasks = [];
+
 const path = require('path');
 const axios = require('axios');
 const dots = require("dot").process({

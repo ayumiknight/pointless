@@ -5,8 +5,8 @@ const appendOneTez = require('../../tasks/syncRapidgator/rapidgatorTask/appendOn
 const axios = require('axios');
 const { _66, tezP } = require('../../tasks/syncRapidgator/rapidgatorTask/k2sConfig');
 
-global.tezTasks = [];
-global.tezTaskRunning = false;
+
+
 async function tezSchedule(ctx, next) {
   if (ctx.method === 'GET') {
     if (ctx.query.queue) {
@@ -185,26 +185,6 @@ async function tezSchedule(ctx, next) {
       return
     }
   }
-}
-
-async function consumerTezTask() {
-  if (global.tezTaskRunning === true) return;
-  
-  global.tezTaskRunning = true;
-  while(global.tezTasks.length) {
-    const first = global.tezTasks.shift();
-    try {
-      await appendOneTez(first);
-    } catch(e) {
-      console.log(e, '==============tez Schedule error===========', first)
-      if (e.message.match('Request failed with status code 406'))  {
-        // await new Promise(resolve => {
-        //   setTimeout(resolve, 1000 * 60 * 60 * 3 );
-        // })
-      }
-    }
-  }
-  global.tezTaskRunning = false;
 }
 
 

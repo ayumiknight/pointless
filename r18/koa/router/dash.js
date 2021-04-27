@@ -14,6 +14,7 @@ const javlibraryAutoTask = require('../../puppeteerAutoTask/javlibraryAutoPost')
 const crawl = require('../../tasks/index.js');
 const schedule = require('node-schedule');
 const notification = require('../notification.js');
+const appendOneTez = require('../../tasks/syncRapidgator/rapidgatorTask/appendOneTez');
 
 const  scheduleCronstyle = ()=>{
   //每分钟的第30秒定时执行一次:
@@ -29,15 +30,33 @@ global.disablePost = false
 global.currentBackgroundTask = ''
 global.postLastRun = null
 global.allAxLastRun = null
+global.otherTask = ''
 
 const backgroundTask = async () => {
   global.currentBackgroundTask = 'post'
   while(true) {
+    global.otherTask = ''
     if (global.needSendNotifications) {
+      global.otherTask = 'notify'
       try {
         await notification.sendNotifications()
       } catch(e) {}
       global.needSendNotifications = null
+    } else if (global.tezTasks.length) {
+      global.otherTask = 'tezing'
+      while(global.tezTasks.length) {
+        const first = global.tezTasks.shift();
+        try {
+          await appendOneTez(first);
+        } catch(e) {
+          console.log(e, '==============tez Schedule error===========', first)
+          if (e.message.match('Request failed with status code 406'))  {
+            // await new Promise(resolve => {
+            //   setTimeout(resolve, 1000 * 60 * 60 * 3 );
+            // })
+          }
+        }
+      }
     } else {
       global.currentBackgroundTask = global.currentBackgroundTask === 'crawl' ? 'post' : 'crawl';
       try {
@@ -67,7 +86,7 @@ const backgroundTask = async () => {
   }
 }
 if (!process.platform.match('win')) {
-  // backgroundTask()
+  backgroundTask()
 }
 
 module.exports = async (ctx, next) => {
@@ -140,6 +159,7 @@ module.exports = async (ctx, next) => {
 		type: 'dash',
     tables: [table1, table2, table3, table4],
     currentBackgroundTask: global.currentBackgroundTask,
+    otherTask: global.otherTask,
     disablePost: global.disablePost,
     lastLogs,
     postLastRun: moment(+ global.postLastRun).format('YYYY-MM-DD HH:mm:ss')
