@@ -90,7 +90,7 @@ module.exports = async (ctx, next) => {
 			vr: r18.vr
 		})
 	}
-	let title = 'Not Found',
+	let title = '　Not Found',
 		keywords = '',
 		OGandJSONLD = '';
 

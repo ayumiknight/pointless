@@ -7,7 +7,7 @@
 		{{? it.type === 'jvr' }}
 			{{=it.pageTitle}}
 		{{?? it.pageTitle && it.pageTitle !== 'ranking'}}
-			{{=it.pageTitle + ' Archive'}}
+			{{=' ' +　it.pageTitle + ' Archive'}}
 		{{?? it.pageTitle && it.pageTitle === 'ranking'}}
 			{{=it.zh ? '排行' : ' Ranking'}} -
 		{{?}}	
