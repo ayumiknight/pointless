@@ -38,7 +38,7 @@ async function tezToK2sRp({
           tempUrl: tempUrl,
           md5: (headRes.headers.etag || '').replace(/"/g, ''),
           contentLength: headRes.headers['content-length'],
-          newName: (link.split('/').pop() || '').replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
+          newName: (link.split('/').pop() || '').replace(/avcens\.xyz/i,'jvrlibrary').replace(/avcens/i, 'jvrlibrary')
         }
         if (!headRes.headers.etag) {
           console.log(`=====wrong etag: ${headRes.headers.etag}==============`)

@@ -40,7 +40,7 @@ async function tezToK2sRp({
         tempUrl: tempUrl.data.url,
         md5: headRes.headers.etag.replace(/"/g, ''),
         contentLength: headRes.headers['content-length'],
-        newName: link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
+        newName: link.split('/').pop().replace(/avcens\.xyz/i,'jvrlibrary').replace(/avcens/i, 'jvrlibrary');
       }
       
       const k2sSaveResult = await axios({

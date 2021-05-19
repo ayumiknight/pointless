@@ -37,7 +37,7 @@ async function k2sToK2s({
         tempUrl,
         md5: headRes.headers.etag.replace(/"/g, ''),
         contentLength: headRes.headers['content-length'],
-        newName: newName || link.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary')
+        newName: newName || link.split('/').pop().replace(/avcens\.xyz/i,'jvrlibrary').replace(/avcens/i, 'jvrlibrary');
       }
       console.log(detail.md5, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hash compara!!!!!!! Rp', RpHash)
       const k2sSaveResult = await axios({

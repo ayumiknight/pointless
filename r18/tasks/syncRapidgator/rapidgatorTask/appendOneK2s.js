@@ -62,7 +62,7 @@ async function uploadAndSave({
   fileName,
   md5
 }) {
-  const newName = fileName.replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary');
+  const newName = fileName.replace(/avcens\.xyz/i,'jvrlibrary').replace(/avcens/i, 'jvrlibrary');
   const k2sSaveResult = await axios({
     url: 'https://keep2share.cc/api/v2/createFileByHash',
     method: 'POST',
