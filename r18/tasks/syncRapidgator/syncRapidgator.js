@@ -80,15 +80,20 @@ async function syncRapidgator({
 			
 		while(taskRows.length) {
 			let first = taskRows.pop();
-			let second = taskRows.pop();
-			await Promise.all([first, second].filter(el => !!el).map(el => {
-				return syncRapidgatorSingle({
-					row: el,
+			await new Promise((resolve) => {
+				const timeOut = setTimeout(() => {
+					console.log(`${first.code} sync timeout 60 * 1000`)
+					resolve()
+				}, 60 * 1000)
+				await syncRapidgatorSingle({
+					row: first,
 					R,
 					vr,
 					P
 				})
-			}))
+				clearTimeout(timeOut)
+				resolve()
+			})
 		}
 		console.log(`!!!!!!!!!!!!! page ${page} download links complete`)
 		page++;

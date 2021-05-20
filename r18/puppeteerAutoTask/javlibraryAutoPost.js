@@ -282,7 +282,17 @@ class JavlibraryAutoPost {
 				const lastPost = rows[0].lastPost
 				
 				if (true) {
-					const success = await this.checkAndPostSingle(rows[0]);
+					let success
+					try {
+						const timeOut = setTimeout(() => {
+							console.log(`${rows[0].code} post timeout 60 * 1000`)
+							throw new Error(`${rows[0].code} post timeout 60 * 1000`)
+						}, 60 * 1000)
+						success = await this.checkAndPostSingle(rows[0]);
+						clearTimeout(timeOut)
+					} catch(e) {
+						success = false
+					}
 					!success && (pagenum += 1);
 					(typeof success === 'boolean' && !success) && (errored = true);
 					await updateR18LastPost(rows[0].id)
@@ -305,7 +315,6 @@ class JavlibraryAutoPost {
 
 	async checkAndPostSingle(row) {
 		// await this.wait(5);
-
 		let code = row.code,
 			error = false;	
 
