@@ -84,8 +84,11 @@ async function syncRapidgatorSingle({
     }
 
     console.log(`${code} ${id} crawled and saved\n`);
+    setTimeout(() => {
+      throw new Error(`!!!!!!!!!!!!! ${new Date()} ${code} ${id} rapidgator single timeout 60 * 1000\n`)
+    }, 60 * 1000)
   } catch (e) {
-    console.log(`!!!!!!!!!!!!! ${code} ${id}==${e.message}\n`, e);
+    console.log(`!!!!!!!!!!!!! ${new Date()} ${code} ${id}==${e.message}\n`, e);
   }
 }
 
