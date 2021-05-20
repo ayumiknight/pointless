@@ -80,7 +80,7 @@ async function syncRapidgator({
 			
 		while(taskRows.length) {
 			let first = taskRows.pop();
-			await new Promise((resolve) => {
+			await new Promise(async (resolve) => {
 				const timeOut = setTimeout(() => {
 					console.log(`${first.code} sync timeout 60 * 1000`)
 					resolve()
