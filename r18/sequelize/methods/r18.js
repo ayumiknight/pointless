@@ -209,6 +209,11 @@ async function getR18Paged(query) {
  		[Op.eq]: 1
 	});
 
+	r18Query.include = r18Query.include || [];
+	r18Query.include.push({
+		association: R18.Galleries,
+		as: 'Galleries'
+	})
 	
 	const res = await R18.findAndCountAll(r18Query);
 	return res
