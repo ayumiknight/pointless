@@ -119,8 +119,8 @@ module.exports = async (ctx, next) => {
 				row.newTag = true;
 			}
 		}
+		row.newCover = ((row.Galleries || [])[0] || {}).url || row.cover
 	})
-	console.log(r18s.rows[0].Galleries[0].url)
 	ctx.body = ctx.dots.index({
 		type: 'jvrList',
 		pageTitle,
