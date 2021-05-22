@@ -1,7 +1,6 @@
 const {
 	getR18PagedAllowEmptyExtra
 } = require('../../sequelize/methods/r18.js');
-const appendOneTez = require('../../tasks/syncRapidgator/rapidgatorTask/appendOneTez');
 const axios = require('axios');
 const { _66, tezP } = require('../../tasks/syncRapidgator/rapidgatorTask/k2sConfig');
 
@@ -12,7 +11,6 @@ async function tezSchedule(ctx, next) {
     if (ctx.query.queue) {
       const queue = JSON.parse(ctx.query.queue);
       global.tezTasks = global.tezTasks.concat(queue);
-      consumerTezTask()
       ctx.body = 'ok';
       return
     } else {
