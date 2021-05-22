@@ -120,7 +120,7 @@ module.exports = async (ctx, next) => {
 			}
 		}
 	})
-
+	console.log(r18s.rows[0].Galleries[0].url)
 	ctx.body = ctx.dots.index({
 		type: 'jvrList',
 		pageTitle,
