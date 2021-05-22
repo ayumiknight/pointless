@@ -112,7 +112,7 @@ async function tezSchedule(ctx, next) {
             })     
           }
           const thisTez = tez[index];
-          const tezFileName = thisTez.split('/').pop().replace('avcens.xyz','jvrlibrary').replace('avcens', 'jvrlibrary');
+          const tezFileName = thisTez.split('/').pop().replace(/avcens\.xyz/i,'jvrlibrary').replace(/avcens/i, 'jvrlibrary');
           const thisK2s = k2s.find(one => {
             const k2sFileName = one.split('/').pop();
             return tezFileName === k2sFileName
