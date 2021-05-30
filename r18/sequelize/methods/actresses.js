@@ -25,7 +25,8 @@ async function ActressCreate(actress) {
 async function getActressesPagedByFirstLetter({
 	firstLetter,
 	pageindex,
-	pagesize
+	pagesize,
+	nonVR
 }) {
 	return Actress.findAndCountAll({
 		where: {
@@ -34,7 +35,15 @@ async function getActressesPagedByFirstLetter({
 			}
 		},
 		offset: (pageindex - 1) * pagesize,
-		limit: pagesize
+		limit: pagesize,
+		include: [{
+			model: R18,
+			as: 'R18s',
+			where: {
+				vr: nonVR ? 0 : 1
+			}
+		}],
+		distinct: true
 	})
 }
 

@@ -14,7 +14,8 @@ module.exports = async (ctx, next) => {
 	let actressesPaged = await getActressesPagedByFirstLetter({
 		firstLetter: letter,
 		pageindex: page,
-		pagesize: 20
+		pagesize: 20,
+		nonVR: ctx.nonVR
 	})
 
 	ctx.body = ctx.dots.index({
