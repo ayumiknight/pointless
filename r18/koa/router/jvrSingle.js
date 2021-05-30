@@ -95,7 +95,7 @@ module.exports = async (ctx, next) => {
 		OGandJSONLD = '';
 
 	if (r18 && r18.code) {
-		title = ' ' + r18.code + ' - ' + 'Rapidgator And Torrent Online Streaming And Download - ' + (ctx.zh ? r18.zhTitle : r18.title); 
+		title = ' ' + r18.code + ' - ' + 'Online Streaming And Download - ' + (ctx.zh ? r18.zhTitle : r18.title); 
 		keywords = r18.code + ',' + parseInt(r18.code.split('-')[1]);
 		OGandJSONLD = generateOGandJSONLD(r18, ctx.zh);
 	}
