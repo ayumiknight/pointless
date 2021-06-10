@@ -279,31 +279,24 @@ class JavlibraryAutoPost {
 				pagenum += 1
 				// noop
 			} else {
-				const lastPost = rows[0].lastPost
-				
-				if (true) {
-					let success
-					try {
-						const timeOut = setTimeout(() => {
-							console.log(`${rows[0].code} post timeout 60 * 1000`)
-							throw new Error(`${rows[0].code} post timeout 60 * 1000`)
-						}, 60 * 1000)
-						success = await this.checkAndPostSingle(rows[0]);
-						clearTimeout(timeOut)
-					} catch(e) {
-						success = false
-					}
-					!success && (pagenum += 1);
-					(typeof success === 'boolean' && !success) && (errored = true);
-					await updateR18LastPost(rows[0].id)
-					
-				}	else {
-					pagenum += 1
-					console.log(`${rows[0].code} last posted at ${lastPost}`)
+				const lastPost = rows[0].lastPost	
+				let success
+				try {
+					const timeOut = setTimeout(() => {
+						console.log(`${rows[0].code} post timeout 60 * 1000`)
+						throw new Error(`${rows[0].code} post timeout 60 * 1000`)
+					}, 60 * 1000)
+					success = await this.checkAndPostSingle(rows[0]);
+					clearTimeout(timeOut)
+				} catch(e) {
+					success = false
 				}
+				!success && (pagenum += 1);
+				(typeof success === 'boolean' && !success) && (errored = true);
+				await updateR18LastPost(rows[0].id)
 			}
 			if (errored) {
-				break;
+				// break;
 			}
 			count++;
 		}	
