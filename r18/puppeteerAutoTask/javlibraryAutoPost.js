@@ -281,16 +281,17 @@ class JavlibraryAutoPost {
 			} else {
 				const lastPost = rows[0].lastPost	
 				let success
-				try {
+					
+				success = await new Promise(async (resolve) => {
 					const timeOut = setTimeout(() => {
 						console.log(`${rows[0].code} post timeout 60 * 1000`)
-						throw new Error(`${rows[0].code} post timeout 60 * 1000`)
+						resolve(false)
 					}, 60 * 1000)
-					success = await this.checkAndPostSingle(rows[0]);
+					const res = await this.checkAndPostSingle(rows[0]);
 					clearTimeout(timeOut)
-				} catch(e) {
-					success = false
-				}
+					resolve(res)
+				})
+					
 				!success && (pagenum += 1);
 				(typeof success === 'boolean' && !success) && (errored = true);
 				await updateR18LastPost(rows[0].id)
