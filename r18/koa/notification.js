@@ -1,5 +1,6 @@
 const webPush = require('web-push');
 const router = require('koa-router')();
+const https = require('https');
 const { 
   updateUserEndpoint,
   sendNotification,
@@ -87,6 +88,17 @@ async function sendNotifications() {
     pagesize = 1,
     currentPage = 1;
 
+  const agent = new https.Agent({
+    keepAlive: true
+  });
+  global.pushAgent = global.pushAgent ? null : agent;
+  
+  const options = {
+    TTL: 60 * 60 * 12
+  }
+  global.pushAgent && (options.agent = global.pushAgent)
+
+  console.log(new Date(), global.pushAgent ? 'with keep-alive' : '','=========push notifications start================')
   while(hasMore) {
     let rows = await getSubscriptionWithUser({
       pagesize,
@@ -96,7 +108,7 @@ async function sendNotifications() {
     
     hasMore = rows.length === pagesize;
     currentPage++;
-
+  
     for(let i of rows) {
       const keys = i.keys.split('|');
       webPush.sendNotification({
@@ -105,9 +117,7 @@ async function sendNotifications() {
           auth: keys[1],
           p256dh: keys[0]
         }
-      }, payload, {
-        TTL: 60 * 60 * 12
-      }).catch(function(e) {
+      }, payload, options).catch(function(e) {
         if (e.statusCode == 410) {
           deleteSubscription(i.endpoint).then(res => {
             console.log(e.statusCode, '===========================subscription deleted')
@@ -119,7 +129,7 @@ async function sendNotifications() {
       })
     }
   }
-  console.log(`==========================notification push complete: ${currentPage} pushed=====================`)
+  console.log(new Date(), `==========================notification push complete: ${currentPage} pushed=====================`)
 }
 
 router.sendNotifications = sendNotifications
