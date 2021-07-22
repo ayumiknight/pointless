@@ -19,9 +19,9 @@ const javlibraryDomain = [
 //	'http://www.m45e.com', redirect to http://www.f50q.com/
 	// 'http://www.b47w.com', redirect to http://www.f50q.com/
 	// 'http://a48u.com', // no cloudflare
-	'http://b49t.com', // no cloudflare
-	'http://k51r.com' // no cloudflare
-	// 'http://f50q.com' // no cloudflare
+	'http://n53i.com', // no cloudflare
+ 	'http://k51r.com', // no cloudflare
+	'http://d52q.com' // no cloudflare
 	// 'http://j41g.com' redirects to b47w.com
 ]
 const deviceToEmulate = devices[Math.floor((Math.random() - 0.001 * devices.length))];
@@ -203,10 +203,13 @@ class JavlibraryAutoPost {
 		//http://www.javlibrary.com/en/myaccount.php
 		try {
 			await this.page.goto(this.domainToUse + '/en/login.php', {timeout : 5 * 1000 });
+			console.log('login page opened', new Date())
 			await this.page.waitForSelector('#confirmobj', { visible: true, timeout: 5 * 1000 });
+			console.log('confirmobj detected', new Date())
 		} catch(e) {
+			console.log(e, 'eror when login')
 			await this.page.screenshot({
-			    path: '/koa/static/' + (new Date() + 1) + '.png',
+			    path: './koa/static/' + (new Date() + 1) + '.png',
 			    fullPage: true
 			});
 			throw new Error('login has some issue')

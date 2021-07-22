@@ -2,7 +2,8 @@ const javlibraryAutoTask = require('./javlibraryAutoPost');
 
 async function test() {
   let Javlibrary = new javlibraryAutoTask({
-    // firefox: true
+	  headful: true
+	  // firefox: true
   });
   await Javlibrary.init();
 }
